@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.queue;
 
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
@@ -22,10 +23,10 @@ public class LumberQueueManager {
     public void addPlayer(Player player, QueueChangeReason queueChangeReason) {
         queuedPlayers.add(player.getUniqueId());
         if (queueChangeReason == QueueChangeReason.VOLUNTARY) {
-            player.sendMessage(text("You've joined the queue!").color(TextColor.color(0x34eb37)));
+            player.sendMessage(text("You've joined the queue!").color(NamedTextColor.GREEN));
         }
         else if (queueChangeReason == QueueChangeReason.FORCED) {
-            player.sendMessage(text("You were added to the queue!").color(TextColor.color(0x34eb37)));
+            player.sendMessage(text("You've been added to the queue!").color(NamedTextColor.GREEN));
         }
     }
 
@@ -35,10 +36,10 @@ public class LumberQueueManager {
     public void removePlayer(Player player, QueueChangeReason queueChangeReason) {
         queuedPlayers.remove(player.getUniqueId());
         if (queueChangeReason == QueueChangeReason.VOLUNTARY) {
-            player.sendMessage(text("You've been removed from the queue!").color(TextColor.color(0x34eb37)));
+            player.sendMessage(text("You've left the queue!").color(NamedTextColor.RED));
         }
         else if (queueChangeReason == QueueChangeReason.FORCED) {
-            player.sendMessage(text("You've left the queue!").color(TextColor.color(0x34eb37)));
+            player.sendMessage(text("You've been removed from the queue!").color(NamedTextColor.RED));
         }
     }
 

@@ -34,6 +34,7 @@ public class AddToQueueCommand implements CommandExecutor {
             return false;
         }
         plugin.getLumberQueueManager().addPlayer(desiredPlayer, QueueChangeReason.FORCED);
+        sender.sendMessage(text("Successfully added " + sender.getName() + " to the queue!").color(NamedTextColor.GREEN));
         return false;
     }
 }

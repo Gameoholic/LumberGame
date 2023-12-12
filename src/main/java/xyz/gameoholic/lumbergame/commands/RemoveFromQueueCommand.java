@@ -34,6 +34,7 @@ public class RemoveFromQueueCommand implements CommandExecutor {
             return false;
         }
         plugin.getLumberQueueManager().removePlayer(desiredPlayer, QueueChangeReason.FORCED);
+        sender.sendMessage(text("Successfully removed " + sender.getName() + " from the queue!").color(NamedTextColor.GREEN));
         return false;
     }
 
