@@ -1,0 +1,4 @@
+name: LumberGame
+version: '${version}'
+main: xyz.gameoholic.lumbergame.LumberGame
+api-version: 1.20
