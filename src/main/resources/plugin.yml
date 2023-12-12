@@ -1,4 +1,14 @@
 name: LumberGame
 version: '${version}'
-main: xyz.gameoholic.lumbergame.LumberGame
+main: xyz.gameoholic.lumbergame.LumberGamePlugin
 api-version: 1.20
+
+commands:
+  addtoqueue:
+    permission: lumbergame.addtoqueue
+  removefromqueue:
+    permission: lumbergame.removefromqueue
+  addalltoqueue:
+    permission: lumbergame.addalltoqueue
+  removeallfromqueue:
+    permission: lumbergame.removeallfromqueue
