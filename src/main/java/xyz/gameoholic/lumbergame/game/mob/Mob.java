@@ -19,6 +19,12 @@ public class Mob {
                 .build()
                 .setVariable("CR", CR).evaluate()
         );
+        mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(
+            new ExpressionBuilder(mobType.playerDamageExpression())
+                .variables("CR")
+                .build()
+                .setVariable("CR", CR).evaluate()
+        );
 
 
     }
