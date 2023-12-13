@@ -20,6 +20,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     public void onEnable() {
 
         saveResource("strings.yml", true);
+        saveResource("mob_types.yml", true);
 
         config = ConfigParser.parse(this);
 
@@ -30,6 +31,9 @@ public final class LumberGamePlugin extends JavaPlugin {
         Bukkit.getPluginCommand("start").setExecutor(new StartCommand(this));
 
         queueManager = new LumberQueueManager(this);
+
+
+
 
     }
 

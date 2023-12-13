@@ -31,6 +31,7 @@ dependencies {
 
     compileOnly ("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
     implementation ("org.spongepowered:configurate-hocon:4.0.0")
+    implementation("net.objecthunter", "exp4j","0.4.8")
 
 }
 
