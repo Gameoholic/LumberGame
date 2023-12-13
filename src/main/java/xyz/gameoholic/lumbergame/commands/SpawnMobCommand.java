@@ -10,6 +10,10 @@ import xyz.gameoholic.lumbergame.game.mob.Mob;
 
 import java.util.Objects;
 
+
+/**
+ * DEBUG COMMAND
+ */
 public class SpawnMobCommand implements CommandExecutor {
     private LumberGamePlugin plugin;
 
@@ -21,11 +25,14 @@ public class SpawnMobCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length < 2)
             return false;
-        if (sender instanceof Player)
+
+        if (!(sender instanceof Player))
             return false;
+
         Player player = (Player) sender;
-        new Mob(Objects.requireNonNull(plugin.getLumberConfig().mobTypes().stream().filter(mobType -> mobType.id() == args[0])
-            .findFirst().get()), Integer.parseInt(args[1]), player.getLocation());
+
+        new Mob(plugin, plugin.getLumberConfig().mobTypes().stream().filter(mobType -> mobType.id().equals(args[0]))
+            .findFirst().get(), Integer.parseInt(args[1]), player.getLocation());
 
         return false;
     }

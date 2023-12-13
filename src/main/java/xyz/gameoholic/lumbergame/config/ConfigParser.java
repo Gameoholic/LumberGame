@@ -47,7 +47,8 @@ public class ConfigParser {
             root.node("remove-from-queue-command-removed-message").getString(""),
             root.node("start-command-no-queued-players-message").getString(""),
             root.node("start-command-game-in-progress-message").getString(""),
-            root.node("start-command-success-message").getString("")
+            root.node("start-command-success-message").getString(""),
+            Objects.requireNonNull(root.node("mob-displayname").getString())
         );
         return stringsConfig;
     }

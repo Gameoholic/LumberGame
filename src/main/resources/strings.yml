@@ -21,3 +21,5 @@ removed-all-from-queue-command-removed-message: "<green>Removed <player> from th
 start-command-no-queued-players-message: "<red>There isn't anyone in the queue to start the game!"
 start-command-game-in-progress-message: "<red>A game is already in progress!"
 start-command-success-message: "<green>Started the game!"
+
+mob-displayname: "<name> <health>❤️ <cr>🛡️"

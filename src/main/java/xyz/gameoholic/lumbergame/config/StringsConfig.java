@@ -16,7 +16,8 @@ public record StringsConfig(
     String removedFromQueueCommandPlayerRemovedMessage,
     String startCommandNoQueuedPlayersMessage,
     String startCommandGameInProgressMessage,
-    String startCommandSuccessMessage
+    String startCommandSuccessMessage,
+    String mobDisplayname
 
 ) {
 
