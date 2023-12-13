@@ -30,6 +30,10 @@ public class StartCommand implements CommandExecutor {
 
         plugin.setGameManager(new LumberGameManager(plugin, plugin.getQueueManager().getPlayers()));
         plugin.getQueueManager().resetQueue();
+
+        sender.sendMessage(MiniMessage.miniMessage().deserialize(
+            plugin.getLumberConfig().strings().startCommandSuccessMessage())
+        );
         return false;
     }
 }

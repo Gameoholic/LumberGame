@@ -32,7 +32,8 @@ public class ConfigParser {
             root.node("remove-from-queue-command-player-not-queued-message").getString(""),
             root.node("remove-from-queue-command-removed-message").getString(""),
             root.node("start-command-no-queued-players-message").getString(""),
-            root.node("start-command-game-in-progress-message").getString("")
+            root.node("start-command-game-in-progress-message").getString(""),
+            root.node("start-command-success-message").getString("")
         );
 
         return new LumberConfig(stringsConfig);
