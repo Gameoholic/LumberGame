@@ -18,3 +18,5 @@ add-all-to-queue-command-added-message: "<green>Added <player> to the queue!"
 remove-all-from-queue-command-none-found-message: "<red>Could not find and queued players to remove from the queue!"
 removed-all-from-queue-command-removed-message: "<green>Removed <player> from the queue!"
 
+start-command-no-queued-players-message: "<red>There isn't anyone in the queue to start the game!"
+start-command-game-in-progress-message: "<red>A game is already in progress!"

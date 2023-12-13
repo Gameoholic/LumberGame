@@ -13,7 +13,9 @@ public record StringsConfig(
     String removedFromQueueCommandNoPlayerProvidedMessage,
     String removedFromQueueCommandPlayerOfflineMessage,
     String removedFromQueueCommandPlayerNotQueuedMessage,
-    String removedFromQueueCommandPlayerRemovedMessage
+    String removedFromQueueCommandPlayerRemovedMessage,
+    String startCommandNoQueuedPlayersMessage,
+    String startCommandGameInProgressMessage
 
 ) {
 
