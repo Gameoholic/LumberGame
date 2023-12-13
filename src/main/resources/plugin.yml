@@ -12,3 +12,5 @@ commands:
     permission: lumbergame.addalltoqueue
   removeallfromqueue:
     permission: lumbergame.removeallfromqueue
+  start:
+    permission: lumbergame.start

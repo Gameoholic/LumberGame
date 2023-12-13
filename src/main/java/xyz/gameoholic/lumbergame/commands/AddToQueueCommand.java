@@ -29,11 +29,11 @@ public class AddToQueueCommand implements CommandExecutor {
             sender.sendMessage(text("Player is offline!").color(NamedTextColor.RED));
             return false;
         }
-        if (plugin.getLumberQueueManager().containsPlayer(desiredPlayer)) {
+        if (plugin.getQueueManager().containsPlayer(desiredPlayer)) {
             sender.sendMessage(text("Player is already in the queue!").color(NamedTextColor.RED));
             return false;
         }
-        plugin.getLumberQueueManager().addPlayer(desiredPlayer, QueueChangeReason.FORCED);
+        plugin.getQueueManager().addPlayer(desiredPlayer, QueueChangeReason.FORCED);
         sender.sendMessage(text("Successfully added " + sender.getName() + " to the queue!").color(NamedTextColor.GREEN));
         return false;
     }

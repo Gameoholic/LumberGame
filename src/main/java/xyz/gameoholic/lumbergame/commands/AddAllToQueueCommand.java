@@ -11,9 +11,7 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.queue.QueueChangeReason;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -26,13 +24,13 @@ public class AddAllToQueueCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         List<Player> unqueuedPlayers = players.stream()
-            .filter(player ->  !plugin.getLumberQueueManager().containsPlayer(player)).toList();
+            .filter(player ->  !plugin.getQueueManager().containsPlayer(player)).toList();
         if (unqueuedPlayers.size() == 0) {
             sender.sendMessage(text("Could not find unqueued players to add!").color(NamedTextColor.RED));
             return false;
         }
         unqueuedPlayers.forEach(unqueuedPlayer -> {
-            plugin.getLumberQueueManager().addPlayer(unqueuedPlayer, QueueChangeReason.FORCED);
+            plugin.getQueueManager().addPlayer(unqueuedPlayer, QueueChangeReason.FORCED);
             sender.sendMessage(text("Added " + unqueuedPlayer.getName() + " to the queue.").color(NamedTextColor.GREEN));
         });
         return false;

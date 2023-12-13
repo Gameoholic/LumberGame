@@ -29,11 +29,11 @@ public class RemoveFromQueueCommand implements CommandExecutor {
             sender.sendMessage(text("Player is offline!").color(NamedTextColor.RED));
             return false;
         }
-        if (!plugin.getLumberQueueManager().containsPlayer(desiredPlayer)) {
+        if (!plugin.getQueueManager().containsPlayer(desiredPlayer)) {
             sender.sendMessage(text("Player is not in the queue!").color(NamedTextColor.RED));
             return false;
         }
-        plugin.getLumberQueueManager().removePlayer(desiredPlayer, QueueChangeReason.FORCED);
+        plugin.getQueueManager().removePlayer(desiredPlayer, QueueChangeReason.FORCED);
         sender.sendMessage(text("Successfully removed " + sender.getName() + " from the queue!").color(NamedTextColor.GREEN));
         return false;
     }

@@ -24,13 +24,13 @@ public class RemoveAllFromQueueCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         List<Player> queuedPlayers = players.stream()
-            .filter(player ->  plugin.getLumberQueueManager().containsPlayer(player)).toList();
+            .filter(player ->  plugin.getQueueManager().containsPlayer(player)).toList();
         if (queuedPlayers.size() == 0) {
             sender.sendMessage(text("Could not find queued players to add!").color(NamedTextColor.RED));
             return false;
         }
         queuedPlayers.forEach(queuedPlayer -> {
-            plugin.getLumberQueueManager().removePlayer(queuedPlayer, QueueChangeReason.FORCED);
+            plugin.getQueueManager().removePlayer(queuedPlayer, QueueChangeReason.FORCED);
             sender.sendMessage(text("Remove " + queuedPlayer.getName() + " from the queue.").color(NamedTextColor.GREEN));
         });
         return false;

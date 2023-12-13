@@ -49,4 +49,18 @@ public class LumberQueueManager {
     public boolean containsPlayer(Player player) {
         return queuedPlayers.contains(player.getUniqueId());
     }
+
+    /**
+     * Returns the players in the queue.
+     */
+    public Set<UUID> getPlayers() {
+        return queuedPlayers;
+    }
+
+    /**
+     * Empties the queued players without letting the players know.
+     */
+    public void resetQueue() {
+        queuedPlayers = new HashSet<>();
+    }
 }

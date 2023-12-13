@@ -2,15 +2,23 @@ package xyz.gameoholic.lumbergame;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.gameoholic.lumbergame.commands.AddAllToQueueCommand;
-import xyz.gameoholic.lumbergame.commands.AddToQueueCommand;
-import xyz.gameoholic.lumbergame.commands.RemoveAllFromQueueCommand;
-import xyz.gameoholic.lumbergame.commands.RemoveFromQueueCommand;
+import xyz.gameoholic.lumbergame.commands.*;
+import xyz.gameoholic.lumbergame.game.LumberGameManager;
 import xyz.gameoholic.lumbergame.queue.LumberQueueManager;
 
 public final class LumberGamePlugin extends JavaPlugin {
 
-    private LumberQueueManager lumberQueueManager;
+    private LumberQueueManager queueManager;
+    public LumberQueueManager getQueueManager() {
+        return queueManager;
+    }
+    private LumberGameManager gameManager;
+    public LumberGameManager getGameManager() {
+        return gameManager;
+    }
+    public void setGameManager(LumberGameManager gameManager) {
+        this.gameManager = gameManager;
+    }
     @Override
     public void onEnable() {
 
@@ -18,9 +26,10 @@ public final class LumberGamePlugin extends JavaPlugin {
         Bukkit.getPluginCommand("removefromqueue").setExecutor(new RemoveFromQueueCommand(this));
         Bukkit.getPluginCommand("addalltoqueue").setExecutor(new AddAllToQueueCommand(this));
         Bukkit.getPluginCommand("removeallfromqueue").setExecutor(new RemoveAllFromQueueCommand(this));
+        Bukkit.getPluginCommand("start").setExecutor(new StartCommand(this));
 
 
-        lumberQueueManager = new LumberQueueManager(this);
+        queueManager = new LumberQueueManager(this);
     }
 
     @Override
@@ -28,7 +37,7 @@ public final class LumberGamePlugin extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    public LumberQueueManager getLumberQueueManager() {
-        return lumberQueueManager;
-    }
+
+
+
 }
