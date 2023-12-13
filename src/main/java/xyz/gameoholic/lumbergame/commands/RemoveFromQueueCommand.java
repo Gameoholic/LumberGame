@@ -1,6 +1,8 @@
 package xyz.gameoholic.lumbergame.commands;
 
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,21 +22,31 @@ public class RemoveFromQueueCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(text("Please provide a player's name to remove from the queue.").color(NamedTextColor.RED));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().removedFromQueueCommandNoPlayerProvidedMessage())
+            );
             return false;
         }
         String desiredPlayerName = args[0];
         Player desiredPlayer = Bukkit.getPlayer(desiredPlayerName);
         if (desiredPlayer == null) {
-            sender.sendMessage(text("Player is offline!").color(NamedTextColor.RED));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().removedFromQueueCommandPlayerOfflineMessage())
+            );
             return false;
         }
         if (!plugin.getQueueManager().containsPlayer(desiredPlayer)) {
-            sender.sendMessage(text("Player is not in the queue!").color(NamedTextColor.RED));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().removedFromQueueCommandPlayerNotQueuedMessage())
+            );
             return false;
         }
         plugin.getQueueManager().removePlayer(desiredPlayer, QueueChangeReason.FORCED);
-        sender.sendMessage(text("Successfully removed " + sender.getName() + " from the queue!").color(NamedTextColor.GREEN));
+        sender.sendMessage(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().removedFromQueueCommandPlayerRemovedMessage(),
+                Placeholder.component("player", text(desiredPlayer.getName()))
+            )
+        );
         return false;
     }
 

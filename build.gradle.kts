@@ -30,21 +30,14 @@ dependencies {
     paperweight.paperDevBundle("1.20.1-R0.1-SNAPSHOT") //the paper dev bundle is a compile-only dependency, paper itself provides it. No need to shade
 
     compileOnly ("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
+    implementation ("org.spongepowered:configurate-hocon:4.0.0")
+
 }
 
 java {
     // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
-//java {
-//    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-//    sourceCompatibility = javaVersion
-//    targetCompatibility = javaVersion
-//    if (JavaVersion.current() < javaVersion) {
-//        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-//    }
-//}
-
 
 
 tasks {

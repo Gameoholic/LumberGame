@@ -1,0 +1,20 @@
+# /addtoqueue command
+add-to-queue-command-no-player-provided-message: "<red>Please provide a player's username."
+add-to-queue-command-player-offline-message: "<red>The player is offline!"
+add-to-queue-command-player-already-queued-message: "<red>The player is already queued!"
+add-to-queue-command-added-message: "<green>Successfully added <player> to the queue."
+
+# /removefromqueue command
+remove-from-queue-command-no-player-provided-message: "<red>Please provide a player's username."
+remove-from-queue-command-player-offline-message: "<red>The player is offline!"
+remove-from-queue-command-player-not-queued-message: "<red>The player is not currently queued!"
+remove-from-queue-command-removed-message: "<green>Successfully removed <player> from the queue."
+
+# /addalltoqueue command
+add-all-to-queue-command-none-found-message: "<red>Could not find any unqueued players to add to the queue!"
+add-all-to-queue-command-added-message: "<green>Added <player> to the queue!"
+
+# /removeallfromqueue command
+remove-all-from-queue-command-none-found-message: "<red>Could not find and queued players to remove from the queue!"
+removed-all-from-queue-command-removed-message: "<green>Removed <player> from the queue!"
+

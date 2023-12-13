@@ -8,11 +8,15 @@ import java.util.UUID;
 
 public class LumberGameManager {
     private LumberGamePlugin plugin;
-    private Set<UUID> players = new HashSet<>();
+    private Set<UUID> players;
     public LumberGameManager(LumberGamePlugin plugin, Set<UUID> players) {
         this.plugin = plugin;
         this.players = players;
+
+
+        System.out.println("Game has started!");
     }
+
 
 
 

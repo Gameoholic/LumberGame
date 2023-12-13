@@ -1,6 +1,8 @@
 package xyz.gameoholic.lumbergame.commands;
 
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,12 +28,18 @@ public class RemoveAllFromQueueCommand implements CommandExecutor {
         List<Player> queuedPlayers = players.stream()
             .filter(player ->  plugin.getQueueManager().containsPlayer(player)).toList();
         if (queuedPlayers.size() == 0) {
-            sender.sendMessage(text("Could not find queued players to add!").color(NamedTextColor.RED));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().removeAllFromQueueCommandNoneFoundMessage())
+            );
             return false;
         }
         queuedPlayers.forEach(queuedPlayer -> {
             plugin.getQueueManager().removePlayer(queuedPlayer, QueueChangeReason.FORCED);
-            sender.sendMessage(text("Remove " + queuedPlayer.getName() + " from the queue.").color(NamedTextColor.GREEN));
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(
+                    plugin.getLumberConfig().strings().removeAllFromQueueCommandRemovedMessage(),
+                    Placeholder.component("player", text(queuedPlayer.getName()))
+                )
+            );
         });
         return false;
     }
