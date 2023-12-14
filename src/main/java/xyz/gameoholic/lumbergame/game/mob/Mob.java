@@ -2,12 +2,16 @@ package xyz.gameoholic.lumbergame.game.mob;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.phys.Vec3;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.goal.AttackTreeGoal;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,9 +23,8 @@ public class Mob {
     private LumberGamePlugin plugin;
     private MobType mobType;
     private int CR; // Challenge Rating
-    private org.bukkit.entity.Mob mob;
-    private UUID entityId = UUID.randomUUID();
 
+    protected org.bukkit.entity.Mob mob;
     public static Map<UUID, Mob> mobs = new HashMap();
 
     public Mob(LumberGamePlugin plugin, MobType mobType, int CR, Location location) {
@@ -54,10 +57,14 @@ public class Mob {
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
 
-        mob.getPersistentDataContainer().set(new NamespacedKey(plugin, "entity_id"), PersistentDataType.STRING, entityId.toString());
+        mob.getPersistentDataContainer()
+            .set(new NamespacedKey(plugin, "entity_id"), PersistentDataType.STRING, mob.getUniqueId().toString());
 
-        mobs.put(entityId, this);
-    }
+        mobs.put(mob.getUniqueId(), this);
+
+
+
+        }
 
     public MobType getMobType() {
         return mobType;
@@ -71,7 +78,4 @@ public class Mob {
         return mob;
     }
 
-    public UUID getEntityId() {
-        return entityId;
-    }
 }

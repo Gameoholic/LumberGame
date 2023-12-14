@@ -45,7 +45,7 @@ public class EntityDamageListener implements Listener {
         if (mob == null)
             return;
 
-        Mob.mobs.remove(mob.getEntityId());
+        Mob.mobs.remove(mob.getMob().getUniqueId());
     }
 
     /**
