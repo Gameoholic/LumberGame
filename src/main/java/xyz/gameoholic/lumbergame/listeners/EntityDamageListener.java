@@ -52,12 +52,7 @@ public class EntityDamageListener implements Listener {
      * Provided a mob entity, returns the Lumber mob instance for which it belongs, null if not found.
      */
     private @Nullable Mob getMob(Entity entity) {
-        @Nullable String entityId = entity.getPersistentDataContainer()
-            .get(new NamespacedKey(plugin, "entity_id"), PersistentDataType.STRING);
-        if (entityId == null)
-            return null;
-
-        @Nullable Mob mob = Mob.mobs.get(UUID.fromString(entityId));
+        @Nullable Mob mob = Mob.mobs.get(entity.getUniqueId());
         if (mob == null)
             return null;
 

@@ -150,7 +150,8 @@ public class ConfigParser {
                         EntityType.valueOf(mobType.node("entity-type").require(String.class)),
                         isHostile,
                         mobType.node("health-expression").require(String.class),
-                        mobType.node("damage-expression").require(String.class)
+                        mobType.node("damage-expression").require(String.class),
+                        mobType.node("speed").require(Double.class)
                     ));
                 }
                 catch (Exception e) {

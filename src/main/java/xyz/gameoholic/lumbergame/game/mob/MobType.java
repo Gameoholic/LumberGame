@@ -9,6 +9,7 @@ public record MobType(
     @NotNull EntityType entityType,
     boolean isHostile,
     @NotNull String healthExpression,
-    @NotNull String damageExpression
+    @NotNull String damageExpression,
+    @NotNull Double speed
 ) {
 }

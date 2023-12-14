@@ -2,9 +2,17 @@
   display-name: "Zomb"
   entity-type: "ZOMBIE"
   health-expression: "CR * 5"
-  damage-expression: "CR * 5"
+  damage-expression: "CR * 1"
+  speed: 0.23
 - id: "tree_creepie"
   display-name: "Creepie"
   entity-type: "CREEPER"
   health-expression: "CR * 5"
-  damage-expression: "CR * 5"
+  damage-expression: "CR * 2"
+  speed: 0.23
+- id: "sneaky_creeper"
+  display-name: "<green>Sneaky Creeper"
+  entity-type: "CREEPER"
+  health-expression: "CR * 2"
+  damage-expression: "CR * 2"
+  speed: 0.4

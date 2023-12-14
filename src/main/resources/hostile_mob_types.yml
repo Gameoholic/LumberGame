@@ -3,8 +3,10 @@
   entity-type: "ZOMBIE"
   health-expression: "CR * 5"
   damage-expression: "CR * 2"
+  speed: 0.23
 - id: "creepie"
   display-name: "Creepie"
   entity-type: "CREEPER"
   health-expression: "CR * 5"
   damage-expression: "CR * 2"
+  speed: 0.23

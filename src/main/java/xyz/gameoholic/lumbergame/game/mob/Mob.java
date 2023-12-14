@@ -3,6 +3,7 @@ package xyz.gameoholic.lumbergame.game.mob;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.phys.Vec3;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
@@ -42,6 +43,7 @@ public class Mob {
         mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
         mob.setHealth(health);
 
+        mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(mobType.speed());
 
         mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(
             new ExpressionBuilder(mobType.damageExpression())
@@ -57,14 +59,9 @@ public class Mob {
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
 
-        mob.getPersistentDataContainer()
-            .set(new NamespacedKey(plugin, "entity_id"), PersistentDataType.STRING, mob.getUniqueId().toString());
-
         mobs.put(mob.getUniqueId(), this);
 
-
-
-        }
+    }
 
     public MobType getMobType() {
         return mobType;

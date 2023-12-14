@@ -4,8 +4,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftCreeper;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
 
@@ -14,9 +16,9 @@ import java.util.Objects;
 
 public class AttackTreeGoal extends Goal {
     private LumberGamePlugin plugin;
-    private final PathfinderMob mob;
+    protected final PathfinderMob mob;
     private final double speedModifier;
-    private int ticksUntilNextAttack;
+    protected int ticksUntilNextAttack;
     private long lastCanUseCheck;
     private final double TREE_BB_WIDTH = 2.0;
     private Vec3 targetLoc;
@@ -72,24 +74,31 @@ public class AttackTreeGoal extends Goal {
         checkAndPerformAttack(squaredDistance);
     }
 
-    private void checkAndPerformAttack(double squaredDistance) {
+    protected void checkAndPerformAttack(double squaredDistance) {
         if (squaredDistance <= getAttackReachSqr() && ticksUntilNextAttack <= 0) {
             performAttack();
         }
+//        else {
+//            if (mob instanceof Creeper creeper) {
+//                Bukkit.broadcastMessage("Setting to false");
+//                creeper.setIgnited(false);
+//                creeper.swell = 0;
+//            }
+//        }
     }
     
-    private void performAttack() {
+    protected void performAttack() {
         resetAttackCooldown();
         mob.swing(InteractionHand.MAIN_HAND);
         Mob lumberMob = Objects.requireNonNull(Mob.mobs.get(mob.getUUID())); // Should never be null, but doesn't hurt to be safe
         plugin.getGameManager().getTreeManager().onMobDamage(lumberMob);
     }
 
-    private void resetAttackCooldown() {
+    protected void resetAttackCooldown() {
         ticksUntilNextAttack = adjustedTickDelay(20);
     }
 
-    private double getAttackReachSqr() {
+    protected double getAttackReachSqr() {
         return (mob.getBbWidth() * 2.0F * mob.getBbWidth() * 2.0F + TREE_BB_WIDTH);
     }
 }
