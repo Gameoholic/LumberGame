@@ -16,3 +16,5 @@ commands:
     permission: lumbergame.start
   spawnmob:
     permission: lumbergame.spawnmob
+  test:
+    permission: test

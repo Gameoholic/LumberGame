@@ -26,6 +26,8 @@ public final class LumberGamePlugin extends JavaPlugin {
         config = ConfigParser.parse(this);
 
 
+        Bukkit.getPluginCommand("test").setExecutor(new TestCommand(this));
+
         Bukkit.getPluginCommand("addtoqueue").setExecutor(new AddToQueueCommand(this));
         Bukkit.getPluginCommand("removefromqueue").setExecutor(new RemoveFromQueueCommand(this));
         Bukkit.getPluginCommand("addalltoqueue").setExecutor(new AddAllToQueueCommand(this));
