@@ -1,2 +1,4 @@
 self join/leave commands for queue.
-repolace entity id with just uuid..
+
+set up the actual game with the tree
+set up wave spawner and wave manager.

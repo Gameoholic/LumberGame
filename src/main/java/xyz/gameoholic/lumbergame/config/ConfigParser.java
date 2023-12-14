@@ -1,5 +1,7 @@
 package xyz.gameoholic.lumbergame.config;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
@@ -13,17 +15,19 @@ import java.util.List;
 import java.util.Objects;
 
 public class ConfigParser {
-    public static LumberConfig parse(LumberGamePlugin plugin) {
+    private LumberGamePlugin plugin;
+    public ConfigParser(LumberGamePlugin plugin) {
+        this.plugin = plugin;
+    }
+    public LumberConfig parse() {
+        StringsConfig stringsConfig = getStringsConfig();
+        List<MobType> mobTypes = getAllMobTypes();
+        MapConfig mapConfig = getMapConfig();
 
-
-        StringsConfig stringsConfig = getStringsConfig(plugin);
-        List<MobType> mobTypes = getAllMobTypes(plugin);
-
-
-        return new LumberConfig(stringsConfig, mobTypes);
+        return new LumberConfig(stringsConfig, mobTypes, mapConfig);
     }
 
-    private static StringsConfig getStringsConfig(LumberGamePlugin plugin) {
+    private StringsConfig getStringsConfig() {
         YamlConfigurationLoader conf = YamlConfigurationLoader.builder().path(Paths.get(plugin.getDataFolder() + "/strings.yml")).build();
         CommentedConfigurationNode root;
         try {
@@ -53,7 +57,29 @@ public class ConfigParser {
         return stringsConfig;
     }
 
-    private static List<MobType> getAllMobTypes(LumberGamePlugin plugin) {
+    private MapConfig getMapConfig() {
+        YamlConfigurationLoader conf = YamlConfigurationLoader.builder().path(Paths.get(plugin.getDataFolder() + "/map.yml")).build();
+        CommentedConfigurationNode root;
+        try {
+            root = conf.load();
+        } catch (ConfigurateException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        Location treeLocation = new Location(Bukkit.getWorld(Objects.requireNonNull(root.node("tree-location", "world").getString())),
+            root.node("tree-location", "x").getDouble(),
+            root.node("tree-location", "y").getDouble(),
+            root.node("tree-location", "z").getDouble()
+        );
+
+        MapConfig mapConfig = new MapConfig(
+            treeLocation
+        );
+        return mapConfig;
+    }
+
+    private List<MobType> getAllMobTypes() {
         List mobTypes = new ArrayList();
 
         YamlConfigurationLoader hostileMobsConf =
@@ -82,7 +108,7 @@ public class ConfigParser {
     /**
      * Returns the mob types for a certain configuration node (hostile/tree mobs)
      */
-    private static List<MobType> getMobTypes(CommentedConfigurationNode root, boolean isHostile) {
+    private List<MobType> getMobTypes(CommentedConfigurationNode root, boolean isHostile) {
         List mobTypes = new ArrayList();
         root.childrenList().forEach(
             mobType -> {

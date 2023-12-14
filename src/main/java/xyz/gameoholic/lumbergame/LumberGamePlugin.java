@@ -22,8 +22,10 @@ public final class LumberGamePlugin extends JavaPlugin {
         saveResource("strings.yml", true);
         saveResource("hostile_mob_types.yml", true);
         saveResource("tree_mob_types.yml", true);
+        saveResource("map.yml", true);
 
-        config = ConfigParser.parse(this);
+
+        config = new ConfigParser(this).parse();
 
 
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand(this));
