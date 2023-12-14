@@ -17,7 +17,7 @@ public class ConfigParser {
 
 
         StringsConfig stringsConfig = getStringsConfig(plugin);
-        List<MobType> mobTypes = getMobTypes(plugin);
+        List<MobType> mobTypes = getAllMobTypes(plugin);
 
 
         return new LumberConfig(stringsConfig, mobTypes);
@@ -53,15 +53,36 @@ public class ConfigParser {
         return stringsConfig;
     }
 
-    private static List<MobType> getMobTypes(LumberGamePlugin plugin) {
-        YamlConfigurationLoader conf = YamlConfigurationLoader.builder().path(Paths.get(plugin.getDataFolder() + "/mob_types.yml")).build();
-        CommentedConfigurationNode root;
+    private static List<MobType> getAllMobTypes(LumberGamePlugin plugin) {
+        List mobTypes = new ArrayList();
+
+        YamlConfigurationLoader hostileMobsConf =
+            YamlConfigurationLoader.builder().path(Paths.get(plugin.getDataFolder() + "/hostile_mob_types.yml")).build();
+        CommentedConfigurationNode hostileMobsRoot;
         try {
-            root = conf.load();
+            hostileMobsRoot = hostileMobsConf.load();
         } catch (ConfigurateException e) {
             throw new RuntimeException(e);
         }
+        mobTypes.addAll(getMobTypes(hostileMobsRoot, true));
 
+        YamlConfigurationLoader treeMobsConf =
+            YamlConfigurationLoader.builder().path(Paths.get(plugin.getDataFolder() + "/tree_mob_types.yml")).build();
+        CommentedConfigurationNode treeMobsRoot;
+        try {
+            treeMobsRoot = treeMobsConf.load();
+        } catch (ConfigurateException e) {
+            throw new RuntimeException(e);
+        }
+        mobTypes.addAll(getMobTypes(treeMobsRoot, false));
+
+        return mobTypes;
+    }
+
+    /**
+     * Returns the mob types for a certain configuration node (hostile/tree mobs)
+     */
+    private static List<MobType> getMobTypes(CommentedConfigurationNode root, boolean isHostile) {
         List mobTypes = new ArrayList();
         root.childrenList().forEach(
             mobType -> {
@@ -70,7 +91,7 @@ public class ConfigParser {
                         Objects.requireNonNull(mobType.node("id").getString()),
                         Objects.requireNonNull(mobType.node("display-name").getString()),
                         Objects.requireNonNull(EntityType.valueOf(mobType.node("entity-type").getString())),
-                        Objects.requireNonNull(mobType.node("is-hostile").getBoolean()),
+                        isHostile,
                         Objects.requireNonNull(mobType.node("health-expression").getString()),
                         Objects.requireNonNull(mobType.node("player-damage-expression").getString()),
                         Objects.requireNonNull(mobType.node("tree-damage-expression").getString())

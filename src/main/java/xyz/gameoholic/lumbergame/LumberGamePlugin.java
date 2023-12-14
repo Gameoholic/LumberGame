@@ -2,7 +2,6 @@ package xyz.gameoholic.lumbergame;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.commands.*;
 import xyz.gameoholic.lumbergame.config.LumberConfig;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
@@ -21,7 +20,8 @@ public final class LumberGamePlugin extends JavaPlugin {
     public void onEnable() {
 
         saveResource("strings.yml", true);
-        saveResource("mob_types.yml", true);
+        saveResource("hostile_mob_types.yml", true);
+        saveResource("tree_mob_types.yml", true);
 
         config = ConfigParser.parse(this);
 
