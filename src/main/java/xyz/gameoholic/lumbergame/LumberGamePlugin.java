@@ -23,6 +23,7 @@ public final class LumberGamePlugin extends JavaPlugin {
         saveResource("hostile_mob_types.yml", true);
         saveResource("tree_mob_types.yml", true);
         saveResource("map.yml", true);
+        saveResource("game.yml", true);
 
 
         config = new ConfigParser(this).parse();

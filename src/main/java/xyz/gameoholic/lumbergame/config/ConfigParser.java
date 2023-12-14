@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.MobType;
@@ -23,8 +24,9 @@ public class ConfigParser {
         StringsConfig stringsConfig = getStringsConfig();
         List<MobType> mobTypes = getAllMobTypes();
         MapConfig mapConfig = getMapConfig();
+        GameConfig gameConfig = getGameConfig();
 
-        return new LumberConfig(stringsConfig, mobTypes, mapConfig);
+        return new LumberConfig(stringsConfig, mobTypes, mapConfig, gameConfig);
     }
 
     private StringsConfig getStringsConfig() {
@@ -55,6 +57,27 @@ public class ConfigParser {
             Objects.requireNonNull(root.node("mob-displayname").getString())
         );
         return stringsConfig;
+    }
+
+    private GameConfig getGameConfig() {
+        YamlConfigurationLoader conf = YamlConfigurationLoader.builder().path(Paths.get(plugin.getDataFolder() + "/game.yml")).build();
+        CommentedConfigurationNode root;
+        try {
+            root = conf.load();
+        } catch (ConfigurateException e) {
+            throw new RuntimeException(e);
+        }
+
+        GameConfig gameConfig = null;
+        try {
+            gameConfig = new GameConfig(
+                root.node("tree-health-expression").require(String.class)
+            );
+        } catch (SerializationException e) {
+            e.printStackTrace();
+            throw new RuntimeException("One of the arguments for game config is invalid.");
+        }
+        return gameConfig;
     }
 
     private MapConfig getMapConfig() {
@@ -142,4 +165,6 @@ public class ConfigParser {
 
         return mobTypes;
     }
+
+
 }
