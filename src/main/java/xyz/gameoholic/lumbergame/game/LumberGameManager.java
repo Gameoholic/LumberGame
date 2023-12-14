@@ -9,8 +9,10 @@ import java.util.UUID;
 public class LumberGameManager {
     private LumberGamePlugin plugin;
     private Set<LumberPlayer> players = new HashSet<>();
+    private TreeManager treeManager;
     public LumberGameManager(LumberGamePlugin plugin, Set<UUID> players) {
         this.plugin = plugin;
+        treeManager = new TreeManager(plugin);
         players.forEach(
             uuid -> this.players.add(new LumberPlayer(uuid))
         );
@@ -19,6 +21,9 @@ public class LumberGameManager {
     }
 
 
+    public TreeManager getTreeManager() {
+        return treeManager;
+    }
 
 
 

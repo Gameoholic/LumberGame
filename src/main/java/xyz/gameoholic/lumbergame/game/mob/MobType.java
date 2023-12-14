@@ -9,7 +9,6 @@ public record MobType(
     @NotNull EntityType entityType,
     boolean isHostile,
     @NotNull String healthExpression,
-    @NotNull String playerDamageExpression,
-    @NotNull String treeDamageExpression
+    @NotNull String damageExpression
 ) {
 }

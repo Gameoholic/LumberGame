@@ -44,7 +44,7 @@ public class Mob {
 
 
         mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(
-            new ExpressionBuilder(mobType.playerDamageExpression())
+            new ExpressionBuilder(mobType.damageExpression())
                 .variables("CR")
                 .build()
                 .setVariable("CR", CR).evaluate()

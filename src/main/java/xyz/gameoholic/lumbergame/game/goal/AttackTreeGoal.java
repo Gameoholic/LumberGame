@@ -6,18 +6,23 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
+import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.mob.Mob;
 
 import java.util.EnumSet;
+import java.util.Objects;
 
 public class AttackTreeGoal extends Goal {
-    protected final PathfinderMob mob;
+    private LumberGamePlugin plugin;
+    private final PathfinderMob mob;
     private final double speedModifier;
     private int ticksUntilNextAttack;
     private long lastCanUseCheck;
     private final double TREE_BB_WIDTH = 2.0;
     private Vec3 targetLoc;
 
-    public AttackTreeGoal(PathfinderMob mob, double speed, Vec3 targetLoc) {
+    public AttackTreeGoal(LumberGamePlugin plugin, PathfinderMob mob, double speed, Vec3 targetLoc) {
+        this.plugin = plugin;
         this.targetLoc = targetLoc;
         this.mob = mob;
         speedModifier = speed;
@@ -67,18 +72,24 @@ public class AttackTreeGoal extends Goal {
         checkAndPerformAttack(squaredDistance);
     }
 
-    protected void checkAndPerformAttack(double squaredDistance) {
+    private void checkAndPerformAttack(double squaredDistance) {
         if (squaredDistance <= getAttackReachSqr() && ticksUntilNextAttack <= 0) {
-            resetAttackCooldown();
-            mob.swing(InteractionHand.MAIN_HAND);
+            performAttack();
         }
     }
+    
+    private void performAttack() {
+        resetAttackCooldown();
+        mob.swing(InteractionHand.MAIN_HAND);
+        Mob lumberMob = Objects.requireNonNull(Mob.mobs.get(mob.getUUID())); // Should never be null, but doesn't hurt to be safe
+        plugin.getGameManager().getTreeManager().onMobDamage(lumberMob);
+    }
 
-    protected void resetAttackCooldown() {
+    private void resetAttackCooldown() {
         ticksUntilNextAttack = adjustedTickDelay(20);
     }
 
-    protected double getAttackReachSqr() {
+    private double getAttackReachSqr() {
         return (mob.getBbWidth() * 2.0F * mob.getBbWidth() * 2.0F + TREE_BB_WIDTH);
     }
 }

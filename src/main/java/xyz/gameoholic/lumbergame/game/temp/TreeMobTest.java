@@ -14,7 +14,7 @@ public class TreeMobTest extends Zombie {
         this.setPos(-95, 80, 344);
 
         this.goalSelector.removeAllGoals(goal -> true);
-        this.goalSelector.addGoal(8, new AttackTreeGoal(this, 1.0D, new Vec3(-91.5, 79, 329.5)));
+//        this.goalSelector.addGoal(8, new AttackTreeGoal(this, 1.0D, new Vec3(-91.5, 79, 329.5)));
 
         //this.goalSelector.addGoal(2, new ZombieAttackGoal(this, 1.0D, false));
 
