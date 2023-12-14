@@ -67,11 +67,19 @@ public class ConfigParser {
         }
 
 
-        Location treeLocation = new Location(Bukkit.getWorld(Objects.requireNonNull(root.node("tree-location", "world").getString())),
-            root.node("tree-location", "x").getDouble(),
-            root.node("tree-location", "y").getDouble(),
-            root.node("tree-location", "z").getDouble()
-        );
+        Location treeLocation;
+        try {
+            treeLocation = new Location(Bukkit.getWorld(root.node("tree-location", "world").require(String.class)),
+                root.node("tree-location", "x").require(Double.class),
+                root.node("tree-location", "y").require(Double.class),
+                root.node("tree-location", "z").require(Double.class)
+            );
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Tree location argument for map is invalid.");
+        }
+
 
         MapConfig mapConfig = new MapConfig(
             treeLocation
@@ -114,14 +122,14 @@ public class ConfigParser {
             mobType -> {
                 try {
                     mobTypes.add(new MobType(
-                        Objects.requireNonNull(mobType.node("id").getString()),
-                        Objects.requireNonNull(mobType.node("display-name").getString()),
-                        Objects.requireNonNull(EntityType.valueOf(mobType.node("entity-type").getString())),
+                        mobType.node("id").require(String.class),
+                        mobType.node("display-name").require(String.class),
+                        EntityType.valueOf(mobType.node("entity-type").require(String.class)),
                         isHostile,
-                        Objects.requireNonNull(mobType.node("health-expression").getString()),
-                        Objects.requireNonNull(mobType.node("player-damage-expression").getString()),
-                        Objects.requireNonNull(mobType.node("tree-damage-expression").getString())
-                    ));
+                        mobType.node("health-expression").require(String.class),
+                        mobType.node("player-damage-expression").require(String.class),
+                        mobType.node("tree-damage-expression").require(String.class))
+                    );
                 }
                 catch (Exception e) {
                     e.printStackTrace();
