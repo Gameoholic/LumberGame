@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
@@ -33,6 +34,18 @@ public class LumberGameManager {
         plugin.getLogger().info("Game has started with " + players.size() + " players.");
     }
 
+    /**
+     * Should be called when the wave ends.
+     */
+    public void onWaveEnd() {
+        startNewRound();
+    }
+
+    private void startNewRound() {
+        waveNumber++;
+        Bukkit.broadcastMessage("Starting Round " + waveNumber);
+        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
+    }
 
     public TreeManager getTreeManager() {
         return treeManager;
@@ -41,4 +54,5 @@ public class LumberGameManager {
     public WaveManager getWaveManager() {
         return waveManager;
     }
+
 }

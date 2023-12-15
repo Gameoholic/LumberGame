@@ -98,6 +98,11 @@ public class WaveManager {
      */
     public void onMobDeath(Mob mob) {
         aliveMobs.remove(mob.getMob().getUniqueId());
+
+        if (aliveMobs.size() == 0) {
+            plugin.getLogger().info("All mobs in wave are dead!");
+            plugin.getGameManager().onWaveEnd();
+        }
     }
     /**
      * Spawns and returns the Mob.

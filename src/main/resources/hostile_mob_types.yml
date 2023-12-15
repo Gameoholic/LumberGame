@@ -1,21 +1,29 @@
+#Optional arguments: speed (default is 0.23)
+
+#Color coding: <green> for 'minor ability', <red> for 'heavy damage', <yellow> for 'tree mob' if none of the previous fit
+
+
+
+# ---------------- Early Mobs ----------------
+
+# Normal zombie, fairly weak. Introduced @ Wave ~1
 - id: "ZOMBIE"
   display-name: "Zombie"
   entity-type: "ZOMBIE"
-  health-expression: "CR * 5"
+  health-expression: "CR * 5 + 5"
   damage-expression: "CR * 2"
+
+# Normal zombie, fairly weak. Introduced @ Wave ~1
+- id: "SKELETON"
+  display-name: "Skeleton"
+  entity-type: "SKELETON"
+  health-expression: "CR * 2"
+  damage-expression: "CR * 2"
+
+# Zombie with slightly higher movement speed. Introduced @ Wave 6
 - id: "FAST_ZOMBIE"
   display-name: "<green>Fast Zombie"
   entity-type: "ZOMBIE"
   health-expression: "CR * 5"
   damage-expression: "CR * 2"
   speed: 0.33
-- id: "CREEPER"
-  display-name: "Creeper"
-  entity-type: "CREEPER"
-  health-expression: "CR * 5"
-  damage-expression: "CR * 2"
-- id: "SKELETON"
-  display-name: "Skeleton"
-  entity-type: "SKELETON"
-  health-expression: "CR * 2"
-  damage-expression: "CR * 2"
