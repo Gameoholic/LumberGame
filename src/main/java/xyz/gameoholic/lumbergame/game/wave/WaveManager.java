@@ -1,15 +1,11 @@
 package xyz.gameoholic.lumbergame.game.wave;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
 import xyz.gameoholic.lumbergame.game.mob.TreeMob;
-import xyz.gameoholic.lumbergame.util.MobUtil;
 import xyz.gameoholic.lumbergame.game.mob.MobType;
 import xyz.gameoholic.lumbergame.util.RandomUtil;
 
@@ -104,7 +100,6 @@ public class WaveManager {
             plugin.getLogger().info("All mobs in wave are dead!");
             plugin.getGameManager().onWaveEnd();
         }
-        Bukkit.broadcastMessage("a " + aliveMobs.size());
 
     }
     /**
@@ -146,4 +141,12 @@ public class WaveManager {
         return mob;
     }
 
+    public void onGameEnd() {
+        // Disable all mobs
+        aliveMobs.values().forEach(
+            mob -> mob.getMob().setAI(false)
+        );
+        mobSpawnerTask.cancel();
+        mobSpawnerTask = null;
+    }
 }

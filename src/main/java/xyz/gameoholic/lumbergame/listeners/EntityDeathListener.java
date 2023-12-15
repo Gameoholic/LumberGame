@@ -19,7 +19,6 @@ public class EntityDeathListener implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent e) {
         @Nullable Mob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
-        Bukkit.broadcastMessage("Mob " + mob + " died");
         if (mob == null)
             return;
 

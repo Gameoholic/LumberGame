@@ -22,10 +22,20 @@ public class TreeManager {
         health = maxHealth;
     }
 
+    /**
+     * Called when a mob attempts to damage the tree.
+     */
     public void onMobDamage(Mob mob) {
         int damage = (int) mob.getMob().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
         Bukkit.broadcastMessage("Tree damaged by " + mob.getMobType().displayName() + " for " + damage + " HP");
         health -= damage;
         Bukkit.broadcastMessage("Tree at " + health + "/" + maxHealth + " health.");
+        if (health < 0) {
+            onTreeDeath();
+        }
+    }
+
+    private void onTreeDeath() {
+        plugin.getGameManager().onGameEnd();
     }
 }

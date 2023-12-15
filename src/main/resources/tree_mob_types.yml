@@ -10,7 +10,7 @@
 - id: "TREE_ZOMBIE"
   display-name: "<yellow>Zombie"
   entity-type: "ZOMBIE"
-  health-expression: "CR * 2 + 5"
+  health-expression: "CR * 2 + 3"
   damage-expression: "CR * 2"
 
 # Normal creeper, a bit more damage than normal mobs. Introduced @ Wave ~2
