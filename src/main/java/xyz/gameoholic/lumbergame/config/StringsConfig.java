@@ -23,7 +23,9 @@ public record StringsConfig(
     String diamondDisplayname,
     String ironLore,
     String goldLore,
-    String diamondLore
+    String diamondLore,
+    String boneMealDisplayname,
+    String boneMealLore
 
 
 ) {

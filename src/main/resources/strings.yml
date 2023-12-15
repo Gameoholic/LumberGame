@@ -32,4 +32,4 @@ gold-lore: "<i><gray>Rare drop from mobs.<br><gray>Use to craft <red>Placeholder
 diamond-lore: "<i><gray>Extremely rare drop from mobs.<br><gray>Use to craft <red>Your Mother</red>."
 
 bone-meal-displayname: "Bone Meal"
-bone-meal-lore: "<i>"
+bone-meal-lore: "<i><gray>Place near the tree to regenerate its health.<br>Regenerates <white>10%</white> of its health."

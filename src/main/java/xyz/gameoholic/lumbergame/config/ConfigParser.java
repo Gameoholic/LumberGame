@@ -62,7 +62,9 @@ public class ConfigParser {
             Objects.requireNonNull(root.node("diamond-displayname").getString()),
             Objects.requireNonNull(root.node("iron-lore").getString()),
             Objects.requireNonNull(root.node("gold-lore").getString()),
-            Objects.requireNonNull(root.node("diamond-lore").getString())
+            Objects.requireNonNull(root.node("diamond-lore").getString()),
+            Objects.requireNonNull(root.node("bone-meal-displayname").getString()),
+            Objects.requireNonNull(root.node("bone-meal-lore").getString())
         );
         return stringsConfig;
     }

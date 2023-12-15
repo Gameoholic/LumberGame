@@ -34,6 +34,13 @@ public class ItemUtil {
             plugin.getLumberConfig().strings().diamondLore()
         );
     }
+    public static ItemStack getBoneMealItemStack(LumberGamePlugin plugin) {
+        return getItemStack(
+            Material.BONE_MEAL,
+            plugin.getLumberConfig().strings().boneMealDisplayname(),
+            plugin.getLumberConfig().strings().boneMealLore()
+        );
+    }
 
     /**
      * @return The item stack with the name and lore applied as MiniMessage components.
@@ -46,7 +53,7 @@ public class ItemUtil {
         List<String> lores = Arrays.stream(lore.split("<br>|<linebreak>")).toList();
         List<Component> componentLores = new ArrayList<>();
         lores.forEach(tempLore -> componentLores.add(
-            MiniMessage.miniMessage().deserialize(tempLore).decoration(TextDecoration.ITALIC, false)));
+            MiniMessage.miniMessage().deserialize(tempLore).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)));
         meta.lore(componentLores);
         item.setItemMeta(meta);
         return item;
