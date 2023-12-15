@@ -11,10 +11,7 @@ import xyz.gameoholic.lumbergame.game.mob.MobType;
 import xyz.gameoholic.lumbergame.util.RandomUtil;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Represents a single wave and handles the mob spawning for that single wave.
@@ -25,12 +22,16 @@ public class WaveManager {
     /**
      * Alive mobs mapped to their UUID's.
      */
-    private Map<UUID, Mob> aliveMobs;
+    private Map<UUID, Mob> aliveMobs = new HashMap<>();
     /**
      * The amount of CR (challenge rating) left, allotted to this wave.
      */
     private int leftWaveCR;
-    Wave wave;
+    private Wave wave;
+    /**
+     * Delay before spawning next mob/s, in ticks.
+     */
+    private int spawnDelay = 0;
 
     Random rnd = new Random();
     public WaveManager(LumberGamePlugin plugin, Wave wave) {
@@ -47,10 +48,13 @@ public class WaveManager {
             public void run() {
                 attemptSpawn();
             }
-        }.runTaskTimer(plugin, 20L, 20L);
+        }.runTaskTimer(plugin, 0L, 1L);
     }
 
     private void attemptSpawn() {
+        spawnDelay--;
+        if (spawnDelay > 0)
+            return;
         if (leftWaveCR <= 0)
             return;
 
@@ -67,6 +71,8 @@ public class WaveManager {
             mobCR,
             selectedSpawnLocation
         );
+
+        spawnDelay = rnd.nextInt(wave.spawnTimerMin(), wave.spawnTimerMax() + 1);
     }
 
     /**

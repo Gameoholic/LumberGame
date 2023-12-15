@@ -1,5 +1,7 @@
 # Wave 1
 - wave-cr: 5
+  spawn-timer-min: 20
+  spawn-timer-max: 80
   mob-min-cr: 2
   mob-max-cr: 3
   mob-types:
@@ -9,6 +11,8 @@
       chance: 0.5
 # Wave 2
 - wave-cr: 10
+  spawn-timer-min: 20
+  spawn-timer-max: 80
   mob-min-cr: 2
   mob-max-cr: 3
   mob-types:

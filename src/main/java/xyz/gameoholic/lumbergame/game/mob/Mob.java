@@ -15,9 +15,6 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.AttackTreeGoal;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
 

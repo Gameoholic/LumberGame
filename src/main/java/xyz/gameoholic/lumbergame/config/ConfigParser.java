@@ -217,6 +217,8 @@ public class ConfigParser {
                     );
                     waves.add(new Wave(
                         wave.node("wave-cr").require(Integer.class),
+                        wave.node("spawn-timer-min").require(Integer.class),
+                        wave.node("spawn-timer-max").require(Integer.class),
                         wave.node("mob-min-cr").require(Integer.class),
                         wave.node("mob-max-cr").require(Integer.class),
                         mobTypes,
