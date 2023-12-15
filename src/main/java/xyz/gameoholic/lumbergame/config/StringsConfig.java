@@ -17,7 +17,14 @@ public record StringsConfig(
     String startCommandNoQueuedPlayersMessage,
     String startCommandGameInProgressMessage,
     String startCommandSuccessMessage,
-    String mobDisplayname
+    String mobDisplayname,
+    String ironDisplayname,
+    String goldDisplayname,
+    String diamondDisplayname,
+    String ironLore,
+    String goldLore,
+    String diamondLore
+
 
 ) {
 

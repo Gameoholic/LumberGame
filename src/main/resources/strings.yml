@@ -23,3 +23,13 @@ start-command-game-in-progress-message: "<red>A game is already in progress!"
 start-command-success-message: "<green>Started the game!"
 
 mob-displayname: "<name> <health>❤ <cr>🛡"
+
+iron-displayname: "Iron"
+gold-displayname: "<gold>Gold"
+diamond-displayname: "<aqua>Diamond"
+iron-lore: "<gray>Common drop from mobs."
+gold-lore: "<gray>Rare drop from mobs.<br><gray>Use to craft <red>Placeholder</red>."
+diamond-lore: "<gray>Extremely rare drop from mobs.<br><gray>Use to craft <red>Your Mother</red>."
+
+bone-meal-displayname: "Bone Meal"
+bone-meal-lore: ""

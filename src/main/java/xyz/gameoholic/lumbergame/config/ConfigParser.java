@@ -56,7 +56,13 @@ public class ConfigParser {
             root.node("start-command-no-queued-players-message").getString(""),
             root.node("start-command-game-in-progress-message").getString(""),
             root.node("start-command-success-message").getString(""),
-            Objects.requireNonNull(root.node("mob-displayname").getString())
+            Objects.requireNonNull(root.node("mob-displayname").getString()),
+            Objects.requireNonNull(root.node("iron-displayname").getString()),
+            Objects.requireNonNull(root.node("gold-displayname").getString()),
+            Objects.requireNonNull(root.node("diamond-displayname").getString()),
+            Objects.requireNonNull(root.node("iron-lore").getString()),
+            Objects.requireNonNull(root.node("gold-lore").getString()),
+            Objects.requireNonNull(root.node("diamond-lore").getString())
         );
         return stringsConfig;
     }

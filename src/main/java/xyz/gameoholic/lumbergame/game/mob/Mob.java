@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.AttackTreeGoal;
+import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 
 import java.util.ArrayList;
@@ -117,13 +118,13 @@ public class Mob {
             .setVariable("CR", CR).evaluate();
 
         for (int i = 0; i < getSpecificDropAmount(ironChance); i++) {
-            items.add(new ItemStack(Material.IRON_INGOT, 1));
+            items.add(ItemUtil.getIronItemStack(plugin));
         }
         for (int i = 0; i < getSpecificDropAmount(goldChance); i++) {
-            items.add(new ItemStack(Material.GOLD_INGOT, 1));
+            items.add(ItemUtil.getGoldItemStack(plugin));
         }
         for (int i = 0; i < getSpecificDropAmount(diamondChance); i++) {
-            items.add(new ItemStack(Material.DIAMOND, 1));
+            items.add(ItemUtil.getDiamondItemStack(plugin));
         }
 
         return items;
