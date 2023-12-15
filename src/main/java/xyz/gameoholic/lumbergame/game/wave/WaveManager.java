@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game.wave;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -103,6 +104,8 @@ public class WaveManager {
             plugin.getLogger().info("All mobs in wave are dead!");
             plugin.getGameManager().onWaveEnd();
         }
+        Bukkit.broadcastMessage("a " + aliveMobs.size());
+
     }
     /**
      * Spawns and returns the Mob.

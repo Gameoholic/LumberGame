@@ -6,6 +6,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.phys.Vec3;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -69,8 +70,8 @@ public class Mob {
     /**
      * Should be called when the mob takes damage.
      */
-    public void onTakeDamage() {
-        updateMobCustomName();
+    public void onTakeDamage(double damageDealt) {
+        updateMobCustomName(mob.getHealth() - damageDealt);
     }
     /**
      * Should be called when the mob dies.
@@ -78,10 +79,10 @@ public class Mob {
     public void onDeath() {
         plugin.getGameManager().getWaveManager().onMobDeath(this);
     }
-    private void updateMobCustomName() {
+    private void updateMobCustomName(double newHealth) {
         mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
             Placeholder.component("cr", text(CR)),
-            Placeholder.component("health", text((int) Math.floor(mob.getHealth()))),
+            Placeholder.component("health", text((int) Math.max(newHealth, 0))),
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
     }

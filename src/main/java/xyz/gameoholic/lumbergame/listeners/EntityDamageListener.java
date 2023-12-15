@@ -2,6 +2,7 @@ package xyz.gameoholic.lumbergame.listeners;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -31,7 +32,7 @@ public class EntityDamageListener implements Listener {
         if (mob == null)
             return;
 
-        mob.onTakeDamage();
+        mob.onTakeDamage(e.getFinalDamage());
     }
 
 
