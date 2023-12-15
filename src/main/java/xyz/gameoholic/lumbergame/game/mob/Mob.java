@@ -28,6 +28,12 @@ public class Mob {
     protected org.bukkit.entity.Mob mob;
     public static Map<UUID, Mob> mobs = new HashMap();
 
+    /**
+     * Use MobSpawnerUtil to spawn, don't use this constructor directly.
+     * @param mobType The Lumber MobType of the mob
+     * @param CR The challenge rating to spawn the mob with
+     * @param location The location to spawn the mob at
+     */
     public Mob(LumberGamePlugin plugin, MobType mobType, int CR, Location location) {
         this.plugin = plugin;
         this.mobType = mobType;

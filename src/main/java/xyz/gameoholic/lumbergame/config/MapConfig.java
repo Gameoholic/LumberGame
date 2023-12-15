@@ -2,6 +2,8 @@ package xyz.gameoholic.lumbergame.config;
 
 import org.bukkit.Location;
 
-public record MapConfig(Location treeLocation) {
+import java.util.List;
+
+public record MapConfig(Location treeLocation, List<Location> spawnLocations) {
 
 }

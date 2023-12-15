@@ -1,0 +1,18 @@
+# Wave 1
+- wave-cr: 5
+  mob-min-cr: 2
+  mob-max-cr: 3
+  mob-types:
+    - id: SKELETON
+      chance: 0.5
+    - id: ZOMBIE
+      chance: 0.5
+# Wave 2
+- wave-cr: 10
+  mob-min-cr: 2
+  mob-max-cr: 3
+  mob-types:
+    - id: SKELETON
+      chance: 0.5
+    - id: ZOMBIE
+      chance: 0.5

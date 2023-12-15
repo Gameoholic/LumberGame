@@ -1,7 +1,7 @@
 self join/leave commands for queue.
 
-set up the actual game with the tree
-set up wave spawner and wave manager.
+Better spongepowered config.
 
+Input validation on wave mob chances (must add up to 1.0).
 
 map: https://www.planetminecraft.com/project/attack-on-titan-shiganshina-map/

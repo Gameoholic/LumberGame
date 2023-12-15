@@ -9,24 +9,26 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.MobType;
+import xyz.gameoholic.lumbergame.game.wave.Wave;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ConfigParser {
     private LumberGamePlugin plugin;
+
     public ConfigParser(LumberGamePlugin plugin) {
         this.plugin = plugin;
     }
+
     public LumberConfig parse() {
         StringsConfig stringsConfig = getStringsConfig();
         List<MobType> mobTypes = getAllMobTypes();
         MapConfig mapConfig = getMapConfig();
         GameConfig gameConfig = getGameConfig();
+        List<Wave> waves = getWavesConfig(mobTypes);
 
-        return new LumberConfig(stringsConfig, mobTypes, mapConfig, gameConfig);
+        return new LumberConfig(stringsConfig, mobTypes, mapConfig, gameConfig, waves);
     }
 
     private StringsConfig getStringsConfig() {
@@ -92,20 +94,38 @@ public class ConfigParser {
 
         Location treeLocation;
         try {
-            treeLocation = new Location(Bukkit.getWorld(root.node("tree-location", "world").require(String.class)),
+            treeLocation = new Location(
+                Bukkit.getWorld(root.node("tree-location", "world").require(String.class)),
                 root.node("tree-location", "x").require(Double.class),
                 root.node("tree-location", "y").require(Double.class),
                 root.node("tree-location", "z").require(Double.class)
             );
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Tree location argument for map is invalid.");
         }
 
+        List spawnLocations = new ArrayList();
+        root.node("spawn-locations").childrenList().forEach(
+            spawnLocation -> {
+                try {
+                    spawnLocations.add(new Location(
+                        Bukkit.getWorld(spawnLocation.node("world").require(String.class)),
+                        spawnLocation.node("x").require(Double.class),
+                        spawnLocation.node("y").require(Double.class),
+                        spawnLocation.node("z").require(Double.class)
+                    ));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("One of the arguments for spawn location number " +
+                        root.childrenList().indexOf(spawnLocation) + 1 + " is invalid or was not provided.\n");
+                }
+            }
+        );
 
         MapConfig mapConfig = new MapConfig(
-            treeLocation
+            treeLocation,
+            spawnLocations
         );
         return mapConfig;
     }
@@ -153,17 +173,63 @@ public class ConfigParser {
                         mobType.node("damage-expression").require(String.class),
                         mobType.node("speed").getDouble(0.23)
                     ));
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     throw new RuntimeException("One of the arguments for mob " +
-                        mobType.node("id").getString("number " + root.childrenList().indexOf(mobType)) +
+                        mobType.node("id").getString("number " + 1 + root.childrenList().indexOf(mobType)) +
                         " is invalid or was not provided.\n"); // Provide ID or mob number whose invalid
                 }
             }
         );
-
         return mobTypes;
+    }
+
+    private List<Wave> getWavesConfig(List<MobType> loadedMobTypes) {
+        List waves = new ArrayList();
+
+        YamlConfigurationLoader conf =
+            YamlConfigurationLoader.builder().path(Paths.get(plugin.getDataFolder() + "/waves.yml")).build();
+        CommentedConfigurationNode root;
+        try {
+            root = conf.load();
+        } catch (ConfigurateException e) {
+            throw new RuntimeException(e);
+        }
+
+        root.childrenList().forEach(
+            wave -> {
+                try {
+                    List<MobType> mobTypes = new ArrayList<>();
+                    List<Double> mobTypesChances = new ArrayList<>();
+                    wave.node("mob-types").childrenList().forEach(
+                        mobType -> {
+                            try {
+                                String mobTypeID = mobType.node("id").require(String.class);
+                                mobTypes.add(loadedMobTypes.stream()
+                                    .filter(filteredMobType ->
+                                        filteredMobType.id().equals(mobTypeID)).findFirst().get());
+                                mobTypesChances.add(mobType.node("chance").require(Double.class));
+                            }
+                            catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    );
+                    waves.add(new Wave(
+                        wave.node("wave-cr").require(Integer.class),
+                        wave.node("mob-min-cr").require(Integer.class),
+                        wave.node("mob-max-cr").require(Integer.class),
+                        mobTypes,
+                        mobTypesChances
+                    ));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("One of the arguments for wave number " + root.childrenList().indexOf(wave) + 1 +
+                        " is invalid or was not provided.\n");
+                }
+            }
+        );
+        return waves;
     }
 
 

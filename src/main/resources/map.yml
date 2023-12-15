@@ -4,3 +4,12 @@ tree-location:
   x: -52.5
   y: 24
   z: -350.5
+spawn-locations:
+  - world: "world"
+    x: -55.5
+    y: 24
+    z: -350.5
+  - world: "world"
+    x: -55.5
+    y: 24
+    z: -356.5

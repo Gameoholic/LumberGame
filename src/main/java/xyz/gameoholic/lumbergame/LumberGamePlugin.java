@@ -6,6 +6,7 @@ import xyz.gameoholic.lumbergame.commands.*;
 import xyz.gameoholic.lumbergame.config.LumberConfig;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
 import xyz.gameoholic.lumbergame.game.LumberGameManager;
+import xyz.gameoholic.lumbergame.game.wave.WaveManager;
 import xyz.gameoholic.lumbergame.listeners.EntityDamageListener;
 import xyz.gameoholic.lumbergame.queue.LumberQueueManager;
 
@@ -16,6 +17,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     private LumberQueueManager queueManager;
     private @Nullable LumberGameManager gameManager = null;
     private LumberConfig config;
+    private WaveManager waveManager; //todo: SET AUTOMATICALLY FROM EHRE. NEVER NULL.
     @Override
     public void onEnable() {
 
@@ -24,6 +26,7 @@ public final class LumberGamePlugin extends JavaPlugin {
         saveResource("tree_mob_types.yml", true);
         saveResource("map.yml", true);
         saveResource("game.yml", true);
+        saveResource("waves.yml", true);
 
 
         config = new ConfigParser(this).parse();

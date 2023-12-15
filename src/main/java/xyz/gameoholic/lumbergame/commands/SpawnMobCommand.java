@@ -6,10 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.mob.Mob;
-import xyz.gameoholic.lumbergame.game.mob.MobSpawnerUtil;
-
-import java.util.Objects;
+import xyz.gameoholic.lumbergame.util.MobUtil;
 
 
 /**
@@ -32,7 +29,7 @@ public class SpawnMobCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        MobSpawnerUtil.spawnMob(plugin, args[0], Integer.parseInt(args[1]), player.getLocation());
+        MobUtil.spawnMob(plugin, args[0], Integer.parseInt(args[1]), player.getLocation());
 
         return false;
     }
