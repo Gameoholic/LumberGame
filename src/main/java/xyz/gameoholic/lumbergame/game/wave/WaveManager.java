@@ -3,6 +3,8 @@ package xyz.gameoholic.lumbergame.game.wave;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
 import xyz.gameoholic.lumbergame.game.mob.TreeMob;
@@ -32,7 +34,11 @@ public class WaveManager {
      * Delay before spawning next mob/s, in ticks.
      */
     private int spawnDelay = 0;
-
+    /**
+     * BukkitTask responsible for spawning the mobs every X ticks.
+     * When finished, will cancel and be set to null.
+     */
+    private @Nullable BukkitTask mobSpawnerTask;
     Random rnd = new Random();
     public WaveManager(LumberGamePlugin plugin, Wave wave) {
         this.plugin = plugin;
@@ -43,7 +49,7 @@ public class WaveManager {
     }
 
     private void startWave() {
-        new BukkitRunnable() {
+        mobSpawnerTask = new BukkitRunnable() {
             @Override
             public void run() {
                 attemptSpawn();
@@ -55,8 +61,12 @@ public class WaveManager {
         spawnDelay--;
         if (spawnDelay > 0)
             return;
-        if (leftWaveCR <= 0)
+        if (leftWaveCR <= 0) {
+            mobSpawnerTask.cancel();
+            mobSpawnerTask = null;
+            plugin.getLogger().info("Finished spawning mobs.");
             return;
+        }
 
         MobType selectedMobType = RandomUtil.getRandom(wave.mobTypes(), wave.mobTypesChances());
 

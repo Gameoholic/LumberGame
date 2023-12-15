@@ -1,9 +1,9 @@
 # Wave 1
-- wave-cr: 5
+- wave-cr: 10
   spawn-timer-min: 20
   spawn-timer-max: 80
-  mob-min-cr: 2
-  mob-max-cr: 3
+  mob-min-cr: 1
+  mob-max-cr: 1
   mob-types:
     - id: SKELETON
       chance: 0.5
@@ -13,8 +13,8 @@
 - wave-cr: 10
   spawn-timer-min: 20
   spawn-timer-max: 80
-  mob-min-cr: 2
-  mob-max-cr: 3
+  mob-min-cr: 1
+  mob-max-cr: 1
   mob-types:
     - id: SKELETON
       chance: 0.5
