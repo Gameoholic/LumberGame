@@ -1,6 +1,7 @@
 package xyz.gameoholic.lumbergame.util;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
@@ -55,12 +56,14 @@ public class ItemUtil {
     private static ItemStack getItemStack(Material material, String displayName, String lore) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(MiniMessage.miniMessage().deserialize(displayName).decoration(TextDecoration.ITALIC, false));
+        meta.displayName(MiniMessage.miniMessage().deserialize(displayName)
+            .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).colorIfAbsent(NamedTextColor.WHITE));
 
         List<String> lores = Arrays.stream(lore.split("<br>|<linebreak>")).toList();
         List<Component> componentLores = new ArrayList<>();
         lores.forEach(tempLore -> componentLores.add(
-            MiniMessage.miniMessage().deserialize(tempLore).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)));
+            MiniMessage.miniMessage().deserialize(tempLore)
+                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).colorIfAbsent(NamedTextColor.WHITE)));
         meta.lore(componentLores);
         item.setItemMeta(meta);
         return item;

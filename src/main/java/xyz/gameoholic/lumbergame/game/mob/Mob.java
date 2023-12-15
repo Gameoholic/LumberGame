@@ -28,16 +28,21 @@ public class Mob {
     protected org.bukkit.entity.Mob mob;
 
     /**
-     * Use MobSpawnerUtil to spawn, don't use this constructor directly.
+     * Use MobSpawnerUtil to instantiate, don't use this constructor directly.
      * @param mobType The Lumber MobType of the mob
      * @param CR The challenge rating to spawn the mob with
-     * @param location The location to spawn the mob at
      */
-    public Mob(LumberGamePlugin plugin, MobType mobType, int CR, Location location) {
+    public Mob(LumberGamePlugin plugin, MobType mobType, int CR) {
         this.plugin = plugin;
         this.mobType = mobType;
         this.CR = CR;
+    }
 
+    /**
+     * Spawns the mob.
+     * @param location The location to spawn the mob at
+     */
+    public void spawnMob(Location location) {
         mob = (org.bukkit.entity.Mob) location.getWorld().spawnEntity(location, mobType.entityType(), false);
 
         mob.setCanPickupItems(false);
@@ -70,11 +75,10 @@ public class Mob {
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
 
+        //todo: armor & equipment here. Make sure to make it undroppable.
+
         if (shouldHoldBoneMeal())
             mob.getEquipment().setItemInMainHand(ItemUtil.getBoneMealItemStack(plugin));
-
-
-
     }
 
     /**

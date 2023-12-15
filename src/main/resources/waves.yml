@@ -22,6 +22,7 @@
       chance: 0.4
     - id: TREE_ZOMBIE
       chance: 0.4
+  bone-block: true
 # Wave 3
 - wave-cr: 15
   spawn-timer-min: 20
@@ -82,3 +83,4 @@
       chance: 0.2
     - id: SNEAKY_CREEPER
       chance: 0.1
+  bone-block: true

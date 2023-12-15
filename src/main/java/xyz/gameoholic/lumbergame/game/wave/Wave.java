@@ -15,7 +15,8 @@ import java.util.Map;
  * @param mobMaxCR        The maximum CR to spawn mobs with.
  * @param mobTypes        The mob types that can spawn.
  * @param mobTypesChances The chances (0.0-1.0) of the mobs types to spawn, must be same indices as mobTypes.
+ * @param boneBlock       Whether a mob with a bone block should spawn.
  */
 public record Wave(int waveCR, int spawnTimerMin, int spawnTimerMax, int mobMinCR, int mobMaxCR, List<MobType> mobTypes,
-                   List<Double> mobTypesChances) {
+                   List<Double> mobTypesChances, boolean boneBlock) {
 }

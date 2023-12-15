@@ -36,15 +36,21 @@ public class WaveManager {
      * When finished, will cancel and be set to null.
      */
     private @Nullable BukkitTask mobSpawnerTask;
+
+    private List<Mob> mobQueue = new ArrayList<>();
     Random rnd = new Random();
     public WaveManager(LumberGamePlugin plugin, Wave wave) {
         this.plugin = plugin;
         this.leftWaveCR = wave.waveCR();
         this.wave = wave;
 
+        loadMobQueue();
         startWave();
     }
 
+    private void loadMobQueue() {
+        //todo: this does almost everything attemptSpawn() does.
+    }
     private void startWave() {
         mobSpawnerTask = new BukkitRunnable() {
             @Override
@@ -55,6 +61,8 @@ public class WaveManager {
     }
 
     private void attemptSpawn() {
+
+        //todo: this should just spawn the alread-determined mob from the queue at a random location
         spawnDelay--;
         if (spawnDelay > 0)
             return;

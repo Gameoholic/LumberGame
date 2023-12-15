@@ -10,10 +10,29 @@ Input validation on wave mob chances (must add up to 1.0).
 +++ For more complex MobType, extend MobType for example CreeperMobType if need ot contrrol fuse speed
 
 
+TODO for tomorrow:
 ADD QUEUE to waves, forcing certain mobs to spawn (CR included).
-
+Also used for bone block calculations.
 
 MOBS:
- - Armor
+ - Armor & Equipment
  - IsBaby
  - Knockback resistance (for heavy creeper)
+
+
+
+Big todo:
+ - Rework Wave Spawning (1h) + Bone Block Spawning
+ - Bone items functionality + Can cut down tree (2h)
+ - DEBUG COMMANDS: /quickstart & /wave (must also clear all previous mobs upon starting new waves) (1h)
+ - NMS path AI rework for normal mobs (2h)
+ - Shop & Regular Items (1d)
+ - Tree grow & cracks & World Edit (4h)
+ - Difficulty Scaling for players (Health) - SCALE variable (3h). With debug command or /start parameter.
+ - Classes & Class Shop (1d)
+ - More customizable Mobs + More mobs (1d)
+ - Partigon & Polish
+
+ - Difficulty Selection (increases CR) [Post Hypixel]
+ - Mob attacks & spells [Post Hypixel]
+ - Buildings & Towers? [Post Hypixel]

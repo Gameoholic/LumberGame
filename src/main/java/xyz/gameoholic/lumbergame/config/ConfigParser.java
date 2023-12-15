@@ -236,7 +236,8 @@ public class ConfigParser {
                         wave.node("mob-min-cr").require(Integer.class),
                         wave.node("mob-max-cr").require(Integer.class),
                         mobTypes,
-                        mobTypesChances
+                        mobTypesChances,
+                        wave.node("bone-block").getBoolean(false)
                     ));
                 } catch (Exception e) {
                     e.printStackTrace();
