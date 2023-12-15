@@ -38,6 +38,8 @@ public class AttackTreeGoal extends Goal {
 
     @Override
     public boolean canUse() {
+        if (mob.isNoAi())
+            return false;
         long l = mob.level().getGameTime();
         if (l - lastCanUseCheck < 20L) {
             return false;
@@ -50,6 +52,8 @@ public class AttackTreeGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
+        if (mob.isNoAi())
+            return false;
         return true;
     }
 

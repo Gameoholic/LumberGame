@@ -28,7 +28,7 @@ public class TreeManager {
     public void onMobDamage(Mob mob) {
         int damage = (int) mob.getMob().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
         Bukkit.broadcastMessage("Tree damaged by " + mob.getMobType().displayName() + " for " + damage + " HP");
-        health -= damage;
+        health = Math.max(health - damage, 0);
         Bukkit.broadcastMessage("Tree at " + health + "/" + maxHealth + " health.");
         if (health < 0) {
             onTreeDeath();

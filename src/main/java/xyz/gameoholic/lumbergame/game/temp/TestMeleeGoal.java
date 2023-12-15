@@ -85,7 +85,7 @@ public class TestMeleeGoal extends Goal {
     public void stop() {
         LivingEntity livingEntity = this.mob.getTarget();
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(livingEntity)) {
-            this.mob.setTarget((LivingEntity)null);
+            this.mob.setTarget(null);
         }
 
         this.mob.setAggressive(false);
