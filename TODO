@@ -4,6 +4,6 @@ Better spongepowered config.
 
 Input validation on wave mob chances (must add up to 1.0).
 
-+++ Swell speed for hostile creepers too. Also just have custom goal for hostile mobs not just tree ones.
++++ For more complex MobType, extend MobType for example CreeperMobType if need ot contrrol fuse speed
 
 map: https://www.planetminecraft.com/project/attack-on-titan-shiganshina-map/

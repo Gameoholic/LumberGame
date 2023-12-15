@@ -21,5 +21,4 @@
   entity-type: "CREEPER"
   health-expression: "CR * 50"
   damage-expression: "CR * 50"
-  speed: 0.1
-  swell-speed: 0.5
+  speed: 0.15

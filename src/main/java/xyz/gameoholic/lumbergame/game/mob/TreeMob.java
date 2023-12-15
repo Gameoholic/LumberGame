@@ -26,7 +26,6 @@ public class TreeMob extends Mob {
             goal = new CreeperAttackTreeGoal(
                 plugin,
                 (Creeper) NMSMob,
-                mobType.swellSpeed(),
                 new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z())
             );
         }

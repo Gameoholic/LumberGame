@@ -13,17 +13,13 @@ import java.util.Objects;
 
 public class CreeperAttackTreeGoal extends AttackTreeGoal {
     private final Creeper creeper = (Creeper) mob;
-    private final int swellSpeed;
-
     /**
      * @param plugin
      * @param mob
-     * @param targetLoc
-     * @param swellSpeed The speed of swelling. Must be positive. Set to 1.0 for vanilla MC behavior.
+     * @param targetLoc Location of the tree to pathfind to and ignite at.
      */
-    public CreeperAttackTreeGoal(LumberGamePlugin plugin, Creeper mob, int swellSpeed, Vec3 targetLoc) {
+    public CreeperAttackTreeGoal(LumberGamePlugin plugin, Creeper mob, Vec3 targetLoc) {
         super(plugin, mob, targetLoc);
-        this.swellSpeed = swellSpeed;
     }
 
 
@@ -31,7 +27,7 @@ public class CreeperAttackTreeGoal extends AttackTreeGoal {
     protected void checkAndPerformAttack(double squaredDistance) {
         // If needs to cancel ignition
         if (squaredDistance > getAttackReachSqr() && creeper.isIgnited()) {
-            creeper.setSwellDir(-swellSpeed);
+            creeper.setSwellDir(-1);
             creeper.swell = 0;
             creeper.setIgnited(false);
             resetAttackCooldown();
@@ -44,7 +40,6 @@ public class CreeperAttackTreeGoal extends AttackTreeGoal {
     @Override
     protected void performAttack() {
         creeper.setIgnited(true);
-        creeper.setSwellDir(swellSpeed);
 
         ticksUntilNextAttack = Integer.MAX_VALUE;
     }

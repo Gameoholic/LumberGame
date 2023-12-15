@@ -171,8 +171,7 @@ public class ConfigParser {
                         isHostile,
                         mobType.node("health-expression").require(String.class),
                         mobType.node("damage-expression").require(String.class),
-                        mobType.node("speed").getDouble(0.23),
-                        mobType.node("swell-speed").getInt(1)
+                        mobType.node("speed").getDouble(0.23)
                     ));
                 } catch (Exception e) {
                     e.printStackTrace();
