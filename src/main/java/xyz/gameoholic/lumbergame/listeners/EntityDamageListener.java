@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
+import xyz.gameoholic.lumbergame.util.MobUtil;
 
 import javax.annotation.Nullable;
 
@@ -26,39 +27,12 @@ public class EntityDamageListener implements Listener {
 
     @EventHandler
     public void onEntityDamageEvent(EntityDamageEvent e) {
-        @Nullable Mob mob = getMob(e.getEntity());
+        @Nullable Mob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
         if (mob == null)
             return;
 
-        org.bukkit.entity.Mob bukkitMob = (org.bukkit.entity.Mob) e.getEntity();
-
-        bukkitMob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
-            Placeholder.component("cr", text(mob.getCR())),
-            Placeholder.component("health", text((int) bukkitMob.getHealth())),
-            Placeholder.component("name", MiniMessage.miniMessage().deserialize(mob.getMobType().displayName()))
-        ));
+        mob.onTakeDamage();
     }
 
-    @EventHandler
-    public void onEntityDeath(EntityDeathEvent e) {
-        @Nullable Mob mob = getMob(e.getEntity());
-        if (mob == null)
-            return;
 
-        Mob.mobs.remove(mob.getMob().getUniqueId());
-    }
-
-    /**
-     * Provided a mob entity, returns the Lumber mob instance for which it belongs, null if not found.
-     */
-    private @Nullable Mob getMob(Entity entity) {
-        @Nullable Mob mob = Mob.mobs.get(entity.getUniqueId());
-        if (mob == null)
-            return null;
-
-        if (!(entity instanceof org.bukkit.entity.Mob))
-            return null;
-
-        return mob;
-    }
 }

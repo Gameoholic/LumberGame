@@ -3,6 +3,12 @@
   entity-type: "ZOMBIE"
   health-expression: "CR * 5"
   damage-expression: "CR * 2"
+- id: "FAST_ZOMBIE"
+  display-name: "<green>Fast Zombie"
+  entity-type: "ZOMBIE"
+  health-expression: "CR * 5"
+  damage-expression: "CR * 2"
+  speed: 0.33
 - id: "CREEPER"
   display-name: "Creeper"
   entity-type: "CREEPER"

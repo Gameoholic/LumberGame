@@ -1,5 +1,7 @@
 #Optional arguments: speed (default is 0.23)
 
+#Color coding: <green> for 'minor ability', <red> for 'heavy damage'
+
 - id: "TREE_ZOMBIE"
   display-name: "Zomb"
   entity-type: "ZOMBIE"
@@ -17,7 +19,7 @@
   damage-expression: "CR * 2"
   speed: 0.4
 - id: "SLOW_CREEPER"
-  display-name: "Heavy Creeper"
+  display-name: "<red>Heavy Creeper"
   entity-type: "CREEPER"
   health-expression: "CR * 50"
   damage-expression: "CR * 50"

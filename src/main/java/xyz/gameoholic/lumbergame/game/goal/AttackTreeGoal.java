@@ -83,19 +83,13 @@ public class AttackTreeGoal extends Goal {
         if (squaredDistance <= getAttackReachSqr() && ticksUntilNextAttack <= 0) {
             performAttack();
         }
-//        else {
-//            if (mob instanceof Creeper creeper) {
-//                Bukkit.broadcastMessage("Setting to false");
-//                creeper.setIgnited(false);
-//                creeper.swell = 0;
-//            }
-//        }
     }
     
     protected void performAttack() {
         resetAttackCooldown();
         mob.swing(InteractionHand.MAIN_HAND);
-        Mob lumberMob = Objects.requireNonNull(Mob.mobs.get(mob.getUUID())); // Should never be null, but doesn't hurt to be safe
+        Mob lumberMob = Objects.requireNonNull(
+            plugin.getGameManager().getWaveManager().getMob(mob.getUUID())); // Should never be null, but doesn't hurt to be safe
         plugin.getGameManager().getTreeManager().onMobDamage(lumberMob);
     }
 

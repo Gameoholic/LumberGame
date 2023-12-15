@@ -27,7 +27,6 @@ public class Mob {
     private int CR; // Challenge Rating
 
     protected org.bukkit.entity.Mob mob;
-    public static Map<UUID, Mob> mobs = new HashMap();
 
     /**
      * Use MobSpawnerUtil to spawn, don't use this constructor directly.
@@ -65,8 +64,27 @@ public class Mob {
             Placeholder.component("health", text((int) mob.getHealth())),
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
+    }
 
-        mobs.put(mob.getUniqueId(), this);
+
+    /**
+     * Should be called when the mob takes damage.
+     */
+    public void onTakeDamage() {
+        updateMobCustomName();
+    }
+    /**
+     * Should be called when the mob dies.
+     */
+    public void onDeath() {
+        plugin.getGameManager().getWaveManager().onMobDeath(this);
+    }
+    private void updateMobCustomName() {
+        mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
+            Placeholder.component("cr", text(CR)),
+            Placeholder.component("health", text(mob.getHealth())),
+            Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
+        ));
     }
 
     public MobType getMobType() {
