@@ -18,10 +18,13 @@ public class EntityDeathListener implements Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent e) {
+        if (plugin.getGameManager().getWaveManager() == null)
+            return;
         @Nullable Mob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
         if (mob == null)
             return;
 
+        e.getDrops().clear();
         mob.onDeath();
     }
 }

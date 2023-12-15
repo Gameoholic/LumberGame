@@ -1,3 +1,6 @@
+map: https://www.planetminecraft.com/project/attack-on-titan-shiganshina-map/
+
+
 self join/leave commands for queue.
 
 Better spongepowered config.
@@ -6,4 +9,11 @@ Input validation on wave mob chances (must add up to 1.0).
 
 +++ For more complex MobType, extend MobType for example CreeperMobType if need ot contrrol fuse speed
 
-map: https://www.planetminecraft.com/project/attack-on-titan-shiganshina-map/
+
+
+
+
+MOBS:
+ - Armor
+ - IsBaby
+ - Knockback resistance (for heavy creeper)

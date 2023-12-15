@@ -8,7 +8,7 @@
     - id: ZOMBIE
       chance: 0.6
     - id: TREE_ZOMBIE
-      chance: 0.3
+      chance: 0.4
 # Wave 2
 - wave-cr: 10
   spawn-timer-min: 20
@@ -21,7 +21,7 @@
     - id: ZOMBIE
       chance: 0.4
     - id: TREE_ZOMBIE
-      chance: 0.3
+      chance: 0.4
 # Wave 3
 - wave-cr: 15
   spawn-timer-min: 20
@@ -34,7 +34,7 @@
     - id: ZOMBIE
       chance: 0.4
     - id: TREE_ZOMBIE
-      chance: 0.3
+      chance: 0.4
 # Wave 3
 - wave-cr: 16
   spawn-timer-min: 20
@@ -49,7 +49,7 @@
     - id: TREE_ZOMBIE
       chance: 0.3
     - id: TREE_CREEPER
-      chance: 0.1
+      chance: 0.2
 # Wave 4
 - wave-cr: 17
   spawn-timer-min: 20
@@ -58,22 +58,22 @@
   mob-max-cr: 2
   mob-types:
     - id: SKELETON
-      chance: 0.1
+      chance: 0.15
     - id: ZOMBIE
       chance: 0.35
     - id: TREE_ZOMBIE
       chance: 0.3
     - id: TREE_CREEPER
-      chance: 0.15
+      chance: 0.2
 # Wave 5
-- wave-cr: 20
+- wave-cr: 25
   spawn-timer-min: 20
   spawn-timer-max: 80
   mob-min-cr: 1
   mob-max-cr: 3
   mob-types:
     - id: SKELETON
-      chance: 0.05
+      chance: 0.1
     - id: ZOMBIE
       chance: 0.3
     - id: TREE_ZOMBIE
@@ -81,4 +81,4 @@
     - id: TREE_CREEPER
       chance: 0.2
     - id: SNEAKY_CREEPER
-      chance: 0.15
+      chance: 0.1

@@ -8,21 +8,29 @@ import net.minecraft.world.phys.Vec3;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.AttackTreeGoal;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import static net.kyori.adventure.text.Component.text;
 
 public class Mob {
-    private LumberGamePlugin plugin;
+    private final LumberGamePlugin plugin;
     private MobType mobType;
     private int CR; // Challenge Rating
+    private Random rnd = new Random();
 
     protected org.bukkit.entity.Mob mob;
 
@@ -38,6 +46,8 @@ public class Mob {
         this.CR = CR;
 
         mob = (org.bukkit.entity.Mob) location.getWorld().spawnEntity(location, mobType.entityType(), false);
+
+        mob.setCanPickupItems(false);
 
         int health = (int) Math.min(2000, new ExpressionBuilder(mobType.healthExpression())
             .variables("CR")
@@ -55,6 +65,8 @@ public class Mob {
                 .build()
                 .setVariable("CR", CR).evaluate()
         );
+
+        mob.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(200); // todo; fix with better ai detection. NMS.
 
         mob.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN, true);
 
@@ -80,7 +92,58 @@ public class Mob {
      */
     public void onDeath() {
         plugin.getGameManager().getWaveManager().onMobDeath(this);
+
+        getDrops();
+        mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
     }
+
+    /**
+     * @return List of drops for the dead mob.
+     */
+    private List<ItemStack> getDrops() {
+        List<ItemStack> items = new ArrayList<>();
+        double ironChance = new ExpressionBuilder(plugin.getLumberConfig().gameConfig().ironDropExpression())
+            .variables("CR")
+            .build()
+            .setVariable("CR", CR).evaluate();
+        double goldChance = new ExpressionBuilder(plugin.getLumberConfig().gameConfig().goldDropExpression())
+            .variables("CR")
+            .build()
+            .setVariable("CR", CR).evaluate();
+        double diamondChance = new ExpressionBuilder(plugin.getLumberConfig().gameConfig().diamondDropExpression())
+            .variables("CR")
+            .build()
+            .setVariable("CR", CR).evaluate();
+
+        for (int i = 0; i < getSpecificDropAmount(ironChance); i++) {
+            items.add(new ItemStack(Material.IRON_INGOT, 1));
+        }
+        for (int i = 0; i < getSpecificDropAmount(goldChance); i++) {
+            items.add(new ItemStack(Material.GOLD_INGOT, 1));
+        }
+        for (int i = 0; i < getSpecificDropAmount(diamondChance); i++) {
+            items.add(new ItemStack(Material.DIAMOND, 1));
+        }
+
+        return items;
+    }
+
+    /**
+     * Generates a random amount of items to drop.
+     * @param chance The (%) chance that an item will be dropped. If above 100(%), a drop would be guaranteed and the rest will be used for rolling again for extras.
+     * @return The amount of items to drop.
+     */
+    private int getSpecificDropAmount(double chance) {
+        int dropAmount = 0;
+        while (chance > 0) {
+            double random = rnd.nextDouble(100) + 1; //1-100
+            if (random <= chance)
+                dropAmount++;
+            chance -= 100;
+        }
+        return dropAmount;
+    }
+
     private void updateMobCustomName(double newHealth) {
         mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
             Placeholder.component("cr", text(CR)),

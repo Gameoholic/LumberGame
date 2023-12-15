@@ -70,10 +70,13 @@ public class ConfigParser {
             throw new RuntimeException(e);
         }
 
-        GameConfig gameConfig = null;
+        GameConfig gameConfig;
         try {
             gameConfig = new GameConfig(
-                root.node("tree-health-expression").require(String.class)
+                root.node("tree-health-expression").require(String.class),
+                root.node("iron-drop-expression").require(String.class),
+                root.node("gold-drop-expression").require(String.class),
+                root.node("diamond-drop-expression").require(String.class)
             );
         } catch (SerializationException e) {
             e.printStackTrace();
