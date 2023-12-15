@@ -17,17 +17,22 @@ import java.util.Objects;
 public class AttackTreeGoal extends Goal {
     private LumberGamePlugin plugin;
     protected final PathfinderMob mob;
-    private final double speedModifier;
     protected int ticksUntilNextAttack;
     private long lastCanUseCheck;
-    private final double TREE_BB_WIDTH = 2.0;
-    private Vec3 targetLoc;
+    private final Vec3 targetLoc;
+    private static final double SPEED_MODIFIER = 1.0;
+    private static final double TREE_BB_WIDTH = 2.0;
 
-    public AttackTreeGoal(LumberGamePlugin plugin, PathfinderMob mob, double speed, Vec3 targetLoc) {
+    /**
+     * @param plugin
+     * @param mob
+     * @param targetLoc The location of the tree to pathfind to and attack.
+     */
+
+    public AttackTreeGoal(LumberGamePlugin plugin, PathfinderMob mob, Vec3 targetLoc) {
         this.plugin = plugin;
         this.targetLoc = targetLoc;
         this.mob = mob;
-        speedModifier = speed;
         setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
@@ -38,7 +43,7 @@ public class AttackTreeGoal extends Goal {
             return false;
         } else {
             lastCanUseCheck = l;
-            mob.getNavigation().moveTo(targetLoc.x, targetLoc.y, targetLoc.z, speedModifier);
+            mob.getNavigation().moveTo(targetLoc.x, targetLoc.y, targetLoc.z, SPEED_MODIFIER);
         }
         return true;
     }
@@ -50,7 +55,7 @@ public class AttackTreeGoal extends Goal {
 
     @Override
     public void start() {
-        mob.getNavigation().moveTo(targetLoc.x, targetLoc.y, targetLoc.z, speedModifier);
+        mob.getNavigation().moveTo(targetLoc.x, targetLoc.y, targetLoc.z, SPEED_MODIFIER);
         ticksUntilNextAttack = 0;
     }
 
@@ -69,7 +74,7 @@ public class AttackTreeGoal extends Goal {
         ticksUntilNextAttack = Math.max(ticksUntilNextAttack - 1, 0);
 
         double squaredDistance = mob.distanceToSqr(targetLoc);
-        mob.getNavigation().moveTo(targetLoc.x, targetLoc.y, targetLoc.z, speedModifier);
+        mob.getNavigation().moveTo(targetLoc.x, targetLoc.y, targetLoc.z, SPEED_MODIFIER);
 
         checkAndPerformAttack(squaredDistance);
     }

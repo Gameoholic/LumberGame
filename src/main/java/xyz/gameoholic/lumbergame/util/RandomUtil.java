@@ -16,7 +16,12 @@ public class RandomUtil {
         List<Double> chancesRange = new ArrayList<>(chances);
         chancesRange.add(0, 0.0); // Left bound
 
-        for (int i = 0; i < chancesRange.size() - 1; i += 2) {
+        // Convert [0, 0.5, 0.25, 0.25] -> [0, 0.5, 0.75, 1.0]
+        for (int i = 2; i < chancesRange.size(); i++) {
+            chancesRange.set(i, chancesRange.get(i) + chancesRange.get(i - 1));
+        }
+
+        for (int i = 0; i < chancesRange.size() - 1; i ++) {
             if (r >= chancesRange.get(i) && r <= chancesRange.get(i + 1))
                 return items.get(i);
         }

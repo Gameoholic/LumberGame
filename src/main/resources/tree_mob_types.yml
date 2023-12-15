@@ -16,3 +16,10 @@
   health-expression: "CR * 2"
   damage-expression: "CR * 2"
   speed: 0.4
+- id: "SLOW_CREEPER"
+  display-name: "Heavy Creeper"
+  entity-type: "CREEPER"
+  health-expression: "CR * 50"
+  damage-expression: "CR * 50"
+  speed: 0.1
+  swell-speed: 0.5

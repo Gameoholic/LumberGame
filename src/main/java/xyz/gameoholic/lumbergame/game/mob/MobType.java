@@ -1,15 +1,15 @@
 package xyz.gameoholic.lumbergame.game.mob;
 
 import org.bukkit.entity.EntityType;
-import org.jetbrains.annotations.NotNull;
 
 public record MobType(
-    @NotNull String id,
-    @NotNull String displayName,
-    @NotNull EntityType entityType,
+    String id,
+    String displayName,
+    EntityType entityType,
     boolean isHostile,
-    @NotNull String healthExpression,
-    @NotNull String damageExpression,
-    @NotNull Double speed
+    String healthExpression,
+    String damageExpression,
+    Double speed,
+    int swellSpeed
 ) {
 }

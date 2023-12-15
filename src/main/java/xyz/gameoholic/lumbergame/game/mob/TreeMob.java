@@ -25,9 +25,8 @@ public class TreeMob extends Mob {
         if (NMSMob instanceof Creeper) {
             goal = new CreeperAttackTreeGoal(
                 plugin,
-                (org.bukkit.entity.Creeper) mob,
                 (Creeper) NMSMob,
-                1.0D,
+                mobType.swellSpeed(),
                 new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z())
             );
         }
@@ -35,7 +34,6 @@ public class TreeMob extends Mob {
             goal = new AttackTreeGoal(
                     plugin,
                     (PathfinderMob) NMSMob,
-                    1.0D,
                     new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z())
                 );
         }

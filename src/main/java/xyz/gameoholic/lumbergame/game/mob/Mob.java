@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
+import org.bukkit.entity.Creeper;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.AttackTreeGoal;
@@ -66,7 +67,6 @@ public class Mob {
         ));
 
         mobs.put(mob.getUniqueId(), this);
-
     }
 
     public MobType getMobType() {
