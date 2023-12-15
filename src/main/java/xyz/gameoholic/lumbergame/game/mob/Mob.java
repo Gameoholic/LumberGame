@@ -55,6 +55,8 @@ public class Mob {
                 .setVariable("CR", CR).evaluate()
         );
 
+        mob.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN, true);
+
         mob.setCustomNameVisible(true);
         mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
             Placeholder.component("cr", text(CR)),
