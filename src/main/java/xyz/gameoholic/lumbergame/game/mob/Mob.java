@@ -37,7 +37,7 @@ public class Mob {
         this.mobType = mobType;
         this.CR = CR;
 
-        mob = (org.bukkit.entity.Mob) location.getWorld().spawnEntity(location, mobType.entityType());
+        mob = (org.bukkit.entity.Mob) location.getWorld().spawnEntity(location, mobType.entityType(), false);
 
         int health = (int) Math.min(2000, new ExpressionBuilder(mobType.healthExpression())
             .variables("CR")
@@ -64,6 +64,8 @@ public class Mob {
             Placeholder.component("health", text((int) mob.getHealth())),
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
+
+
     }
 
 
