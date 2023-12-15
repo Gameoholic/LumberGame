@@ -6,10 +6,22 @@ tree-location:
   z: -350.5
 spawn-locations:
   - world: "world"
-    x: -55.5
+    x: -31.4
     y: 24
-    z: -350.5
+    z: -376.6
   - world: "world"
-    x: -55.5
+    x: -23.5
+    y: 25
+    z: -349.4
+  - world: "world"
+    x: -40.6
+    y: 26
+    z: -326.5
+  - world: "world"
+    x: -71.5
+    y: 25
+    z: -326.4
+  - world: "world"
+    x: -71.4
     y: 24
-    z: -356.5
+    z: -374.4

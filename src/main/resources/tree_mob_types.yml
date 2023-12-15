@@ -10,21 +10,21 @@
 - id: "TREE_ZOMBIE"
   display-name: "<yellow>Zombie"
   entity-type: "ZOMBIE"
-  health-expression: "CR * 5 + 5"
+  health-expression: "CR * 2 + 5"
   damage-expression: "CR * 2"
 
 # Normal creeper, a bit more damage than normal mobs. Introduced @ Wave ~2
 - id: "TREE_CREEPER"
   display-name: "Creepie"
   entity-type: "CREEPER"
-  health-expression: "CR * 5 + 5"
+  health-expression: "CR * 2 + 5"
   damage-expression: "CR * 5"
 
 # Fast creeper. Introduced @ Wave ~5
 - id: "SNEAKY_CREEPER"
   display-name: "<green>Sneaky Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 2"
+  health-expression: "CR * 2 + 3"
   damage-expression: "CR * 2"
   speed: 0.4
 

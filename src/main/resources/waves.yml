@@ -1,7 +1,7 @@
 # Wave 1
-- wave-cr: 15
-  spawn-timer-min: 20
-  spawn-timer-max: 80
+- wave-cr: 10
+  spawn-timer-min: 40
+  spawn-timer-max: 100
   mob-min-cr: 1
   mob-max-cr: 1
   mob-types:
@@ -12,11 +12,11 @@
     - id: TREE_ZOMBIE
       chance: 0.5
 # Wave 2
-- wave-cr: 15
+- wave-cr: 10
   spawn-timer-min: 20
   spawn-timer-max: 80
   mob-min-cr: 1
-  mob-max-cr: 2
+  mob-max-cr: 1
   mob-types:
     - id: SKELETON
       chance: 0.1

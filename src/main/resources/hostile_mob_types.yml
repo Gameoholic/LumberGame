@@ -10,14 +10,14 @@
 - id: "ZOMBIE"
   display-name: "Zombie"
   entity-type: "ZOMBIE"
-  health-expression: "CR * 5 + 5"
+  health-expression: "CR * 2 + 3"
   damage-expression: "CR * 2"
 
 # Normal zombie, fairly weak. Introduced @ Wave ~1
 - id: "SKELETON"
   display-name: "Skeleton"
   entity-type: "SKELETON"
-  health-expression: "CR * 2"
+  health-expression: "CR * 2 + 3"
   damage-expression: "CR * 2"
 
 # Zombie with slightly higher movement speed. Introduced @ Wave 6

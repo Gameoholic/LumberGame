@@ -79,7 +79,7 @@ public class Mob {
     private void updateMobCustomName() {
         mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
             Placeholder.component("cr", text(CR)),
-            Placeholder.component("health", text((int) mob.getHealth())),
+            Placeholder.component("health", text((int) Math.floor(mob.getHealth()))),
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
     }
