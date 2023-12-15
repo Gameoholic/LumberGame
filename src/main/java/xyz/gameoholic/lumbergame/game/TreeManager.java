@@ -30,7 +30,7 @@ public class TreeManager {
         Bukkit.broadcastMessage("Tree damaged by " + mob.getMobType().displayName() + " for " + damage + " HP");
         health = Math.max(health - damage, 0);
         Bukkit.broadcastMessage("Tree at " + health + "/" + maxHealth + " health.");
-        if (health < 0) {
+        if (health == 0) {
             onTreeDeath();
         }
     }
