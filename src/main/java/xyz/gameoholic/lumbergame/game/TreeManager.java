@@ -37,6 +37,7 @@ public class TreeManager {
     }
 
     private void onTreeDeath() {
+        treeDead = true;
         plugin.getGameManager().onGameEnd();
     }
 }

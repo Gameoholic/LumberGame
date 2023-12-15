@@ -93,8 +93,9 @@ public class Mob {
     public void onDeath() {
         plugin.getGameManager().getWaveManager().onMobDeath(this);
 
-        getDrops();
-        mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
+        for (ItemStack itemStack : getDrops()) {
+            mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
+        }
     }
 
     /**
