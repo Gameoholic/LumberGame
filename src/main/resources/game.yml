@@ -4,4 +4,4 @@ iron-drop-expression: "100 + 20 * CR"
 gold-drop-expression: "3 * CR"
 diamond-drop-expression: "1 + 0.1 * CR"
 
-bone-meal-spawn-chance: "2 * ln(CR * 2)"
+bone-meal-spawn-expression: "max(CR * 0.5 + 1.0, 7.5)"

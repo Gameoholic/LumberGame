@@ -64,7 +64,9 @@ public class ConfigParser {
             Objects.requireNonNull(root.node("gold-lore").getString()),
             Objects.requireNonNull(root.node("diamond-lore").getString()),
             Objects.requireNonNull(root.node("bone-meal-displayname").getString()),
-            Objects.requireNonNull(root.node("bone-meal-lore").getString())
+            Objects.requireNonNull(root.node("bone-meal-lore").getString()),
+            Objects.requireNonNull(root.node("bone-block-displayname").getString()),
+            Objects.requireNonNull(root.node("bone-block-lore").getString())
         );
         return stringsConfig;
     }
@@ -84,7 +86,8 @@ public class ConfigParser {
                 root.node("tree-health-expression").require(String.class),
                 root.node("iron-drop-expression").require(String.class),
                 root.node("gold-drop-expression").require(String.class),
-                root.node("diamond-drop-expression").require(String.class)
+                root.node("diamond-drop-expression").require(String.class),
+                root.node("bone-meal-spawn-expression").require(String.class)
             );
         } catch (SerializationException e) {
             e.printStackTrace();

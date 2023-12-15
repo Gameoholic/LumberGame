@@ -25,7 +25,9 @@ public record StringsConfig(
     String goldLore,
     String diamondLore,
     String boneMealDisplayname,
-    String boneMealLore
+    String boneMealLore,
+    String boneBlockDisplayname,
+    String boneBlockLore
 
 
 ) {

@@ -41,6 +41,13 @@ public class ItemUtil {
             plugin.getLumberConfig().strings().boneMealLore()
         );
     }
+    public static ItemStack getBoneBlockItemStack(LumberGamePlugin plugin) {
+        return getItemStack(
+            Material.BONE_BLOCK,
+            plugin.getLumberConfig().strings().boneBlockDisplayname(),
+            plugin.getLumberConfig().strings().boneBlockLore()
+        );
+    }
 
     /**
      * @return The item stack with the name and lore applied as MiniMessage components.

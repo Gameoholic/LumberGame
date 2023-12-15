@@ -2,28 +2,20 @@ package xyz.gameoholic.lumbergame.game.mob;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.phys.Vec3;
 import net.objecthunter.exp4j.ExpressionBuilder;
-import org.bukkit.Bukkit;
+import net.objecthunter.exp4j.function.Function;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.goal.AttackTreeGoal;
+import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -78,7 +70,26 @@ public class Mob {
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
 
+        if (shouldHoldBoneMeal())
+            mob.getEquipment().setItemInMainHand(ItemUtil.getBoneMealItemStack(plugin));
 
+
+
+    }
+
+    /**
+     * Randomly determines if the mob should be holding a bone meal.
+     */
+    private boolean shouldHoldBoneMeal() {
+        int random = rnd.nextInt(99) + 1; // Gen num 1-100
+        // If smaller than random evaluation, return true
+
+
+        return random <=
+            ExpressionUtil.evaluateExpression(
+                plugin.getLumberConfig().gameConfig().boneMealSpawnExpression(),
+                Map.of("CR", (double) CR)
+            );
     }
 
 
@@ -97,6 +108,8 @@ public class Mob {
         for (ItemStack itemStack : getDrops()) {
             mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
         }
+        if (mob.getEquipment().getItemInMainHand().getType() == Material.BONE_MEAL)
+            mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getItemInMainHand());
     }
 
     /**
