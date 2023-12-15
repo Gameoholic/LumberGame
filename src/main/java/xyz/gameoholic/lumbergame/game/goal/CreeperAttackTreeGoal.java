@@ -23,8 +23,8 @@ public class CreeperAttackTreeGoal extends AttackTreeGoal {
 
     @Override
     protected void checkAndPerformAttack(double squaredDistance) {
+        // If needs to cancel ignition
         if (squaredDistance > getAttackReachSqr() && creeper.isIgnited()) {
-            Bukkit.broadcastMessage("Unigniting!");
             creeper.setSwellDir(-1);
             creeper.swell = 0;
             creeper.setIgnited(false);
@@ -38,10 +38,8 @@ public class CreeperAttackTreeGoal extends AttackTreeGoal {
 
     @Override
     protected void performAttack() {
-        Bukkit.broadcastMessage("Performing attack!");
         creeper.setIgnited(true);
 
-        //bukkitCreeper.setIgnited(true);
         ticksUntilNextAttack = Integer.MAX_VALUE;
     }
 }
