@@ -3,9 +3,13 @@ map: https://www.planetminecraft.com/project/attack-on-titan-shiganshina-map/
 
 self join/leave commands for queue.
 
+CODE REFACTORING:
+Redo Tree attack goals, and lumberMeleeAttackGoal
 Better spongepowered config.
-
 Input validation on wave mob chances (must add up to 1.0).
+Make ConfigParser prettier. method try/cathc ijnstead of many of them?
+
+
 
 +++ For more complex MobType, extend MobType for example CreeperMobType if need ot contrrol fuse speed
 
@@ -20,19 +24,20 @@ MOBS:
  - Knockback resistance (for heavy creeper)
 
 
-Redo Tree attack goals, and lumberMeleeAttackGoal
+
+
+
 
 Big todo:
  - Bone items functionality + Can cut down tree (2h)
  - DEBUG COMMANDS: /quickstart & /wave (must also clear all previous mobs upon starting new waves) (1h)
- - NMS path AI rework for normal mobs (2h)
  - Shop & Regular Items (1d)
  - Tree grow & cracks & World Edit (4h)
- - Difficulty Scaling for players (Health) - SCALE variable (3h). With debug command or /start parameter.
+ - Difficulty Scaling for players (CR higher) (3h). With debug command or /start parameter.
  - Classes & Class Shop (1d)
  - More customizable Mobs + More mobs (1d)
  - Partigon & Polish
 
- - Difficulty Selection (increases CR) [Post Hypixel]
+ - Difficulty Selection (increases CR slightly, but mostly HP - SCALE variable) [Post Hypixel]
  - Mob attacks & spells [Post Hypixel]
  - Buildings & Towers? [Post Hypixel]

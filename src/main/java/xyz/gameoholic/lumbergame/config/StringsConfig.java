@@ -27,7 +27,9 @@ public record StringsConfig(
     String boneMealDisplayname,
     String boneMealLore,
     String boneBlockDisplayname,
-    String boneBlockLore
+    String boneBlockLore,
+    String woodDisplayname,
+    String woodLore
 
 
 ) {

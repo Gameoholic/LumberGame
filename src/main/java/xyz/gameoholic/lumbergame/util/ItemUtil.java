@@ -50,6 +50,15 @@ public class ItemUtil {
         );
     }
 
+    public static ItemStack getWoodItemStack(LumberGamePlugin plugin) { // todo: Potentially make the wood type customizable in config?
+        return getItemStack(
+            Material.OAK_WOOD,
+            plugin.getLumberConfig().strings().woodDisplayname(),
+            plugin.getLumberConfig().strings().woodLore()
+        );
+    }
+
+
     /**
      * @return The item stack with the name and lore applied as MiniMessage components.
      */

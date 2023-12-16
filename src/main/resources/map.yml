@@ -4,6 +4,9 @@ tree-location:
   x: -52.5
   y: 24
   z: -350.5
+tree-radius: 36.0 #Radius squared
+tree-block-types:
+  - OAK_LOG
 spawn-locations:
   - world: "world"
     x: -31.4

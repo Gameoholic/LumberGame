@@ -2,6 +2,7 @@ package xyz.gameoholic.lumbergame.config;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
@@ -66,7 +67,9 @@ public class ConfigParser {
             Objects.requireNonNull(root.node("bone-meal-displayname").getString()),
             Objects.requireNonNull(root.node("bone-meal-lore").getString()),
             Objects.requireNonNull(root.node("bone-block-displayname").getString()),
-            Objects.requireNonNull(root.node("bone-block-lore").getString())
+            Objects.requireNonNull(root.node("bone-block-lore").getString()),
+            Objects.requireNonNull(root.node("wood-displayname").getString()),
+            Objects.requireNonNull(root.node("wood-lore").getString())
         );
         return stringsConfig;
     }
@@ -137,10 +140,29 @@ public class ConfigParser {
             }
         );
 
-        MapConfig mapConfig = new MapConfig(
-            treeLocation,
-            spawnLocations
+        List treeBlockTypes = new ArrayList();
+        root.node("tree-block-types").childrenList().forEach(
+            treeBlockType ->  {
+                try {
+                    treeBlockTypes.add(Material.valueOf(treeBlockType.get(String.class)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new RuntimeException("Invalid argument/s for tree block types.");
+                }
+            }
         );
+
+        MapConfig mapConfig;
+        try {
+            mapConfig = new MapConfig(
+                treeLocation,
+                spawnLocations,
+                root.node("tree-radius").require(Double.class),
+                treeBlockTypes
+            );
+        } catch (SerializationException e) {
+            throw new RuntimeException(e);
+        }
         return mapConfig;
     }
 

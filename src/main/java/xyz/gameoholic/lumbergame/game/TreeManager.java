@@ -3,8 +3,10 @@ package xyz.gameoholic.lumbergame.game;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
+import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 public class TreeManager {
     private final LumberGamePlugin plugin;
@@ -39,5 +41,16 @@ public class TreeManager {
     private void onTreeDeath() {
         treeDead = true;
         plugin.getGameManager().onGameEnd();
+    }
+
+    public void onTreeChopByPlayer(Player player) {
+        int newHealth = (int)Math.max(health - maxHealth * 0.05, 1);
+        int healthChopped = health - newHealth;
+        if (healthChopped == 0)
+            return;
+
+        for (int i = 0; i < healthChopped; i++) {
+            player.getLocation().getWorld().dropItemNaturally(player.getLocation(), ItemUtil.getWoodItemStack(plugin));
+        }
     }
 }
