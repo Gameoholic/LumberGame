@@ -122,7 +122,7 @@ public class Mob {
         }
         if (mob.getEquipment().getItemInMainHand().getType() == Material.BONE_MEAL)
             mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getItemInMainHand());
-        if (mob.getEquipment().getHelmet().getType() == Material.BONE_MEAL)
+        if (mob.getEquipment().getHelmet().getType() == Material.BONE_BLOCK)
             mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getHelmet());
     }
 

@@ -22,7 +22,6 @@ MOBS:
 
 
 Big todo:
- - Rework Wave Spawning (1h) + Bone Block Spawning
  - Bone items functionality + Can cut down tree (2h)
  - DEBUG COMMANDS: /quickstart & /wave (must also clear all previous mobs upon starting new waves) (1h)
  - NMS path AI rework for normal mobs (2h)
