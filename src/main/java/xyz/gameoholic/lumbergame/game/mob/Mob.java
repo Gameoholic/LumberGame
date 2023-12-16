@@ -21,21 +21,25 @@ import static net.kyori.adventure.text.Component.text;
 
 public class Mob {
     protected final LumberGamePlugin plugin;
-    private MobType mobType;
-    private int CR; // Challenge Rating
-    private Random rnd = new Random();
+    private final MobType mobType;
+    private final int CR; // Challenge Rating
 
     protected org.bukkit.entity.Mob mob;
+    private final boolean boneBlock;
+
+    private Random rnd = new Random();
 
     /**
-     * Use MobSpawnerUtil to instantiate, don't use this constructor directly.
-     * @param mobType The Lumber MobType of the mob
-     * @param CR The challenge rating to spawn the mob with
+     * Use WaveManager to instantiate, don't use this constructor directly.
+     * @param mobType The Lumber MobType of the mob.
+     * @param CR The challenge rating to spawn the mob with.
+     * @param boneBlock Whether the mob should spawn with a bone block.
      */
-    public Mob(LumberGamePlugin plugin, MobType mobType, int CR) {
+    public Mob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock) {
         this.plugin = plugin;
         this.mobType = mobType;
         this.CR = CR;
+        this.boneBlock = boneBlock;
     }
 
     /**
@@ -79,6 +83,8 @@ public class Mob {
 
         if (shouldHoldBoneMeal())
             mob.getEquipment().setItemInMainHand(ItemUtil.getBoneMealItemStack(plugin));
+        if (boneBlock)
+            mob.getEquipment().setHelmet(ItemUtil.getBoneBlockItemStack(plugin));
 
         plugin.getGameManager().getWaveManager().onMobSpawn(this);
     }
@@ -116,6 +122,8 @@ public class Mob {
         }
         if (mob.getEquipment().getItemInMainHand().getType() == Material.BONE_MEAL)
             mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getItemInMainHand());
+        if (mob.getEquipment().getHelmet().getType() == Material.BONE_MEAL)
+            mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getHelmet());
     }
 
     /**

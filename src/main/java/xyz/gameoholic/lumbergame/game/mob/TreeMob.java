@@ -13,8 +13,15 @@ import net.minecraft.world.entity.monster.Creeper;
 
 public class TreeMob extends Mob {
 
-    public TreeMob(LumberGamePlugin plugin, MobType mobType, int CR) {
-        super(plugin, mobType, CR);
+
+    /**
+     * Use WaveManager to instantiate, don't use this constructor directly.
+     * @param mobType The Lumber MobType of the mob.
+     * @param CR The challenge rating to spawn the mob with.
+     * @param boneBlock Whether the mob should spawn with a bone block.
+     */
+    public TreeMob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock) {
+        super(plugin, mobType, CR, boneBlock);
     }
 
     @Override

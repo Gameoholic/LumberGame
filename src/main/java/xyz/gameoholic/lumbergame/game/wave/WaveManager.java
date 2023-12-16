@@ -60,7 +60,7 @@ public class WaveManager {
                     return;
                 }
                 int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
-                mobQueue.add(getMob(guaranteedMob.getKey(), mobCR));
+                mobQueue.add(getMob(guaranteedMob.getKey(), mobCR, false));
                 leftWaveCR -= mobCR;
             }
         }
@@ -68,8 +68,13 @@ public class WaveManager {
         while (leftWaveCR > 0) {
             MobType selectedMobType = RandomUtil.getRandom(wave.mobTypes(), wave.mobTypesChances());
             int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
-            mobQueue.add(getMob(selectedMobType, mobCR));
+            mobQueue.add(getMob(selectedMobType, mobCR, false));
             leftWaveCR -= mobCR;
+        }
+        // Spawn with bone block if needed
+        if (wave.boneBlock()) {
+            Mob firstMob = mobQueue.get(0); // Replace first mob with bone block variant
+            mobQueue.set(0, getMob(firstMob.getMobType(), firstMob.getCR(), true));
         }
         Collections.shuffle(mobQueue); // We shuffle because of guaranteed mobs & bone blocks being at the start of the list.
 
@@ -142,26 +147,28 @@ public class WaveManager {
      * Instantiates the mob class.
      * @param mobTypeID The ID of the mob type.
      * @param CR The Challenge Rating to spawn the mob with.
+     * @param boneBlock Whether the mob has a bone block.
      * @throws java.util.NoSuchElementException if mobTypeId doesn't correspond to a loaded mob type.
      */
-    public Mob getMob(String mobTypeID, int CR) {
+    public Mob getMob(String mobTypeID, int CR, boolean boneBlock) {
         MobType mobType = plugin.getLumberConfig().mobTypes()
             .stream().filter(filteredMobType -> filteredMobType.id().equals(mobTypeID)).findFirst().get();
 
-        return getMob(mobType, CR);
+        return getMob(mobType, CR, boneBlock);
     }
 
     /**
      * Instantiates the mob class.
      * @param mobType The Lumber MobType of the mob.
      * @param CR The Challenge Rating to spawn the mob with.
+     * @param boneBlock Whether the mob has a bone block.
      */
-    public Mob getMob(MobType mobType, int CR) {
+    public Mob getMob(MobType mobType, int CR, boolean boneBlock) {
         Mob mob;
         if (mobType.isHostile())
-            mob = new Mob(plugin, mobType, CR);
+            mob = new Mob(plugin, mobType, CR, boneBlock);
         else
-            mob = new TreeMob(plugin, mobType, CR);
+            mob = new TreeMob(plugin, mobType, CR, boneBlock);
         return mob;
     }
 
