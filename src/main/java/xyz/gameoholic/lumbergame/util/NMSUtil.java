@@ -20,7 +20,6 @@ public class NMSUtil {
      * @param progress The destruction progress of the block. Range is 0 - 9, where 9 is the most destroyed. Any other number will reset it back to no destruction.
      */
     public static void displayBlockDestruction(int blockX, int blockY, int blockZ, int progress) {
-        Bukkit.broadcastMessage("Sending packet..");
         for (Player player : Bukkit.getOnlinePlayers()) {
             CraftPlayer craftPlayer = (CraftPlayer) player;
             ServerPlayer serverPlayer = craftPlayer.getHandle();
