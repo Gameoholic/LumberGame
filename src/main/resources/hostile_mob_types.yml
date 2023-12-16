@@ -6,6 +6,12 @@
 
 
 # ---------------- Early Mobs ----------------
+- id: "TEST"
+  display-name: "Zombie"
+  entity-type: "CREEPER"
+  health-expression: "CR * 6"
+  damage-expression: "CR * 1 + 1"
+
 
 # Normal zombie, fairly weak. Introduced @ Wave ~1
 - id: "ZOMBIE"

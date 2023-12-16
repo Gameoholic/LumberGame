@@ -1,4 +1,4 @@
-package xyz.gameoholic.lumbergame.game.goal;
+package xyz.gameoholic.lumbergame.game.goal.tree;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;

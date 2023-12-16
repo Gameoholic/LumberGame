@@ -2,20 +2,31 @@ package xyz.gameoholic.lumbergame.game.mob;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Zombie;
 import net.objecthunter.exp4j.ExpressionBuilder;
-import net.objecthunter.exp4j.function.Function;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
+import xyz.gameoholic.lumbergame.game.goal.hostile.LumberNearestAttackablePlayerGoal;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 
+import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Predicate;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -31,8 +42,9 @@ public class Mob {
 
     /**
      * Use WaveManager to instantiate, don't use this constructor directly.
-     * @param mobType The Lumber MobType of the mob.
-     * @param CR The challenge rating to spawn the mob with.
+     *
+     * @param mobType   The Lumber MobType of the mob.
+     * @param CR        The challenge rating to spawn the mob with.
      * @param boneBlock Whether the mob should spawn with a bone block.
      */
     public Mob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock) {
@@ -44,6 +56,7 @@ public class Mob {
 
     /**
      * Spawns the mob.
+     *
      * @param location The location to spawn the mob at
      */
     public void spawnMob(Location location) {
@@ -68,7 +81,7 @@ public class Mob {
                 .setVariable("CR", CR).evaluate()
         );
 
-        mob.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(200); // todo; fix with better ai detection. NMS.
+        mob.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(Double.MAX_VALUE);
 
         mob.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN, true);
 
@@ -87,6 +100,34 @@ public class Mob {
             mob.getEquipment().setHelmet(ItemUtil.getBoneBlockItemStack(plugin));
 
         plugin.getGameManager().getWaveManager().onMobSpawn(this);
+
+        applyGoals();
+    }
+
+    //todo: override in TreeMob.
+    protected void applyGoals() {
+        net.minecraft.world.entity.Mob NMSMob = ((CraftMob) mob).getHandle();
+
+        // Find Vanilla goals needed to be replaced by our custom ones.
+        @Nullable WrappedGoal wrappedMeleeAttackGoal = NMSMob.goalSelector.getAvailableGoals().stream()
+            .filter(goal -> goal.getGoal() instanceof MeleeAttackGoal).findFirst().orElse(null);
+        @Nullable WrappedGoal wrappedNearestAttackableTargetGoal = NMSMob.targetSelector.getAvailableGoals().stream()
+            .filter(goal -> goal.getGoal() instanceof NearestAttackableTargetGoal).findFirst().orElse(null);
+        if (wrappedMeleeAttackGoal == null || wrappedNearestAttackableTargetGoal == null) {
+            throw new RuntimeException("Mob doesn't have Vanilla attack and/or target goals!\n1: " +
+                wrappedMeleeAttackGoal + "\n2: " + wrappedNearestAttackableTargetGoal);
+        }
+
+        // Remove unneeded Vanilla goals.
+        NMSMob.goalSelector.removeGoal(wrappedMeleeAttackGoal.getGoal());
+        NMSMob.targetSelector.removeGoal(wrappedNearestAttackableTargetGoal.getGoal());
+
+        // Replace them with our goals, with the same exact priorities.
+        // The lower the priority of the goal, the more it will be prioritized.
+        NMSMob.targetSelector.addGoal(wrappedNearestAttackableTargetGoal.getPriority(),
+            new LumberNearestAttackablePlayerGoal(NMSMob)); // Target and lock onto player
+        NMSMob.goalSelector.addGoal(wrappedMeleeAttackGoal.getPriority(),
+            new LumberMeleeAttackGoal((PathfinderMob) NMSMob, 1.0)); // Attack and follow player
     }
 
     /**
@@ -111,6 +152,7 @@ public class Mob {
     public void onTakeDamage(double damageDealt) {
         updateMobCustomName(mob.getHealth() - damageDealt);
     }
+
     /**
      * Should be called when the mob dies.
      */
@@ -159,6 +201,7 @@ public class Mob {
 
     /**
      * Generates a random amount of items to drop.
+     *
      * @param chance The (%) chance that an item will be dropped. If above 100(%), a drop would be guaranteed and the rest will be used for rolling again for extras.
      * @return The amount of items to drop.
      */

@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.mob.Mob;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
 
 import static net.kyori.adventure.text.Component.text;
@@ -22,7 +23,6 @@ public class TestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        new WaveManager(plugin, plugin.getLumberConfig().waves().get(Integer.parseInt(args[0])));
 
         return false;
     }
