@@ -53,13 +53,28 @@ public class WaveManager {
      */
     private void loadMobQueue() {
         int leftWaveCR = waveCR;
+        // Guaranteed mobs
+        for (Map.Entry<MobType, Integer> guaranteedMob : wave.guaranteedMobTypes().entrySet()) {
+            for (int i = 0; i < guaranteedMob.getValue(); i++) {
+                if (leftWaveCR <= 0) {  // This shouldn't happen from a design viewpoint, but is technically possible with the right config
+                    return;
+                }
+                int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
+                mobQueue.add(getMob(guaranteedMob.getKey(), mobCR));
+                leftWaveCR -= mobCR;
+            }
+        }
+        // Random mobs
         while (leftWaveCR > 0) {
             MobType selectedMobType = RandomUtil.getRandom(wave.mobTypes(), wave.mobTypesChances());
             int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
             mobQueue.add(getMob(selectedMobType, mobCR));
             leftWaveCR -= mobCR;
         }
+        Collections.shuffle(mobQueue); // We shuffle because of guaranteed mobs & bone blocks being at the start of the list.
+
         plugin.getLogger().info("Loaded " + mobQueue.size() + " mobs for the round.");
+
     }
     private void startWave() {
         mobSpawnerTask = new BukkitRunnable() {

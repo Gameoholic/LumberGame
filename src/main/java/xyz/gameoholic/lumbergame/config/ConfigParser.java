@@ -223,12 +223,27 @@ public class ConfigParser {
                                     .filter(filteredMobType ->
                                         filteredMobType.id().equals(mobTypeID)).findFirst().get());
                                 mobTypesChances.add(mobType.node("chance").require(Double.class));
-                            }
-                            catch (Exception e) {
+                            } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
                         }
                     );
+
+                    Map<MobType, Integer> guaranteedMobTypes = new HashMap<>();
+                    wave.node("guaranteed-mob-types").childrenList().forEach(
+                        mobType -> {
+                            try {
+                                String mobTypeID = mobType.node("id").require(String.class);
+                                guaranteedMobTypes.put(loadedMobTypes.stream()
+                                        .filter(filteredMobType ->
+                                            filteredMobType.id().equals(mobTypeID)).findFirst().get(),
+                                    mobType.node("amount").require(Integer.class));
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    );
+
                     waves.add(new Wave(
                         wave.node("wave-cr").require(Integer.class),
                         wave.node("spawn-timer-min").require(Integer.class),
@@ -237,7 +252,8 @@ public class ConfigParser {
                         wave.node("mob-max-cr").require(Integer.class),
                         mobTypes,
                         mobTypesChances,
-                        wave.node("bone-block").getBoolean(false)
+                        wave.node("bone-block").getBoolean(false),
+                        guaranteedMobTypes
                     ));
                 } catch (Exception e) {
                     e.printStackTrace();
