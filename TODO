@@ -20,6 +20,7 @@ MOBS:
  - Knockback resistance (for heavy creeper)
 
 
+Redo Tree attack goals, and lumberMeleeAttackGoal
 
 Big todo:
  - Bone items functionality + Can cut down tree (2h)

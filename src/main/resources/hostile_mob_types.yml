@@ -34,3 +34,11 @@
   health-expression: "CR * 6"
   damage-expression: "CR * 1 + 1"
   speed: 0.33
+
+# Faster creeper. Introduced @ Wave ~5
+- id: "SNEAKY_CREEPER_HOSTILE"
+  display-name: "<green>Sneaky Creeper"
+  entity-type: "CREEPER"
+  health-expression: "CR * 4 + 3"
+  damage-expression: "CR * 2"
+  speed: 0.35

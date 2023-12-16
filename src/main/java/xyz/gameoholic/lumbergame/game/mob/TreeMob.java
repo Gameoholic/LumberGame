@@ -26,10 +26,17 @@ public class TreeMob extends Mob {
     @Override
     public void spawnMob(Location location) {
         super.spawnMob(location);
+    }
 
+
+    /**
+     * Applies NMS Goals on mobs to make them target and attack the tree.
+     */
+    @Override
+    protected void applyGoals() {
         Location treeLocation = plugin.getLumberConfig().mapConfig().treeLocation();
         net.minecraft.world.entity.Mob NMSMob = ((CraftMob) mob).getHandle();
-//        NMSMob.goalSelector.removeAllGoals(goal -> true);
+        NMSMob.goalSelector.removeAllGoals(goal -> true);
 
         Goal goal;
         if (NMSMob instanceof Creeper) {
@@ -46,8 +53,6 @@ public class TreeMob extends Mob {
                 new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z())
             );
         }
-        NMSMob.goalSelector.addGoal(8, goal);
+        NMSMob.goalSelector.addGoal(0, goal);
     }
-
-
 }

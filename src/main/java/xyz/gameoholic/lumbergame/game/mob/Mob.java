@@ -105,6 +105,10 @@ public class Mob {
     }
 
     //todo: override in TreeMob.
+
+    /**
+     * Applies NMS Goals for the mob to target players regardless of distance, etc.
+     */
     protected void applyGoals() {
         net.minecraft.world.entity.Mob NMSMob = ((CraftMob) mob).getHandle();
 
