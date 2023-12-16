@@ -7,7 +7,11 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
+import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 import xyz.gameoholic.lumbergame.util.ItemUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TreeManager {
     private final LumberGamePlugin plugin;
@@ -19,10 +23,7 @@ public class TreeManager {
     public TreeManager(LumberGamePlugin plugin) {
         this.plugin = plugin;
 
-        maxHealth = (int) new ExpressionBuilder(plugin.getLumberConfig().gameConfig().treeHealthExpression())
-            .variables("level")
-            .build()
-            .setVariable("level", level).evaluate();
+        maxHealth = getMaxHealth();
         health = maxHealth;
     }
 
@@ -63,5 +64,19 @@ public class TreeManager {
 
     public void onTreeHealByPlayer(Player player) {
         health = (int) Math.min(health + Math.ceil(maxHealth * 0.05), maxHealth);
+    }
+
+    public void onTreeLevelUpByPlayer(Player player) {
+        level++;
+        maxHealth = getMaxHealth();
+    }
+
+    /**
+     * @return The max health of the tree, according to the tree's level.
+     */
+    private int getMaxHealth() {
+        return (int) ExpressionUtil.evaluateExpression(
+            plugin.getLumberConfig().gameConfig().treeHealthExpression(),
+            Map.of("level", (double) level));
     }
 }
