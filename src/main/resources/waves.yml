@@ -1,3 +1,6 @@
+
+
+
 # Wave 1
 - wave-cr: 10
   spawn-timer-min: 40
@@ -9,9 +12,7 @@
       chance: 0.6
     - id: TREE_ZOMBIE
       chance: 0.4
-  guaranteed-mob-types:
-    - id: SNEAKY_CREEPER
-      amount: 2
+
 # Wave 2
 - wave-cr: 12
   spawn-timer-min: 20
@@ -26,6 +27,7 @@
     - id: TREE_ZOMBIE
       chance: 0.4
   bone-block: true
+
 # Wave 3
 - wave-cr: 15
   spawn-timer-min: 20
@@ -39,8 +41,9 @@
       chance: 0.4
     - id: TREE_ZOMBIE
       chance: 0.4
-# Wave 3
-- wave-cr: 17
+
+# Wave 4
+- wave-cr: 20
   spawn-timer-min: 20
   spawn-timer-max: 100
   mob-min-cr: 1
@@ -54,11 +57,15 @@
       chance: 0.3
     - id: TREE_CREEPER
       chance: 0.2
-# Wave 4
-- wave-cr: 20
+  guaranteed-mob-types:
+    - id: TREE_CREEPER
+      amount: 2
+
+# Wave 5
+- wave-cr: 25
   spawn-timer-min: 20
   spawn-timer-max: 80
-  mob-min-cr: 1
+  mob-min-cr: 2
   mob-max-cr: 2
   mob-types:
     - id: SKELETON
@@ -69,12 +76,35 @@
       chance: 0.3
     - id: TREE_CREEPER
       chance: 0.2
-# Wave 5
-- wave-cr: 25
+
+# Wave 6
+- wave-cr: 30
   spawn-timer-min: 20
   spawn-timer-max: 80
-  mob-min-cr: 1
+  mob-min-cr: 2
   mob-max-cr: 3
+  mob-types:
+    - id: SKELETON
+      chance: 0.1
+    - id: ZOMBIE
+      chance: 0.3
+    - id: TREE_ZOMBIE
+      chance: 0.3
+    - id: TREE_CREEPER
+      chance: 0.2
+    - id: SNEAKY_CREEPER
+      chance: 0.1
+  guaranteed-mob-types:
+    - id: SNEAKY_CREEPER
+      amount: 2
+  bone-block: true
+
+# Wave 7
+- wave-cr: 40
+  spawn-timer-min: 20
+  spawn-timer-max: 80
+  mob-min-cr: 2
+  mob-max-cr: 4
   mob-types:
     - id: SKELETON
       chance: 0.1

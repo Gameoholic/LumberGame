@@ -1,36 +1,35 @@
 #Optional arguments: speed (default is 0.23)
 
-#Color coding: <green> for 'minor ability', <red> for 'heavy damage', <yellow> for 'tree mob' if none of the previous fit
-
+#Color coding: <green> for 'minor ability', <red> for 'heavy damage'
 
 
 # ---------------- Early Mobs ----------------
 
 # Normal zombie, fairly weak. Introduced @ Wave ~1
 - id: "TREE_ZOMBIE"
-  display-name: "<yellow>Zombie"
+  display-name: "<red>😡</red> Zombie"
   entity-type: "ZOMBIE"
-  health-expression: "CR * 2 + 3"
+  health-expression: "CR * 5"
   damage-expression: "CR * 1"
 
 # Normal creeper, a bit more damage than normal mobs. Introduced @ Wave ~2
 - id: "TREE_CREEPER"
-  display-name: "Creepie"
+  display-name: "<red>😡</red> Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 2 + 5"
+  health-expression: "CR * 5"
   damage-expression: "CR * 3"
 
 # Faster creeper. Introduced @ Wave ~5
 - id: "SNEAKY_CREEPER"
-  display-name: "<green>Sneaky Creeper"
+  display-name: "<red>😡</red> <green>Sneaky Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 2 + 3"
+  health-expression: "CR * 4 + 3"
   damage-expression: "CR * 3"
   speed: 0.4
 
 # Does heavy damage, and walks slowly. Introduced @ Wave ~5
 - id: "HEAVY_CREEPER"
-  display-name: "<red>Heavy Creeper"
+  display-name: "<red>😡</red> <red>Heavy Creeper"
   entity-type: "CREEPER"
   health-expression: "CR * 10"
   damage-expression: "CR * 5 + 5"
