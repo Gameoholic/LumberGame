@@ -23,6 +23,6 @@ public class BlockBreakListener implements Listener {
             return;
 
         e.setCancelled(true);
-        plugin.getGameManager().getTreeManager().onTreeChopByPlayer(e.getPlayer());
+        plugin.getGameManager().getTreeManager().onTreeChopByPlayer(e.getPlayer(), e.getBlock().getLocation());
     }
 }

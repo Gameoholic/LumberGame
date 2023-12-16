@@ -2,6 +2,7 @@ package xyz.gameoholic.lumbergame.game;
 
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
@@ -43,14 +44,20 @@ public class TreeManager {
         plugin.getGameManager().onGameEnd();
     }
 
-    public void onTreeChopByPlayer(Player player) {
+    /**
+     * Ran when a player chops the tree.
+     * @param player The player who chopped it.
+     * @param location Location of the specific block broken.
+     */
+    public void onTreeChopByPlayer(Player player, Location location) {
         int newHealth = (int)Math.max(health - maxHealth * 0.05, 1);
         int healthChopped = health - newHealth;
         if (healthChopped == 0)
             return;
 
+        health = newHealth;
         for (int i = 0; i < healthChopped; i++) {
-            player.getLocation().getWorld().dropItemNaturally(player.getLocation(), ItemUtil.getWoodItemStack(plugin));
+            location.getWorld().dropItemNaturally(location, ItemUtil.getWoodItemStack(plugin));
         }
     }
 }

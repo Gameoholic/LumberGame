@@ -36,5 +36,5 @@ bone-meal-lore: "<i><gray>Place near the tree to regenerate its health.<br><i><g
 bone-block-displayname: "<white><bold>Bone Block"
 bone-block-lore: "<i><gray>Place near the tree to level it up.<br><i><gray>Levelling it up increases its Max HP."
 
-wood-displayname: "<color:#ff8d03>Wood"
+wood-displayname: "<color:#ff8d03>Lumber"
 wood-lore: "<i><gray>Valuable item used for powerful crafts."
