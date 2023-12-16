@@ -59,6 +59,7 @@ public class WaveManager {
             mobQueue.add(getMob(selectedMobType, mobCR));
             leftWaveCR -= mobCR;
         }
+        plugin.getLogger().info("Loaded " + mobQueue.size() + " mobs for the round.");
     }
     private void startWave() {
         mobSpawnerTask = new BukkitRunnable() {
@@ -67,11 +68,6 @@ public class WaveManager {
                 attemptSpawn();
             }
         }.runTaskTimer(plugin, 0L, 1L);
-
-        List<Location> spawnLocations = plugin.getLumberConfig().mapConfig().spawnLocations();
-        Location selectedSpawnLocation = spawnLocations.get(rnd.nextInt(spawnLocations.size()));
-
-
 
         spawnDelay = rnd.nextInt(wave.spawnTimerMin(), wave.spawnTimerMax() + 1);
     }
@@ -121,7 +117,7 @@ public class WaveManager {
     public void onMobDeath(Mob mob) {
         aliveMobs.remove(mob.getMob().getUniqueId());
 
-        if (aliveMobs.size() == 0 && waveCR <= 0) {
+        if (aliveMobs.size() == 0) {
             plugin.getLogger().info("All mobs in wave are dead!");
             plugin.getGameManager().onWaveEnd();
         }
