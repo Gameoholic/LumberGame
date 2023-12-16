@@ -157,7 +157,7 @@ public class ConfigParser {
             mapConfig = new MapConfig(
                 treeLocation,
                 spawnLocations,
-                root.node("tree-radius").require(Double.class),
+                root.node("tree-radius").require(Integer.class),
                 treeBlockTypes
             );
         } catch (SerializationException e) {
