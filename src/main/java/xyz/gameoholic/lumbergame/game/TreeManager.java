@@ -4,15 +4,18 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
+import xyz.gameoholic.lumbergame.util.FunctionUtil;
 import xyz.gameoholic.lumbergame.util.ItemUtil;
 import xyz.gameoholic.lumbergame.util.NMSUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class TreeManager {
     private final LumberGamePlugin plugin;
@@ -46,7 +49,10 @@ public class TreeManager {
     private void onTreeDeath() {
         treeDead = true;
         plugin.getGameManager().onGameEnd();
+
+        iterateOverTreeBlocks(block -> block.breakNaturally());
     }
+
 
     /**
      * Ran when a player chops the tree.
@@ -93,10 +99,10 @@ public class TreeManager {
      * Displays clientside cracks on tree.
      */
     private void onAnyHealthChanged() {
-        int blockBreakProgress = -1; // -1 is no block break, range is 0 - 9, where 9 is the most broken.
+        int blockBreakProgress; // -1 is no block break, range is 0 - 9, where 9 is the most broken.
 
         int healthRatio = (int) (((double) health / maxHealth) * 100); // in %
-        if (health == 1)
+        if (health <= 1)
             blockBreakProgress = 9;
         else if (healthRatio <= 5)
             blockBreakProgress = 8;
@@ -116,33 +122,45 @@ public class TreeManager {
             blockBreakProgress = 1;
         else if (healthRatio <= 90)
             blockBreakProgress = 0;
+        else
+            blockBreakProgress = -1;
 
         int searchRadius = (int) Math.sqrt(plugin.getLumberConfig().mapConfig().treeRadius()); // Radius provided in config is squared
         Location treeLocation = plugin.getLumberConfig().mapConfig().treeLocation(); // Root location of tree
 
+        iterateOverTreeBlocks(block -> NMSUtil.displayBlockDestruction(
+            block.getLocation().getBlockX(),
+            block.getLocation().getBlockY(),
+            block.getLocation().getBlockZ(),
+            blockBreakProgress
+        ));
+
+    }
+
+    /**
+     * Iterates over every tree block in the radius of the tree.
+     * @param func The function to apply on the block.
+     */
+    private void iterateOverTreeBlocks(FunctionUtil.BlockFunction func) {
+        int searchRadius = (int) Math.sqrt(plugin.getLumberConfig().mapConfig().treeRadius()); // Radius provided in config is squared
+        Location treeLocation = plugin.getLumberConfig().mapConfig().treeLocation(); // Root location of tree
         // Get all tree blocks in X,Y,Z radius of tree
         for (int x = -searchRadius; x < searchRadius; x++) {
             for (int y = -searchRadius; y < searchRadius; y++) {
                 for (int z = -searchRadius; z < searchRadius; z++) {
-                    Location blockLocation = new Location(
+                    Block block = new Location(
                         treeLocation.getWorld(),
                         treeLocation.getBlockX() + x,
                         treeLocation.getBlockY() + y,
                         treeLocation.getBlockZ() + z
-                    );
-                    // If block is a tree block, send destruction packet
-                    if (plugin.getLumberConfig().mapConfig().treeBlockTypes().contains(blockLocation.getBlock().getType())) {
-                        NMSUtil.displayBlockDestruction(
-                            blockLocation.getBlockX(),
-                            blockLocation.getBlockY(),
-                            blockLocation.getBlockZ(),
-                            blockBreakProgress
-                        );
+                    ).getBlock();
+                    // If block is a tree block
+
+                    if (plugin.getLumberConfig().mapConfig().treeBlockTypes().contains(block.getType())) {
+                        func.apply(block);
                     }
                 }
             }
         }
-
-
     }
 }
