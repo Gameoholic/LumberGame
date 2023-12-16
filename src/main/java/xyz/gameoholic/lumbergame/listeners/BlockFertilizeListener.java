@@ -13,7 +13,7 @@ public class BlockFertilizeListener implements Listener {
     @EventHandler
     public void onBlockFertilizeEvent(BlockFertilizeEvent e) {
         // Must be near Tree
-        if (e.getBlock().getLocation().distance(plugin.getLumberConfig().mapConfig().treeLocation())
+        if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
             > plugin.getLumberConfig().mapConfig().treeRadius())
             return;
 

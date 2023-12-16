@@ -17,7 +17,7 @@ public class BlockPlaceListener implements Listener {
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent e) {
         // Must be near Tree
-        if (e.getBlock().getLocation().distance(plugin.getLumberConfig().mapConfig().treeLocation())
+        if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
             > plugin.getLumberConfig().mapConfig().treeRadius())
             return;
         if (e.getBlock().getType() != Material.BONE_BLOCK)
