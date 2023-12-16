@@ -20,7 +20,7 @@ import java.util.*;
 import static net.kyori.adventure.text.Component.text;
 
 public class Mob {
-    private final LumberGamePlugin plugin;
+    protected final LumberGamePlugin plugin;
     private MobType mobType;
     private int CR; // Challenge Rating
     private Random rnd = new Random();
@@ -79,6 +79,8 @@ public class Mob {
 
         if (shouldHoldBoneMeal())
             mob.getEquipment().setItemInMainHand(ItemUtil.getBoneMealItemStack(plugin));
+
+        plugin.getGameManager().getWaveManager().onMobSpawn(this);
     }
 
     /**

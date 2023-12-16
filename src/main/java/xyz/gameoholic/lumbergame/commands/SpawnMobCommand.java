@@ -29,7 +29,7 @@ public class SpawnMobCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        plugin.getGameManager().getWaveManager().spawnMob(plugin, args[0], Integer.parseInt(args[1]), player.getLocation());
+        plugin.getGameManager().getWaveManager().getMob(args[0], Integer.parseInt(args[1])).spawnMob(player.getLocation());
 
         return false;
     }

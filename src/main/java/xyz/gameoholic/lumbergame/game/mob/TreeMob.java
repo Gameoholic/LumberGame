@@ -13,11 +13,15 @@ import net.minecraft.world.entity.monster.Creeper;
 
 public class TreeMob extends Mob {
 
-    public TreeMob(LumberGamePlugin plugin, MobType mobType, int CR, Location location) {
-        super(plugin, mobType, CR, location);
+    public TreeMob(LumberGamePlugin plugin, MobType mobType, int CR) {
+        super(plugin, mobType, CR);
+    }
+
+    @Override
+    public void spawnMob(Location location) {
+        super.spawnMob(location);
 
         Location treeLocation = plugin.getLumberConfig().mapConfig().treeLocation();
-
         net.minecraft.world.entity.Mob NMSMob = ((CraftMob) mob).getHandle();
         NMSMob.goalSelector.removeAllGoals(goal -> true);
 
@@ -31,14 +35,13 @@ public class TreeMob extends Mob {
         }
         else {
             goal = new AttackTreeGoal(
-                    plugin,
-                    (PathfinderMob) NMSMob,
-                    new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z())
-                );
+                plugin,
+                (PathfinderMob) NMSMob,
+                new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z())
+            );
         }
         NMSMob.goalSelector.addGoal(8, goal);
-
-
-
     }
+
+
 }

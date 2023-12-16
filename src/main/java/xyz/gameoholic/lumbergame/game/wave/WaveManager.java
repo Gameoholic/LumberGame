@@ -23,9 +23,9 @@ public class WaveManager {
      */
     private Map<UUID, Mob> aliveMobs = new HashMap<>();
     /**
-     * The amount of CR (challenge rating) left, allotted to this wave.
+     * The amount of CR (challenge rating) allotted to this wave.
      */
-    private int leftWaveCR;
+    private int waveCR;
     private Wave wave;
     /**
      * Delay before spawning next mob/s, in ticks.
@@ -41,15 +41,24 @@ public class WaveManager {
     Random rnd = new Random();
     public WaveManager(LumberGamePlugin plugin, Wave wave) {
         this.plugin = plugin;
-        this.leftWaveCR = wave.waveCR();
+        this.waveCR = wave.waveCR();
         this.wave = wave;
 
         loadMobQueue();
         startWave();
     }
 
+    /**
+     * Loads the mobs into the mob queue.
+     */
     private void loadMobQueue() {
-        //todo: this does almost everything attemptSpawn() does.
+        int leftWaveCR = waveCR;
+        while (leftWaveCR > 0) {
+            MobType selectedMobType = RandomUtil.getRandom(wave.mobTypes(), wave.mobTypesChances());
+            int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
+            mobQueue.add(getMob(selectedMobType, mobCR));
+            leftWaveCR -= mobCR;
+        }
     }
     private void startWave() {
         mobSpawnerTask = new BukkitRunnable() {
@@ -58,36 +67,38 @@ public class WaveManager {
                 attemptSpawn();
             }
         }.runTaskTimer(plugin, 0L, 1L);
+
+        List<Location> spawnLocations = plugin.getLumberConfig().mapConfig().spawnLocations();
+        Location selectedSpawnLocation = spawnLocations.get(rnd.nextInt(spawnLocations.size()));
+
+
+
+        spawnDelay = rnd.nextInt(wave.spawnTimerMin(), wave.spawnTimerMax() + 1);
     }
 
+    /**
+     * Runs the mob spawning logic. Runs every tick, only spawns if conditions are met.
+     */
     private void attemptSpawn() {
-
-        //todo: this should just spawn the alread-determined mob from the queue at a random location
         spawnDelay--;
         if (spawnDelay > 0)
             return;
-        if (leftWaveCR <= 0) {
+        if (mobQueue.size() == 0) {
             mobSpawnerTask.cancel();
             mobSpawnerTask = null;
             plugin.getLogger().info("Finished spawning mobs.");
             return;
         }
 
-        MobType selectedMobType = RandomUtil.getRandom(wave.mobTypes(), wave.mobTypesChances());
-
+        spawnMob();
+        spawnDelay = rnd.nextInt(wave.spawnTimerMin(), wave.spawnTimerMax() + 1);
+    }
+    private void spawnMob() {
         List<Location> spawnLocations = plugin.getLumberConfig().mapConfig().spawnLocations();
         Location selectedSpawnLocation = spawnLocations.get(rnd.nextInt(spawnLocations.size()));
 
-        int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
-
-        spawnMob(
-            plugin,
-            selectedMobType,
-            mobCR,
-            selectedSpawnLocation
-        );
-
-        spawnDelay = rnd.nextInt(wave.spawnTimerMin(), wave.spawnTimerMax() + 1);
+        mobQueue.get(0).spawnMob(selectedSpawnLocation);
+        mobQueue.remove(0);
     }
 
     /**
@@ -99,53 +110,47 @@ public class WaveManager {
     }
 
     /**
-     * Should be called when a mob dies.
+     * Called when a mob spawns, either from a wave or a debug command.
+     */
+    public void onMobSpawn(Mob mob) {
+        aliveMobs.put(mob.getMob().getUniqueId(), mob);
+    }
+    /**
+     * Called when a mob dies.
      */
     public void onMobDeath(Mob mob) {
         aliveMobs.remove(mob.getMob().getUniqueId());
 
-        if (aliveMobs.size() == 0 && leftWaveCR <= 0) {
+        if (aliveMobs.size() == 0 && waveCR <= 0) {
             plugin.getLogger().info("All mobs in wave are dead!");
             plugin.getGameManager().onWaveEnd();
         }
 
     }
     /**
-     * Spawns and returns the Mob.
+     * Instantiates the mob class.
      * @param mobTypeID The ID of the mob type.
      * @param CR The Challenge Rating to spawn the mob with.
-     * @param location The location to spawn the mob at.
      * @throws java.util.NoSuchElementException if mobTypeId doesn't correspond to a loaded mob type.
      */
-    public Mob spawnMob(LumberGamePlugin plugin, String mobTypeID, int CR, Location location) {
+    public Mob getMob(String mobTypeID, int CR) {
         MobType mobType = plugin.getLumberConfig().mobTypes()
             .stream().filter(filteredMobType -> filteredMobType.id().equals(mobTypeID)).findFirst().get();
-        Mob mob;
-        if (mobType.isHostile())
-            mob = new Mob(plugin, mobType, CR, location);
-        else
-            mob = new TreeMob(plugin, mobType, CR, location);
 
-        aliveMobs.put(mob.getMob().getUniqueId(), mob);
-        leftWaveCR -= CR;
-        return mob;
+        return getMob(mobType, CR);
     }
 
     /**
-     * Spawns and returns the Mob.
+     * Instantiates the mob class.
      * @param mobType The Lumber MobType of the mob.
      * @param CR The Challenge Rating to spawn the mob with.
-     * @param location The location to spawn the mob at.
      */
-    public Mob spawnMob(LumberGamePlugin plugin, MobType mobType, int CR, Location location) {
+    public Mob getMob(MobType mobType, int CR) {
         Mob mob;
         if (mobType.isHostile())
-            mob = new Mob(plugin, mobType, CR, location);
+            mob = new Mob(plugin, mobType, CR);
         else
-            mob = new TreeMob(plugin, mobType, CR, location);
-
-        aliveMobs.put(mob.getMob().getUniqueId(), mob);
-        leftWaveCR -= CR;
+            mob = new TreeMob(plugin, mobType, CR);
         return mob;
     }
 
