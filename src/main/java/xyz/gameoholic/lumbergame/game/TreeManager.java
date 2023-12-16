@@ -50,7 +50,7 @@ public class TreeManager {
      * @param location Location of the specific block broken.
      */
     public void onTreeChopByPlayer(Player player, Location location) {
-        int newHealth = (int)Math.max(health - maxHealth * 0.05, 1);
+        int newHealth = (int) Math.max(health - Math.ceil(maxHealth * 0.05), 1);
         int healthChopped = health - newHealth;
         if (healthChopped == 0)
             return;
@@ -59,5 +59,9 @@ public class TreeManager {
         for (int i = 0; i < healthChopped; i++) {
             location.getWorld().dropItemNaturally(location, ItemUtil.getWoodItemStack(plugin));
         }
+    }
+
+    public void onTreeHealByPlayer(Player player) {
+        health = (int) Math.min(health + Math.ceil(maxHealth * 0.05), maxHealth);
     }
 }

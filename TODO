@@ -29,7 +29,7 @@ MOBS:
 
 
 Big todo:
- - Bone items functionality + Can cut down tree (2h)
+ - Bone items functionality
  - DEBUG COMMANDS: /quickstart & /wave (must also clear all previous mobs upon starting new waves) (1h)
  - Shop & Regular Items (1d)
  - Tree grow & cracks & World Edit (4h)
