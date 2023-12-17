@@ -7,13 +7,12 @@ import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
-import xyz.gameoholic.lumbergame.util.ExpressionUtil;
-import xyz.gameoholic.lumbergame.util.FunctionUtil;
-import xyz.gameoholic.lumbergame.util.ItemUtil;
-import xyz.gameoholic.lumbergame.util.NMSUtil;
+import xyz.gameoholic.lumbergame.util.*;
 
+import java.io.File;
 import java.util.Map;
 
 import static net.kyori.adventure.text.Component.text;
@@ -30,6 +29,8 @@ public class TreeManager {
 
         updateMaxHealth();
         health = maxHealth;
+
+        loadTreeSchematic();
     }
 
     /**
@@ -183,6 +184,23 @@ public class TreeManager {
     public int getHealthToMaxHealthRatio() {
         return (int) (((double) health / maxHealth) * 100);
     }
+
+    /**
+     * Pastes the schematic of the tree correspondent to the current tree level.
+     */
+    private void loadTreeSchematic() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                WorldEditUtil.loadSchematic(
+                    new File(plugin.getDataFolder(), "schematics/tree/level_" + level + ".schem"),
+                    plugin.getLumberConfig().mapConfig().treeLocation()
+                );
+            }
+        }.runTaskAsynchronously(plugin);
+
+    }
+
 
     public int getHealth() {
         return health;

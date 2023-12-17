@@ -31,6 +31,9 @@ public final class LumberGamePlugin extends JavaPlugin {
         saveResource("waves.yml", true);
         saveResource("sounds.yml", true);
 
+        saveResource("schematics/tree/level_1", true);
+
+
         config = new ConfigParser(this).parse();
 
 

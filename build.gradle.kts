@@ -33,7 +33,9 @@ dependencies {
     implementation ("org.spongepowered:configurate-hocon:4.0.0")
     implementation("net.objecthunter", "exp4j","0.4.8")
     implementation("fr.mrmicky", "fastboard" ,"2.0.2")
-
+    implementation(platform("com.intellectualsites.bom:bom-newest:1.34"))
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit") { isTransitive = false }
 }
 
 java {
