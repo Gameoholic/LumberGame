@@ -26,7 +26,7 @@ public class ExplosionPrimeListener implements Listener {
         if (mob == null)
             return;
 
-        // If creeper is tree mob and it exploded, it guarantees it was near the tree and should deal damage to it
+        // If creeper is tree mob, and it exploded, we can assume it was near the tree and should deal damage to it
         if (mob instanceof TreeMob)
             plugin.getGameManager().getTreeManager().onMobDamage(mob);
         mob.onDeath(false);
