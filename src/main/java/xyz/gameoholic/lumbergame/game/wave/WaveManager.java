@@ -115,6 +115,8 @@ public class WaveManager {
 
         mobQueue.get(0).spawnMob(selectedSpawnLocation);
         mobQueue.remove(0);
+
+        plugin.getGameManager().updatePlayerScoreboards(); // Update mob count
     }
 
     /**
@@ -141,7 +143,8 @@ public class WaveManager {
             plugin.getLogger().info("All mobs in wave are dead!");
             plugin.getGameManager().onWaveEnd();
         }
-
+        else
+            plugin.getGameManager().updatePlayerScoreboards(); // Update mob count - Starting a new wave updates scoreboard anyway so only if wave hasn't ended
     }
     /**
      * Instantiates the mob class.

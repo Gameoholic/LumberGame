@@ -1,6 +1,8 @@
 package xyz.gameoholic.lumbergame.commands;
 
 import fr.mrmicky.fastboard.adventure.FastBoard;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -33,7 +35,6 @@ public class TestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         FastBoard board = new FastBoard((Player) sender);
 
         board.updateTitle(

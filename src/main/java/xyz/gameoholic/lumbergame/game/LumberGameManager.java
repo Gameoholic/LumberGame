@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
-import xyz.gameoholic.lumbergame.listeners.EntityDamageListener;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,13 +42,14 @@ public class LumberGameManager {
      * Should be called when the wave ends.
      */
     public void onWaveEnd() {
-        startNewRound();
+        startNewWave();
     }
 
-    private void startNewRound() {
+    private void startNewWave() {
         waveNumber++;
         Bukkit.broadcastMessage("Starting Round " + (waveNumber + 1));
         waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
+        updatePlayerScoreboards(); // Update wave number
     }
 
     /**
@@ -65,6 +65,13 @@ public class LumberGameManager {
     public void onGameEnd() {
         Bukkit.broadcastMessage("Game has ended! Tree is dead!");
         waveManager.onGameEnd();
+    }
+
+    /**
+     * Updates scoreboards for every player.
+     */
+    public void updatePlayerScoreboards() {
+        players.forEach(player -> player.updateScoreboard());
     }
 
     public int getWaveNumber() {

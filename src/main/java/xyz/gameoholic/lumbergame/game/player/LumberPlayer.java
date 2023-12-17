@@ -53,4 +53,8 @@ public class LumberPlayer implements Listener {
         scoreboardManager = null;
     }
 
+    public void updateScoreboard() {
+        scoreboardManager.update();
+    }
+
 }
