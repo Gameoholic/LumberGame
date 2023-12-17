@@ -33,6 +33,7 @@ public class LumberPlayer implements Listener {
     private int wood = 0;
     private int iron = 0;
     private int gold = 0;
+    private int boneMeal = 0;
 
     /**
      * Is null when player is logged off.
@@ -119,12 +120,14 @@ public class LumberPlayer implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
+                boneMeal = 0;
                 wood = 0;
                 gold = 0;
                 iron = 0;
                 inventory.forEach(itemStack -> {
                     if (itemStack != null)
                         switch (itemStack.getType()) {
+                            case BONE_MEAL ->  boneMeal += itemStack.getAmount();
                             case OAK_WOOD -> wood += itemStack.getAmount();
                             case GOLD_INGOT -> gold += itemStack.getAmount();
                             case IRON_INGOT -> iron += itemStack.getAmount();
@@ -157,4 +160,7 @@ public class LumberPlayer implements Listener {
         return gold;
     }
 
+    public int getBoneMeal() {
+        return boneMeal;
+    }
 }

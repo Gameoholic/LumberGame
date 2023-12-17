@@ -48,6 +48,7 @@ public class PlayerScoreboardManager {
                     Placeholder.component("tree_health_percentage", getTreeHealthPercentageComponent()),
                     Placeholder.component("tree_health", text(plugin.getGameManager().getTreeManager().getHealth())),
                     Placeholder.component("tree_max_health", text(plugin.getGameManager().getTreeManager().getMaxHealth())),
+                    Placeholder.component("bone_meal", text(lumberPlayer.getBoneMeal())),
                     Placeholder.component("wood", text(lumberPlayer.getWood())),
                     Placeholder.component("gold", text(lumberPlayer.getGold())),
                     Placeholder.component("iron", text(lumberPlayer.getIron()))
@@ -71,6 +72,7 @@ public class PlayerScoreboardManager {
                 plugin.getLumberConfig().strings().playerScoreboardLine(),
                 Placeholder.component("player", otherPlayer.name()),
                 Placeholder.component("health", otherPlayerHealth),
+                Placeholder.component("bone_meal", text(otherLumberPlayer.getBoneMeal())),
                 Placeholder.component("wood", text(otherLumberPlayer.getWood())),
                 Placeholder.component("gold", text(otherLumberPlayer.getGold())),
                 Placeholder.component("iron", text(otherLumberPlayer.getIron()))
