@@ -33,7 +33,8 @@ public record StringsConfig(
     String scoreboardTitle,
     List<String> scoreboardLines,
     String playerScoreboardLine,
-    String newWaveStartMessage
+    String newWaveStartMessage,
+    String treeDamagedActionbarMessage
 
 ) {
 

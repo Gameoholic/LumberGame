@@ -1,5 +1,7 @@
 package xyz.gameoholic.lumbergame.game;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -13,6 +15,8 @@ import xyz.gameoholic.lumbergame.util.ItemUtil;
 import xyz.gameoholic.lumbergame.util.NMSUtil;
 
 import java.util.Map;
+
+import static net.kyori.adventure.text.Component.text;
 
 public class TreeManager {
     private final LumberGamePlugin plugin;
@@ -36,7 +40,12 @@ public class TreeManager {
         Bukkit.broadcastMessage("Tree damaged by " + mob.getMobType().displayName() + " for " + damage + " HP");
         health = Math.max(health - damage, 0);
         onAnyHealthChanged();
-        Bukkit.broadcastMessage("Tree at " + health + "/" + maxHealth + " health.");
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> {
+            lumberPlayer.displayActionBar(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().treeDamagedActionbarMessage(),
+                Placeholder.component("tree_damage", text(damage))
+                ));
+        });
         if (health == 0 && !treeDead) {
             onTreeDeath();
         }

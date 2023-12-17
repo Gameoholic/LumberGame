@@ -1,6 +1,7 @@
 package xyz.gameoholic.lumbergame.game.player;
 
 import io.papermc.paper.event.player.PlayerPickItemEvent;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -144,6 +145,15 @@ public class LumberPlayer implements Listener {
             scoreboardManager.update(player);
     }
 
+    /**
+     * Displays the component on the player's action bar.
+     */
+    public void displayActionBar(Component component) {
+        @Nullable Player player = Bukkit.getPlayer(uuid);
+        if (player != null)
+            player.sendActionBar(component);
+    }
+
     public UUID getUuid() {
         return uuid;
     }
@@ -163,4 +173,6 @@ public class LumberPlayer implements Listener {
     public int getBoneMeal() {
         return boneMeal;
     }
+
+
 }
