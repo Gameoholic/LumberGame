@@ -15,10 +15,12 @@ public class LumberGameManager {
     private Set<LumberPlayer> players = new HashSet<>();
     private TreeManager treeManager;
     private WaveManager waveManager;
+
     /**
      * The wave number, uses zeroth index numbering.
      */
     int waveNumber = 0;
+
     public LumberGameManager(LumberGamePlugin plugin, Set<UUID> players) {
         this.plugin = plugin;
         treeManager = new TreeManager(plugin);
@@ -34,7 +36,6 @@ public class LumberGameManager {
 
     private void startGame() {
         waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(0));
-
         plugin.getLogger().info("Game has started with " + players.size() + " players.");
     }
 
@@ -51,12 +52,11 @@ public class LumberGameManager {
         waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
     }
 
-    public TreeManager getTreeManager() {
-        return treeManager;
-    }
-
-    public WaveManager getWaveManager() {
-        return waveManager;
+    /**
+     * Called after the game has fully loaded and the first wave has started.
+     */
+    public void onGameLoad() {
+        players.forEach(player -> player.onGameLoad());
     }
 
     /**
@@ -65,5 +65,17 @@ public class LumberGameManager {
     public void onGameEnd() {
         Bukkit.broadcastMessage("Game has ended! Tree is dead!");
         waveManager.onGameEnd();
+    }
+
+    public int getWaveNumber() {
+        return waveNumber;
+    }
+
+    public TreeManager getTreeManager() {
+        return treeManager;
+    }
+
+    public WaveManager getWaveManager() {
+        return waveManager;
     }
 }

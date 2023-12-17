@@ -41,36 +41,43 @@ public class ConfigParser {
             throw new RuntimeException(e);
         }
 
-        StringsConfig stringsConfig = new StringsConfig(
-            root.node("add-all-to-queue-command-none-found-message").getString(""),
-            root.node("add-all-to-queue-command-added-message").getString(""),
-            root.node("add-to-queue-command-no-player-provided-message").getString(""),
-            root.node("add-to-queue-command-player-offline-message").getString(""),
-            root.node("add-to-queue-command-player-already-queued-message").getString(""),
-            root.node("add-to-queue-command-added-message").getString(""),
-            root.node("remove-all-from-queue-command-none-found-message").getString(""),
-            root.node("removed-all-from-queue-command-removed-message").getString(""),
-            root.node("remove-from-queue-command-no-player-provided-message").getString(""),
-            root.node("remove-from-queue-command-player-offline-message").getString(""),
-            root.node("remove-from-queue-command-player-not-queued-message").getString(""),
-            root.node("remove-from-queue-command-removed-message").getString(""),
-            root.node("start-command-no-queued-players-message").getString(""),
-            root.node("start-command-game-in-progress-message").getString(""),
-            root.node("start-command-success-message").getString(""),
-            Objects.requireNonNull(root.node("mob-displayname").getString()),
-            Objects.requireNonNull(root.node("iron-displayname").getString()),
-            Objects.requireNonNull(root.node("gold-displayname").getString()),
-            Objects.requireNonNull(root.node("diamond-displayname").getString()),
-            Objects.requireNonNull(root.node("iron-lore").getString()),
-            Objects.requireNonNull(root.node("gold-lore").getString()),
-            Objects.requireNonNull(root.node("diamond-lore").getString()),
-            Objects.requireNonNull(root.node("bone-meal-displayname").getString()),
-            Objects.requireNonNull(root.node("bone-meal-lore").getString()),
-            Objects.requireNonNull(root.node("bone-block-displayname").getString()),
-            Objects.requireNonNull(root.node("bone-block-lore").getString()),
-            Objects.requireNonNull(root.node("wood-displayname").getString()),
-            Objects.requireNonNull(root.node("wood-lore").getString())
-        );
+        StringsConfig stringsConfig = null;
+        try {
+            stringsConfig = new StringsConfig(
+                root.node("add-all-to-queue-command-none-found-message").getString(""),
+                root.node("add-all-to-queue-command-added-message").getString(""),
+                root.node("add-to-queue-command-no-player-provided-message").getString(""),
+                root.node("add-to-queue-command-player-offline-message").getString(""),
+                root.node("add-to-queue-command-player-already-queued-message").getString(""),
+                root.node("add-to-queue-command-added-message").getString(""),
+                root.node("remove-all-from-queue-command-none-found-message").getString(""),
+                root.node("removed-all-from-queue-command-removed-message").getString(""),
+                root.node("remove-from-queue-command-no-player-provided-message").getString(""),
+                root.node("remove-from-queue-command-player-offline-message").getString(""),
+                root.node("remove-from-queue-command-player-not-queued-message").getString(""),
+                root.node("remove-from-queue-command-removed-message").getString(""),
+                root.node("start-command-no-queued-players-message").getString(""),
+                root.node("start-command-game-in-progress-message").getString(""),
+                root.node("start-command-success-message").getString(""),
+                Objects.requireNonNull(root.node("mob-displayname").getString()),
+                Objects.requireNonNull(root.node("iron-displayname").getString()),
+                Objects.requireNonNull(root.node("gold-displayname").getString()),
+                Objects.requireNonNull(root.node("diamond-displayname").getString()),
+                Objects.requireNonNull(root.node("iron-lore").getString()),
+                Objects.requireNonNull(root.node("gold-lore").getString()),
+                Objects.requireNonNull(root.node("diamond-lore").getString()),
+                Objects.requireNonNull(root.node("bone-meal-displayname").getString()),
+                Objects.requireNonNull(root.node("bone-meal-lore").getString()),
+                Objects.requireNonNull(root.node("bone-block-displayname").getString()),
+                Objects.requireNonNull(root.node("bone-block-lore").getString()),
+                Objects.requireNonNull(root.node("wood-displayname").getString()),
+                Objects.requireNonNull(root.node("wood-lore").getString()),
+                Objects.requireNonNull(root.node("scoreboard-title").getString()),
+                Objects.requireNonNull(root.node("scoreboard-lines").getList(String.class))
+            );
+        } catch (SerializationException e) {
+            throw new RuntimeException(e);
+        }
         return stringsConfig;
     }
 

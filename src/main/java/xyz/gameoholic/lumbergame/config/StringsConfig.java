@@ -1,6 +1,8 @@
 package xyz.gameoholic.lumbergame.config;
 
 
+import java.util.List;
+
 public record StringsConfig(
     String addAllToQueueCommandNoneFoundMessage,
     String addAllToQueueCommandAddedMessage,
@@ -29,7 +31,9 @@ public record StringsConfig(
     String boneBlockDisplayname,
     String boneBlockLore,
     String woodDisplayname,
-    String woodLore
+    String woodLore,
+    String scoreboardTitle,
+    List<String> scoreboardLines
 
 
 ) {

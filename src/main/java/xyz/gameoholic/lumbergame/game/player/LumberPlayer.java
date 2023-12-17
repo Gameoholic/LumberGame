@@ -32,7 +32,12 @@ public class LumberPlayer implements Listener {
     public LumberPlayer(LumberGamePlugin plugin, UUID uuid) {
         this.uuid = uuid;
         this.plugin = plugin;
+    }
 
+    /**
+     * Called after the game fully loads and the first wave starts.
+     */
+    public void onGameLoad() {
         Player player = Bukkit.getPlayer(uuid);
         if (player != null)
             scoreboardManager = new PlayerScoreboardManager(plugin, player);

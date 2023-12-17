@@ -38,3 +38,13 @@ bone-block-lore: "<i><gray>Place near the tree to level it up.<br><i><gray>Level
 
 wood-displayname: "<color:#ff8d03>Lumber"
 wood-lore: "<i><gray>Valuable item used for powerful crafts."
+
+
+scoreboard-title: "<color:#ffa008>Lumber Defense</color>"
+# parameters: <wave>, <wood>, <diamond>, <gold>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>
+scoreboard-lines:
+  - "Wave <color:#f08000><wave></color>"
+  - "🌲 <color:#48ff00><tree_health_percentage>%</color> <color:#8a8a8a>(<tree_health>/<tree_max_health>)</color>"
+  - "<color:#f0e40e>You</color>      1🟫 5💎 2🧈 1🔩"
+  - "Spicv              1🟫 5💎 2🧈 1🔩"
+  - "<color:#f02805>Mobs</color>: <alive_mobs>"

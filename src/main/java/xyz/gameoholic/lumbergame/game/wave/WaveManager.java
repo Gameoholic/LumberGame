@@ -180,4 +180,9 @@ public class WaveManager {
         mobSpawnerTask.cancel();
         mobSpawnerTask = null;
     }
+
+
+    public int getAliveMobsSize() {
+        return aliveMobs.size();
+    }
 }

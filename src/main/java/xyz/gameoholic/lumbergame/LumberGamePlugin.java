@@ -20,7 +20,6 @@ public final class LumberGamePlugin extends JavaPlugin {
     private WaveManager waveManager; //todo: SET AUTOMATICALLY FROM EHRE. NEVER NULL.
     @Override
     public void onEnable() {
-
         saveResource("strings.yml", true);
         saveResource("hostile_mob_types.yml", true);
         saveResource("tree_mob_types.yml", true);
@@ -55,6 +54,14 @@ public final class LumberGamePlugin extends JavaPlugin {
 
     }
 
+    /**
+     * Starts the game with all the players currently queued.
+     */
+    public void startGame() {
+        gameManager = new LumberGameManager(this, queueManager.getPlayers());
+        queueManager.resetQueue();
+        gameManager.onGameLoad();
+    }
 
     public LumberQueueManager getQueueManager() {
         return queueManager;
@@ -64,12 +71,10 @@ public final class LumberGamePlugin extends JavaPlugin {
         return gameManager;
     }
 
-    public void setGameManager(LumberGameManager gameManager) {
-        this.gameManager = gameManager;
-    }
-
 
     public LumberConfig getLumberConfig() {
         return config;
     }
+
+
 }
