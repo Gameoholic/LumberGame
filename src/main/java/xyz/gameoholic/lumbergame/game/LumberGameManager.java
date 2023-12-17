@@ -48,7 +48,11 @@ public class LumberGameManager {
 
     private void startNewWave() {
         waveNumber++;
-        Bukkit.broadcastMessage("Starting Round " + (waveNumber + 1));
+        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
+        updatePlayerScoreboards(); // Update wave number
+    }
+    public void startSpecificWave(int waveNumber) {
+        this.waveNumber = waveNumber;
         waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
         updatePlayerScoreboards(); // Update wave number
     }
