@@ -1,7 +1,9 @@
-#Optional arguments: speed (default is 0.23)
+# Optional arguments:
+#  speed (default is 0.23)
+#  knockback (default is 0.0). Knockback applied to attacks.
+#  knockback-resistance (default is 0.0). The scale of horizontal knockback resisted from attacks and projectiles. Vertical knockback is not affected. 1.0 is 100% knockback resistance. 0.4 means 60% of knockback is applied.
 
-#Color coding: <green> for 'minor ability', <red> for 'heavy damage'
-
+# Color coding: <green> for 'minor ability', <red> for 'heavy damage'
 
 # ---------------- Early Mobs ----------------
 
@@ -9,28 +11,29 @@
 - id: "TREE_ZOMBIE"
   display-name: "<red>😡</red> Zombie"
   entity-type: "ZOMBIE"
-  health-expression: "CR * 5"
-  damage-expression: "CR * 1"
+  health-expression: "CR * 2 + 3.5"
+  damage-expression: "CR * 0.25 + 1"
 
 # Normal creeper, a bit more damage than normal mobs. Introduced @ Wave ~2
 - id: "TREE_CREEPER"
   display-name: "<red>😡</red> Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 5"
-  damage-expression: "CR * 3"
+  health-expression: "CR * 2 + 3.5"
+  damage-expression: "CR * 0.5 + 1"
 
 # Faster creeper. Introduced @ Wave ~5
 - id: "SNEAKY_CREEPER"
   display-name: "<red>😡</red> <green>Sneaky Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 4 + 3"
-  damage-expression: "CR * 3"
-  speed: 0.4
+  health-expression: "CR * 1"
+  damage-expression: "CR * 0.5 + 1"
+  speed-expression: "0.35"
 
-# Does heavy damage, and walks slowly. Introduced @ Wave ~5
+# Does heavy damage, and walks slowly. Fully knockback resistant. Introduced @ Wave ~5
 - id: "HEAVY_CREEPER"
   display-name: "<red>😡</red> <red>Heavy Creeper"
   entity-type: "CREEPER"
   health-expression: "CR * 10"
   damage-expression: "CR * 5 + 5"
-  speed: 0.15
+  speed-expression: "0.15"
+  knockback-resistance-expression: "1.0"

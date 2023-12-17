@@ -1,44 +1,40 @@
-#Optional arguments: speed (default is 0.23)
+#O ptional arguments:
+#  speed (default is 0.23)
+#  knockback (default is 0.0). Knockback applied to attacks.
+#  knockback-resistance (default is 0.0). The scale of horizontal knockback resisted from attacks and projectiles. Vertical knockback is not affected. 1.0 is 100% knockback resistance. 0.4 means 60% of knockback is applied.
 
-#Color coding: <green> for 'minor ability', <red> for 'heavy damage'
-
-# As a general rule of thumb, all hostile mobs should be stronger than their tree variants.
+# Color coding: <green> for 'minor ability', <red> for 'heavy damage'
 
 
 # ---------------- Early Mobs ----------------
 - id: "TEST"
   display-name: "Zombie"
-  entity-type: "CREEPER"
+  entity-type: "ZOMBIE"
   health-expression: "CR * 6"
   damage-expression: "CR * 1 + 1"
+  knockback-expression: "4.0"
 
 
 # Normal zombie, fairly weak. Introduced @ Wave ~1
 - id: "ZOMBIE"
   display-name: "Zombie"
   entity-type: "ZOMBIE"
-  health-expression: "CR * 6"
-  damage-expression: "CR * 1 + 1"
+  health-expression: "CR * 2 + 3.5"
+  damage-expression: "CR * 0.25 + 1"
 
-# Normal zombie, fairly weak. Introduced @ Wave ~1
+# Normal skeleton, fairly weak but can be annoying to deal with.
 - id: "SKELETON"
   display-name: "Skeleton"
   entity-type: "SKELETON"
-  health-expression: "CR * 5 + 3"
-  damage-expression: "CR * 1 + 1"
+  health-expression: "CR * 2 + 3.5"
+  damage-expression: "CR * 0.25 + 1"
 
-# Zombie with slightly higher movement speed. Introduced @ Wave 6
-- id: "FAST_ZOMBIE"
-  display-name: "<green>Fast Zombie"
-  entity-type: "ZOMBIE"
-  health-expression: "CR * 6"
+# High knockback and higher speed.
+- id: "SHOVER"
+  display-name: "<green>Shover"
+  entity-type: "ZOMBIE_VILLAGER"
+  health-expression: "CR * 2 + 3.5"
   damage-expression: "CR * 1 + 1"
-  speed: 0.33
+  speed-expression: "0.35"
+  knockback-expression: "4.0"
 
-# Faster creeper. Introduced @ Wave ~5
-- id: "SNEAKY_CREEPER_HOSTILE"
-  display-name: "<green>Sneaky Creeper"
-  entity-type: "CREEPER"
-  health-expression: "CR * 4 + 3"
-  damage-expression: "CR * 2"
-  speed: 0.35

@@ -10,6 +10,8 @@ public record MobType(
     boolean isHostile,
     String healthExpression,
     String damageExpression,
-    Double speed
+    String speedExpression,
+    String knockbackExpression,
+    String knockbackResistanceExpression
 ) {
 }

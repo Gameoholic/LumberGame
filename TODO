@@ -27,16 +27,16 @@ MOBS:
 
 
 Big todo:
- - DEBUG COMMANDS: /quickstart & /wave (must also clear all previous mobs upon starting new waves), /clearmobs (1h)
  - Shop & Regular Items (1d)
- - Tree grow - World Edit (4h) [tmrw]
+ - Tree grow - World Edit (4h)
  - Difficulty Scaling for players (CR higher) (3h). With debug command or /start parameter.
  - Balancing for singleplayer
+ - Player Death
 
  - Classes & Class Shop (1d)
  - More customizable Mobs + More mobs (1d)
  - Partigon & Polish
 
- - Difficulty Selection (increases CR slightly, but mostly HP - SCALE variable) [Post Hypixel]
+ - Difficulty Selection (increases CR slightly, but mostly HP - SCALE variable) [Post Hypixel]. Maybe completely diff wave types?
  - Mob attacks & spells [Post Hypixel]
  - Buildings & Towers? [Post Hypixel]

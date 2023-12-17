@@ -82,7 +82,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     }
 
 
-
-
-
+    public void setConfig(LumberConfig config) {
+        this.config = config;
+    }
 }

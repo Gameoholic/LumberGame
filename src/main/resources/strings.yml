@@ -24,7 +24,7 @@ start-command-success-message: "<green>Started the game!"
 
 new-wave-start-message: "<gold>Started wave <red><wave></red>!" # Parameters: <wave>
 
-tree-damaged-actionbar-message: "<transition:#ff0000:#00ff00:<tree_health_fraction>> <bold>!</bold> 🌲 <bold>!</bold></transition><red>-<tree_damage>"
+tree-damaged-actionbar-message: "<transition:#ff0000:#00ff00:<tree_health_fraction>> <bold>!</bold>🌲<bold>! </bold></transition><red><bold>-<tree_damage>"
 
 mob-displayname: "<name> <health>❤ <cr>🛡"
 

@@ -216,7 +216,9 @@ public class ConfigParser {
                         isHostile,
                         mobType.node("health-expression").require(String.class),
                         mobType.node("damage-expression").require(String.class),
-                        mobType.node("speed").getDouble(0.23)
+                        mobType.node("speed-expression").getString("0.23"),
+                        mobType.node("knockback-expression").getString("0"),
+                        mobType.node("knockback-resistance-expression").getString("0")
                     ));
                 } catch (Exception e) {
                     e.printStackTrace();

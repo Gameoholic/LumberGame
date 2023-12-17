@@ -55,9 +55,10 @@ public class LumberGameManager {
         startNewWave();
     }
 
-    private void startNewWave() {
-        waveNumber++;
-        startWaveWithMessage();
+    private void startNewWave() { //TODO: TEMP FOR BALANCING.
+        return;
+//        waveNumber++;
+//        startWaveWithMessage();
     }
     public void startSpecificWave(int waveNumber) {
         this.waveNumber = waveNumber;

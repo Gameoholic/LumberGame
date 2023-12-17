@@ -1,109 +1,44 @@
 # Wave scaling:
 
+# Introduce mob one wave earlier, just to showcase it to the player and get them familiar with it.
+# Tree upgrades at wave 5, 10, 15, 20, 25, 30
+# Every 5 levels (except for wave 5), mob CR's should be 1.5x
 
 # Wave 1
-- wave-cr: 10
+- wave-cr: 8
   spawn-timer-min: 40
   spawn-timer-max: 120
   mob-min-cr: 1
   mob-max-cr: 1
   mob-types:
     - id: ZOMBIE
-      chance: 0.6
-    - id: TREE_ZOMBIE
       chance: 0.4
-  bone-block: true
+    - id: TREE_ZOMBIE
+      chance: 0.6
+  guaranteed-mob-types:
+    - id: TREE_ZOMBIE
+      amount: 1
 
 # Wave 2
-- wave-cr: 12
+- wave-cr: 10
   spawn-timer-min: 20
-  spawn-timer-max: 100
+  spawn-timer-max: 120
   mob-min-cr: 1
-  mob-max-cr: 1
+  mob-max-cr: 2
   mob-types:
     - id: SKELETON
-      chance: 0.2
+      chance: 0.05
     - id: ZOMBIE
-      chance: 0.4
+      chance: 0.35
     - id: TREE_ZOMBIE
-      chance: 0.4
+      chance: 0.6
 
 # Wave 3
-- wave-cr: 15
-  spawn-timer-min: 20
-  spawn-timer-max: 100
-  mob-min-cr: 1
-  mob-max-cr: 2
-  mob-types:
-    - id: SKELETON
-      chance: 0.2
-    - id: ZOMBIE
-      chance: 0.4
-    - id: TREE_ZOMBIE
-      chance: 0.4
-
-# Wave 4
-- wave-cr: 20
-  spawn-timer-min: 20
-  spawn-timer-max: 100
-  mob-min-cr: 1
-  mob-max-cr: 2
-  mob-types:
-    - id: SKELETON
-      chance: 0.15
-    - id: ZOMBIE
-      chance: 0.35
-    - id: TREE_ZOMBIE
-      chance: 0.3
-    - id: TREE_CREEPER
-      chance: 0.2
-  guaranteed-mob-types:
-    - id: TREE_CREEPER
-      amount: 2
-
-# Wave 5
-- wave-cr: 25
-  spawn-timer-min: 20
-  spawn-timer-max: 80
-  mob-min-cr: 2
-  mob-max-cr: 2
-  mob-types:
-    - id: SKELETON
-      chance: 0.15
-    - id: ZOMBIE
-      chance: 0.35
-    - id: TREE_ZOMBIE
-      chance: 0.3
-    - id: TREE_CREEPER
-      chance: 0.2
-  bone-block: true
-
-# Wave 6
-- wave-cr: 30
-  spawn-timer-min: 20
-  spawn-timer-max: 80
-  mob-min-cr: 2
-  mob-max-cr: 3
-  mob-types:
-    - id: SKELETON
-      chance: 0.1
-    - id: ZOMBIE
-      chance: 0.3
-    - id: TREE_ZOMBIE
-      chance: 0.3
-    - id: TREE_CREEPER
-      chance: 0.2
-    - id: SNEAKY_CREEPER
-      chance: 0.1
-  guaranteed-mob-types:
-    - id: SNEAKY_CREEPER
-      amount: 2
-
-# Wave 7
+# Last "Super Easy" Wave. Player should start purchasing items after this.
 - wave-cr: 40
   spawn-timer-min: 20
-  spawn-timer-max: 80
-  mob-min-cr: 2
+  spawn-timer-max: 100
+  mob-min-cr: 3
   mob-max-cr: 4
   mob-types:
     - id: SKELETON
@@ -111,9 +46,90 @@
     - id: ZOMBIE
       chance: 0.3
     - id: TREE_ZOMBIE
-      chance: 0.3
+      chance: 0.4
     - id: TREE_CREEPER
       chance: 0.2
+  guaranteed-mob-types:
+    - id: TREE_CREEPER
+      amount: 1
+
+# Wave 4
+- wave-cr: 60
+  spawn-timer-min: 20
+  spawn-timer-max: 100
+  mob-min-cr: 4
+  mob-max-cr: 5
+  mob-types:
+    - id: SKELETON
+      chance: 0.1
+    - id: ZOMBIE
+      chance: 0.3
+    - id: TREE_ZOMBIE
+      chance: 0.4
+    - id: TREE_CREEPER
+      chance: 0.2
+  bone-block: true
+
+# Wave 5
+# This is where things stop being easy. Player should start buying items. Also, first bone block.
+# Introduction of sneaky creepers.
+- wave-cr: 85
+  spawn-timer-min: 20
+  spawn-timer-max: 80
+  mob-min-cr: 4
+  mob-max-cr: 6
+  mob-types:
+    - id: SKELETON
+      chance: 0.1
+    - id: ZOMBIE
+      chance: 0.3
+    - id: TREE_ZOMBIE
+      chance: 0.4
+    - id: TREE_CREEPER
+      chance: 0.2
+  guaranteed-mob-types:
+    - id: SNEAKY_CREEPER
+      amount: 1
+  bone-block: true
+
+# Wave 6
+# From now on, use stone sword for balancing purposes.
+- wave-cr: 120
+  spawn-timer-min: 20
+  spawn-timer-max: 80
+  mob-min-cr: 5
+  mob-max-cr: 6
+  mob-types:
+    - id: SKELETON
+      chance: 0.1
+    - id: ZOMBIE
+      chance: 0.3
+    - id: TREE_ZOMBIE
+      chance: 0.35
+    - id: TREE_CREEPER
+      chance: 0.17
+    - id: SNEAKY_CREEPER
+      chance: 0.08
+#UNBALANCED FROM HERE ON.
+# Wave 7
+# Introduction of the Shover.
+- wave-cr: 150
+  spawn-timer-min: 20
+  spawn-timer-max: 80
+  mob-min-cr: 6
+  mob-max-cr: 7
+  mob-types:
+    - id: SKELETON
+      chance: 0.08
+    - id: ZOMBIE
+      chance: 0.3
+    - id: TREE_ZOMBIE
+      chance: 0.35
+    - id: TREE_CREEPER
+      chance: 0.17
     - id: SNEAKY_CREEPER
       chance: 0.1
-  bone-block: true
+  guaranteed-mob-types:
+    - id: SHOVER
+      amount: 1
+

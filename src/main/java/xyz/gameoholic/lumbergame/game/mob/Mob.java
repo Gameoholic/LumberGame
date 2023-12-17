@@ -71,13 +71,20 @@ public class Mob {
         mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
         mob.setHealth(health);
 
-        mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(mobType.speed());
+        mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(
+            ExpressionUtil.evaluateExpression(mobType.speedExpression(), Map.of("CR", (double) CR))
+        );
 
         mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(
-            new ExpressionBuilder(mobType.damageExpression())
-                .variables("CR")
-                .build()
-                .setVariable("CR", CR).evaluate()
+            ExpressionUtil.evaluateExpression(mobType.damageExpression(), Map.of("CR", (double) CR))
+        );
+
+        mob.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK).setBaseValue(
+            ExpressionUtil.evaluateExpression(mobType.knockbackExpression(), Map.of("CR", (double) CR))
+        );
+
+        mob.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(
+            ExpressionUtil.evaluateExpression(mobType.knockbackResistanceExpression(), Map.of("CR", (double) CR))
         );
 
         mob.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(Double.MAX_VALUE);
@@ -158,6 +165,7 @@ public class Mob {
 
     /**
      * Should be called when the mob dies.
+     *
      * @param dropLoot Whether the mob should drop its loot, should only be true if a player killed the mob.
      */
     public void onDeath(Boolean dropLoot) {
