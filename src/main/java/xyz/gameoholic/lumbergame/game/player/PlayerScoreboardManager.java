@@ -8,6 +8,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.util.RGBLike;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.util.ColorUtil;
@@ -55,14 +56,30 @@ public class PlayerScoreboardManager {
                     Placeholder.component("iron", text(lumberPlayer.getIron()))
                 ))
         );
-//        lines.add(lines.size() - 1, MiniMessage.miniMessage().deserialize(
-//            plugin.getLumberConfig().strings().selfPlayerScoreboardLine(),
-//            Placeholder.component("health", text(20)),
-//            Placeholder.component("wood", text(1)),
-//            Placeholder.component("diamond", text(1)),
-//            Placeholder.component("gold", text(1)),
-//            Placeholder.component("iron", text(1))
-//        ));
+
+
+        // Add line for every other player, 2 lines before the last line
+        for (LumberPlayer otherLumberPlayer: plugin.getGameManager().getPlayers().stream().filter(
+            filteredPlayer -> filteredPlayer.getUuid() != player.getUniqueId()).toList()
+        ) {
+            Player otherPlayer = Bukkit.getPlayer(otherLumberPlayer.getUuid());
+            Component otherPlayerHealth = text("N/A").color(NamedTextColor.RED);
+            if (otherPlayer != null)
+                otherPlayerHealth = text((int)Math.max(otherPlayer.getHealth(), 1)).color(ColorUtil.getGreenRedColor(
+                    otherPlayer.getHealth() / otherPlayer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue())
+                );
+
+            lines.add(lines.size() - 2, MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().playerScoreboardLine(),
+                Placeholder.component("player", otherPlayer.name()),
+                Placeholder.component("health", otherPlayerHealth),
+                Placeholder.component("wood", text(otherLumberPlayer.getWood())),
+                Placeholder.component("diamond", text(otherLumberPlayer.getDiamond())),
+                Placeholder.component("gold", text(otherLumberPlayer.getGold())),
+                Placeholder.component("iron", text(otherLumberPlayer.getIron()))
+            ));
+        }
+
         board.updateLines(lines);
     }
 

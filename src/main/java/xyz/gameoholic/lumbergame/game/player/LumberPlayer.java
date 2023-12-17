@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -64,24 +65,44 @@ public class LumberPlayer implements Listener {
     }
     @EventHandler
     private void onInventoryDragEvent(InventoryDragEvent e) {
-        onInventoryChanged(e.getViewers().get(0).getInventory());
+        if (!(e.getViewers().get(0) instanceof Player player) || player.getUniqueId() != uuid)
+            return;
+        onInventoryChanged(player.getInventory());
     }
     @EventHandler
     private void onInventoryEvent(InventoryCreativeEvent e) {
-        onInventoryChanged(e.getViewers().get(0).getInventory());
+        if (!(e.getViewers().get(0) instanceof Player player) || player.getUniqueId() != uuid)
+            return;
+        onInventoryChanged(player.getInventory());
     }
     @EventHandler
     private void onInventoryEvent(EntityPickupItemEvent e) {
-        if (e.getEntity() instanceof Player player)
-            onInventoryChanged(player.getInventory());
+        if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
+            return;
+        onInventoryChanged(player.getInventory());
     }
     @EventHandler
     private void onInventoryEvent(PlayerDropItemEvent e) {
+        if (e.getPlayer().getUniqueId() != uuid)
+            return;
         onInventoryChanged(e.getPlayer().getInventory());
     }
+    @EventHandler
+    private void onHealthChanged(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
+            return;
+        // Health change is delayed by 1 tick to let the event affect the player's health when accessed by scoreboard manager
+        new BukkitRunnable() { //todo: is there a better way?
+            @Override
+            public void run() {
+                plugin.getGameManager().updatePlayerScoreboards(); // Update player health
+            }
+        }.runTask(plugin);
+    }
+
 
     private void onInventoryChanged(Inventory inventory) {
-        // Inventory search is delayed by 1 tick to let the events affect the inventory
+        // Inventory search is delayed by 1 tick to let the events affect the player's inventory when accessed by scoreboard manager
         new BukkitRunnable() { //todo: is there a better way?
             @Override
             public void run() {

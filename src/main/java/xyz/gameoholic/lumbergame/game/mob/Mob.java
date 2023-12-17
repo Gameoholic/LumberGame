@@ -220,9 +220,12 @@ public class Mob {
     }
 
     private void updateMobCustomName(double newHealth) {
+        int newHealthAdjusted = (int) Math.max(newHealth, 1);
+        if (newHealth <= 0)
+            newHealthAdjusted = 0;
         mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
             Placeholder.component("cr", text(CR)),
-            Placeholder.component("health", text((int) Math.max(newHealth, 0))),
+            Placeholder.component("health", text(newHealthAdjusted)),
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
     }
