@@ -1,8 +1,12 @@
 package xyz.gameoholic.lumbergame.commands;
 
+import fr.mrmicky.fastboard.adventure.FastBoard;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
@@ -24,7 +28,18 @@ public class TestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        NMSUtil.displayBlockDestruction(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+
+        FastBoard board = new FastBoard((Player) sender);
+
+// Set the title
+        board.updateTitle(text("Lumber Game").color(NamedTextColor.GOLD));
+        board.updateLines(
+            MiniMessage.miniMessage().deserialize("<>"),
+            text("Gameoholic_").color(NamedTextColor.AQUA),
+            text("test2").color(NamedTextColor.AQUA),
+            text("test3").color(NamedTextColor.AQUA)
+        );
+
         return false;
     }
 }

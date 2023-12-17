@@ -2,7 +2,9 @@ package xyz.gameoholic.lumbergame.game;
 
 import org.bukkit.Bukkit;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
+import xyz.gameoholic.lumbergame.listeners.EntityDamageListener;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +23,11 @@ public class LumberGameManager {
         this.plugin = plugin;
         treeManager = new TreeManager(plugin);
         players.forEach(
-            uuid -> this.players.add(new LumberPlayer(uuid))
+            uuid -> {
+                LumberPlayer lumberPlayer = new LumberPlayer(plugin, uuid);
+                Bukkit.getPluginManager().registerEvents(lumberPlayer, plugin); // Register all needed LumberPlayer listeners
+                this.players.add(lumberPlayer);
+            }
         );
         startGame();
     }
