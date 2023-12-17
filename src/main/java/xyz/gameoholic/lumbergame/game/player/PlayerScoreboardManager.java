@@ -49,7 +49,6 @@ public class PlayerScoreboardManager {
                     Placeholder.component("tree_health_percentage", getTreeHealthPercentageComponent()),
                     Placeholder.component("tree_health", text(plugin.getGameManager().getTreeManager().getHealth())),
                     Placeholder.component("tree_max_health", text(plugin.getGameManager().getTreeManager().getMaxHealth())),
-                    Placeholder.component("health", text(player.getHealth())),
                     Placeholder.component("wood", text(lumberPlayer.getWood())),
                     Placeholder.component("diamond", text(lumberPlayer.getDiamond())),
                     Placeholder.component("gold", text(lumberPlayer.getGold())),
@@ -58,7 +57,7 @@ public class PlayerScoreboardManager {
         );
 
 
-        // Add line for every other player, 2 lines before the last line
+        // Add line for every other player, X lines before the last line (margin)
         for (LumberPlayer otherLumberPlayer: plugin.getGameManager().getPlayers().stream().filter(
             filteredPlayer -> filteredPlayer.getUuid() != player.getUniqueId()).toList()
         ) {
@@ -69,7 +68,8 @@ public class PlayerScoreboardManager {
                     otherPlayer.getHealth() / otherPlayer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue())
                 );
 
-            lines.add(lines.size() - 2, MiniMessage.miniMessage().deserialize(
+            lines.add(lines.size() - plugin.getLumberConfig().gameConfig().scoreboardPlayerLineMargin(),
+                MiniMessage.miniMessage().deserialize(
                 plugin.getLumberConfig().strings().playerScoreboardLine(),
                 Placeholder.component("player", otherPlayer.name()),
                 Placeholder.component("health", otherPlayerHealth),

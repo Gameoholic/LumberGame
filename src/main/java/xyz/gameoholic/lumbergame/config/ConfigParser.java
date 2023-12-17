@@ -99,7 +99,8 @@ public class ConfigParser {
                 root.node("iron-drop-expression").require(String.class),
                 root.node("gold-drop-expression").require(String.class),
                 root.node("diamond-drop-expression").require(String.class),
-                root.node("bone-meal-spawn-expression").require(String.class)
+                root.node("bone-meal-spawn-expression").require(String.class),
+                root.node("scoreboard-player-line-margin").require(Integer.class)
             );
         } catch (SerializationException e) {
             e.printStackTrace();
