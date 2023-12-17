@@ -1,6 +1,5 @@
 package xyz.gameoholic.lumbergame.game;
 
-import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -13,9 +12,7 @@ import xyz.gameoholic.lumbergame.util.FunctionUtil;
 import xyz.gameoholic.lumbergame.util.ItemUtil;
 import xyz.gameoholic.lumbergame.util.NMSUtil;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 public class TreeManager {
     private final LumberGamePlugin plugin;
@@ -29,7 +26,6 @@ public class TreeManager {
 
         updateMaxHealth();
         health = maxHealth;
-        onAnyHealthChanged();
     }
 
     /**
@@ -82,6 +78,7 @@ public class TreeManager {
     public void onTreeLevelUpByPlayer(Player player) {
         level++;
         updateMaxHealth();
+        onAnyHealthChanged();
     }
 
     /**
@@ -91,17 +88,17 @@ public class TreeManager {
         maxHealth = (int) ExpressionUtil.evaluateExpression(
             plugin.getLumberConfig().gameConfig().treeHealthExpression(),
             Map.of("level", (double) level));
-        onAnyHealthChanged();
     }
 
     /**
      * Should be called whenever the health, or the maxHealth of the tree changes (or updates but remains the same).
-     * Displays clientside cracks on tree.
+     * Displays clientside cracks on tree and updates scoreboard.
+     * Should NOT be called when the health is first set.
      */
     private void onAnyHealthChanged() {
         int blockBreakProgress; // -1 is no block break, range is 0 - 9, where 9 is the most broken.
 
-        int healthRatio = (int) (((double) health / maxHealth) * 100); // in %
+        int healthRatio = getHealthToMaxHealthRatio(); // in %
         if (health <= 1)
             blockBreakProgress = 9;
         else if (healthRatio <= 5)
@@ -125,9 +122,6 @@ public class TreeManager {
         else
             blockBreakProgress = -1;
 
-        int searchRadius = (int) Math.sqrt(plugin.getLumberConfig().mapConfig().treeRadius()); // Radius provided in config is squared
-        Location treeLocation = plugin.getLumberConfig().mapConfig().treeLocation(); // Root location of tree
-
         iterateOverTreeBlocks(block -> NMSUtil.displayBlockDestruction(
             block.getLocation().getBlockX(),
             block.getLocation().getBlockY(),
@@ -135,6 +129,7 @@ public class TreeManager {
             blockBreakProgress
         ));
 
+        plugin.getGameManager().updatePlayerScoreboards(); // Update tree health
     }
 
     /**
@@ -162,5 +157,19 @@ public class TreeManager {
                 }
             }
         }
+    }
+
+    /**
+     * @return The health/max health ratio in % (0-100)
+     */
+    public int getHealthToMaxHealthRatio() {
+        return (int) (((double) health / maxHealth) * 100);
+    }
+    public int getHealth() {
+        return health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 }

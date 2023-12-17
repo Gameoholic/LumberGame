@@ -78,7 +78,6 @@ tasks {
         fun reloc(pkg: String) = relocate(pkg, "${project.group}.${project.name}.dependency.$pkg")
 
         reloc("fr.mrmicky.fastboard")
-        //relocate("kotlin", "xyz.gameoholic.partigon.dependency.kotlin")
     }
 
 }

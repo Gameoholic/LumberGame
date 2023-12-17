@@ -26,7 +26,6 @@ import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Predicate;
 
 import static net.kyori.adventure.text.Component.text;
 
