@@ -73,7 +73,8 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("wood-displayname").getString()),
                 Objects.requireNonNull(root.node("wood-lore").getString()),
                 Objects.requireNonNull(root.node("scoreboard-title").getString()),
-                Objects.requireNonNull(root.node("scoreboard-lines").getList(String.class))
+                Objects.requireNonNull(root.node("scoreboard-lines").getList(String.class)),
+                Objects.requireNonNull(root.node("player-scoreboard-line").getString())
             );
 
         } catch (SerializationException e) {

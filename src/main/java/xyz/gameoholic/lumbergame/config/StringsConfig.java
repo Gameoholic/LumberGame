@@ -33,8 +33,8 @@ public record StringsConfig(
     String woodDisplayname,
     String woodLore,
     String scoreboardTitle,
-    List<String> scoreboardLines
-
+    List<String> scoreboardLines,
+    String playerScoreboardLine
 
 ) {
 

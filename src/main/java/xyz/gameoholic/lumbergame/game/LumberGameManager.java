@@ -6,6 +6,7 @@ import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -84,5 +85,9 @@ public class LumberGameManager {
 
     public WaveManager getWaveManager() {
         return waveManager;
+    }
+
+    public Set<LumberPlayer> getPlayers() {
+        return players;
     }
 }

@@ -8,15 +8,13 @@ Redo Tree attack goals, and lumberMeleeAttackGoal
 Better spongepowered config.
 Input validation on wave mob chances (must add up to 1.0).
 Make ConfigParser prettier. method try/cathc ijnstead of many of them?
+Cloud framework
+Remove all places where we check itemstack's material. Instead, compare directly with ItemUtil.item
 
-
+Remove Diamond?
 
 +++ For more complex MobType, extend MobType for example CreeperMobType if need ot contrrol fuse speed
 
-
-TODO for tomorrow:
-ADD QUEUE to waves, forcing certain mobs to spawn (CR included).
-Also used for bone block calculations.
 
 MOBS:
  - Armor & Equipment
