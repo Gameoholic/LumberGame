@@ -3,14 +3,12 @@ package xyz.gameoholic.lumbergame.game.player;
 import fr.mrmicky.fastboard.adventure.FastBoard;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.util.ColorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,13 +64,14 @@ public class PlayerScoreboardManager {
             Player otherPlayer = Bukkit.getPlayer(otherLumberPlayer.getUuid());
             Component otherPlayerHealth = text("N/A").color(NamedTextColor.RED);
             if (otherPlayer != null)
-                otherPlayerHealth = text((int)Math.max(otherPlayer.getHealth(), 1)).color(ColorUtil.getGreenRedColor(
-                    otherPlayer.getHealth() / otherPlayer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue())
-                );
+                otherPlayerHealth = text((int)Math.max(otherPlayer.getHealth(), 1));
 
             lines.add(lines.size() - plugin.getLumberConfig().gameConfig().scoreboardPlayerLineMargin(),
                 MiniMessage.miniMessage().deserialize(
                 plugin.getLumberConfig().strings().playerScoreboardLine(),
+                Placeholder.parsed("health_fraction", String.valueOf(
+                    otherPlayer.getHealth() / otherPlayer.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue())
+                ),
                 Placeholder.component("player", otherPlayer.name()),
                 Placeholder.component("health", otherPlayerHealth),
                 Placeholder.component("bone_meal", text(otherLumberPlayer.getBoneMeal())),
@@ -83,11 +82,6 @@ public class PlayerScoreboardManager {
         }
 
         board.updateLines(lines);
-    }
-
-    private Component getTreeHealthPercentageComponent() {
-        int healthRatioPercentage = plugin.getGameManager().getTreeManager().getHealthToMaxHealthRatio();
-        return text(healthRatioPercentage).color(ColorUtil.getGreenRedColor(healthRatioPercentage / 100.0));
     }
 
     /**
