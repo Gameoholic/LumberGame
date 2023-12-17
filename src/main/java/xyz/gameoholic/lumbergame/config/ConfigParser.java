@@ -75,6 +75,7 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("scoreboard-title").getString()),
                 Objects.requireNonNull(root.node("scoreboard-lines").getList(String.class))
             );
+
         } catch (SerializationException e) {
             throw new RuntimeException(e);
         }

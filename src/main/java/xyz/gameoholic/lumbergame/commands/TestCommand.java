@@ -1,8 +1,10 @@
 package xyz.gameoholic.lumbergame.commands;
 
 import fr.mrmicky.fastboard.adventure.FastBoard;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +14,9 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
 import xyz.gameoholic.lumbergame.util.NMSUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -31,14 +36,19 @@ public class TestCommand implements CommandExecutor {
 
         FastBoard board = new FastBoard((Player) sender);
 
-// Set the title
-        board.updateTitle(text("Lumber Game").color(NamedTextColor.GOLD));
-        board.updateLines(
-            MiniMessage.miniMessage().deserialize("<>"),
-            text("Gameoholic_").color(NamedTextColor.AQUA),
-            text("test2").color(NamedTextColor.AQUA),
-            text("test3").color(NamedTextColor.AQUA)
+        board.updateTitle(
+            MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().scoreboardTitle())
         );
+        List<Component> lines = new ArrayList<>();
+        plugin.getLumberConfig().strings().scoreboardLines().forEach(
+            line ->
+                MiniMessage.miniMessage().deserialize(
+                    line,
+                    Placeholder.component("wave", text(plugin.getGameManager().getWaveNumber() + 1)),
+                    Placeholder.component("alive_mobs", text(plugin.getGameManager().getWaveManager().getAliveMobsSize()))
+                )
+        );
+        board.updateLines(lines);
 
         return false;
     }

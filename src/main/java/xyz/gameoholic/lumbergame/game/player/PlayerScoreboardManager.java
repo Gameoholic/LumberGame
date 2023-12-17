@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
@@ -34,12 +35,11 @@ public class PlayerScoreboardManager {
         List<Component> lines = new ArrayList<>();
         plugin.getLumberConfig().strings().scoreboardLines().forEach(
             line ->
-                MiniMessage.miniMessage().deserialize(
+                lines.add(MiniMessage.miniMessage().deserialize(
                     line,
                     Placeholder.component("wave", text(plugin.getGameManager().getWaveNumber() + 1)),
                     Placeholder.component("alive_mobs", text(plugin.getGameManager().getWaveManager().getAliveMobsSize()))
-
-                )
+                ))
         );
         board.updateLines(lines);
     }
