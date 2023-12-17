@@ -46,6 +46,7 @@ public final class LumberGamePlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new BlockBreakListener(this), this);
         Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(this), this);
         Bukkit.getPluginManager().registerEvents(new BlockFertilizeListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new ExplosionPrimeListener(this), this);
 
         queueManager = new LumberQueueManager(this);
 

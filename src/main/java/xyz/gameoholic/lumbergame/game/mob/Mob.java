@@ -158,10 +158,13 @@ public class Mob {
 
     /**
      * Should be called when the mob dies.
+     * @param dropLoot Whether the mob should drop its loot, should only be true if a player killed the mob.
      */
-    public void onDeath() {
+    public void onDeath(Boolean dropLoot) {
         plugin.getGameManager().getWaveManager().onMobDeath(this);
 
+        if (!dropLoot)
+            return;
         for (ItemStack itemStack : getDrops()) {
             mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
         }

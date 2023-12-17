@@ -115,8 +115,6 @@ public class WaveManager {
 
         mobQueue.get(0).spawnMob(selectedSpawnLocation);
         mobQueue.remove(0);
-
-        plugin.getGameManager().updatePlayerScoreboards(); // Update mob count
     }
 
     /**
@@ -132,6 +130,7 @@ public class WaveManager {
      */
     public void onMobSpawn(Mob mob) {
         aliveMobs.put(mob.getMob().getUniqueId(), mob);
+        plugin.getGameManager().updatePlayerScoreboards(); // Update mob count
     }
     /**
      * Called when a mob dies.

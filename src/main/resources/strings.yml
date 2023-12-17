@@ -39,12 +39,12 @@ wood-lore: "<i><gray>Valuable item used for powerful crafts."
 
 
 scoreboard-title: "<color:#ffa008>Lumber Defense</color>"
-# parameters: <wave>, <wood>, <gold>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>
+# parameters: <wave>, <wood>, <gold_amount>, <bone_meal>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>
 scoreboard-lines:
   - "Wave <color:#f08000><wave></color>"
   - "<green>🌲</green> <tree_health_percentage>% <color:#8a8a8a>(<tree_health>/<tree_max_health>)</color>"
   - ""
-  - "<color:#f0e40e>You</color> <iron><white>🔩</white> <gold><gold>🧈</gold> <wood><gold>🟫</gold> <bone_meal>🦴"
+  - "<color:#f0e40e>You</color> <iron><white>🔩</white> <yellow><gold_amount>🧈</yellow> <wood><gold>🟫</gold> <bone_meal>🦴"
   - ""
   - "<color:#f02805>Mobs</color>: <alive_mobs>"
-player-scoreboard-line: "<player> <red>❤<health></red> <iron><white>🔩</white> <gold><gold>🧈</gold> <wood><gold>🟫</gold> <bone_meal>🦴"
+player-scoreboard-line: "<player> <red>❤<health></red> <iron><white>🔩</white> <yellow><gold_amount>🧈</yellow> <wood><gold>🟫</gold> <bone_meal>🦴"
