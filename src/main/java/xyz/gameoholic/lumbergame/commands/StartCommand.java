@@ -28,11 +28,11 @@ public class StartCommand implements CommandExecutor {
             return false;
         }
 
-        plugin.startGame();
-
         sender.sendMessage(MiniMessage.miniMessage().deserialize(
             plugin.getLumberConfig().strings().startCommandSuccessMessage())
         );
+
+        plugin.startGame();
         return false;
     }
 }

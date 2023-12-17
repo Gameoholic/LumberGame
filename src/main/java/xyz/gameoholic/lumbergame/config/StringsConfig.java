@@ -32,7 +32,8 @@ public record StringsConfig(
     String woodLore,
     String scoreboardTitle,
     List<String> scoreboardLines,
-    String playerScoreboardLine
+    String playerScoreboardLine,
+    String newWaveStartMessage
 
 ) {
 

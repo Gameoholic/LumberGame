@@ -1,5 +1,7 @@
 package xyz.gameoholic.lumbergame.game;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
@@ -9,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import static net.kyori.adventure.text.Component.text;
 
 public class LumberGameManager {
     private LumberGamePlugin plugin;
@@ -35,7 +39,12 @@ public class LumberGameManager {
     }
 
     private void startGame() {
-        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(0));
+        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
+        // We don't use startWaveWithMessage() method because we can't display the scoreboard yet. Scoreboard will display after full game load.
+        Bukkit.broadcast(MiniMessage.miniMessage().deserialize(
+            plugin.getLumberConfig().strings().newWaveStartMessage(),
+            Placeholder.component("wave", text(waveNumber + 1))
+        ));
         plugin.getLogger().info("Game has started with " + players.size() + " players.");
     }
 
@@ -48,15 +57,24 @@ public class LumberGameManager {
 
     private void startNewWave() {
         waveNumber++;
-        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
-        updatePlayerScoreboards(); // Update wave number
+        startWaveWithMessage();
     }
     public void startSpecificWave(int waveNumber) {
         this.waveNumber = waveNumber;
-        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
-        updatePlayerScoreboards(); // Update wave number
+        startWaveWithMessage();
     }
 
+    /**
+     * Starts the wave as per the waveNumber variable.
+     */
+    private void startWaveWithMessage() {
+        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
+        Bukkit.broadcast(MiniMessage.miniMessage().deserialize(
+            plugin.getLumberConfig().strings().newWaveStartMessage(),
+            Placeholder.component("wave", text(waveNumber + 1))
+        ));
+        updatePlayerScoreboards(); // Update wave number
+    }
     /**
      * Called after the game has fully loaded and the first wave has started.
      */
