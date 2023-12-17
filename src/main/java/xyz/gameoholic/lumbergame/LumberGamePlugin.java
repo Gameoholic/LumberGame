@@ -31,10 +31,13 @@ public final class LumberGamePlugin extends JavaPlugin {
         saveResource("waves.yml", true);
         saveResource("sounds.yml", true);
 
-        saveResource("schematics/tree/level_1.schem", true);
-
-
         config = new ConfigParser(this).parse();
+
+        config.mapConfig().treeLevelSchematicsProvided().forEach(level ->
+            saveResource("schematics/tree/level_" + level + ".schem", true)
+        );
+
+
 
 
         Bukkit.getPluginCommand("test").setExecutor(new TestCommand(this));
