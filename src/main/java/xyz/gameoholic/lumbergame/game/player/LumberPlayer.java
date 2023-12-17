@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryEvent;
@@ -92,7 +93,20 @@ public class LumberPlayer implements Listener {
         if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
             return;
         // Health change is delayed by 1 tick to let the event affect the player's health when accessed by scoreboard manager
-        new BukkitRunnable() { //todo: is there a better way?
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                plugin.getGameManager().updatePlayerScoreboards(); // Update player health
+            }
+        }.runTask(plugin);
+    }
+
+    @EventHandler
+    private void onHealthChanged(EntityRegainHealthEvent e) {
+        if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
+            return;
+        // Health change is delayed by 1 tick to let the event affect the player's health when accessed by scoreboard manager
+        new BukkitRunnable() {
             @Override
             public void run() {
                 plugin.getGameManager().updatePlayerScoreboards(); // Update player health
@@ -103,7 +117,7 @@ public class LumberPlayer implements Listener {
 
     private void onInventoryChanged(Inventory inventory) {
         // Inventory search is delayed by 1 tick to let the events affect the player's inventory when accessed by scoreboard manager
-        new BukkitRunnable() { //todo: is there a better way?
+        new BukkitRunnable() {
             @Override
             public void run() {
                 wood = 0;
