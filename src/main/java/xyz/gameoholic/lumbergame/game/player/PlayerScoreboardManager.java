@@ -45,7 +45,10 @@ public class PlayerScoreboardManager {
                     line,
                     Placeholder.component("wave", text(plugin.getGameManager().getWaveNumber() + 1)),
                     Placeholder.component("alive_mobs", text(plugin.getGameManager().getWaveManager().getAliveMobsSize())),
-                    Placeholder.component("tree_health_percentage", getTreeHealthPercentageComponent()),
+                    Placeholder.component("tree_health_percentage", text(plugin.getGameManager().getTreeManager()
+                        .getHealthToMaxHealthRatio())),
+                    Placeholder.parsed("tree_health_fraction", String.valueOf(plugin.getGameManager().getTreeManager()
+                        .getHealthToMaxHealthRatio() / 100.0)),
                     Placeholder.component("tree_health", text(plugin.getGameManager().getTreeManager().getHealth())),
                     Placeholder.component("tree_max_health", text(plugin.getGameManager().getTreeManager().getMaxHealth())),
                     Placeholder.component("bone_meal", text(lumberPlayer.getBoneMeal())),

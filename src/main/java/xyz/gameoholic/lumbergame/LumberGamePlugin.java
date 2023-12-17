@@ -1,5 +1,8 @@
 package xyz.gameoholic.lumbergame;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.gameoholic.lumbergame.commands.*;
@@ -77,6 +80,9 @@ public final class LumberGamePlugin extends JavaPlugin {
     public LumberConfig getLumberConfig() {
         return config;
     }
+
+
+
 
 
 }

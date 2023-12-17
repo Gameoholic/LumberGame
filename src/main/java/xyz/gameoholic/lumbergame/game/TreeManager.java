@@ -36,19 +36,19 @@ public class TreeManager {
      * Called when a mob attempts to damage the tree.
      */
     public void onMobDamage(Mob mob) {
+        if (treeDead)
+            return;
         int damage = (int) mob.getMob().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
         Bukkit.broadcastMessage("Tree damaged by " + mob.getMobType().displayName() + " for " + damage + " HP");
         health = Math.max(health - damage, 0);
         onAnyHealthChanged();
-        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> {
-            lumberPlayer.displayActionBar(MiniMessage.miniMessage().deserialize(
-                plugin.getLumberConfig().strings().treeDamagedActionbarMessage(),
-                Placeholder.component("tree_damage", text(damage))
-                ));
-        });
-        if (health == 0 && !treeDead) {
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> lumberPlayer.displayActionBar(MiniMessage.miniMessage().deserialize(
+            plugin.getLumberConfig().strings().treeDamagedActionbarMessage(),
+            Placeholder.component("tree_damage", text(damage)),
+            Placeholder.parsed("tree_health_fraction", String.valueOf(getHealthToMaxHealthRatio() / 100.0))
+        )));
+        if (health == 0)
             onTreeDeath();
-        }
     }
 
     private void onTreeDeath() {
@@ -143,6 +143,7 @@ public class TreeManager {
 
     /**
      * Iterates over every tree block in the radius of the tree.
+     *
      * @param func The function to apply on the block.
      */
     private void iterateOverTreeBlocks(FunctionUtil.BlockFunction func) {
@@ -174,6 +175,7 @@ public class TreeManager {
     public int getHealthToMaxHealthRatio() {
         return (int) (((double) health / maxHealth) * 100);
     }
+
     public int getHealth() {
         return health;
     }

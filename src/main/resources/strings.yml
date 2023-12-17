@@ -24,7 +24,7 @@ start-command-success-message: "<green>Started the game!"
 
 new-wave-start-message: "<gold>Started wave <red><wave></red>!" # Parameters: <wave>
 
-tree-damaged-actionbar-message: "<green>🌲<red> -<tree_damage>"
+tree-damaged-actionbar-message: "!💀! <transition:#ff0000:#00ff00:<tree_health_fraction>>🌲</transition><red> -<tree_damage> HP"
 
 mob-displayname: "<name> <health>❤ <cr>🛡"
 
@@ -46,7 +46,7 @@ scoreboard-title: "<color:#ffa008>Lumber Defense</color>"
 # parameters: <wave>, <wood>, <gold_amount>, <bone_meal>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>
 scoreboard-lines:
   - "Wave <color:#f08000><wave></color>"
-  - "<green>🌲</green> <tree_health_percentage>% <color:#8a8a8a>(<tree_health>/<tree_max_health>)</color>"
+  - "<green>🌲</green> <transition:#ff0000:#00ff00:<tree_health_fraction>><tree_health_percentage></transition>% <color:#8a8a8a>(<tree_health>/<tree_max_health>)</color>"
   - ""
   - "<color:#f0e40e>You</color> <iron><white>🔩</white> <gold_amount><yellow>🧈</yellow> <wood><gold>🟫</gold> <bone_meal>🦴"
   - ""

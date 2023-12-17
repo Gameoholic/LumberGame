@@ -35,21 +35,11 @@ public class TestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        FastBoard board = new FastBoard((Player) sender);
 
-        board.updateTitle(
-            MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().scoreboardTitle())
+        sender.sendMessage(MiniMessage.miniMessage().deserialize("<transition:#ff0400:#00ff40:<test>>Asd",
+                Placeholder.parsed("test", args[0])
+            )
         );
-        List<Component> lines = new ArrayList<>();
-        plugin.getLumberConfig().strings().scoreboardLines().forEach(
-            line ->
-                MiniMessage.miniMessage().deserialize(
-                    line,
-                    Placeholder.component("wave", text(plugin.getGameManager().getWaveNumber() + 1)),
-                    Placeholder.component("alive_mobs", text(plugin.getGameManager().getWaveManager().getAliveMobsSize()))
-                )
-        );
-        board.updateLines(lines);
 
         return false;
     }
