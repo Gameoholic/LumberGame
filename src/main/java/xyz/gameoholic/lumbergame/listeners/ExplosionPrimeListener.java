@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
+import xyz.gameoholic.lumbergame.game.mob.TreeMob;
 
 import javax.annotation.Nullable;
 
@@ -25,6 +26,9 @@ public class ExplosionPrimeListener implements Listener {
         if (mob == null)
             return;
 
+        // If creeper is tree mob and it exploded, it guarantees it was near the tree and should deal damage to it
+        if (mob instanceof TreeMob)
+            plugin.getGameManager().getTreeManager().onMobDamage(mob);
         mob.onDeath(false);
     }
 }
