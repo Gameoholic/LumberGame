@@ -42,11 +42,19 @@ public class TreeManager {
         Bukkit.broadcastMessage("Tree damaged by " + mob.getMobType().displayName() + " for " + damage + " HP");
         health = Math.max(health - damage, 0);
         onAnyHealthChanged();
-        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> lumberPlayer.displayActionBar(MiniMessage.miniMessage().deserialize(
-            plugin.getLumberConfig().strings().treeDamagedActionbarMessage(),
-            Placeholder.component("tree_damage", text(damage)),
-            Placeholder.parsed("tree_health_fraction", String.valueOf(getHealthToMaxHealthRatio() / 100.0))
-        )));
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> {
+            lumberPlayer.playSound(
+                plugin.getLumberConfig().soundsConfig().treeDamagedSound(),
+                plugin.getLumberConfig().mapConfig().treeLocation()
+            );
+            lumberPlayer.displayActionBar(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().treeDamagedActionbarMessage(),
+                Placeholder.component("tree_damage", text(damage)),
+                Placeholder.parsed("tree_health_fraction", String.valueOf(getHealthToMaxHealthRatio() / 100.0))
+            ));
+        });
+
+
         if (health == 0)
             onTreeDeath();
     }

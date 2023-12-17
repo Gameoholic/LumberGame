@@ -1,8 +1,10 @@
 package xyz.gameoholic.lumbergame.game.player;
 
 import io.papermc.paper.event.player.PlayerPickItemEvent;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -154,6 +156,15 @@ public class LumberPlayer implements Listener {
             player.sendActionBar(component);
     }
 
+    /**
+     * Plays a sounds at a location for the player.
+     */
+    public void playSound(Sound sound, Location location) {
+        @Nullable Player player = Bukkit.getPlayer(uuid);
+        if (player != null)
+            player.playSound(sound, location.x(), location.y(), location.z());
+    }
+
     public UUID getUuid() {
         return uuid;
     }
@@ -173,6 +184,7 @@ public class LumberPlayer implements Listener {
     public int getBoneMeal() {
         return boneMeal;
     }
+
 
 
 }
