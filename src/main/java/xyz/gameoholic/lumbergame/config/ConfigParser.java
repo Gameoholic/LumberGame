@@ -62,10 +62,8 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("mob-displayname").getString()),
                 Objects.requireNonNull(root.node("iron-displayname").getString()),
                 Objects.requireNonNull(root.node("gold-displayname").getString()),
-                Objects.requireNonNull(root.node("diamond-displayname").getString()),
                 Objects.requireNonNull(root.node("iron-lore").getString()),
                 Objects.requireNonNull(root.node("gold-lore").getString()),
-                Objects.requireNonNull(root.node("diamond-lore").getString()),
                 Objects.requireNonNull(root.node("bone-meal-displayname").getString()),
                 Objects.requireNonNull(root.node("bone-meal-lore").getString()),
                 Objects.requireNonNull(root.node("bone-block-displayname").getString()),
@@ -98,7 +96,6 @@ public class ConfigParser {
                 root.node("tree-health-expression").require(String.class),
                 root.node("iron-drop-expression").require(String.class),
                 root.node("gold-drop-expression").require(String.class),
-                root.node("diamond-drop-expression").require(String.class),
                 root.node("bone-meal-spawn-expression").require(String.class),
                 root.node("scoreboard-player-line-margin").require(Integer.class)
             );

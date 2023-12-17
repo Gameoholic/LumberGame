@@ -26,10 +26,8 @@ mob-displayname: "<name> <health>❤ <cr>🛡"
 
 iron-displayname: "<white>Iron"
 gold-displayname: "<gold>Gold"
-diamond-displayname: "<aqua>Diamond"
 iron-lore: "<i><gray>Common drop from mobs."
 gold-lore: "<i><gray>Rare drop from mobs.<br><i><gray>Use to craft <red>Placeholder</red>."
-diamond-lore: "<i><gray>Extremely rare drop from mobs.<br><i><gray>Use to craft <red>Your Mother</red>."
 
 bone-meal-displayname: "<white>Bone Meal"
 bone-meal-lore: "<i><gray>Place near the tree to regenerate its health.<br><i><gray>Regenerates <white>5%</white> of its health."
@@ -41,12 +39,12 @@ wood-lore: "<i><gray>Valuable item used for powerful crafts."
 
 
 scoreboard-title: "<color:#ffa008>Lumber Defense</color>"
-# parameters: <wave>, <wood>, <diamond>, <gold>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>
+# parameters: <wave>, <wood>, <gold>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>
 scoreboard-lines:
   - "Wave <color:#f08000><wave></color>"
   - "<green>🌲</green> <tree_health_percentage>% <color:#8a8a8a>(<tree_health>/<tree_max_health>)</color>"
   - ""
-  - "<color:#f0e40e>You</color> <wood>🟫 <diamond>💎 <gold>🧈 <iron>🔩"
+  - "<color:#f0e40e>You</color> <wood>🟫 <gold>🧈 <iron>🔩"
   - ""
   - "<color:#f02805>Mobs</color>: <alive_mobs>"
-player-scoreboard-line: "<player> ❤<health> <wood>🟫 <diamond>💎 <gold>🧈 <iron>🔩"
+player-scoreboard-line: "<player> ❤<health> <wood>🟫 <gold>🧈 <iron>🔩"

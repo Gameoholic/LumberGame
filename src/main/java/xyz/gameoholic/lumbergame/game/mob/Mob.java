@@ -184,19 +184,12 @@ public class Mob {
             .variables("CR")
             .build()
             .setVariable("CR", CR).evaluate();
-        double diamondChance = new ExpressionBuilder(plugin.getLumberConfig().gameConfig().diamondDropExpression())
-            .variables("CR")
-            .build()
-            .setVariable("CR", CR).evaluate();
 
         for (int i = 0; i < getSpecificDropAmount(ironChance); i++) {
             items.add(ItemUtil.getIronItemStack(plugin));
         }
         for (int i = 0; i < getSpecificDropAmount(goldChance); i++) {
             items.add(ItemUtil.getGoldItemStack(plugin));
-        }
-        for (int i = 0; i < getSpecificDropAmount(diamondChance); i++) {
-            items.add(ItemUtil.getDiamondItemStack(plugin));
         }
 
         return items;

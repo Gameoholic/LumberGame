@@ -33,7 +33,6 @@ public class LumberPlayer implements Listener {
     private int wood = 0;
     private int iron = 0;
     private int gold = 0;
-    private int diamond = 0;
 
     /**
      * Is null when player is logged off.
@@ -121,14 +120,12 @@ public class LumberPlayer implements Listener {
             @Override
             public void run() {
                 wood = 0;
-                diamond = 0;
                 gold = 0;
                 iron = 0;
                 inventory.forEach(itemStack -> {
                     if (itemStack != null)
                         switch (itemStack.getType()) {
                             case OAK_WOOD -> wood += itemStack.getAmount();
-                            case DIAMOND -> diamond += itemStack.getAmount();
                             case GOLD_INGOT -> gold += itemStack.getAmount();
                             case IRON_INGOT -> iron += itemStack.getAmount();
                         }
@@ -160,7 +157,4 @@ public class LumberPlayer implements Listener {
         return gold;
     }
 
-    public int getDiamond() {
-        return diamond;
-    }
 }

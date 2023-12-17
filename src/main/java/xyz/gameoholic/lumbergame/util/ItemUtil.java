@@ -28,13 +28,6 @@ public class ItemUtil {
             plugin.getLumberConfig().strings().goldLore()
         );
     }
-    public static ItemStack getDiamondItemStack(LumberGamePlugin plugin) {
-        return getItemStack(
-            Material.DIAMOND,
-            plugin.getLumberConfig().strings().diamondDisplayname(),
-            plugin.getLumberConfig().strings().diamondLore()
-        );
-    }
     public static ItemStack getBoneMealItemStack(LumberGamePlugin plugin) {
         return getItemStack(
             Material.BONE_MEAL,

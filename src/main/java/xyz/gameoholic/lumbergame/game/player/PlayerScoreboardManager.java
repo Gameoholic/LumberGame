@@ -6,7 +6,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.util.RGBLike;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -50,7 +49,6 @@ public class PlayerScoreboardManager {
                     Placeholder.component("tree_health", text(plugin.getGameManager().getTreeManager().getHealth())),
                     Placeholder.component("tree_max_health", text(plugin.getGameManager().getTreeManager().getMaxHealth())),
                     Placeholder.component("wood", text(lumberPlayer.getWood())),
-                    Placeholder.component("diamond", text(lumberPlayer.getDiamond())),
                     Placeholder.component("gold", text(lumberPlayer.getGold())),
                     Placeholder.component("iron", text(lumberPlayer.getIron()))
                 ))
@@ -74,7 +72,6 @@ public class PlayerScoreboardManager {
                 Placeholder.component("player", otherPlayer.name()),
                 Placeholder.component("health", otherPlayerHealth),
                 Placeholder.component("wood", text(otherLumberPlayer.getWood())),
-                Placeholder.component("diamond", text(otherLumberPlayer.getDiamond())),
                 Placeholder.component("gold", text(otherLumberPlayer.getGold())),
                 Placeholder.component("iron", text(otherLumberPlayer.getIron()))
             ));
