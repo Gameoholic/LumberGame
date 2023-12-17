@@ -1,5 +1,7 @@
 package xyz.gameoholic.lumbergame.config;
 
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,8 +30,9 @@ public class ConfigParser {
         MapConfig mapConfig = getMapConfig();
         GameConfig gameConfig = getGameConfig();
         List<Wave> waves = getWavesConfig(mobTypes);
+        SoundsConfig soundsConfig = getSoundsConfig();
 
-        return new LumberConfig(stringsConfig, mobTypes, mapConfig, gameConfig, waves);
+        return new LumberConfig(stringsConfig, mobTypes, mapConfig, gameConfig, waves, soundsConfig);
     }
 
     private StringsConfig getStringsConfig() {
@@ -151,7 +154,7 @@ public class ConfigParser {
 
         List treeBlockTypes = new ArrayList();
         root.node("tree-block-types").childrenList().forEach(
-            treeBlockType ->  {
+            treeBlockType -> {
                 try {
                     treeBlockTypes.add(Material.valueOf(treeBlockType.get(String.class)));
                 } catch (Exception e) {
@@ -229,6 +232,34 @@ public class ConfigParser {
             }
         );
         return mobTypes;
+    }
+
+
+    private SoundsConfig getSoundsConfig() {
+        YamlConfigurationLoader conf =
+            YamlConfigurationLoader.builder().path(Paths.get(plugin.getDataFolder() + "/sounds.yml")).build();
+        CommentedConfigurationNode root;
+        try {
+            root = conf.load();
+        } catch (ConfigurateException e) {
+            throw new RuntimeException(e);
+        }
+
+        // todo: this section is awful, and can be condensed to a simple method for every sound. Or better yet, use serializers.
+
+        try {
+            return new SoundsConfig(
+                Sound.sound(
+                    Key.key(root.node("tree-damaged-sound", "sound").require(String.class)),
+                    Sound.Source.valueOf(root.node("tree-damaged-sound", "source").getString("MASTER")),
+                    root.node("tree-damaged-sound", "volume").getFloat(1f),
+                    root.node("tree-damaged-sound", "pitch").getFloat(1f)
+                )
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("One of the arguments for sounds is invalid or was not provided.");
+        }
     }
 
     private List<Wave> getWavesConfig(List<MobType> loadedMobTypes) {

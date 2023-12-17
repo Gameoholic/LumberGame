@@ -1,0 +1,4 @@
+tree-damaged-sound:
+  sound: "minecraft:entity.zombie.break_wooden_door"
+  volume: 1.0
+  pitch: 0.5

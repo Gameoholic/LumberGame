@@ -44,6 +44,7 @@ public class TestCommand implements CommandExecutor {
         plugin.saveResource("waves.yml", true);
         plugin.setConfig(new ConfigParser(plugin).parse());
 
+        sender.playSound(plugin.getLumberConfig().soundsConfig().treeDamagedSound());
 
         return false;
     }

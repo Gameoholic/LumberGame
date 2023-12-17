@@ -29,7 +29,7 @@ public final class LumberGamePlugin extends JavaPlugin {
         saveResource("map.yml", true);
         saveResource("game.yml", true);
         saveResource("waves.yml", true);
-
+        saveResource("sounds.yml", true);
 
         config = new ConfigParser(this).parse();
 
