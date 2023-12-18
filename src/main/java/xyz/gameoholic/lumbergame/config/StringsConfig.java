@@ -34,7 +34,19 @@ public record StringsConfig(
     List<String> scoreboardLines,
     String playerScoreboardLine,
     String newWaveStartMessage,
-    String treeDamagedActionbarMessage
+    String treeDamagedActionbarMessage,
+    String bowDisplayname,
+    String bowLore,
+    String woodenSwordDisplayname,
+    String woodenSwordLore,
+    String stoneSwordDisplayname,
+    String stoneSwordLore,
+    String ironSwordDisplayname,
+    String ironSwordLore,
+    String diamondSwordDisplayname,
+    String diamondSwordLore,
+    String arrowDisplayname,
+    String arrowLore
 
 ) {
 

@@ -77,7 +77,20 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("scoreboard-lines").getList(String.class)),
                 Objects.requireNonNull(root.node("player-scoreboard-line").getString()),
                 Objects.requireNonNull(root.node("new-wave-start-message").getString()),
-                Objects.requireNonNull(root.node("tree-damaged-actionbar-message")).getString()
+                Objects.requireNonNull(root.node("tree-damaged-actionbar-message")).getString(),
+                Objects.requireNonNull(root.node("bow-displayname").getString()),
+                Objects.requireNonNull(root.node("bow-lore").getString()),
+                Objects.requireNonNull(root.node("wooden-sword-displayname").getString()),
+                Objects.requireNonNull(root.node("wooden-sword-lore").getString()),
+                Objects.requireNonNull(root.node("stone-sword-displayname").getString()),
+                Objects.requireNonNull(root.node("stone-sword-lore").getString()),
+                Objects.requireNonNull(root.node("iron-sword-displayname").getString()),
+                Objects.requireNonNull(root.node("iron-sword-lore").getString()),
+                Objects.requireNonNull(root.node("diamond-sword-displayname").getString()),
+                Objects.requireNonNull(root.node("diamond-sword-lore").getString()),
+                Objects.requireNonNull(root.node("arrow-displayname").getString()),
+                Objects.requireNonNull(root.node("arrow-lore").getString())
+
             );
 
         } catch (SerializationException e) {

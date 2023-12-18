@@ -76,6 +76,11 @@ public class ItemManager {
             case "BONE_MEAL" -> getBoneMealItem();
             case "BONE_BLOCK" -> getBoneBlockItem();
             case "BOW" -> getBowItem();
+            case "ARROW" -> getArrowItem();
+            case "WOODEN_SWORD" -> getWoodenSwordItem();
+            case "STONE_SWORD" -> getStoneSwordItem();
+            case "IRON_SWORD" -> getIronSwordItem();
+            case "DIAMOND_SWORD" -> getDiamondSwordItem();
             default -> null;
         };
     }
@@ -129,8 +134,48 @@ public class ItemManager {
         return getItem(
             "BOW",
             Material.BOW,
-            plugin.getLumberConfig().strings().boneBlockDisplayname(),
-            plugin.getLumberConfig().strings().boneBlockLore()
+            plugin.getLumberConfig().strings().bowDisplayname(),
+            plugin.getLumberConfig().strings().bowLore()
+        );
+    }
+    public ItemStack getWoodenSwordItem() {
+        return getItem(
+            "WOODEN_SWORD",
+            Material.WOODEN_SWORD,
+            plugin.getLumberConfig().strings().woodenSwordDisplayname(),
+            plugin.getLumberConfig().strings().woodenSwordLore()
+        );
+    }
+    public ItemStack getStoneSwordItem() {
+        return getItem(
+            "STONE_SWORD",
+            Material.STONE_SWORD,
+            plugin.getLumberConfig().strings().stoneSwordDisplayname(),
+            plugin.getLumberConfig().strings().stoneSwordLore()
+        );
+    }
+    public ItemStack getIronSwordItem() {
+        return getItem(
+            "IRON_SWORD",
+            Material.IRON_SWORD,
+            plugin.getLumberConfig().strings().ironSwordDisplayname(),
+            plugin.getLumberConfig().strings().ironSwordLore()
+        );
+    }
+    public ItemStack getDiamondSwordItem() {
+        return getItem(
+            "DIAMOND_SWORD",
+            Material.DIAMOND_SWORD,
+            plugin.getLumberConfig().strings().diamondSwordDisplayname(),
+            plugin.getLumberConfig().strings().diamondSwordLore()
+        );
+    }
+    public ItemStack getArrowItem() {
+        return getItem(
+            "ARROW",
+            Material.ARROW,
+            plugin.getLumberConfig().strings().arrowDisplayname(),
+            plugin.getLumberConfig().strings().arrowLore()
         );
     }
 

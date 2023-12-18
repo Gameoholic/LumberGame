@@ -26,13 +26,6 @@
   item-in-main-hand-id: "BOW"
   has-melee-attack-goal: false
 
-- id: "SKELETON_MELEE"
-  display-name: "Skeleton"
-  entity-type: "SKELETON"
-  health-expression: "CR * 2 + 3.5"
-  damage-expression: "CR * 0.25 + 1"
-  item-in-main-hand-id: "BOW"
-
 # High knockback and higher speed.
 - id: "SHOVER"
   display-name: "<green>Shover"

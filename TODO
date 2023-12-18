@@ -13,9 +13,16 @@ Cloud framework
 Remove all places where we check itemstack's material. Instead, compare directly with ItemUtil.item
 
 
+FIXES:
 Tree relog with NMS.
+Fix skeleton arrow damage:
+1) listen for EntityShootBowEvent. Set some metadata on arrows that were fired from specified bow.
+2) Listen for EntityDamageByEntityEvent. If damager is arrow, then check if there is a metadata and if there is, then change damage.
 
-
+Until TMRW:
+- Resource pack
+- Shop with NPC
+- Everything's presentable (strings etc.)
 
 Big todo:
  - Shop & Regular Items (1d)

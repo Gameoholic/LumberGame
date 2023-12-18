@@ -41,6 +41,23 @@ bone-block-lore: "<i><gray>Place near the tree to level it up.<br><i><gray>Level
 wood-displayname: "<color:#ff8d03>Lumber"
 wood-lore: "<i><gray>Valuable item used for powerful crafts."
 
+bow-displayname: "Bow"
+bow-lore: "<i><gray>Surprisingly effective!"
+
+wooden-sword-displayname: "Wooden Sword"
+wooden-sword-lore: "<i><gray>A pretty rusty sword."
+
+stone-sword-displayname: "Stone Sword"
+stone-sword-lore: "<i><gray>A slightly better starter sword."
+
+iron-sword-displayname: "Iron Sword"
+iron-sword-lore: "<i><gray>A decent weapon fit to cut enemies into pieces."
+
+diamond-sword-displayname: "Diamond Sword"
+diamond-sword-lore: "<i><gray>The best you can buy for your buck."
+
+arrow-displayname: "Arrow"
+arrow-lore: "<i><gray>Normal arrows."
 
 scoreboard-title: "<color:#ffa008>Lumber Defense</color>"
 # parameters: <wave>, <wood>, <gold_amount>, <bone_meal>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>

@@ -14,6 +14,8 @@ commands:
     permission: lumbergame.removeallfromqueue
   start:
     permission: lumbergame.start
+  spawnitem:
+    permission: lumbergame.spawnitem
   spawnmob:
     permission: lumbergame.spawnmob
   startwave:
