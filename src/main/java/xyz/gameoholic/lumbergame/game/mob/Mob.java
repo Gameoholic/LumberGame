@@ -6,7 +6,6 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.objecthunter.exp4j.ExpressionBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -18,7 +17,6 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberNearestAttackablePlayerGoal;
-import xyz.gameoholic.lumbergame.game.mob.MobType.MobType;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 
 
@@ -136,7 +134,6 @@ public class Mob {
         plugin.getGameManager().getWaveManager().onMobSpawn(this);
     }
 
-    //todo: override in TreeMob.
 
     /**
      * Applies NMS Goals for the mob to target players regardless of distance, etc.
@@ -149,21 +146,24 @@ public class Mob {
             .filter(goal -> goal.getGoal() instanceof MeleeAttackGoal).findFirst().orElse(null);
         @Nullable WrappedGoal wrappedNearestAttackableTargetGoal = NMSMob.targetSelector.getAvailableGoals().stream()
             .filter(goal -> goal.getGoal() instanceof NearestAttackableTargetGoal).findFirst().orElse(null);
-        if (wrappedMeleeAttackGoal == null || wrappedNearestAttackableTargetGoal == null) {
-            throw new RuntimeException("Mob doesn't have Vanilla attack and/or target goals!\n1: " +
-                wrappedMeleeAttackGoal + "\n2: " + wrappedNearestAttackableTargetGoal);
-        }
+
+        if (wrappedNearestAttackableTargetGoal == null)
+            throw new RuntimeException("Mob doesn't have Vanilla target goal!");
+        if (wrappedMeleeAttackGoal == null && mobType.hasMeleeAttackGoal())
+            throw new RuntimeException("Mob doesn't have Vanilla attack goal, and wasn't marked for no melee attack goal required!");
 
         // Remove unneeded Vanilla goals.
-        NMSMob.goalSelector.removeGoal(wrappedMeleeAttackGoal.getGoal());
+        if (mobType.hasMeleeAttackGoal())
+            NMSMob.goalSelector.removeGoal(wrappedMeleeAttackGoal.getGoal());
         NMSMob.targetSelector.removeGoal(wrappedNearestAttackableTargetGoal.getGoal());
 
         // Replace them with our goals, with the same exact priorities.
         // The lower the priority of the goal, the more it will be prioritized.
         NMSMob.targetSelector.addGoal(wrappedNearestAttackableTargetGoal.getPriority(),
             new LumberNearestAttackablePlayerGoal(NMSMob)); // Target and lock onto player
-        NMSMob.goalSelector.addGoal(wrappedMeleeAttackGoal.getPriority(),
-            new LumberMeleeAttackGoal((PathfinderMob) NMSMob, 1.0)); // Attack and follow player
+        if (mobType.hasMeleeAttackGoal())
+            NMSMob.goalSelector.addGoal(wrappedMeleeAttackGoal.getPriority(),
+                new LumberMeleeAttackGoal((PathfinderMob) NMSMob, 1.0)); // Attack and follow player
     }
 
     /**

@@ -9,7 +9,6 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.tree.AttackTreeGoal;
 import xyz.gameoholic.lumbergame.game.goal.tree.CreeperAttackTreeGoal;
 import net.minecraft.world.entity.monster.Creeper;
-import xyz.gameoholic.lumbergame.game.mob.MobType.MobType;
 
 public class TreeMob extends Mob {
 

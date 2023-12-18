@@ -11,7 +11,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.mob.MobType.MobType;
+import xyz.gameoholic.lumbergame.game.mob.MobType;
 import xyz.gameoholic.lumbergame.game.wave.Wave;
 
 import java.nio.file.Paths;
@@ -229,7 +229,8 @@ public class ConfigParser {
                         mobType.node("item-in-helmet-id").getString(),
                         mobType.node("item-in-chestplate-id").getString(),
                         mobType.node("item-in-leggings-id").getString(),
-                        mobType.node("item-in-boots-id").getString()
+                        mobType.node("item-in-boots-id").getString(),
+                        mobType.node("has-melee-attack-goal").getBoolean(true)
                     ));
                 } catch (Exception e) {
                     e.printStackTrace();

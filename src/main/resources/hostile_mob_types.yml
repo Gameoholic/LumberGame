@@ -1,8 +1,9 @@
-#O ptional arguments:
+#  Optional arguments:
 #  speed (default is 0.23)
 #  knockback (default is 0.0). Knockback applied to attacks.
 #  knockback-resistance (default is 0.0). The scale of horizontal knockback resisted from attacks and projectiles. Vertical knockback is not affected. 1.0 is 100% knockback resistance. 0.4 means 60% of knockback is applied.
 # item-in-main-hand-id, item-in-main-off-id, item-in-helmet-id, item-in-chestplate-id, item-in-leggings-id, item-in-boots-id
+# has-melee-attack-goal
 
 # Color coding: <green> for 'minor ability', <red> for 'heavy damage'
 
@@ -18,6 +19,14 @@
 
 # Normal skeleton, fairly weak but can be annoying to deal with.
 - id: "SKELETON"
+  display-name: "Skeleton"
+  entity-type: "SKELETON"
+  health-expression: "CR * 2 + 3.5"
+  damage-expression: "CR * 0.25 + 1"
+  item-in-main-hand-id: "BOW"
+  has-melee-attack-goal: false
+
+- id: "SKELETON_MELEE"
   display-name: "Skeleton"
   entity-type: "SKELETON"
   health-expression: "CR * 2 + 3.5"

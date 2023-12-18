@@ -1,4 +1,4 @@
-package xyz.gameoholic.lumbergame.game.mob.MobType;
+package xyz.gameoholic.lumbergame.game.mob;
 
 import org.bukkit.entity.EntityType;
 
@@ -21,6 +21,7 @@ public record MobType(
     @Nullable String itemInHelmetID,
     @Nullable String itemInChestplateID,
     @Nullable String itemInLeggingsID,
-    @Nullable String itemInBootsID
+    @Nullable String itemInBootsID,
+    boolean hasMeleeAttackGoal
 ) {
 }

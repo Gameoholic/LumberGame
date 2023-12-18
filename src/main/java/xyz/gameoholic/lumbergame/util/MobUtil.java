@@ -1,7 +1,7 @@
 package xyz.gameoholic.lumbergame.util;
 
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.mob.MobType.MobType;
+import xyz.gameoholic.lumbergame.game.mob.MobType;
 
 public class MobUtil {
 

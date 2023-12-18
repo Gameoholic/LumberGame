@@ -1,6 +1,6 @@
 package xyz.gameoholic.lumbergame.game.wave;
 
-import xyz.gameoholic.lumbergame.game.mob.MobType.MobType;
+import xyz.gameoholic.lumbergame.game.mob.MobType;
 
 import java.util.List;
 import java.util.Map;
