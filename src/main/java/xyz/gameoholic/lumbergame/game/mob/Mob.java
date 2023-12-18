@@ -6,6 +6,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -110,8 +111,11 @@ public class Mob {
         // Post-spawn parameters/attributes (bone block / bone meal)
         if (shouldHoldBoneMeal())
             mob.getEquipment().setItemInMainHand(plugin.getItemManager().getBoneMealItem());
-        if (boneBlock)
+        // todo: bone block should only be placed on entity that can have item on its helmet. not like creeper for example.
+        // todo: also, it should not just be the first entity, rather a randm one otherwise guaranteed mob fgets it
+        if (boneBlock) {
             mob.getEquipment().setHelmet(plugin.getItemManager().getBoneBlockItem());
+        }
 
         applyGoals();
 
@@ -193,10 +197,10 @@ public class Mob {
             mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getItemInMainHand());
         // If mob had bone block on head
         if (plugin.getItemManager().compareItems(
-            mob.getEquipment().getItemInMainHand(),
+            mob.getEquipment().getHelmet(),
             plugin.getItemManager().getBoneBlockItem()
         ))
-            mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getHelmet());
+            mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), plugin.getItemManager().getBoneBlockItem());
     }
 
     /**
@@ -204,14 +208,14 @@ public class Mob {
      */
     private List<ItemStack> getDrops() {
         List<ItemStack> items = new ArrayList<>();
-        double ironChance = new ExpressionBuilder(plugin.getLumberConfig().gameConfig().ironDropExpression())
-            .variables("CR")
-            .build()
-            .setVariable("CR", CR).evaluate();
-        double goldChance = new ExpressionBuilder(plugin.getLumberConfig().gameConfig().goldDropExpression())
-            .variables("CR")
-            .build()
-            .setVariable("CR", CR).evaluate();
+        double ironChance = ExpressionUtil.evaluateExpression(
+            plugin.getLumberConfig().gameConfig().ironDropExpression(),
+            Map.of("CR", (double) CR)
+        );
+        double goldChance = ExpressionUtil.evaluateExpression(
+            plugin.getLumberConfig().gameConfig().goldDropExpression(),
+            Map.of("CR", (double) CR)
+        );
 
         for (int i = 0; i < getSpecificDropAmount(ironChance); i++) {
             items.add(plugin.getItemManager().getIronItem());

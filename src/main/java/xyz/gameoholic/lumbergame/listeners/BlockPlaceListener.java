@@ -21,7 +21,7 @@ public class BlockPlaceListener implements Listener {
         if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
             > plugin.getLumberConfig().mapConfig().treeRadius())
             return;
-        // Must be lumber bone meal. Technically, this doesn't check if it's the item that was used, but that's fine.
+        // Must be lumber bone block. Technically, this doesn't check if it's the item that was used, but that's fine.
         @Nullable ItemStack item = plugin.getItemManager().getItemInInventory(e.getPlayer(), "bone_block");
         if (item == null)
             return;
