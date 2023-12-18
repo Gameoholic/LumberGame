@@ -171,7 +171,7 @@ public class ConfigParser {
                 spawnLocations,
                 root.node("tree-radius").require(Integer.class),
                 treeBlockTypes,
-                root.node("tree-level-schematics-provided").require(List.class)
+                Objects.requireNonNull(root.node("tree-level-schematics-provided").getList(Integer.class))
             );
         } catch (SerializationException e) {
             throw new RuntimeException(e);
