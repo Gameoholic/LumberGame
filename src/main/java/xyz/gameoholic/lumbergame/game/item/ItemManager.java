@@ -21,6 +21,7 @@ import java.util.List;
 public class ItemManager {
 
     private LumberGamePlugin plugin;
+
     public ItemManager(LumberGamePlugin plugin) {
         this.plugin = plugin;
     }
@@ -28,12 +29,12 @@ public class ItemManager {
 
     /**
      * Utility method.
+     *
      * @param player
      * @param itemId
      * @return
      */
     public @Nullable ItemStack getItemInInventory(Player player, String itemId) {
-        Bukkit.broadcastMessage("testing!");
         for (ItemStack item : player.getInventory()) {
             if (item != null && item.getItemMeta().getPersistentDataContainer()
                 .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING) == itemId) {
@@ -46,6 +47,7 @@ public class ItemManager {
 
     /**
      * Utility method.
+     *
      * @param item1
      * @param item2
      * @return
@@ -60,9 +62,27 @@ public class ItemManager {
             .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING);
         return item1Id == item2Id;
     }
+
+    /**
+     * Utility method.
+     * @param itemId
+     * @return
+     */
+    public @Nullable ItemStack getItem(String itemId) {
+        return switch (itemId) {
+            case "IRON" -> getIronItem();
+            case "GOLD" -> getGoldItem();
+            case "WOOD" -> getWoodItem();
+            case "BONE_MEAL" -> getBoneMealItem();
+            case "BONE_BLOCK" -> getBoneBlockItem();
+            case "BOW" -> getBowItem();
+            default -> null;
+        };
+    }
+
     public ItemStack getGoldItem() {
         return getItem(
-            "gold",
+            "GOLD",
             Material.GOLD_INGOT,
             plugin.getLumberConfig().strings().goldDisplayname(),
             plugin.getLumberConfig().strings().goldLore()
@@ -71,36 +91,49 @@ public class ItemManager {
 
     public ItemStack getIronItem() {
         return getItem(
-            "iron",
+            "IRON",
             Material.IRON_INGOT,
             plugin.getLumberConfig().strings().ironDisplayname(),
             plugin.getLumberConfig().strings().ironLore()
         );
     }
+
     public ItemStack getWoodItem() {
         return getItem(
-            "wood",
+            "WOOD",
             Material.OAK_WOOD,
             plugin.getLumberConfig().strings().woodDisplayname(),
             plugin.getLumberConfig().strings().woodLore()
         );
     }
+
     public ItemStack getBoneMealItem() {
         return getItem(
-            "bone_meal",
+            "BONE_MEAL",
             Material.BONE_MEAL,
             plugin.getLumberConfig().strings().boneMealDisplayname(),
             plugin.getLumberConfig().strings().boneMealLore()
         );
     }
+
     public ItemStack getBoneBlockItem() {
         return getItem(
-            "bone_block",
+            "BONE_BLOCK",
             Material.BONE_BLOCK,
             plugin.getLumberConfig().strings().boneBlockDisplayname(),
             plugin.getLumberConfig().strings().boneBlockLore()
         );
     }
+
+    public ItemStack getBowItem() {
+        return getItem(
+            "BOW",
+            Material.BOW,
+            plugin.getLumberConfig().strings().boneBlockDisplayname(),
+            plugin.getLumberConfig().strings().boneBlockLore()
+        );
+    }
+
     private ItemStack getItem(String id, Material material, String displayName, String lore) {
         ItemStack item = new ItemStack(material);
 

@@ -22,7 +22,7 @@ public class BlockPlaceListener implements Listener {
             > plugin.getLumberConfig().mapConfig().treeRadius())
             return;
         // Must be lumber bone block. Technically, this doesn't check if it's the item that was used, but that's fine.
-        @Nullable ItemStack item = plugin.getItemManager().getItemInInventory(e.getPlayer(), "bone_block");
+        @Nullable ItemStack item = plugin.getItemManager().getItemInInventory(e.getPlayer(), "BONE_BLOCK");
         if (item == null)
             return;
 

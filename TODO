@@ -4,6 +4,7 @@ map: https://www.planetminecraft.com/project/attack-on-titan-shiganshina-map/
 self join/leave commands for queue.
 
 CODE REFACTORING:
+Use events but not in listeners package.
 Redo Tree attack goals, and lumberMeleeAttackGoal
 Better spongepowered config.
 Input validation on wave mob chances (must add up to 1.0).
@@ -11,16 +12,8 @@ Make ConfigParser prettier. method try/cathc ijnstead of many of them?
 Cloud framework
 Remove all places where we check itemstack's material. Instead, compare directly with ItemUtil.item
 
-+++ For more complex MobType, extend MobType for example CreeperMobType if need ot contrrol fuse speed
 
-
-MOBS:
- - Armor & Equipment
- - IsBaby
- - Knockback resistance (for heavy creeper)
-
-
-
+Tree relog with NMS.
 
 
 

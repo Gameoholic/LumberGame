@@ -20,7 +20,7 @@ public class BlockFertilizeListener implements Listener {
             > plugin.getLumberConfig().mapConfig().treeRadius())
             return;
         // Must be lumber bone meal. Technically, this doesn't check if it's the item that was used, but that's fine.
-        @Nullable ItemStack item = plugin.getItemManager().getItemInInventory(e.getPlayer(), "bone_meal");
+        @Nullable ItemStack item = plugin.getItemManager().getItemInInventory(e.getPlayer(), "BONE_MEAL");
         if (item == null)
             return;
 

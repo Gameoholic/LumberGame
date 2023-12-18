@@ -12,6 +12,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
 import org.bukkit.entity.Ageable;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
@@ -96,7 +97,20 @@ public class Mob {
             if (mobType.isBaby())
                 ageableMob.setBaby();
         }
-        //todo: armor & equipment here. Make sure to make it undroppable.
+
+        // Optional parameters - equipment
+        if (mobType.itemInMainHandID() != null)
+            mob.getEquipment().setItemInMainHand(plugin.getItemManager().getItem(mobType.itemInMainHandID()));
+        if (mobType.itemInOffHandID() != null)
+            mob.getEquipment().setItemInOffHand(plugin.getItemManager().getItem(mobType.itemInOffHandID()));
+        if (mobType.itemInHelmetID() != null)
+            mob.getEquipment().setItem(EquipmentSlot.HEAD, plugin.getItemManager().getItem(mobType.itemInHelmetID()), true);
+        if (mobType.itemInChestplateID() != null)
+            mob.getEquipment().setItem(EquipmentSlot.CHEST, plugin.getItemManager().getItem(mobType.itemInChestplateID()), true);
+        if (mobType.itemInLeggingsID() != null)
+            mob.getEquipment().setItem(EquipmentSlot.LEGS, plugin.getItemManager().getItem(mobType.itemInLeggingsID()), true);
+        if (mobType.itemInBootsID() != null)
+            mob.getEquipment().setItem(EquipmentSlot.FEET, plugin.getItemManager().getItem(mobType.itemInBootsID()), true);
 
 
         // Mob's custom name to be applied after parameters
@@ -107,10 +121,10 @@ public class Mob {
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
 
-
         // Post-spawn parameters/attributes (bone block / bone meal)
         if (shouldHoldBoneMeal())
             mob.getEquipment().setItemInMainHand(plugin.getItemManager().getBoneMealItem());
+
         // todo: bone block should only be placed on entity that can have item on its helmet. not like creeper for example.
         // todo: also, it should not just be the first entity, rather a randm one otherwise guaranteed mob fgets it
         if (boneBlock) {
