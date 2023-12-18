@@ -8,6 +8,7 @@ tree-radius: 36 #Radius squared
 tree-block-types:
   - OAK_LOG
   - OAK_LEAVES
+  - SPRUCE_TRAPDOOR
 spawn-locations:
   - world: "world"
     x: -31.4
@@ -31,3 +32,6 @@ spawn-locations:
     z: -374.4
 tree-level-schematics-provided:
   - 1
+  - 2
+  - 3
+  - 4

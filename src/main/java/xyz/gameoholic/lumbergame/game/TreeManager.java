@@ -30,7 +30,7 @@ public class TreeManager {
         updateMaxHealth();
         health = maxHealth;
 
-        loadTreeSchematic();
+        pasteTreeSchematic();
     }
 
     /**
@@ -97,6 +97,8 @@ public class TreeManager {
         level++;
         updateMaxHealth();
         onAnyHealthChanged();
+
+        pasteTreeSchematic();
     }
 
     /**
@@ -188,14 +190,19 @@ public class TreeManager {
     /**
      * Pastes the schematic of the tree correspondent to the current tree level.
      */
-    private void loadTreeSchematic() {
+    private void pasteTreeSchematic() {
+        if (!(plugin.getLumberConfig().mapConfig().treeLevelSchematicsProvided().contains(level)))
+            return;
+
         new BukkitRunnable() {
             @Override
             public void run() {
+
                 WorldEditUtil.loadSchematic(
                     new File(plugin.getDataFolder(), "schematics/tree/level_" + level + ".schem"),
                     plugin.getLumberConfig().mapConfig().treeLocation()
                 );
+
             }
         }.runTaskAsynchronously(plugin);
 
