@@ -21,7 +21,6 @@ public final class LumberGamePlugin extends JavaPlugin {
     private LumberQueueManager queueManager;
     private @Nullable LumberGameManager gameManager = null;
     private LumberConfig config;
-    private WaveManager waveManager; //todo: SET AUTOMATICALLY FROM EHRE. NEVER NULL.
     private ItemManager itemManager;
     @Override
     public void onEnable() {
@@ -74,6 +73,7 @@ public final class LumberGamePlugin extends JavaPlugin {
         gameManager = new LumberGameManager(this, queueManager.getPlayers());
         queueManager.resetQueue();
         gameManager.onGameLoad();
+        itemManager = new ItemManager(this);
     }
 
     public LumberQueueManager getQueueManager() {
