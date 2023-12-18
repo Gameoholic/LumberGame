@@ -1,13 +1,12 @@
 package xyz.gameoholic.lumbergame.game.wave;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
 import xyz.gameoholic.lumbergame.game.mob.TreeMob;
-import xyz.gameoholic.lumbergame.game.mob.MobType;
+import xyz.gameoholic.lumbergame.game.mob.MobType.MobType;
 import xyz.gameoholic.lumbergame.util.RandomUtil;
 
 import javax.annotation.Nullable;

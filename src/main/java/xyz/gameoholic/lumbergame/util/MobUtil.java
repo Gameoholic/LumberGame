@@ -1,13 +1,7 @@
 package xyz.gameoholic.lumbergame.util;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.mob.Mob;
-import xyz.gameoholic.lumbergame.game.mob.MobType;
-import xyz.gameoholic.lumbergame.game.mob.TreeMob;
-
-import javax.annotation.Nullable;
+import xyz.gameoholic.lumbergame.game.mob.MobType.MobType;
 
 public class MobUtil {
 

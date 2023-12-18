@@ -11,8 +11,6 @@ Make ConfigParser prettier. method try/cathc ijnstead of many of them?
 Cloud framework
 Remove all places where we check itemstack's material. Instead, compare directly with ItemUtil.item
 
-Remove Diamond?
-
 +++ For more complex MobType, extend MobType for example CreeperMobType if need ot contrrol fuse speed
 
 
@@ -28,7 +26,6 @@ MOBS:
 
 Big todo:
  - Shop & Regular Items (1d)
- - Tree grow - World Edit (4h)
  - Difficulty Scaling for players (CR higher) (3h). With debug command or /start parameter.
  - Balancing for singleplayer
  - Player Death

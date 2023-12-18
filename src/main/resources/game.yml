@@ -1,7 +1,7 @@
 tree-health-expression: "level*(10 + level * 2.5) + 10"
 
-iron-drop-expression: "100 + 20 * CR"
-gold-drop-expression: "2 * CR"
+iron-drop-expression: "min(100 + 20 * CR, 800)"
+gold-drop-expression: "min(2 * CR, 20)"
 
 bone-meal-spawn-expression: "min(CR * 0.5 + 1.0, 7.5)"
 

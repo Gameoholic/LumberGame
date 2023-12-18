@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.util.InventoryUtil;
 
 public class BlockPlaceListener implements Listener {
     private LumberGamePlugin plugin;
@@ -24,6 +25,7 @@ public class BlockPlaceListener implements Listener {
             return;
 
         e.setCancelled(true);
+        InventoryUtil.removeItemFromInventory(e.getPlayer(), Material.BONE_BLOCK, 1);
         plugin.getGameManager().getTreeManager().onTreeLevelUpByPlayer(e.getPlayer());
     }
 }

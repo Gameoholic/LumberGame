@@ -1,4 +1,4 @@
-package xyz.gameoholic.lumbergame.game.mob;
+package xyz.gameoholic.lumbergame.game.mob.MobType;
 
 import org.bukkit.entity.EntityType;
 
@@ -12,6 +12,7 @@ public record MobType(
     String damageExpression,
     String speedExpression,
     String knockbackExpression,
-    String knockbackResistanceExpression
+    String knockbackResistanceExpression,
+    Boolean isBaby
 ) {
 }

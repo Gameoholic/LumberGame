@@ -4,22 +4,21 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.monster.Zombie;
 import net.objecthunter.exp4j.ExpressionBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
+import org.bukkit.entity.Ageable;
+import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberNearestAttackablePlayerGoal;
+import xyz.gameoholic.lumbergame.game.mob.MobType.MobType;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 import xyz.gameoholic.lumbergame.util.ItemUtil;
 
@@ -61,36 +60,48 @@ public class Mob {
     public void spawnMob(Location location) {
         mob = (org.bukkit.entity.Mob) location.getWorld().spawnEntity(location, mobType.entityType(), false);
 
+        // General attributes for all mobs
         mob.setCanPickupItems(false);
-
         int health = (int) Math.min(2000, new ExpressionBuilder(mobType.healthExpression())
             .variables("CR")
             .build()
             .setVariable("CR", CR).evaluate()); // Health cannot be above 2,048 in MC
+        mob.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(Double.MAX_VALUE);
+        mob.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN, true);
 
+        // Required parameter - health-expression
         mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
         mob.setHealth(health);
 
-        mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(
-            ExpressionUtil.evaluateExpression(mobType.speedExpression(), Map.of("CR", (double) CR))
-        );
-
+        // Required parameter - damage-expression
         mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(
             ExpressionUtil.evaluateExpression(mobType.damageExpression(), Map.of("CR", (double) CR))
         );
 
+        // Optional parameter - speed-expression
+        mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(
+            ExpressionUtil.evaluateExpression(mobType.speedExpression(), Map.of("CR", (double) CR))
+        );
+
+        // Optional parameter - knockback-expression
         mob.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK).setBaseValue(
             ExpressionUtil.evaluateExpression(mobType.knockbackExpression(), Map.of("CR", (double) CR))
         );
 
+        // Optional parameter - knockback-resistance-expression
         mob.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(
             ExpressionUtil.evaluateExpression(mobType.knockbackResistanceExpression(), Map.of("CR", (double) CR))
         );
 
-        mob.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(Double.MAX_VALUE);
+        // Optional parameter - is-baby
+        if (mob instanceof Ageable ageableMob) {
+            if (mobType.isBaby())
+                ageableMob.setBaby();
+        }
+        //todo: armor & equipment here. Make sure to make it undroppable.
 
-        mob.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN, true);
 
+        // Mob's custom name
         mob.setCustomNameVisible(true);
         mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
             Placeholder.component("cr", text(CR)),
@@ -98,16 +109,16 @@ public class Mob {
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
 
-        //todo: armor & equipment here. Make sure to make it undroppable.
 
+        // Post-spawn attributes (bone block / bone meal)
         if (shouldHoldBoneMeal())
             mob.getEquipment().setItemInMainHand(ItemUtil.getBoneMealItemStack(plugin));
         if (boneBlock)
             mob.getEquipment().setHelmet(ItemUtil.getBoneBlockItemStack(plugin));
 
-        plugin.getGameManager().getWaveManager().onMobSpawn(this);
-
         applyGoals();
+
+        plugin.getGameManager().getWaveManager().onMobSpawn(this);
     }
 
     //todo: override in TreeMob.

@@ -11,7 +11,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.mob.MobType;
+import xyz.gameoholic.lumbergame.game.mob.MobType.MobType;
 import xyz.gameoholic.lumbergame.game.wave.Wave;
 
 import java.nio.file.Paths;
@@ -222,7 +222,8 @@ public class ConfigParser {
                         mobType.node("damage-expression").require(String.class),
                         mobType.node("speed-expression").getString("0.23"),
                         mobType.node("knockback-expression").getString("0"),
-                        mobType.node("knockback-resistance-expression").getString("0")
+                        mobType.node("knockback-resistance-expression").getString("0"),
+                        mobType.node("is-baby").getBoolean(false)
                     ));
                 } catch (Exception e) {
                     e.printStackTrace();
