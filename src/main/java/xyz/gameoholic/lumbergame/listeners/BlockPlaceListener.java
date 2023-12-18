@@ -1,12 +1,12 @@
 package xyz.gameoholic.lumbergame.listeners;
 
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.util.InventoryUtil;
+
+import javax.annotation.Nullable;
 
 public class BlockPlaceListener implements Listener {
     private LumberGamePlugin plugin;
@@ -21,11 +21,13 @@ public class BlockPlaceListener implements Listener {
         if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
             > plugin.getLumberConfig().mapConfig().treeRadius())
             return;
-        if (e.getBlock().getType() != Material.BONE_BLOCK)
+        // Must be lumber bone meal. Technically, this doesn't check if it's the item that was used, but that's fine.
+        @Nullable ItemStack item = plugin.getItemManager().getItemInInventory(e.getPlayer(), "bone_block");
+        if (item == null)
             return;
 
         e.setCancelled(true);
-        InventoryUtil.removeItemFromInventory(e.getPlayer(), Material.BONE_BLOCK, 1);
+        e.getPlayer().getInventory().remove(item);
         plugin.getGameManager().getTreeManager().onTreeLevelUpByPlayer(e.getPlayer());
     }
 }

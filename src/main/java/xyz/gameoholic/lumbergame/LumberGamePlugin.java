@@ -9,6 +9,7 @@ import xyz.gameoholic.lumbergame.commands.*;
 import xyz.gameoholic.lumbergame.config.LumberConfig;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
 import xyz.gameoholic.lumbergame.game.LumberGameManager;
+import xyz.gameoholic.lumbergame.game.item.ItemManager;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
 import xyz.gameoholic.lumbergame.listeners.*;
 import xyz.gameoholic.lumbergame.queue.LumberQueueManager;
@@ -21,6 +22,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     private @Nullable LumberGameManager gameManager = null;
     private LumberConfig config;
     private WaveManager waveManager; //todo: SET AUTOMATICALLY FROM EHRE. NEVER NULL.
+    private ItemManager itemManager;
     @Override
     public void onEnable() {
         saveResource("strings.yml", true);
@@ -80,6 +82,9 @@ public final class LumberGamePlugin extends JavaPlugin {
 
     public LumberGameManager getGameManager() {
         return gameManager;
+    }
+    public ItemManager getItemManager() {
+        return itemManager;
     }
 
 

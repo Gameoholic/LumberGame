@@ -84,7 +84,7 @@ public class TreeManager {
         onAnyHealthChanged();
 
         for (int i = 0; i < healthChopped; i++) {
-            location.getWorld().dropItemNaturally(location, ItemUtil.getWoodItemStack(plugin));
+            location.getWorld().dropItemNaturally(location, plugin.getItemManager().getWoodItem());
         }
     }
 

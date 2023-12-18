@@ -68,7 +68,6 @@
       chance: 0.4
     - id: TREE_CREEPER
       chance: 0.2
-  bone-block: true
 
 # Wave 5
 # This is where things stop being easy. Player should start buying items. Also, first bone block.

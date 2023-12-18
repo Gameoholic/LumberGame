@@ -7,12 +7,10 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
 import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
@@ -20,7 +18,6 @@ import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberNearestAttackablePlayerGoal;
 import xyz.gameoholic.lumbergame.game.mob.MobType.MobType;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
-import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 
 import javax.annotation.Nullable;
@@ -101,7 +98,7 @@ public class Mob {
         //todo: armor & equipment here. Make sure to make it undroppable.
 
 
-        // Mob's custom name
+        // Mob's custom name to be applied after parameters
         mob.setCustomNameVisible(true);
         mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
             Placeholder.component("cr", text(CR)),
@@ -110,11 +107,11 @@ public class Mob {
         ));
 
 
-        // Post-spawn attributes (bone block / bone meal)
+        // Post-spawn parameters/attributes (bone block / bone meal)
         if (shouldHoldBoneMeal())
-            mob.getEquipment().setItemInMainHand(ItemUtil.getBoneMealItemStack(plugin));
+            mob.getEquipment().setItemInMainHand(plugin.getItemManager().getBoneMealItem());
         if (boneBlock)
-            mob.getEquipment().setHelmet(ItemUtil.getBoneBlockItemStack(plugin));
+            mob.getEquipment().setHelmet(plugin.getItemManager().getBoneBlockItem());
 
         applyGoals();
 
@@ -187,9 +184,18 @@ public class Mob {
         for (ItemStack itemStack : getDrops()) {
             mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
         }
-        if (mob.getEquipment().getItemInMainHand().getType() == Material.BONE_MEAL)
+
+        // If mob was holding bone meal
+        if (plugin.getItemManager().compareItems(
+            mob.getEquipment().getItemInMainHand(),
+            plugin.getItemManager().getBoneMealItem()
+        ))
             mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getItemInMainHand());
-        if (mob.getEquipment().getHelmet().getType() == Material.BONE_BLOCK)
+        // If mob had bone block on head
+        if (plugin.getItemManager().compareItems(
+            mob.getEquipment().getItemInMainHand(),
+            plugin.getItemManager().getBoneBlockItem()
+        ))
             mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getHelmet());
     }
 
@@ -208,10 +214,10 @@ public class Mob {
             .setVariable("CR", CR).evaluate();
 
         for (int i = 0; i < getSpecificDropAmount(ironChance); i++) {
-            items.add(ItemUtil.getIronItemStack(plugin));
+            items.add(plugin.getItemManager().getIronItem());
         }
         for (int i = 0; i < getSpecificDropAmount(goldChance); i++) {
-            items.add(ItemUtil.getGoldItemStack(plugin));
+            items.add(plugin.getItemManager().getGoldItem());
         }
 
         return items;

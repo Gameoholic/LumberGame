@@ -223,7 +223,13 @@ public class ConfigParser {
                         mobType.node("speed-expression").getString("0.23"),
                         mobType.node("knockback-expression").getString("0"),
                         mobType.node("knockback-resistance-expression").getString("0"),
-                        mobType.node("is-baby").getBoolean(false)
+                        mobType.node("is-baby").getBoolean(false),
+                        mobType.node("item-in-main-hand-id").getString(),
+                        mobType.node("item-in-off-hand-id").getString(),
+                        mobType.node("item-in-helmet-id").getString(),
+                        mobType.node("item-in-chestplate-id").getString(),
+                        mobType.node("item-in-leggings-id").getString(),
+                        mobType.node("item-in-boots-id").getString()
                     ));
                 } catch (Exception e) {
                     e.printStackTrace();
