@@ -18,6 +18,7 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -88,10 +89,12 @@ public abstract class Menu implements InventoryHolder, Listener {
                 case "WOOD" -> "wood_icon";
                 default -> "unknown_currency";
             };
-            itemMeta.lore().add(MiniMessage.miniMessage().deserialize("<currency_icon> <cost>",  //todo: configurable todo
+            List<Component> lores = itemMeta.lore();
+            lores.add(MiniMessage.miniMessage().deserialize("<reset><white><currency_icon><cost>",  //todo: configurable todo
                 Placeholder.component("cost", text(purchasableMenuItem.getCurrencyAmount())),
                 Placeholder.parsed("currency_icon", currencyIconString))
             );
+            itemMeta.lore(lores);
         }
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(index, itemStack);
