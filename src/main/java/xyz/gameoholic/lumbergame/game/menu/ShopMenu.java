@@ -15,7 +15,7 @@ public class ShopMenu extends Menu {
 
     @Override
     protected void setInventoryItems() {
-        setItem(2, new PurchasableMenuItem(plugin, "STONE_SWORD", "IRON", 20));
+        setItem(2, new PurchasableMenuItem(plugin, "STONE_SWORD", "IRON", 32));
         setItem(4, new PurchasableMenuItem(plugin, "IRON_SWORD", "IRON", 64));
         setItem(6, new PurchasableMenuItem(plugin, "DIAMOND_SWORD", "IRON", 128));
     }

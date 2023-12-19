@@ -255,10 +255,17 @@ public class ItemManager {
         return item;
     }
 
-    private ItemStack applyAttackDamage(ItemStack item, int damage) {
+    private ItemStack applyAttackDamage(ItemStack item, double damage) {
         ItemMeta meta = item.getItemMeta();
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "set_damage", damage - 1, AttributeModifier.Operation.ADD_NUMBER); // value needs to be lower by 1 for some reason
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
+        item.setItemMeta(meta);
+        return item;
+    }
+    private ItemStack applyAttackSpeed(ItemStack item, double attackSpeed) {
+        ItemMeta meta = item.getItemMeta();
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "set_attack_speed", attackSpeed, AttributeModifier.Operation.ADD_NUMBER); // value needs to be lower by 1 for some reason
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, modifier);
         item.setItemMeta(meta);
         return item;
     }

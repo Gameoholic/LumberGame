@@ -72,6 +72,7 @@
 # Wave 5
 # This is where things stop being easy. Player should start buying items. Also, first bone block.
 # Introduction of sneaky creepers.
+# From now on, use stone sword for balancing purposes.
 - wave-cr: 85
   spawn-timer-min: 20
   spawn-timer-max: 80
@@ -87,12 +88,11 @@
     - id: TREE_CREEPER
       chance: 0.2
   guaranteed-mob-types:
-    - id: SNEAKY_CREEPER
+    - id: SNEAKY_CREEPER # Introduce new mob
       amount: 1
   bone-block: true
 
 # Wave 6
-# From now on, use stone sword for balancing purposes.
 - wave-cr: 120
   spawn-timer-min: 20
   spawn-timer-max: 80
@@ -109,9 +109,12 @@
       chance: 0.17
     - id: SNEAKY_CREEPER
       chance: 0.08
-#UNBALANCED FROM HERE ON.
+  guaranteed-mob-types:
+    - id: SNEAKY_CREEPER
+      amount: 1
 # Wave 7
 # Introduction of the Shover.
+# From now on, use iron sword for balancing purposes.
 - wave-cr: 150
   spawn-timer-min: 20
   spawn-timer-max: 80
@@ -129,25 +132,43 @@
     - id: SNEAKY_CREEPER
       chance: 0.1
   guaranteed-mob-types:
-    - id: SHOVER
+    - id: SHOVER # Introduce new mob
       amount: 1
 
-#8
-- wave-cr: 1
-  spawn-timer-min: 5
-  spawn-timer-max: 10
-  mob-min-cr: 1
-  mob-max-cr: 1
+# Wave 8
+- wave-cr: 200
+  spawn-timer-min: 20
+  spawn-timer-max: 80
+  mob-min-cr: 7
+  mob-max-cr: 9
   mob-types:
     - id: SKELETON
-      chance: 0.1
+      chance: 0.08
     - id: ZOMBIE
-      chance: 0.3
+      chance: 0.25
     - id: TREE_ZOMBIE
-      chance: 0.4
+      chance: 0.3
     - id: TREE_CREEPER
-      chance: 0.2
-  guaranteed-mob-types:
+      chance: 0.17
     - id: SNEAKY_CREEPER
-      amount: 1
-  bone-block: true
+      chance: 0.1
+    - id: SHOVER
+      chance: 0.1
+  guaranteed-mob-types:
+    - id: SHOVER
+      amount: 2
+
+# Wave 9
+# Full of just Shovers and Creepers
+- wave-cr: 200
+  spawn-timer-min: 20
+  spawn-timer-max: 80
+  mob-min-cr: 8
+  mob-max-cr: 9
+  mob-types:
+    - id: SNEAKY_CREEPER
+      chance: 0.3
+    - id: TREE_CREEPER
+      chance: 0.4
+    - id: SHOVER
+      chance: 0.3
