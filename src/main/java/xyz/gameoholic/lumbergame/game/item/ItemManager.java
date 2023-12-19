@@ -173,20 +173,20 @@ public class ItemManager {
     }
 
     public ItemStack getWoodenSwordItem() {
-        return applyAttackDamage(getItem(
+        return applyUnbreakable(applyAttackDamage(getItem(
             "WOODEN_SWORD",
             Material.WOODEN_SWORD,
             plugin.getLumberConfig().strings().woodenSwordDisplayname(),
             plugin.getLumberConfig().strings().woodenSwordLore()
-        ), 4);
+        ), 4));
     }
     public ItemStack getWoodenAxeItem() {
-        return applyAttackDamage(getItem(
+        return applyUnbreakable(applyAttackDamage(getItem(
             "WOODEN_AXE",
             Material.WOODEN_AXE,
             plugin.getLumberConfig().strings().woodenAxeDisplayname(),
             plugin.getLumberConfig().strings().woodenAxeLore()
-        ), 6);
+        ), 6));
     }
 
     public ItemStack getStoneSwordItem() {
@@ -259,6 +259,13 @@ public class ItemManager {
         ItemMeta meta = item.getItemMeta();
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "set_damage", damage - 1, AttributeModifier.Operation.ADD_NUMBER); // value needs to be lower by 1 for some reason
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    private ItemStack applyUnbreakable(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        meta.setUnbreakable(true);
         item.setItemMeta(meta);
         return item;
     }
