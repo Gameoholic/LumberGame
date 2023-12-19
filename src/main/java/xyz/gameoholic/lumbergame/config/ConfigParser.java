@@ -93,7 +93,9 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("purchasable-item-lore").getString()),
                 root.node("iron-icon").require(Character.class),
                 root.node("gold-icon").require(Character.class),
-                root.node("wood-icon").require(Character.class)
+                root.node("wood-icon").require(Character.class),
+                Objects.requireNonNull(root.node("wooden-axe-displayname").getString()),
+                Objects.requireNonNull(root.node("wooden-axe-lore").getString())
 
             );
 

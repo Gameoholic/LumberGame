@@ -180,6 +180,14 @@ public class ItemManager {
             plugin.getLumberConfig().strings().woodenSwordLore()
         ), 4);
     }
+    public ItemStack getWoodenAxeItem() {
+        return applyAttackDamage(getItem(
+            "WOODEN_AXE",
+            Material.WOODEN_AXE,
+            plugin.getLumberConfig().strings().woodenAxeDisplayname(),
+            plugin.getLumberConfig().strings().woodenAxeLore()
+        ), 6);
+    }
 
     public ItemStack getStoneSwordItem() {
         return applyAttackDamage(getItem(

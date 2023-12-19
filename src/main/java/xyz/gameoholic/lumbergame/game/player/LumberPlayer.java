@@ -54,8 +54,12 @@ public class LumberPlayer implements Listener {
      */
     public void onGameLoad() {
         Player player = Bukkit.getPlayer(uuid);
-        if (player != null)
-            scoreboardManager = new PlayerScoreboardManager(plugin, player, this);
+        if (player == null)
+            return;
+        scoreboardManager = new PlayerScoreboardManager(plugin, player, this);
+        player.getInventory().clear();
+        player.getInventory().addItem(plugin.getItemManager().getWoodenSwordItem());
+        player.getInventory().addItem(plugin.getItemManager().getWoodenAxeItem());
     }
 
     @EventHandler

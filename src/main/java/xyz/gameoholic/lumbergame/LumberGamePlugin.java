@@ -73,8 +73,8 @@ public final class LumberGamePlugin extends JavaPlugin {
     public void startGame() {
         gameManager = new LumberGameManager(this, queueManager.getPlayers());
         queueManager.resetQueue();
-        gameManager.onGameLoad();
         itemManager = new ItemManager(this);
+        gameManager.onGameLoad();
     }
 
     public LumberQueueManager getQueueManager() {

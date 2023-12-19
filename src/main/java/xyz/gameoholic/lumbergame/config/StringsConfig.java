@@ -50,7 +50,9 @@ public record StringsConfig(
     String purchasableItemLore,
     Character ironIcon,
     Character goldIcon,
-    Character woodIcon
+    Character woodIcon,
+    String woodenAxeDisplayname,
+    String woodenAxeLore
 
 
 
