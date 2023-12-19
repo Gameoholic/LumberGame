@@ -167,9 +167,9 @@
   mob-max-cr: 9
   mob-types:
     - id: SNEAKY_CREEPER
-      chance: 0.3
+      chance: 0.5
     - id: TREE_CREEPER
-      chance: 0.4
+      chance: 0.5
   guaranteed-mob-types:
     - id: SHOVER
       amount: 5
