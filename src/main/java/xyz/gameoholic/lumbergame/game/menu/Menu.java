@@ -1,6 +1,8 @@
 package xyz.gameoholic.lumbergame.game.menu;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -70,7 +72,7 @@ public abstract class Menu implements InventoryHolder, Listener {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.getPersistentDataContainer()
             .set(new NamespacedKey(plugin, "menu_item_id"), PersistentDataType.STRING, menuItem.getId());
-        // If item is purchasable menu item, store the currency id and amount in the PDC
+        // If item is purchasable menu item, store the currency id and amount in the PDC and add additional lore
         if (menuItem instanceof PurchasableMenuItem purchasableMenuItem) {
             itemMeta.getPersistentDataContainer()
                 .set(new NamespacedKey(plugin, "purchasable_item_currency_id"),
@@ -78,6 +80,18 @@ public abstract class Menu implements InventoryHolder, Listener {
             itemMeta.getPersistentDataContainer()
                 .set(new NamespacedKey(plugin, "purchasable_item_currency_amount"),
                     PersistentDataType.INTEGER, purchasableMenuItem.getCurrencyAmount());
+
+            // Convert currency_icon to equivalent icon of currency
+            String currencyIconString = switch (purchasableMenuItem.getCurrencyItemId()) {
+                case "IRON" -> "iron_icon";
+                case "GOLD" -> "gold_icon";
+                case "WOOD" -> "wood_icon";
+                default -> "unknown_currency";
+            };
+            itemMeta.lore().add(MiniMessage.miniMessage().deserialize("<currency_icon> <cost>",  //todo: configurable todo
+                Placeholder.component("cost", text(purchasableMenuItem.getCurrencyAmount())),
+                Placeholder.parsed("currency_icon", currencyIconString))
+            );
         }
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(index, itemStack);
