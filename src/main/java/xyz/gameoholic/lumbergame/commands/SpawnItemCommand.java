@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
@@ -15,7 +16,7 @@ public class SpawnItemCommand implements CommandExecutor {
     }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length < 1)
+        if (args.length < 2)
             return false;
 
         if (!(sender instanceof Player))
@@ -23,7 +24,10 @@ public class SpawnItemCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        player.getInventory().addItem(plugin.getItemManager().getItem(args[0]));
+        ItemStack itemStack = plugin.getItemManager().getItem(args[0]);
+        itemStack.setAmount(Integer.parseInt(args[1]));
+
+        player.getInventory().addItem(itemStack);
         return false;
     }
 }

@@ -4,19 +4,20 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class ItemManager {
 
@@ -172,39 +173,39 @@ public class ItemManager {
     }
 
     public ItemStack getWoodenSwordItem() {
-        return getItem(
+        return applyAttackDamage(getItem(
             "WOODEN_SWORD",
             Material.WOODEN_SWORD,
             plugin.getLumberConfig().strings().woodenSwordDisplayname(),
             plugin.getLumberConfig().strings().woodenSwordLore()
-        );
+        ), 4);
     }
 
     public ItemStack getStoneSwordItem() {
-        return getItem(
+        return applyAttackDamage(getItem(
             "STONE_SWORD",
             Material.STONE_SWORD,
             plugin.getLumberConfig().strings().stoneSwordDisplayname(),
             plugin.getLumberConfig().strings().stoneSwordLore()
-        );
+        ), 7);
     }
 
     public ItemStack getIronSwordItem() {
-        return getItem(
+        return applyAttackDamage(getItem(
             "IRON_SWORD",
             Material.IRON_SWORD,
             plugin.getLumberConfig().strings().ironSwordDisplayname(),
             plugin.getLumberConfig().strings().ironSwordLore()
-        );
+        ), 10);
     }
 
     public ItemStack getDiamondSwordItem() {
-        return getItem(
+        return applyAttackDamage(getItem(
             "DIAMOND_SWORD",
             Material.DIAMOND_SWORD,
             plugin.getLumberConfig().strings().diamondSwordDisplayname(),
             plugin.getLumberConfig().strings().diamondSwordLore()
-        );
+        ), 15);
     }
 
     public ItemStack getArrowItem() {
@@ -216,24 +217,55 @@ public class ItemManager {
         );
     }
 
+    /**
+     * @param id The Lumber ID of this item.
+     * @param material Item's material.
+     * @param displayName Item's displayname.
+     * @param lore Lore to be applied on the item.
+     * @return An item stack with everything applied.
+     */
     private ItemStack getItem(String id, Material material, String displayName, String lore) {
         ItemStack item = new ItemStack(material);
-
         ItemMeta meta = item.getItemMeta();
 
         meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING, id);
 
+        // Displayname
         meta.displayName(MiniMessage.miniMessage().deserialize(displayName)
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).colorIfAbsent(NamedTextColor.WHITE));
 
+        // Lore
         List<String> lores = Arrays.stream(lore.split("<br>|<linebreak>")).toList();
         List<Component> componentLores = new ArrayList<>();
         lores.forEach(tempLore -> componentLores.add(
             MiniMessage.miniMessage().deserialize(tempLore)
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).colorIfAbsent(NamedTextColor.WHITE)));
         meta.lore(componentLores);
-        item.setItemMeta(meta);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    private ItemStack applyAttackDamage(ItemStack item, int damage) {
+        ItemMeta meta = item.getItemMeta();
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "set_damage", damage - 1, AttributeModifier.Operation.ADD_NUMBER); // value needs to be lower by 1 for some reason
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    /**
+     * Applies enchantments to the ItemStack.
+     * @param item
+     * @param enchants
+     * @return New ItemStack with the enchantments applied.
+     */
+    private ItemStack applyEnchants(ItemStack item, Map<Enchantment, Integer> enchants) {
+        ItemMeta meta = item.getItemMeta();
+        enchants.forEach((enchant, level) -> meta.addEnchant(enchant, level, true));
+
+        item.setItemMeta(meta);
         return item;
     }
 }

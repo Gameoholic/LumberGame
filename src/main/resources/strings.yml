@@ -54,16 +54,16 @@ bow-displayname: "Bow"
 bow-lore: "<i><gray>Surprisingly effective!"
 
 wooden-sword-displayname: "Wooden Sword"
-wooden-sword-lore: "<i><gray>A pretty rusty sword."
+wooden-sword-lore: "<i><gray>A pretty rusty sword.<br><gold>4 Attack Damage"
 
 stone-sword-displayname: "Stone Sword"
-stone-sword-lore: "<i><gray>A slightly better starter sword."
+stone-sword-lore: "<i><gray>A slightly better starter sword.<br><gold>7 Attack Damage"
 
 iron-sword-displayname: "Iron Sword"
-iron-sword-lore: "<i><gray>A decent weapon fit to cut enemies into pieces."
+iron-sword-lore: "<i><gray>A decent weapon fit to cut enemies into pieces.<br><gold>10 Attack Damage"
 
 diamond-sword-displayname: "Diamond Sword"
-diamond-sword-lore: "<i><gray>The best you can buy for your buck."
+diamond-sword-lore: "<i><gray>The best you can buy for your buck.<br><gold>15 Attack Damage"
 
 arrow-displayname: "Arrow"
 arrow-lore: "<i><gray>Normal arrows."
