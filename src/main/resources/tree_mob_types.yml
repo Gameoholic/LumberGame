@@ -9,21 +9,21 @@
 
 # Normal zombie, fairly weak. Introduced @ Wave ~1
 - id: "TREE_ZOMBIE"
-  display-name: "<red>😡</red> Zombie"
+  display-name: "뀃 Zombie"
   entity-type: "ZOMBIE"
   health-expression: "CR * 2 + 3.5"
   damage-expression: "CR * 0.25 + 1"
 
 # Normal creeper, a bit more damage than normal mobs. Introduced @ Wave ~2
 - id: "TREE_CREEPER"
-  display-name: "<red>😡</red> Creeper"
+  display-name: "뀃 Creeper"
   entity-type: "CREEPER"
   health-expression: "CR * 2 + 3.5"
   damage-expression: "CR * 0.5 + 1"
 
 # Faster creeper. Introduced @ Wave ~5
 - id: "SNEAKY_CREEPER"
-  display-name: "<red>😡</red> <green>Sneaky Creeper"
+  display-name: "뀃 <green>Sneaky Creeper"
   entity-type: "CREEPER"
   health-expression: "CR * 1"
   damage-expression: "CR * 0.5 + 1"
@@ -31,7 +31,7 @@
 
 # Does heavy damage, and walks slowly. Fully knockback resistant. Introduced @ Wave ~5
 - id: "HEAVY_CREEPER"
-  display-name: "<red>😡</red> <red>Heavy Creeper"
+  display-name: "뀃 <red>Heavy Creeper"
   entity-type: "CREEPER"
   health-expression: "CR * 10"
   damage-expression: "CR * 5 + 5"

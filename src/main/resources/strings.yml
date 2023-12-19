@@ -1,3 +1,9 @@
+# iron ingot: 뀀
+# gold ingot: 뀁
+# bone meal: 뀂
+# oak sapling: 뀃
+# wood: 뀄
+
 # /addtoqueue command
 add-to-queue-command-no-player-provided-message: "<red>Please provide a player's username."
 add-to-queue-command-player-offline-message: "<red>The player is offline!"
@@ -22,11 +28,14 @@ start-command-no-queued-players-message: "<red>There isn't anyone in the queue t
 start-command-game-in-progress-message: "<red>A game is already in progress!"
 start-command-success-message: "<green>Started the game!"
 
-new-wave-start-message: "<gold>Started wave <red><wave></red>!" # Parameters: <wave>
+# Parameters: <wave>
+new-wave-start-message: "<gold>Started wave <red><wave></red>!"
 
-tree-damaged-actionbar-message: "<transition:#ff0000:#00ff00:<tree_health_fraction>> <bold>!</bold>🌲<bold>! </bold></transition><red><bold>-<tree_damage>"
+# Parameters: tree_health, tree_max_health, tree_health_percentage, tree_damage
+tree-damaged-actionbar-message: "뀃 <transition:#ff0000:#00ff00:<tree_health_fraction>><tree_health> <bold>!</bold></transition> <red><bold>-<tree_damage></bold>❤"
 
-mob-displayname: "<name> <health>❤ <cr>🛡"
+# Parameters: <name>, <health>
+mob-displayname: "<name> <health>❤"
 
 iron-displayname: "<white>Iron"
 gold-displayname: "<gold>Gold"
@@ -63,9 +72,9 @@ scoreboard-title: "<color:#ffa008>Lumber Defense</color>"
 # parameters: <wave>, <wood>, <gold_amount>, <bone_meal>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>
 scoreboard-lines:
   - "Wave <color:#f08000><wave></color>"
-  - "<green>🌲</green> <transition:#ff0000:#00ff00:<tree_health_fraction>><tree_health_percentage></transition>% <color:#8a8a8a>(<tree_health>/<tree_max_health>)</color>"
+  - "뀃 <transition:#ff0000:#00ff00:<tree_health_fraction>><tree_health_percentage></transition>% <color:#8a8a8a>(<tree_health>/<tree_max_health>)</color>"
   - ""
-  - "<color:#f0e40e>You</color> <iron><white>🔩</white> <gold_amount><yellow>🧈</yellow> <wood><gold>🟫</gold> <bone_meal>🦴"
+  - "<color:#f0e40e>You</color> <white><iron>뀀 <gold_amount>뀁 <wood>뀄 <bone_meal>뀂"
   - ""
   - "<color:#f02805>Mobs</color>: <alive_mobs>"
-player-scoreboard-line: "<player> <red>❤<transition:#ff0000:#00ff00:<health_fraction>><health></transition></red> <iron><white>🔩</white> <gold_amount><yellow>🧈</yellow> <wood><gold>🟫</gold> <bone_meal>🦴"
+player-scoreboard-line: "<player> <red>❤<transition:#ff0000:#00ff00:<health_fraction>><health></transition></red> <white><iron>뀀 <gold_amount>뀁 <wood>뀄 <bone_meal>뀂"

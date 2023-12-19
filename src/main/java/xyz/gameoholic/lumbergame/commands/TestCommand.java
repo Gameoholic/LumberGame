@@ -36,12 +36,6 @@ public class TestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        plugin.saveResource("strings.yml", true);
-        plugin.saveResource("hostile_mob_types.yml", true);
-        plugin.saveResource("tree_mob_types.yml", true);
-        plugin.saveResource("map.yml", true);
-        plugin.saveResource("game.yml", true);
-        plugin.saveResource("waves.yml", true);
         plugin.setConfig(new ConfigParser(plugin).parse());
 
 

@@ -50,6 +50,9 @@ public class TreeManager {
             );
             lumberPlayer.displayActionBar(MiniMessage.miniMessage().deserialize(
                 plugin.getLumberConfig().strings().treeDamagedActionbarMessage(),
+                Placeholder.component("tree_health", text(health)),
+                Placeholder.component("tree_max_health", text(maxHealth)),
+                Placeholder.component("tree_health_percentage", text(getHealthToMaxHealthRatio())),
                 Placeholder.component("tree_damage", text(damage)),
                 Placeholder.parsed("tree_health_fraction", String.valueOf(getHealthToMaxHealthRatio() / 100.0))
             ));
