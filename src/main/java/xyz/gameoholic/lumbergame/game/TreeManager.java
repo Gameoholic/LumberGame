@@ -30,7 +30,7 @@ public class TreeManager {
         updateMaxHealth();
         health = maxHealth;
 
-        pasteTreeSchematic();
+        pasteTreeSchematic(true);
     }
 
     /**
@@ -40,7 +40,6 @@ public class TreeManager {
         if (treeDead)
             return;
         int damage = (int) mob.getMob().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
-        Bukkit.broadcastMessage("Tree damaged by " + mob.getMobType().displayName() + " for " + damage + " HP");
         health = Math.max(health - damage, 0);
         onAnyHealthChanged();
         plugin.getGameManager().getPlayers().forEach(lumberPlayer -> {
@@ -101,7 +100,7 @@ public class TreeManager {
         updateMaxHealth();
         onAnyHealthChanged();
 
-        pasteTreeSchematic();
+        pasteTreeSchematic(false);
     }
 
     /**
@@ -119,7 +118,7 @@ public class TreeManager {
      * Should NOT be called when the health is first set.
      */
     private void onAnyHealthChanged() {
-        int blockBreakProgress; // -1 is no block break, range is 0 - 9, where 9 is the most broken.
+        int blockBreakProgress; // progress – The destruction progress of the block. Range is 0 - 9, where 9 is the most destroyed. Any other number will reset it back to no destruction.
 
         int healthRatio = getHealthToMaxHealthRatio(); // in %
         if (health <= 1)
@@ -154,6 +153,7 @@ public class TreeManager {
 
         plugin.getGameManager().updatePlayerScoreboards(); // Update tree health
     }
+
 
     /**
      * Iterates over every tree block in the radius of the tree.
@@ -193,7 +193,7 @@ public class TreeManager {
     /**
      * Pastes the schematic of the tree correspondent to the current tree level.
      */
-    private void pasteTreeSchematic() {
+    private void pasteTreeSchematic(boolean resetTreeBreakProgress) {
         if (!(plugin.getLumberConfig().mapConfig().treeLevelSchematicsProvided().contains(level)))
             return;
 
@@ -205,6 +205,15 @@ public class TreeManager {
                     new File(plugin.getDataFolder(), "schematics/tree/level_" + level + ".schem"),
                     plugin.getLumberConfig().mapConfig().treeLocation()
                 );
+
+                // We reset tree break progress if the game's just started - the clients remembers that information from previous games
+                if (resetTreeBreakProgress)
+                    iterateOverTreeBlocks(block -> NMSUtil.displayBlockDestruction(
+                        block.getLocation().getBlockX(),
+                        block.getLocation().getBlockY(),
+                        block.getLocation().getBlockZ(),
+                        -1
+                    ));
 
             }
         }.runTaskAsynchronously(plugin);
