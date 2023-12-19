@@ -38,11 +38,42 @@ public class ItemManager {
         for (ItemStack item : player.getInventory()) {
             if (item != null && item.getItemMeta().getPersistentDataContainer()
                 .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING) == itemId) {
-                Bukkit.broadcastMessage("Returning bone block");
                 return item;
             }
         }
         return null;
+    }
+
+    public int countItemsInInventory(Player player, String itemId) {
+        int count = 0;
+        for (ItemStack item : player.getInventory()) {
+            if (item != null && item.getItemMeta().getPersistentDataContainer()
+                .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING) == itemId) {
+                count += item.getAmount();
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Removes a certain amount of items from the player's inventory, but only if the player has enough items of that type.
+     * @param player The player.
+     * @param itemId The ID of the Lumber item.
+     * @param amount The amount of items to remove.
+     * @return Whether the items were removed or not.
+     */
+    public boolean removeItemsFromInventory(Player player, String itemId, int amount) {
+        if (countItemsInInventory(player, itemId) < amount)
+            return false;
+        for (ItemStack item : player.getInventory()) {
+            if (item != null && item.getItemMeta().getPersistentDataContainer()
+                .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING) == itemId) {
+                int amountRemoved = Math.min(item.getAmount(), amount);
+                item.setAmount(item.getAmount() - amountRemoved);
+                amount -= amountRemoved;
+            }
+        }
+        return true;
     }
 
     /**
@@ -65,6 +96,7 @@ public class ItemManager {
 
     /**
      * Utility method.
+     *
      * @param itemId
      * @return
      */
@@ -138,6 +170,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().bowLore()
         );
     }
+
     public ItemStack getWoodenSwordItem() {
         return getItem(
             "WOODEN_SWORD",
@@ -146,6 +179,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().woodenSwordLore()
         );
     }
+
     public ItemStack getStoneSwordItem() {
         return getItem(
             "STONE_SWORD",
@@ -154,6 +188,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().stoneSwordLore()
         );
     }
+
     public ItemStack getIronSwordItem() {
         return getItem(
             "IRON_SWORD",
@@ -162,6 +197,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().ironSwordLore()
         );
     }
+
     public ItemStack getDiamondSwordItem() {
         return getItem(
             "DIAMOND_SWORD",
@@ -170,6 +206,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().diamondSwordLore()
         );
     }
+
     public ItemStack getArrowItem() {
         return getItem(
             "ARROW",

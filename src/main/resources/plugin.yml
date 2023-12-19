@@ -20,5 +20,7 @@ commands:
     permission: lumbergame.spawnmob
   startwave:
     permission: lumbergame.startwave
+  shop:
+    permission: lumbergame.shop
   test:
     permission: test

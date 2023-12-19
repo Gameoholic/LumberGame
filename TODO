@@ -20,9 +20,9 @@ Fix skeleton arrow damage:
 2) Listen for EntityDamageByEntityEvent. If damager is arrow, then check if there is a metadata and if there is, then change damage.
 
 Until TMRW:
-- Resource pack
+- Partigon tree particles
 - Shop with NPC
-- Everything's presentable (strings etc.)
+- Send Tree NMS packets every X seconds and upon relog?
 
 Big todo:
  - Shop & Regular Items (1d)
