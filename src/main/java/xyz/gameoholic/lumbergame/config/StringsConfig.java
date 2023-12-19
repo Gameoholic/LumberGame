@@ -46,7 +46,13 @@ public record StringsConfig(
     String diamondSwordDisplayname,
     String diamondSwordLore,
     String arrowDisplayname,
-    String arrowLore
+    String arrowLore,
+    String purchasableItemLore,
+    Character ironIcon,
+    Character goldIcon,
+    Character woodIcon
+
+
 
 ) {
 

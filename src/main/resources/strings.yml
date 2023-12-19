@@ -78,3 +78,10 @@ scoreboard-lines:
   - ""
   - "<color:#f02805>Mobs</color>: <alive_mobs>"
 player-scoreboard-line: "<player> <red>❤<transition:#ff0000:#00ff00:<health_fraction>><health></transition></red> <white><iron>뀀 <gold_amount>뀁 <wood>뀄 <bone_meal>뀂"
+
+
+# Parameters: <cost>, <currency_icon>
+purchasable-item-lore: "<currency_icon><cost>"
+iron-icon: '뀀'
+gold-icon: '뀁'
+wood-icon: '뀄'

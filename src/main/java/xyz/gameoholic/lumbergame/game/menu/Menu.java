@@ -1,6 +1,8 @@
 package xyz.gameoholic.lumbergame.game.menu;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
@@ -83,16 +85,18 @@ public abstract class Menu implements InventoryHolder, Listener {
                     PersistentDataType.INTEGER, purchasableMenuItem.getCurrencyAmount());
 
             // Convert currency_icon to equivalent icon of currency
-            String currencyIconString = switch (purchasableMenuItem.getCurrencyItemId()) {
-                case "IRON" -> "iron_icon";
-                case "GOLD" -> "gold_icon";
-                case "WOOD" -> "wood_icon";
-                default -> "unknown_currency";
+            Character currencyIcon = switch (purchasableMenuItem.getCurrencyItemId()) {
+                case "IRON" -> plugin.getLumberConfig().strings().ironIcon();
+                case "GOLD" -> plugin.getLumberConfig().strings().goldIcon();
+                case "WOOD" -> plugin.getLumberConfig().strings().woodIcon();
+                default -> '-';
             };
             List<Component> lores = itemMeta.lore();
-            lores.add(MiniMessage.miniMessage().deserialize("<reset><white><currency_icon><cost>",  //todo: configurable todo
+            lores.add(MiniMessage.miniMessage().deserialize("<reset><white><currency_icon><cost>",
                 Placeholder.component("cost", text(purchasableMenuItem.getCurrencyAmount())),
-                Placeholder.parsed("currency_icon", currencyIconString))
+                Placeholder.component("currency_icon", text(currencyIcon)))
+                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                .colorIfAbsent(NamedTextColor.WHITE)
             );
             itemMeta.lore(lores);
         }
