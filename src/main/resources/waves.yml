@@ -170,5 +170,6 @@
       chance: 0.3
     - id: TREE_CREEPER
       chance: 0.4
+  guaranteed-mob-types:
     - id: SHOVER
-      chance: 0.3
+      amount: 5

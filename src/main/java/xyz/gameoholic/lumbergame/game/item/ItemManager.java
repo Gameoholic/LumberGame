@@ -173,47 +173,47 @@ public class ItemManager {
     }
 
     public ItemStack getWoodenSwordItem() {
-        return applyUnbreakable(applyAttackDamage(getItem(
+        return applyAttackSpeed(applyUnbreakable(applyAttackDamage(getItem(
             "WOODEN_SWORD",
             Material.WOODEN_SWORD,
             plugin.getLumberConfig().strings().woodenSwordDisplayname(),
             plugin.getLumberConfig().strings().woodenSwordLore()
-        ), 4));
+        ), 4)), -2.4);
     }
     public ItemStack getWoodenAxeItem() {
-        return applyUnbreakable(applyAttackDamage(getItem(
+        return applyUnbreakable(applyAttackSpeed(applyAttackDamage(getItem(
             "WOODEN_AXE",
             Material.WOODEN_AXE,
             plugin.getLumberConfig().strings().woodenAxeDisplayname(),
             plugin.getLumberConfig().strings().woodenAxeLore()
-        ), 6));
+        ), 6), -3.2));
     }
 
     public ItemStack getStoneSwordItem() {
-        return applyAttackDamage(getItem(
+        return applyAttackSpeed(applyAttackDamage(getItem(
             "STONE_SWORD",
             Material.STONE_SWORD,
             plugin.getLumberConfig().strings().stoneSwordDisplayname(),
             plugin.getLumberConfig().strings().stoneSwordLore()
-        ), 7);
+        ), 7), -2.4);
     }
 
     public ItemStack getIronSwordItem() {
-        return applyAttackDamage(getItem(
+        return applyAttackSpeed(applyAttackDamage(getItem(
             "IRON_SWORD",
             Material.IRON_SWORD,
             plugin.getLumberConfig().strings().ironSwordDisplayname(),
             plugin.getLumberConfig().strings().ironSwordLore()
-        ), 10);
+        ), 10), -2.4);
     }
 
     public ItemStack getDiamondSwordItem() {
-        return applyAttackDamage(getItem(
+        return applyAttackSpeed(applyAttackDamage(getItem(
             "DIAMOND_SWORD",
             Material.DIAMOND_SWORD,
             plugin.getLumberConfig().strings().diamondSwordDisplayname(),
             plugin.getLumberConfig().strings().diamondSwordLore()
-        ), 15);
+        ), 15), -2.4);
     }
 
     public ItemStack getArrowItem() {
@@ -264,7 +264,7 @@ public class ItemManager {
     }
     private ItemStack applyAttackSpeed(ItemStack item, double attackSpeed) {
         ItemMeta meta = item.getItemMeta();
-        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "set_attack_speed", attackSpeed, AttributeModifier.Operation.ADD_NUMBER); // value needs to be lower by 1 for some reason
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "set_attack_speed", attackSpeed, AttributeModifier.Operation.ADD_NUMBER);
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, modifier);
         item.setItemMeta(meta);
         return item;
