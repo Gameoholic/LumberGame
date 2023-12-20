@@ -150,6 +150,7 @@ public class LumberMob implements Listener {
         applyGoals();
 
         plugin.getGameManager().getWaveManager().onMobSpawn(this);
+        registerEvents();
     }
 
 

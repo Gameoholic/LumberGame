@@ -48,7 +48,6 @@ public class LumberPlayer implements Listener {
     public LumberPlayer(LumberGamePlugin plugin, UUID uuid) {
         this.uuid = uuid;
         this.plugin = plugin;
-        registerEvents();
     }
 
     private void registerEvents() {
@@ -84,6 +83,8 @@ public class LumberPlayer implements Listener {
         player.setFoodLevel(20);
         player.setExp(0);
         player.setLevel(0);
+
+        registerEvents();
     }
 
 
