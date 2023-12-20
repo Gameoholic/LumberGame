@@ -148,7 +148,7 @@ public class ItemManager {
     }
 
     public ItemStack getBoneMealItem() {
-        return applyDestroyableKeys(getItem(
+        return applyPlaceableKeys(getItem(
             "BONE_MEAL",
             Material.BONE_MEAL,
             plugin.getLumberConfig().strings().boneMealDisplayname(),
@@ -157,7 +157,7 @@ public class ItemManager {
     }
 
     public ItemStack getBoneBlockItem() {
-        return applyDestroyableKeys(getItem(
+        return applyPlaceableKeys(getItem(
             "BONE_BLOCK",
             Material.BONE_BLOCK,
             plugin.getLumberConfig().strings().boneBlockDisplayname(),
@@ -259,6 +259,14 @@ public class ItemManager {
         return item;
     }
 
+    private ItemStack applyPlaceableKeys(ItemStack item, List<Material> placeableMaterials) {
+        ItemMeta meta = item.getItemMeta();
+        List<Namespaced> keys = new ArrayList<>();
+        placeableMaterials.forEach(material -> keys.add(material.getKey()));
+        meta.setPlaceableKeys(keys);
+        item.setItemMeta(meta);
+        return item;
+    }
     private ItemStack applyDestroyableKeys(ItemStack item, List<Material> destroyableMaterials) {
         ItemMeta meta = item.getItemMeta();
         List<Namespaced> keys = new ArrayList<>();
