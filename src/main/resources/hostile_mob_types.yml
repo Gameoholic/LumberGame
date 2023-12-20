@@ -4,6 +4,7 @@
 #  knockback-resistance (default is 0.0). The scale of horizontal knockback resisted from attacks and projectiles. Vertical knockback is not affected. 1.0 is 100% knockback resistance. 0.4 means 60% of knockback is applied.
 # item-in-main-hand-id, item-in-main-off-id, item-in-helmet-id, item-in-chestplate-id, item-in-leggings-id, item-in-boots-id
 # has-melee-attack-goal
+#  attack-cooldown (default is 20). How many ticks to wait between attacks.
 
 # Color coding: <green> for 'minor ability', <red> for 'heavy damage'
 
