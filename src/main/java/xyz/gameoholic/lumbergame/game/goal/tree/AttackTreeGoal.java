@@ -1,13 +1,9 @@
 package xyz.gameoholic.lumbergame.game.goal.tree;
 
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftCreeper;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.Mob;
 
@@ -20,6 +16,8 @@ public class AttackTreeGoal extends Goal {
     protected int ticksUntilNextAttack;
     private long lastCanUseCheck;
     private final Vec3 targetLoc;
+    private final int ATTACK_COOLDOWN; // LUMBER - custom attack cooldown
+
     private static final double SPEED_MODIFIER = 1.0;
     private static final double TREE_BB_WIDTH = 2.0;
 
@@ -29,10 +27,11 @@ public class AttackTreeGoal extends Goal {
      * @param targetLoc The location of the tree to pathfind to and attack.
      */
 
-    public AttackTreeGoal(LumberGamePlugin plugin, PathfinderMob mob, Vec3 targetLoc) {
+    public AttackTreeGoal(LumberGamePlugin plugin, PathfinderMob mob, Vec3 targetLoc, int attackCooldown) {
         this.plugin = plugin;
         this.targetLoc = targetLoc;
         this.mob = mob;
+        this.ATTACK_COOLDOWN = attackCooldown;
         setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
@@ -98,7 +97,7 @@ public class AttackTreeGoal extends Goal {
     }
 
     protected void resetAttackCooldown() {
-        ticksUntilNextAttack = adjustedTickDelay(20);
+        ticksUntilNextAttack = adjustedTickDelay(ATTACK_COOLDOWN);
     }
 
     protected double getAttackReachSqr() {

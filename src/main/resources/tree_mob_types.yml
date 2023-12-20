@@ -14,6 +14,13 @@
   health-expression: "CR * 2 + 3.5"
   damage-expression: "CR * 0.25 + 1"
 
+- id: "TEST"
+  display-name: "뀃 Zombie"
+  entity-type: "ZOMBIE"
+  health-expression: "CR * 2 + 3.5"
+  damage-expression: "CR * 0.25 + 1"
+  attack-cooldown-expression: "50"
+
 # Normal creeper, a bit more damage than normal mobs. Introduced @ Wave ~2
 - id: "TREE_CREEPER"
   display-name: "뀃 Creeper"

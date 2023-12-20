@@ -12,7 +12,7 @@ public class CreeperAttackTreeGoal extends AttackTreeGoal {
      * @param targetLoc Location of the tree to pathfind to and ignite at.
      */
     public CreeperAttackTreeGoal(LumberGamePlugin plugin, Creeper mob, Vec3 targetLoc) {
-        super(plugin, mob, targetLoc);
+        super(plugin, mob, targetLoc, 20); // We provide 20 as attack cooldown because creepers don't really have that..
     }
 
 

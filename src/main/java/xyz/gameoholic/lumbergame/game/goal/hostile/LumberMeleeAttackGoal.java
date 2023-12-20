@@ -5,10 +5,8 @@ import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
-import org.bukkit.Bukkit;
 
 import java.util.EnumSet;
 
@@ -26,10 +24,12 @@ public class LumberMeleeAttackGoal extends Goal {
     private int ticksUntilNextPathRecalculation;
     private int ticksUntilNextAttack;
     private long lastCanUseCheck;
+    private final int ATTACK_COOLDOWN; // LUMBER - custom attack cooldown
 
-    public LumberMeleeAttackGoal(PathfinderMob mob, double speed) {
+    public LumberMeleeAttackGoal(PathfinderMob mob, double speed, int attackCooldown) { // todo: remove speedmofidier it always 1.0
         this.mob = mob;
         this.speedModifier = speed;
+        this.ATTACK_COOLDOWN = attackCooldown;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
@@ -117,7 +117,7 @@ public class LumberMeleeAttackGoal extends Goal {
     }
 
     protected void resetAttackCooldown() {
-        this.ticksUntilNextAttack = this.adjustedTickDelay(20);
+        this.ticksUntilNextAttack = this.adjustedTickDelay(ATTACK_COOLDOWN);
     }
 
     protected boolean isTimeToAttack() {

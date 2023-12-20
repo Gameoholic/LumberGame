@@ -224,6 +224,7 @@ public class ConfigParser {
         return mobTypes;
     }
 
+
     /**
      * Returns the mob types for a certain configuration node (hostile/tree mobs)
      */
@@ -242,6 +243,7 @@ public class ConfigParser {
                         mobType.node("speed-expression").getString("0.23"),
                         mobType.node("knockback-expression").getString("0"),
                         mobType.node("knockback-resistance-expression").getString("0"),
+                        mobType.node("attack-cooldown-expression").getString("20"),
                         mobType.node("is-baby").getBoolean(false),
                         mobType.node("item-in-main-hand-id").getString(),
                         mobType.node("item-in-off-hand-id").getString(),

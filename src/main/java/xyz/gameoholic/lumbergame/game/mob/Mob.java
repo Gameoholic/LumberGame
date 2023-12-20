@@ -157,13 +157,18 @@ public class Mob {
             NMSMob.goalSelector.removeGoal(wrappedMeleeAttackGoal.getGoal());
         NMSMob.targetSelector.removeGoal(wrappedNearestAttackableTargetGoal.getGoal());
 
+        // Attack speed is needed for goal, can't be added via mob attribute.
+        int attackCooldown = (int) ExpressionUtil.evaluateExpression(
+            mobType.attackCooldownExpression(), Map.of("CR", (double) CR));
+
         // Replace them with our goals, with the same exact priorities.
         // The lower the priority of the goal, the more it will be prioritized.
         NMSMob.targetSelector.addGoal(wrappedNearestAttackableTargetGoal.getPriority(),
             new LumberNearestAttackablePlayerGoal(NMSMob)); // Target and lock onto player
         if (mobType.hasMeleeAttackGoal())
             NMSMob.goalSelector.addGoal(wrappedMeleeAttackGoal.getPriority(),
-                new LumberMeleeAttackGoal((PathfinderMob) NMSMob, 1.0)); // Attack and follow player
+                new LumberMeleeAttackGoal((PathfinderMob) NMSMob, 1.0, attackCooldown) // Attack and follow player
+            );
     }
 
     /**

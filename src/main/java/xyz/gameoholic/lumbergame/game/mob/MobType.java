@@ -15,6 +15,7 @@ public record MobType(
     String speedExpression,
     String knockbackExpression,
     String knockbackResistanceExpression,
+    String attackCooldownExpression,
     Boolean isBaby,
     @Nullable String itemInMainHandID,
     @Nullable String itemInOffHandID,

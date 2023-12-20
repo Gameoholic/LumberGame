@@ -2,7 +2,9 @@
 
 # Introduce mob one wave earlier, just to showcase it to the player and get them familiar with it.
 # Tree upgrades at wave 5, 10, 15, 20, 25, 30
+
 # Every 5 levels (except for wave 5), mob CR's should be 1.5x. Example: Wave 11, 16, 21..
+# disregard last note. Linear?
 
 # Wave 1
 - wave-cr: 8

@@ -9,6 +9,9 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.tree.AttackTreeGoal;
 import xyz.gameoholic.lumbergame.game.goal.tree.CreeperAttackTreeGoal;
 import net.minecraft.world.entity.monster.Creeper;
+import xyz.gameoholic.lumbergame.util.ExpressionUtil;
+
+import java.util.Map;
 
 public class TreeMob extends Mob {
 
@@ -38,6 +41,10 @@ public class TreeMob extends Mob {
         net.minecraft.world.entity.Mob NMSMob = ((CraftMob) mob).getHandle();
         NMSMob.goalSelector.removeAllGoals(goal -> true);
 
+        // Attack speed is needed for goal, can't be added via mob attribute.
+        int attackCooldown = (int) ExpressionUtil.evaluateExpression(
+            getMobType().attackCooldownExpression(), Map.of("CR", (double) getCR()));
+
         Goal goal;
         if (NMSMob instanceof Creeper) {
             goal = new CreeperAttackTreeGoal(
@@ -50,7 +57,8 @@ public class TreeMob extends Mob {
             goal = new AttackTreeGoal(
                 plugin,
                 (PathfinderMob) NMSMob,
-                new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z())
+                new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z()),
+                attackCooldown
             );
         }
         NMSMob.goalSelector.addGoal(0, goal);
