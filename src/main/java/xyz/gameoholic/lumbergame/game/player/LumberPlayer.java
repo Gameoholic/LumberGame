@@ -82,6 +82,8 @@ public class LumberPlayer implements Listener {
         player.getInventory().addItem(plugin.getItemManager().getWoodenAxeItem());
         player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         player.setFoodLevel(20);
+        player.setExp(0);
+        player.setLevel(0);
     }
 
 
@@ -252,7 +254,6 @@ public class LumberPlayer implements Listener {
         e.setCancelled(true);
         plugin.getGameManager().getTreeManager().onTreeChopByPlayer(e.getPlayer(), e.getBlock().getLocation());
     }
-
     public UUID getUuid() {
         return uuid;
     }

@@ -316,6 +316,7 @@ public class LumberMob implements Listener {
                 dropLoot = true;
         }
 
+        e.setDroppedExp(0);
         e.getDrops().clear();
         onDeath(dropLoot);
     }
