@@ -154,10 +154,11 @@ public class TreeManager {
 
 
     /**
-     * Displays the tree's block destruction to all online players.
+     * Displays the tree's block destruction to all lumber players.
      */
     public void displayTreeDestruction() {
         iterateOverTreeBlocks(block -> NMSUtil.displayBlockDestruction(
+            plugin,
             block.getLocation().getBlockX(),
             block.getLocation().getBlockY(),
             block.getLocation().getBlockZ(),
@@ -230,6 +231,7 @@ public class TreeManager {
                 // We reset tree break progress if the game's just started - the clients remembers that information from previous games
                 if (resetTreeBreakProgress)
                     iterateOverTreeBlocks(block -> NMSUtil.displayBlockDestruction(
+                        plugin,
                         block.getLocation().getBlockX(),
                         block.getLocation().getBlockY(),
                         block.getLocation().getBlockZ(),

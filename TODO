@@ -14,9 +14,9 @@ Remove all places where we check itemstack's material. Instead, compare directly
 
 FIXES:
 Unregister events for LumberPlayer on game end. On game end make all managers null. (Replay feature)
-Send Tree NMS packets every X seconds and upon relog?
 Fix wave ending before all gone
 
+if (!e.getPlayer().getUniqueId().equals(uuid)) //todo: do this for all others instead of ==
 
 - Partigon tree particles
 - Shop with NPC
