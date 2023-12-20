@@ -9,6 +9,11 @@ tree-block-types:
   - OAK_LOG
   - OAK_LEAVES
   - SPRUCE_TRAPDOOR
+player-spawn-location:
+  world: "world"
+  x: -52.4
+  y: 24
+  z: -353.9
 spawn-locations:
   - world: "world"
     x: -31.4

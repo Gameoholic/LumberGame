@@ -13,15 +13,12 @@ Remove all places where we check itemstack's material. Instead, compare directly
 
 
 FIXES:
-Tree relog with NMS.
-Fix skeleton arrow damage:
-1) listen for EntityShootBowEvent. Set some metadata on arrows that were fired from specified bow.
-2) Listen for EntityDamageByEntityEvent. If damager is arrow, then check if there is a metadata and if there is, then change damage.
+Unregister events for LumberPlayer on game end. On game end make all managers null.
+Send Tree NMS packets every X seconds and upon relog?
 
 
 - Partigon tree particles
 - Shop with NPC
-- Send Tree NMS packets every X seconds and upon relog?
 
 Big todo:
  - Shop & Regular Items (1d)

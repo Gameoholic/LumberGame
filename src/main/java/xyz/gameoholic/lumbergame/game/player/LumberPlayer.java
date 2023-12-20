@@ -84,6 +84,7 @@ public class LumberPlayer implements Listener {
         player.setFoodLevel(20);
         player.setExp(0);
         player.setLevel(0);
+        player.teleport(plugin.getLumberConfig().mapConfig().playerSpawnLocation());
 
         registerEvents();
     }
@@ -155,6 +156,21 @@ public class LumberPlayer implements Listener {
         if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
             return;
 
+        if (e instanceof EntityDamageByEntityEvent byEntityEvent) {
+            // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
+            if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof Creeper) {
+                e.setDamage(((Creeper) byEntityEvent.getDamager()).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
+            }
+            // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
+            if (byEntityEvent.getDamager() instanceof Arrow) {
+                @Nullable Double arrowDamage = byEntityEvent.getDamager().getPersistentDataContainer().get(
+                    new NamespacedKey(plugin, "arrow_damage"), PersistentDataType.DOUBLE);
+                if (arrowDamage == null) // If wasn't shot by LumberMob
+                    return;
+                e.setDamage(arrowDamage);
+            }
+        }
+
         // Health change is delayed by 1 tick to let the event affect the player's health when accessed by scoreboard manager
         new BukkitRunnable() {
             @Override
@@ -162,23 +178,6 @@ public class LumberPlayer implements Listener {
                 plugin.getGameManager().updatePlayerScoreboards(); // Update player health
             }
         }.runTask(plugin);
-    }
-    @EventHandler
-    private void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
-            return;
-        // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
-        if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && e.getDamager() instanceof Creeper) {
-            e.setDamage(((Creeper) e.getDamager()).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
-        }
-        // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
-        if (e.getDamager() instanceof Arrow) {
-            @Nullable Double arrowDamage = e.getDamager().getPersistentDataContainer().get(
-                new NamespacedKey(plugin, "arrow_damage"), PersistentDataType.DOUBLE);
-            if (arrowDamage == null) // If wasn't shot by LumberMob
-                return;
-            e.setDamage(arrowDamage);
-        }
     }
 
     @EventHandler

@@ -300,25 +300,24 @@ public class LumberMob implements Listener {
         if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;
 
+        if (e instanceof EntityDamageByEntityEvent byEntityEvent) {
+            // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
+            if (byEntityEvent.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof Creeper) {
+                e.setDamage(((Creeper) byEntityEvent.getDamager()).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
+            }
+            // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
+            if (byEntityEvent.getDamager() instanceof Arrow) {
+                @Nullable Double arrowDamage = byEntityEvent.getDamager().getPersistentDataContainer().get(
+                    new NamespacedKey(plugin, "arrow_damage"), PersistentDataType.DOUBLE);
+                if (arrowDamage == null) // If wasn't shot by LumberMob
+                    return;
+                e.setDamage(arrowDamage);
+            }
+        }
+
         onTakeDamage(e.getFinalDamage());
     }
-    @EventHandler
-    private void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
-        if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
-            return;
-        // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
-        if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && e.getDamager() instanceof Creeper) {
-            e.setDamage(((Creeper) e.getDamager()).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
-        }
-        // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
-        if (e.getDamager() instanceof Arrow) {
-            @Nullable Double arrowDamage = e.getDamager().getPersistentDataContainer().get(
-                new NamespacedKey(plugin, "arrow_damage"), PersistentDataType.DOUBLE);
-            if (arrowDamage == null) // If wasn't shot by LumberMob
-                return;
-            e.setDamage(arrowDamage);
-        }
-    }
+
     @EventHandler
     public void onEntityDeathEvent(EntityDeathEvent e) {
         if (plugin.getGameManager().getWaveManager() == null)

@@ -153,6 +153,19 @@ public class ConfigParser {
             throw new RuntimeException("Tree location argument for map is invalid.");
         }
 
+        Location playerSpawnLocation;
+        try {
+            playerSpawnLocation = new Location(
+                Bukkit.getWorld(root.node("player-spawn-location", "world").require(String.class)),
+                root.node("player-spawn-location", "x").require(Double.class),
+                root.node("player-spawn-location", "y").require(Double.class),
+                root.node("player-spawn-location", "z").require(Double.class)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Player spawn location argument for map is invalid.");
+        }
+
         List spawnLocations = new ArrayList();
         root.node("spawn-locations").childrenList().forEach(
             spawnLocation -> {
@@ -187,6 +200,7 @@ public class ConfigParser {
         try {
             mapConfig = new MapConfig(
                 treeLocation,
+                playerSpawnLocation,
                 spawnLocations,
                 root.node("tree-radius").require(Integer.class),
                 treeBlockTypes,
