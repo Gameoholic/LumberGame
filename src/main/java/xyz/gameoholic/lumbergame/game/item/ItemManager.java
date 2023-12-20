@@ -59,6 +59,7 @@ public class ItemManager {
 
     /**
      * Removes a certain amount of items from the player's inventory, but only if the player has enough items of that type.
+     *
      * @param player The player.
      * @param itemId The ID of the Lumber item.
      * @param amount The amount of items to remove.
@@ -147,21 +148,21 @@ public class ItemManager {
     }
 
     public ItemStack getBoneMealItem() {
-        return getItem(
+        return applyDestroyableKeys(getItem(
             "BONE_MEAL",
             Material.BONE_MEAL,
             plugin.getLumberConfig().strings().boneMealDisplayname(),
             plugin.getLumberConfig().strings().boneMealLore()
-        );
+        ), Arrays.asList(Material.GRASS_BLOCK));
     }
 
     public ItemStack getBoneBlockItem() {
-        return getItem(
+        return applyDestroyableKeys(getItem(
             "BONE_BLOCK",
             Material.BONE_BLOCK,
             plugin.getLumberConfig().strings().boneBlockDisplayname(),
             plugin.getLumberConfig().strings().boneBlockLore()
-        );
+        ), Arrays.asList(Material.GRASS_BLOCK));
     }
 
     public ItemStack getBowItem() {
@@ -181,6 +182,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().woodenSwordLore()
         ), 4)), -2.4);
     }
+
     public ItemStack getWoodenAxeItem() {
         return applyDestroyableKeys(applyUnbreakable(applyAttackSpeed(applyAttackDamage(getItem(
             "WOODEN_AXE",
@@ -227,10 +229,10 @@ public class ItemManager {
     }
 
     /**
-     * @param id The Lumber ID of this item.
-     * @param material Item's material.
+     * @param id          The Lumber ID of this item.
+     * @param material    Item's material.
      * @param displayName Item's displayname.
-     * @param lore Lore to be applied on the item.
+     * @param lore        Lore to be applied on the item.
      * @return An item stack with everything applied.
      */
     private ItemStack getItem(String id, Material material, String displayName, String lore) {
@@ -256,10 +258,11 @@ public class ItemManager {
         item.setItemMeta(meta);
         return item;
     }
+
     private ItemStack applyDestroyableKeys(ItemStack item, List<Material> destroyableMaterials) {
         ItemMeta meta = item.getItemMeta();
         List<Namespaced> keys = new ArrayList<>();
-        destroyableMaterials.forEach( material -> keys.add(material.getKey()));
+        destroyableMaterials.forEach(material -> keys.add(material.getKey()));
         meta.setDestroyableKeys(keys);
         item.setItemMeta(meta);
         return item;
@@ -272,6 +275,7 @@ public class ItemManager {
         item.setItemMeta(meta);
         return item;
     }
+
     private ItemStack applyAttackSpeed(ItemStack item, double attackSpeed) {
         ItemMeta meta = item.getItemMeta();
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "set_attack_speed", attackSpeed, AttributeModifier.Operation.ADD_NUMBER);
@@ -289,6 +293,7 @@ public class ItemManager {
 
     /**
      * Applies enchantments to the ItemStack.
+     *
      * @param item
      * @param enchants
      * @return New ItemStack with the enchantments applied.
