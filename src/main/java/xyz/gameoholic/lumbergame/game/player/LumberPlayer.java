@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -153,6 +154,7 @@ public class LumberPlayer implements Listener {
     private void onEntityDamageEvent(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
             return;
+
         // Health change is delayed by 1 tick to let the event affect the player's health when accessed by scoreboard manager
         new BukkitRunnable() {
             @Override
@@ -162,10 +164,14 @@ public class LumberPlayer implements Listener {
         }.runTask(plugin);
     }
     @EventHandler
-    private void onEntityDamageEvent(EntityDamageByEntityEvent e) {
-        // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
+    private void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
             return;
+        // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
+        if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && e.getDamager() instanceof Creeper) {
+            e.setDamage(((Creeper) e.getDamager()).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
+        }
+        // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
         if (e.getDamager() instanceof Arrow) {
             @Nullable Double arrowDamage = e.getDamager().getPersistentDataContainer().get(
                 new NamespacedKey(plugin, "arrow_damage"), PersistentDataType.DOUBLE);

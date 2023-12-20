@@ -11,9 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Mob;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
@@ -304,7 +302,23 @@ public class LumberMob implements Listener {
 
         onTakeDamage(e.getFinalDamage());
     }
-
+    @EventHandler
+    private void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+        if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
+            return;
+        // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
+        if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && e.getDamager() instanceof Creeper) {
+            e.setDamage(((Creeper) e.getDamager()).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
+        }
+        // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
+        if (e.getDamager() instanceof Arrow) {
+            @Nullable Double arrowDamage = e.getDamager().getPersistentDataContainer().get(
+                new NamespacedKey(plugin, "arrow_damage"), PersistentDataType.DOUBLE);
+            if (arrowDamage == null) // If wasn't shot by LumberMob
+                return;
+            e.setDamage(arrowDamage);
+        }
+    }
     @EventHandler
     public void onEntityDeathEvent(EntityDeathEvent e) {
         if (plugin.getGameManager().getWaveManager() == null)
