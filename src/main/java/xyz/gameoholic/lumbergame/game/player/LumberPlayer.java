@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFertilizeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -56,7 +57,7 @@ public class LumberPlayer implements Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
     private void unregisterEvents() {
-        // TODO:
+
     }
     /**
      * Called after the game fully loads and the first wave starts.
@@ -214,6 +215,22 @@ public class LumberPlayer implements Listener {
 
         e.setCancelled(true);
         plugin.getGameManager().getTreeManager().onTreeLevelUpByPlayer(e.getPlayer());
+    }
+
+    @EventHandler
+    public void onBlockBreakEvent(BlockBreakEvent e) {
+        if (e.getPlayer().getUniqueId() != uuid)
+            return;
+        // Must be near Tree
+        if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
+            > plugin.getLumberConfig().mapConfig().treeRadius())
+            return;
+        // Must be one of the tree block types
+        if (!(plugin.getLumberConfig().mapConfig().treeBlockTypes().contains(e.getBlock().getType())))
+            return;
+
+        e.setCancelled(true);
+        plugin.getGameManager().getTreeManager().onTreeChopByPlayer(e.getPlayer(), e.getBlock().getLocation());
     }
 
     public UUID getUuid() {

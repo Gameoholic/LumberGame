@@ -7,7 +7,6 @@ import xyz.gameoholic.lumbergame.config.LumberConfig;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
 import xyz.gameoholic.lumbergame.game.LumberGameManager;
 import xyz.gameoholic.lumbergame.game.item.ItemManager;
-import xyz.gameoholic.lumbergame.listeners.*;
 import xyz.gameoholic.lumbergame.queue.LumberQueueManager;
 
 import javax.annotation.Nullable;
@@ -48,11 +47,6 @@ public final class LumberGamePlugin extends JavaPlugin {
         Bukkit.getPluginCommand("spawnmob").setExecutor(new SpawnMobCommand(this));
         Bukkit.getPluginCommand("spawnitem").setExecutor(new SpawnItemCommand(this));
         Bukkit.getPluginCommand("shop").setExecutor(new ShopCommand(this));
-
-        Bukkit.getPluginManager().registerEvents(new EntityDamageListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new EntityDeathListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new BlockBreakListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new ExplosionPrimeListener(this), this);
 
         queueManager = new LumberQueueManager(this);
 

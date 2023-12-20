@@ -6,11 +6,19 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
 import org.bukkit.entity.Ageable;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -25,7 +33,7 @@ import java.util.*;
 
 import static net.kyori.adventure.text.Component.text;
 
-public class Mob {
+public class Mob implements Listener {
     protected final LumberGamePlugin plugin;
     private final MobType mobType;
     private final int CR; // Challenge Rating
@@ -47,6 +55,13 @@ public class Mob {
         this.mobType = mobType;
         this.CR = CR;
         this.boneBlock = boneBlock;
+    }
+
+    private void registerEvents() {
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
+    private void unregisterEvents() {
+        // TODO:
     }
 
     /**
@@ -272,6 +287,49 @@ public class Mob {
             Placeholder.component("health", text(newHealthAdjusted)),
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ));
+    }
+    @EventHandler
+    public void onEntityDamageEvent(EntityDamageEvent e) {
+        @Nullable Mob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
+        if (mob != this)
+            return;
+
+        onTakeDamage(e.getFinalDamage());
+    }
+
+    @EventHandler
+    public void onEntityDeathEvent(EntityDeathEvent e) {
+        if (plugin.getGameManager().getWaveManager() == null)
+            return;
+        @Nullable Mob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
+        if (mob != this)
+            return;
+
+        // Mobs should only drop loot in case a player killed it
+        boolean dropLoot = false;
+        if (e.getEntity().getLastDamageCause() != null &&
+            e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent damageEvent) {
+            if (damageEvent.getDamager().getType() == EntityType.PLAYER)
+                dropLoot = true;
+        }
+
+        e.getDrops().clear();
+        onDeath(dropLoot);
+    }
+
+    // Creeper does not go through normal death logic cycle when it explodes, and neither does tnt, so we handle in this event
+    @EventHandler
+    public void onExplosionPrimeEvent(ExplosionPrimeEvent e) {
+        if (plugin.getGameManager().getWaveManager() == null)
+            return;
+        @Nullable Mob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
+        if (mob != this)
+            return;
+
+        // If creeper is tree mob, and it exploded, we can assume it was near the tree and should deal damage to it
+        if (mob instanceof TreeMob)
+            plugin.getGameManager().getTreeManager().onMobDamage(mob);
+        onDeath(false);
     }
 
     public MobType getMobType() {
