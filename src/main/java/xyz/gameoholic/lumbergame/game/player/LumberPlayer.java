@@ -1,11 +1,10 @@
 package xyz.gameoholic.lumbergame.game.player;
 
-import io.papermc.paper.event.player.PlayerPickItemEvent;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,15 +14,13 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
@@ -69,7 +66,9 @@ public class LumberPlayer implements Listener {
         BlockFertilizeEvent.getHandlerList().unregister(this);
         BlockPlaceEvent.getHandlerList().unregister(this);
         BlockBreakEvent.getHandlerList().unregister(this);
+        FoodLevelChangeEvent.getHandlerList().unregister(this);
     }
+
     /**
      * Called after the game fully loads and the first wave starts.
      */
@@ -81,6 +80,8 @@ public class LumberPlayer implements Listener {
         player.getInventory().clear();
         player.getInventory().addItem(plugin.getItemManager().getWoodenSwordItem());
         player.getInventory().addItem(plugin.getItemManager().getWoodenAxeItem());
+        player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+        player.setFoodLevel(20);
     }
 
 
@@ -226,6 +227,15 @@ public class LumberPlayer implements Listener {
         e.setCancelled(true);
         plugin.getGameManager().getTreeManager().onTreeLevelUpByPlayer(e.getPlayer());
     }
+
+    @EventHandler
+    public void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
+        // We don't want hunger for our game
+        if (e.getEntity().getUniqueId() != uuid)
+            return;
+        e.setCancelled(true);
+    }
+
 
     @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent e) {

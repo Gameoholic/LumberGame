@@ -53,10 +53,9 @@ public class GameManager {
         startNewWave();
     }
 
-    private void startNewWave() { //TODO: TEMP FOR BALANCING.
-        return;
-//        waveNumber++;
-//        startWaveWithMessage();
+    private void startNewWave() {
+        waveNumber++;
+        startWaveWithMessage();
     }
     public void startSpecificWave(int waveNumber) {
         this.waveNumber = waveNumber;

@@ -320,9 +320,9 @@ public class LumberMob implements Listener {
         onDeath(dropLoot);
     }
 
-    // Creeper does not go through normal death logic cycle when it explodes, and neither does tnt, so we handle in this event
     @EventHandler
     public void onExplosionPrimeEvent(ExplosionPrimeEvent e) {
+        // Creeper does not go through normal death logic cycle when it explodes, and neither does tnt, so we handle in this event
         if (plugin.getGameManager().getWaveManager() == null)
             return;
         @Nullable LumberMob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
