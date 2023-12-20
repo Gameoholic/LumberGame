@@ -3,6 +3,7 @@ package xyz.gameoholic.lumbergame.game.player;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -98,6 +99,7 @@ public class LumberPlayer implements Listener {
         player.setExp(0);
         player.setLevel(0);
         player.teleport(plugin.getLumberConfig().mapConfig().playerSpawnLocation());
+        player.setGameMode(GameMode.ADVENTURE);
 
         registerEvents();
 

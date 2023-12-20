@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game.item;
 
+import com.destroystokyo.paper.Namespaced;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -181,12 +182,12 @@ public class ItemManager {
         ), 4)), -2.4);
     }
     public ItemStack getWoodenAxeItem() {
-        return applyUnbreakable(applyAttackSpeed(applyAttackDamage(getItem(
+        return applyDestroyableKeys(applyUnbreakable(applyAttackSpeed(applyAttackDamage(getItem(
             "WOODEN_AXE",
             Material.WOODEN_AXE,
             plugin.getLumberConfig().strings().woodenAxeDisplayname(),
             plugin.getLumberConfig().strings().woodenAxeLore()
-        ), 6), -3.2));
+        ), 6), -3.2)), plugin.getLumberConfig().mapConfig().treeBlockTypes());
     }
 
     public ItemStack getStoneSwordItem() {
@@ -251,6 +252,14 @@ public class ItemManager {
         meta.lore(componentLores);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
+        item.setItemMeta(meta);
+        return item;
+    }
+    private ItemStack applyDestroyableKeys(ItemStack item, List<Material> destroyableMaterials) {
+        ItemMeta meta = item.getItemMeta();
+        List<Namespaced> keys = new ArrayList<>();
+        destroyableMaterials.forEach( material -> keys.add(material.getKey()));
+        meta.setDestroyableKeys(keys);
         item.setItemMeta(meta);
         return item;
     }
