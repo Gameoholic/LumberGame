@@ -113,7 +113,7 @@ public class LumberPlayer implements Listener {
 
     public void updateScoreboard() {
         Player player = Bukkit.getPlayer(uuid);
-        if (player != null)
+        if (player != null && scoreboardManager != null)
             scoreboardManager.update(player);
     }
 
@@ -137,9 +137,11 @@ public class LumberPlayer implements Listener {
 
     @EventHandler
     private void onPlayerJoinEvent(PlayerJoinEvent e) {
-        if (e.getPlayer().getUniqueId() != uuid)
+        if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
+        // Resend tree destruction packet that player did not get while offline
         scoreboardManager = new PlayerScoreboardManager(plugin, e.getPlayer(), this);
+        plugin.getGameManager().getTreeManager().displayTreeDestruction(e.getPlayer());
     }
     @EventHandler
     private void onPlayerQuitEvent(PlayerQuitEvent e) {

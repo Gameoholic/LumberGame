@@ -165,6 +165,18 @@ public class TreeManager {
         ));
     }
     /**
+     * Displays the tree's block destruction to a specific player.
+     */
+    public void displayTreeDestruction(Player player) {
+        iterateOverTreeBlocks(block -> NMSUtil.displayBlockDestruction(
+            player,
+            block.getLocation().getBlockX(),
+            block.getLocation().getBlockY(),
+            block.getLocation().getBlockZ(),
+            blockBreakProgress
+        ));
+    }
+    /**
      * Iterates over every tree block in the radius of the tree.
      *
      * @param func The function to apply on the block.
