@@ -16,7 +16,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     private LumberQueueManager queueManager;
     private @Nullable GameManager gameManager = null;
     private LumberConfig config;
-    private ItemManager itemManager;
+    @Nullable private ItemManager itemManager;
     @Override
     public void onEnable() {
         saveResource("strings.yml", true);
@@ -65,6 +65,14 @@ public final class LumberGamePlugin extends JavaPlugin {
         gameManager.onGameLoad();
     }
 
+    /**
+     * Called when the game has ended.
+     */
+    public void onGameEnd() {
+        gameManager = null;
+        itemManager = null;
+    }
+
     public LumberQueueManager getQueueManager() {
         return queueManager;
     }
@@ -85,4 +93,6 @@ public final class LumberGamePlugin extends JavaPlugin {
     public void setConfig(LumberConfig config) {
         this.config = config;
     }
+
+
 }

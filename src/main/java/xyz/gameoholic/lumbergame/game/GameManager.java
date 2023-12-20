@@ -116,6 +116,8 @@ public class GameManager {
     public void onGameEnd() {
         Bukkit.broadcastMessage("Game has ended! Tree is dead!");
         waveManager.onGameEnd();
+        players.forEach(LumberPlayer::unregisterEvents);
+        plugin.onGameEnd();
     }
 
     /**

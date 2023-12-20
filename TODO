@@ -14,7 +14,6 @@ Remove all places where we check itemstack's material. Instead, compare directly
 
 FIXES:
 Unregister events for LumberPlayer on game end. On game end make all managers null. (Replay feature)
-Fix wave ending before all gone
 
 - Partigon tree particles
 - Shop with NPC

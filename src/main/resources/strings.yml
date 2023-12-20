@@ -35,7 +35,7 @@ new-wave-start-message: "<gold>Started wave <red><wave></red>!"
 tree-damaged-actionbar-message: "뀃 <transition:#ff0000:#00ff00:<tree_health_fraction>><tree_health> <bold>!</bold></transition> <red><bold>-<tree_damage></bold>❤"
 
 # Parameters: <name>, <health>
-mob-displayname: "<name> <health>❤"
+mob-displayname: "<name> <#f0291a><health>❤"
 
 iron-displayname: "<white>Iron"
 gold-displayname: "<gold>Gold"

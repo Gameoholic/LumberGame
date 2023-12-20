@@ -65,7 +65,7 @@ public class LumberPlayer implements Listener {
     /**
      * Unregisters all events and cancels tasks.
      */
-    private void unregisterEvents() {
+    public void unregisterEvents() {
         PlayerJoinEvent.getHandlerList().unregister(this);
         PlayerQuitEvent.getHandlerList().unregister(this);
         InventoryDragEvent.getHandlerList().unregister(this);
