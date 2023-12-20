@@ -3,6 +3,8 @@ package xyz.gameoholic.lumbergame.game;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
@@ -14,7 +16,7 @@ import java.util.UUID;
 import static net.kyori.adventure.text.Component.text;
 
 public class GameManager {
-    private LumberGamePlugin plugin;
+    private final LumberGamePlugin plugin;
     private Set<LumberPlayer> players = new HashSet<>();
     private TreeManager treeManager;
     private WaveManager waveManager;
@@ -37,13 +39,20 @@ public class GameManager {
     }
 
     private void startGame() {
-        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
-        // We don't use startWaveWithMessage() method because we can't display the scoreboard yet. Scoreboard will display after full game load.
-        Bukkit.broadcast(MiniMessage.miniMessage().deserialize(
-            plugin.getLumberConfig().strings().newWaveStartMessage(),
-            Placeholder.component("wave", text(waveNumber + 1))
-        ));
+        clearOldEntities();
+        startWave();
         plugin.getLogger().info("Game has started with " + players.size() + " players.");
+    }
+
+    private void clearOldEntities() {
+        // If entity contains lumber_mob key, it's an old mob from previous waves.
+        plugin.getLumberConfig().mapConfig().treeLocation().getWorld().getEntities().forEach(entity ->
+            {
+                if (entity.getPersistentDataContainer().get(
+                    new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN) != null)
+                    entity.remove();
+            }
+        );
     }
 
     /**
@@ -53,26 +62,47 @@ public class GameManager {
         startNewWave();
     }
 
+    /**
+     * Increments waveNumber and starts the wave.
+     */
     private void startNewWave() {
         waveNumber++;
-        startWaveWithMessage();
+        startWaveWithScoreboardUpdate();
     }
+
+    /**
+     * Starts a specific wave.
+     * @param waveNumber The new wave number.
+     */
     public void startSpecificWave(int waveNumber) {
         this.waveNumber = waveNumber;
-        startWaveWithMessage();
+        startWaveWithScoreboardUpdate();
     }
 
     /**
      * Starts the wave as per the waveNumber variable.
+     * Does not update the scoreboard.
      */
-    private void startWaveWithMessage() {
+    private void startWave() {
+        // Wave manager should be alerted that the wave has ended, if it doesn't already know (if forced by command for example)
+        if (waveManager != null && !waveManager.getWaveEnded())
+            waveManager.onWaveEnd();
         waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
         Bukkit.broadcast(MiniMessage.miniMessage().deserialize(
             plugin.getLumberConfig().strings().newWaveStartMessage(),
             Placeholder.component("wave", text(waveNumber + 1))
         ));
+    }
+
+    /**
+     * Starts the wave as per the waveNumber variable.
+     * Also updates the scoreboard.
+     */
+    private void startWaveWithScoreboardUpdate() {
+        startWave();
         updatePlayerScoreboards(); // Update wave number
     }
+
     /**
      * Called after the game has fully loaded and the first wave has started.
      */

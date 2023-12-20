@@ -34,7 +34,7 @@
   health-expression: "CR * 2 + 3.5"
   damage-expression: "CR * 0.25 + 1"
   speed-expression: "0.35"
-  knockback-expression: "3.0"
+  knockback-expression: "3.3"
 
 # Baby zombie, lower health than normal zombie.
 - id: "BABY_ZOMBIE"

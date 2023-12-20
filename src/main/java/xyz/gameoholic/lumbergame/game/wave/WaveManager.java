@@ -38,7 +38,8 @@ public class WaveManager {
     private @Nullable BukkitTask mobSpawnerTask;
 
     private List<LumberMob> mobQueue = new ArrayList<>();
-    Random rnd = new Random();
+    private final Random rnd = new Random();
+    private boolean waveEnded = false;
     public WaveManager(LumberGamePlugin plugin, Wave wave) {
         this.plugin = plugin;
         this.waveCR = wave.waveCR();
@@ -141,10 +142,23 @@ public class WaveManager {
         if (aliveMobs.size() == 0) {
             plugin.getLogger().info("All mobs in wave are dead!");
             plugin.getGameManager().onWaveEnd();
+            onWaveEnd();
         }
         else
             plugin.getGameManager().updatePlayerScoreboards(); // Update mob count - Starting a new wave updates scoreboard anyway so only if wave hasn't ended
     }
+
+    /**
+     * Called when the wave ends, either by all mobs being eliminated or otherwise.
+     */
+    public void onWaveEnd() {
+        // Remove all mobs in case they're not dead already
+        for (Map.Entry<UUID, LumberMob> aliveMobEntry : aliveMobs.entrySet()) { //todo
+            aliveMobEntry.getValue().remove();
+        }
+        waveEnded = true;
+    }
+
     /**
      * Instantiates the mob class.
      * @param mobTypeID The ID of the mob type.
@@ -186,5 +200,9 @@ public class WaveManager {
 
     public int getAliveMobsSize() {
         return aliveMobs.size();
+    }
+
+    public boolean getWaveEnded() {
+        return waveEnded;
     }
 }

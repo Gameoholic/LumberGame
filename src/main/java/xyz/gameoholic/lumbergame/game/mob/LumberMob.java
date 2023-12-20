@@ -266,6 +266,14 @@ public class LumberMob implements Listener {
     }
 
     /**
+     * Removes this mob and unregisters its events.
+     */
+    public void remove() {
+        unregisterEvents();
+        mob.remove();
+    }
+
+    /**
      * Generates a random amount of items to drop.
      *
      * @param chance The (%) chance that an item will be dropped. If above 100(%), a drop would be guaranteed and the rest will be used for rolling again for extras.
@@ -348,5 +356,6 @@ public class LumberMob implements Listener {
     public org.bukkit.entity.Mob getMob() {
         return mob;
     }
+
 
 }
