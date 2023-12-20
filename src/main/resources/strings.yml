@@ -43,7 +43,7 @@ iron-lore: "<i><gray>Common drop from mobs."
 gold-lore: "<i><gray>Rare drop from mobs.<br><i><gray>Use to craft <red>Placeholder</red>."
 
 bone-meal-displayname: "<white>Bone Meal"
-bone-meal-lore: "<i><gray>Place near the tree to regenerate its health.<br><i><gray>Regenerates <white>5%</white> of its health."
+bone-meal-lore: "<i><gray>Place near the tree to regenerate its health.<br><i><gray>Regenerates <white>10%</white> of its health."
 bone-block-displayname: "<white><bold>Bone Block"
 bone-block-lore: "<i><gray>Place near the tree to level it up.<br><i><gray>Levelling it up increases its Max HP."
 

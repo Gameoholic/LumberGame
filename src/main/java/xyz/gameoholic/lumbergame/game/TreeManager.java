@@ -90,7 +90,7 @@ public class TreeManager {
     }
 
     public void onTreeHealByPlayer(Player player) {
-        health = (int) Math.min(health + Math.ceil(maxHealth * 0.05), maxHealth);
+        health = (int) Math.min(health + Math.ceil(maxHealth * 0.1), maxHealth);
         onAnyHealthChanged();
     }
 
