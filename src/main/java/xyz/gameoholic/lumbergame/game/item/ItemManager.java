@@ -251,6 +251,7 @@ public class ItemManager {
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).colorIfAbsent(NamedTextColor.WHITE)));
         meta.lore(componentLores);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
 
         item.setItemMeta(meta);
         return item;
