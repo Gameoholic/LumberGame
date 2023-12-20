@@ -1,8 +1,5 @@
 package xyz.gameoholic.lumbergame;
 
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.gameoholic.lumbergame.commands.*;
@@ -10,7 +7,7 @@ import xyz.gameoholic.lumbergame.config.LumberConfig;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
 import xyz.gameoholic.lumbergame.game.LumberGameManager;
 import xyz.gameoholic.lumbergame.game.item.ItemManager;
-import xyz.gameoholic.lumbergame.game.wave.WaveManager;
+import xyz.gameoholic.lumbergame.game.player.listeners.BlockPlaceListener;
 import xyz.gameoholic.lumbergame.listeners.*;
 import xyz.gameoholic.lumbergame.queue.LumberQueueManager;
 

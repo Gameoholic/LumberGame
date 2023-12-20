@@ -31,7 +31,6 @@ public class LumberGameManager {
         players.forEach(
             uuid -> {
                 LumberPlayer lumberPlayer = new LumberPlayer(plugin, uuid);
-                Bukkit.getPluginManager().registerEvents(lumberPlayer, plugin); // Register all needed LumberPlayer listeners
                 this.players.add(lumberPlayer);
             }
         );

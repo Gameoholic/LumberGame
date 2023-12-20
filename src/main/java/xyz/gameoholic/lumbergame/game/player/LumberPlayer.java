@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockFertilizeEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
@@ -47,8 +48,15 @@ public class LumberPlayer implements Listener {
     public LumberPlayer(LumberGamePlugin plugin, UUID uuid) {
         this.uuid = uuid;
         this.plugin = plugin;
+        registerEvents();
     }
 
+    private void registerEvents() {
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
+    private void unregisterEvents() {
+        // TODO:
+    }
     /**
      * Called after the game fully loads and the first wave starts.
      */
@@ -62,12 +70,41 @@ public class LumberPlayer implements Listener {
         player.getInventory().addItem(plugin.getItemManager().getWoodenAxeItem());
     }
 
+
+    public void updateScoreboard() {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null)
+            scoreboardManager.update(player);
+    }
+
+    /**
+     * Displays the component on the player's action bar.
+     */
+    public void displayActionBar(Component component) {
+        @Nullable Player player = Bukkit.getPlayer(uuid);
+        if (player != null)
+            player.sendActionBar(component);
+    }
+
+    /**
+     * Plays a sounds at a location for the player.
+     */
+    public void playSound(Sound sound, Location location) {
+        @Nullable Player player = Bukkit.getPlayer(uuid);
+        if (player != null)
+            player.playSound(sound, location.x(), location.y(), location.z());
+    }
+
     @EventHandler
     private void onPlayerJoinEvent(PlayerJoinEvent e) {
+        if (e.getPlayer().getUniqueId() != uuid)
+            return;
         scoreboardManager = new PlayerScoreboardManager(plugin, e.getPlayer(), this);
     }
     @EventHandler
     private void onPlayerQuitEvent(PlayerQuitEvent e) {
+        if (e.getPlayer().getUniqueId() != uuid)
+            return;
         scoreboardManager.delete();
         scoreboardManager = null;
     }
@@ -145,28 +182,21 @@ public class LumberPlayer implements Listener {
         }.runTask(plugin);
     }
 
-    public void updateScoreboard() {
-        Player player = Bukkit.getPlayer(uuid);
-        if (player != null)
-            scoreboardManager.update(player);
-    }
+    @EventHandler
+    public void onBlockFertilizeEvent(BlockFertilizeEvent e) {
+        if (e.getPlayer().getUniqueId() != uuid)
+            return;
+        // Must be near Tree
+        if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
+            > plugin.getLumberConfig().mapConfig().treeRadius())
+            return;
+        // Check whether the bone meal that was used is the Lumber bone meal
+        boolean hasItem = plugin.getItemManager().removeItemsFromInventory(e.getPlayer(), "BONE_MEAL", 1);
+        if (!hasItem)
+            return;
 
-    /**
-     * Displays the component on the player's action bar.
-     */
-    public void displayActionBar(Component component) {
-        @Nullable Player player = Bukkit.getPlayer(uuid);
-        if (player != null)
-            player.sendActionBar(component);
-    }
-
-    /**
-     * Plays a sounds at a location for the player.
-     */
-    public void playSound(Sound sound, Location location) {
-        @Nullable Player player = Bukkit.getPlayer(uuid);
-        if (player != null)
-            player.playSound(sound, location.x(), location.y(), location.z());
+        e.setCancelled(true);
+        plugin.getGameManager().getTreeManager().onTreeHealByPlayer(e.getPlayer());
     }
 
     public UUID getUuid() {

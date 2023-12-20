@@ -1,4 +1,4 @@
-package xyz.gameoholic.lumbergame.listeners;
+package xyz.gameoholic.lumbergame.game.player.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
