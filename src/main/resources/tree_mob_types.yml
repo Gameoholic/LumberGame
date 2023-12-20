@@ -29,11 +29,11 @@
   damage-expression: "CR * 0.5 + 1"
   speed-expression: "0.35"
 
-# Does heavy damage, and walks slowly. Fully knockback resistant. Introduced @ Wave ~5
+# Does heavy damage, and walks slowly. Fully knockback resistant. Introduced @ Wave 10
 - id: "HEAVY_CREEPER"
   display-name: "뀃 <red>Heavy Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 10"
-  damage-expression: "CR * 5 + 5"
+  health-expression: "CR * 15"
+  damage-expression: "CR * 4"
   speed-expression: "0.15"
   knockback-resistance-expression: "1.0"

@@ -2,7 +2,7 @@
 
 # Introduce mob one wave earlier, just to showcase it to the player and get them familiar with it.
 # Tree upgrades at wave 5, 10, 15, 20, 25, 30
-# Every 5 levels (except for wave 5), mob CR's should be 1.5x
+# Every 5 levels (except for wave 5), mob CR's should be 1.5x. Example: Wave 11, 16, 21..
 
 # Wave 1
 - wave-cr: 8
@@ -173,3 +173,34 @@
   guaranteed-mob-types:
     - id: SHOVER
       amount: 5
+
+# Wave 10
+# Boss round. Introduction of baby zombies and heavy creeper.
+- wave-cr: 250
+  spawn-timer-min: 20
+  spawn-timer-max: 80
+  mob-min-cr: 8
+  mob-max-cr: 10
+  mob-types:
+    - id: SKELETON
+      chance: 0.08
+    - id: ZOMBIE
+      chance: 0.29
+    - id: TREE_ZOMBIE
+      chance: 0.3
+    - id: TREE_CREEPER
+      chance: 0.17
+    - id: SNEAKY_CREEPER
+      chance: 0.08
+    - id: SHOVER
+      chance: 0.08
+  guaranteed-mob-types:
+    - id: SHOVER
+      amount: 2
+    - id: SNEAKY_CREEPER
+      amount: 2
+    - id: HEAVY_CREEPER
+      amount: 1
+    - id: BABY_ZOMBIE
+      amount: 2
+  bone-block: true

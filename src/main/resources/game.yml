@@ -1,4 +1,4 @@
-tree-health-expression: "level*(10 + level * 2.5) + 10"
+tree-health-expression: "level*(10 + level * 10)"
 
 iron-drop-expression: "min(100 + 20 * CR, 800)"
 gold-drop-expression: "min(2 * CR, 20)"

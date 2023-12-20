@@ -35,10 +35,10 @@
   speed-expression: "0.35"
   knockback-expression: "3.0"
 
-# Baby zombie, weaker than normal zombie.
+# Baby zombie, lower health than normal zombie.
 - id: "BABY_ZOMBIE"
   display-name: "Baby Zombie"
   entity-type: "ZOMBIE"
-  health-expression: "CR * 4"
-  damage-expression: "CR * 1 + 1"
+  health-expression: "CR * 1 + 3.5"
+  damage-expression: "CR * 0.25 + 1"
   is-baby: true
