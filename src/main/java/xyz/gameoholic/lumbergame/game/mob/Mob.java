@@ -19,6 +19,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -61,7 +62,9 @@ public class Mob implements Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
     private void unregisterEvents() {
-        // TODO:
+        EntityDamageEvent.getHandlerList().unregister(this);
+        EntityDeathEvent.getHandlerList().unregister(this);
+        ExplosionPrimeEvent.getHandlerList().unregister(this);
     }
 
     /**

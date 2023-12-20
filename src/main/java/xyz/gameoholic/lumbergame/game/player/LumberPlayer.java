@@ -15,6 +15,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryEvent;
@@ -57,7 +58,17 @@ public class LumberPlayer implements Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
     private void unregisterEvents() {
-
+        PlayerJoinEvent.getHandlerList().unregister(this);
+        PlayerQuitEvent.getHandlerList().unregister(this);
+        InventoryDragEvent.getHandlerList().unregister(this);
+        InventoryCreativeEvent.getHandlerList().unregister(this);
+        EntityPickupItemEvent.getHandlerList().unregister(this);
+        PlayerDropItemEvent.getHandlerList().unregister(this);
+        EntityDamageEvent.getHandlerList().unregister(this);
+        EntityRegainHealthEvent.getHandlerList().unregister(this);
+        BlockFertilizeEvent.getHandlerList().unregister(this);
+        BlockPlaceEvent.getHandlerList().unregister(this);
+        BlockBreakEvent.getHandlerList().unregister(this);
     }
     /**
      * Called after the game fully loads and the first wave starts.
@@ -159,7 +170,6 @@ public class LumberPlayer implements Listener {
             }
         }.runTask(plugin);
     }
-
 
     private void onInventoryChanged(Inventory inventory) {
         // Inventory search is delayed by 1 tick to let the events affect the player's inventory when accessed by scoreboard manager
