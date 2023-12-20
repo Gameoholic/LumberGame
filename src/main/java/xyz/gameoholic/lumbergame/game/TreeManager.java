@@ -22,6 +22,10 @@ public class TreeManager {
     private int maxHealth;
     private int level = 1;
     private boolean treeDead = false;
+    /**
+     * The destruction progress of the block. Range is 0 - 9, where 9 is the most destroyed. Any other number will reset it back to no destruction.
+     */
+    private int blockBreakProgress = -1;
 
     public TreeManager(LumberGamePlugin plugin) {
         this.plugin = plugin;
@@ -117,9 +121,9 @@ public class TreeManager {
      * Should NOT be called when the health is first set.
      */
     private void onAnyHealthChanged() {
-        int blockBreakProgress; // progress – The destruction progress of the block. Range is 0 - 9, where 9 is the most destroyed. Any other number will reset it back to no destruction.
-
         int healthRatio = getHealthToMaxHealthRatio(); // in %
+
+        // Update tree break progress
         if (health <= 1)
             blockBreakProgress = 9;
         else if (healthRatio <= 5)
@@ -143,17 +147,23 @@ public class TreeManager {
         else
             blockBreakProgress = -1;
 
+        displayTreeDestruction();
+
+        plugin.getGameManager().updatePlayerScoreboards(); // Update tree health
+    }
+
+
+    /**
+     * Displays the tree's block destruction to all online players.
+     */
+    public void displayTreeDestruction() {
         iterateOverTreeBlocks(block -> NMSUtil.displayBlockDestruction(
             block.getLocation().getBlockX(),
             block.getLocation().getBlockY(),
             block.getLocation().getBlockZ(),
             blockBreakProgress
         ));
-
-        plugin.getGameManager().updatePlayerScoreboards(); // Update tree health
     }
-
-
     /**
      * Iterates over every tree block in the radius of the tree.
      *
@@ -227,4 +237,5 @@ public class TreeManager {
     public int getMaxHealth() {
         return maxHealth;
     }
+
 }

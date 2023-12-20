@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
@@ -23,7 +24,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.util.NMSUtil;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -39,6 +42,10 @@ public class LumberPlayer implements Listener {
     private int iron = 0;
     private int gold = 0;
     private int boneMeal = 0;
+    /**
+     * Task that sends out block destruction packets for the tree every 15 seconds, otherwise they disappear.
+     */
+    private BukkitTask treeDestructionTask;
 
     /**
      * Is null when player is logged off.
@@ -54,6 +61,10 @@ public class LumberPlayer implements Listener {
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
+
+    /**
+     * Unregisters all events and cancels tasks.
+     */
     private void unregisterEvents() {
         PlayerJoinEvent.getHandlerList().unregister(this);
         PlayerQuitEvent.getHandlerList().unregister(this);
@@ -67,6 +78,8 @@ public class LumberPlayer implements Listener {
         BlockPlaceEvent.getHandlerList().unregister(this);
         BlockBreakEvent.getHandlerList().unregister(this);
         FoodLevelChangeEvent.getHandlerList().unregister(this);
+
+        treeDestructionTask.cancel();
     }
 
     /**
@@ -87,6 +100,14 @@ public class LumberPlayer implements Listener {
         player.teleport(plugin.getLumberConfig().mapConfig().playerSpawnLocation());
 
         registerEvents();
+
+        // Sends out block destruction packets for the tree every 15 seconds, otherwise they disappear after 20 seconds
+        treeDestructionTask = new BukkitRunnable() {
+            @Override
+            public void run() {
+                plugin.getGameManager().getTreeManager().displayTreeDestruction();
+            }
+        }.runTaskTimer(plugin, 0L , 300L); // Every 15 seconds
     }
 
 
