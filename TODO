@@ -16,8 +16,6 @@ FIXES:
 Unregister events for LumberPlayer on game end. On game end make all managers null. (Replay feature)
 Fix wave ending before all gone
 
-if (!e.getPlayer().getUniqueId().equals(uuid)) //todo: do this for all others instead of ==
-
 - Partigon tree particles
 - Shop with NPC
 

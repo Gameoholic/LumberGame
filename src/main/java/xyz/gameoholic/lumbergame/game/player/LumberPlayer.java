@@ -145,38 +145,38 @@ public class LumberPlayer implements Listener {
     }
     @EventHandler
     private void onPlayerQuitEvent(PlayerQuitEvent e) {
-        if (e.getPlayer().getUniqueId() != uuid)
+        if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
         scoreboardManager.delete();
         scoreboardManager = null;
     }
     @EventHandler
     private void onInventoryDragEvent(InventoryDragEvent e) {
-        if (!(e.getViewers().get(0) instanceof Player player) || player.getUniqueId() != uuid)
+        if (!(e.getViewers().get(0) instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
         onInventoryChanged(player.getInventory());
     }
     @EventHandler
     private void onInventoryEvent(InventoryCreativeEvent e) {
-        if (!(e.getViewers().get(0) instanceof Player player) || player.getUniqueId() != uuid)
+        if (!(e.getViewers().get(0) instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
         onInventoryChanged(player.getInventory());
     }
     @EventHandler
     private void onInventoryEvent(EntityPickupItemEvent e) {
-        if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
+        if (!(e.getEntity() instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
         onInventoryChanged(player.getInventory());
     }
     @EventHandler
     private void onInventoryEvent(PlayerDropItemEvent e) {
-        if (e.getPlayer().getUniqueId() != uuid)
+        if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
         onInventoryChanged(e.getPlayer().getInventory());
     }
     @EventHandler
     private void onEntityDamageEvent(EntityDamageEvent e) {
-        if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
+        if (!(e.getEntity() instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
 
         if (e instanceof EntityDamageByEntityEvent byEntityEvent) {
@@ -205,7 +205,7 @@ public class LumberPlayer implements Listener {
 
     @EventHandler
     private void onEntityRegainHealthEvent(EntityRegainHealthEvent e) {
-        if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
+        if (!(e.getEntity() instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
         // Health change is delayed by 1 tick to let the event affect the player's health when accessed by scoreboard manager
         new BukkitRunnable() {
@@ -241,7 +241,7 @@ public class LumberPlayer implements Listener {
 
     @EventHandler
     public void onBlockFertilizeEvent(BlockFertilizeEvent e) {
-        if (e.getPlayer().getUniqueId() != uuid)
+        if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
         // Must be near Tree
         if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
@@ -257,7 +257,7 @@ public class LumberPlayer implements Listener {
     }
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent e) {
-        if (e.getPlayer().getUniqueId() != uuid)
+        if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
         // Must be near Tree
         if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
@@ -275,7 +275,7 @@ public class LumberPlayer implements Listener {
     @EventHandler
     public void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
         // We don't want hunger for our game
-        if (e.getEntity().getUniqueId() != uuid)
+        if (!e.getEntity().getUniqueId().equals(uuid))
             return;
         e.setCancelled(true);
     }
@@ -283,7 +283,7 @@ public class LumberPlayer implements Listener {
 
     @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent e) {
-        if (e.getPlayer().getUniqueId() != uuid)
+        if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
         // Must be near Tree
         if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
