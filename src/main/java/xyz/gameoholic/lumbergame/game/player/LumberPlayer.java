@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFertilizeEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
@@ -197,6 +198,22 @@ public class LumberPlayer implements Listener {
 
         e.setCancelled(true);
         plugin.getGameManager().getTreeManager().onTreeHealByPlayer(e.getPlayer());
+    }
+    @EventHandler
+    public void onBlockPlaceEvent(BlockPlaceEvent e) {
+        if (e.getPlayer().getUniqueId() != uuid)
+            return;
+        // Must be near Tree
+        if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
+            > plugin.getLumberConfig().mapConfig().treeRadius())
+            return;
+        // Check whether the bone meal that was used is the Lumber bone meal
+        boolean hasItem = plugin.getItemManager().removeItemsFromInventory(e.getPlayer(), "BONE_BLOCK", 1);
+        if (!hasItem)
+            return;
+
+        e.setCancelled(true);
+        plugin.getGameManager().getTreeManager().onTreeLevelUpByPlayer(e.getPlayer());
     }
 
     public UUID getUuid() {
