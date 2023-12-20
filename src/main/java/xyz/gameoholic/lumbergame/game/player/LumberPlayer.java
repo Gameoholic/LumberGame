@@ -4,23 +4,23 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFertilizeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
@@ -150,7 +150,7 @@ public class LumberPlayer implements Listener {
         onInventoryChanged(e.getPlayer().getInventory());
     }
     @EventHandler
-    private void onHealthChanged(EntityDamageEvent e) {
+    private void onEntityDamageEvent(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
             return;
         // Health change is delayed by 1 tick to let the event affect the player's health when accessed by scoreboard manager
@@ -161,9 +161,22 @@ public class LumberPlayer implements Listener {
             }
         }.runTask(plugin);
     }
+    @EventHandler
+    private void onEntityDamageEvent(EntityDamageByEntityEvent e) {
+        // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
+        if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
+            return;
+        if (e.getDamager() instanceof Arrow) {
+            @Nullable Double arrowDamage = e.getDamager().getPersistentDataContainer().get(
+                new NamespacedKey(plugin, "arrow_damage"), PersistentDataType.DOUBLE);
+            if (arrowDamage == null) // If wasn't shot by LumberMob
+                return;
+            e.setDamage(arrowDamage);
+        }
+    }
 
     @EventHandler
-    private void onHealthChanged(EntityRegainHealthEvent e) {
+    private void onEntityRegainHealthEvent(EntityRegainHealthEvent e) {
         if (!(e.getEntity() instanceof Player player) || player.getUniqueId() != uuid)
             return;
         // Health change is delayed by 1 tick to let the event affect the player's health when accessed by scoreboard manager
