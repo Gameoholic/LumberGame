@@ -139,7 +139,7 @@ public class WaveManager {
     public void onMobDeath(LumberMob mob) {
         aliveMobs.remove(mob.getMob().getUniqueId());
 
-        if (aliveMobs.size() == 0) {
+        if (aliveMobs.size() == 0 && mobQueue.size() == 0) {
             plugin.getLogger().info("All mobs in wave are dead!");
             plugin.getGameManager().onWaveEnd();
             onWaveEnd();
