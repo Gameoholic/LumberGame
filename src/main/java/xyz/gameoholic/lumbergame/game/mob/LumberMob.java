@@ -16,10 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -302,8 +299,7 @@ public class LumberMob implements Listener {
     }
     @EventHandler
     public void onEntityDamageEvent(EntityDamageEvent e) {
-        @Nullable LumberMob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
-        if (mob != this)
+        if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;
 
         onTakeDamage(e.getFinalDamage());
@@ -313,8 +309,7 @@ public class LumberMob implements Listener {
     public void onEntityDeathEvent(EntityDeathEvent e) {
         if (plugin.getGameManager().getWaveManager() == null)
             return;
-        @Nullable LumberMob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
-        if (mob != this)
+        if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;
 
         // Mobs should only drop loot in case a player killed it
@@ -335,14 +330,27 @@ public class LumberMob implements Listener {
         // Creeper does not go through normal death logic cycle when it explodes, and neither does tnt, so we handle in this event
         if (plugin.getGameManager().getWaveManager() == null)
             return;
-        @Nullable LumberMob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
-        if (mob != this)
+        if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;
 
         // If creeper is tree mob, and it exploded, we can assume it was near the tree and should deal damage to it
-        if (mob instanceof TreeLumberMob)
-            plugin.getGameManager().getTreeManager().onMobDamage(mob);
+        if (this instanceof TreeLumberMob)
+            plugin.getGameManager().getTreeManager().onMobDamage(this);
         onDeath(false);
+    }
+
+    @EventHandler
+    public void onEntityShootBowEvent(EntityShootBowEvent e) {
+        if (plugin.getGameManager().getWaveManager() == null)
+            return;
+        if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
+            return;
+
+        e.getProjectile().getPersistentDataContainer().set(
+            new NamespacedKey(plugin, "arrow_damage"),
+            PersistentDataType.DOUBLE,
+            mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()
+        );
     }
 
     public MobType getMobType() {

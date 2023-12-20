@@ -4,7 +4,6 @@ map: https://www.planetminecraft.com/project/attack-on-titan-shiganshina-map/
 self join/leave commands for queue.
 
 CODE REFACTORING:
-Use events but not in listeners package.
 Redo Tree attack goals, and lumberMeleeAttackGoal
 Better spongepowered config.
 Input validation on wave mob chances (must add up to 1.0).
@@ -19,7 +18,7 @@ Fix skeleton arrow damage:
 1) listen for EntityShootBowEvent. Set some metadata on arrows that were fired from specified bow.
 2) Listen for EntityDamageByEntityEvent. If damager is arrow, then check if there is a metadata and if there is, then change damage.
 
-Until TMRW:
+
 - Partigon tree particles
 - Shop with NPC
 - Send Tree NMS packets every X seconds and upon relog?
@@ -27,7 +26,6 @@ Until TMRW:
 Big todo:
  - Shop & Regular Items (1d)
  - Difficulty Scaling for players (CR higher) (3h). With debug command or /start parameter.
- - Balancing for singleplayer
  - Player Death
 
  - Classes & Class Shop (1d)
