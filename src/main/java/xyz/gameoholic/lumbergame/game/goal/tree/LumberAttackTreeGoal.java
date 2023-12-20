@@ -5,12 +5,12 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.mob.Mob;
+import xyz.gameoholic.lumbergame.game.mob.LumberMob;
 
 import java.util.EnumSet;
 import java.util.Objects;
 
-public class AttackTreeGoal extends Goal {
+public class LumberAttackTreeGoal extends Goal {
     private LumberGamePlugin plugin;
     protected final PathfinderMob mob;
     protected int ticksUntilNextAttack;
@@ -27,7 +27,7 @@ public class AttackTreeGoal extends Goal {
      * @param targetLoc The location of the tree to pathfind to and attack.
      */
 
-    public AttackTreeGoal(LumberGamePlugin plugin, PathfinderMob mob, Vec3 targetLoc, int attackCooldown) {
+    public LumberAttackTreeGoal(LumberGamePlugin plugin, PathfinderMob mob, Vec3 targetLoc, int attackCooldown) {
         this.plugin = plugin;
         this.targetLoc = targetLoc;
         this.mob = mob;
@@ -91,7 +91,7 @@ public class AttackTreeGoal extends Goal {
     protected void performAttack() {
         resetAttackCooldown();
         mob.swing(InteractionHand.MAIN_HAND);
-        Mob lumberMob = Objects.requireNonNull(
+        LumberMob lumberMob = Objects.requireNonNull(
             plugin.getGameManager().getWaveManager().getMob(mob.getUUID())); // Should never be null, but doesn't hurt to be safe
         plugin.getGameManager().getTreeManager().onMobDamage(lumberMob);
     }

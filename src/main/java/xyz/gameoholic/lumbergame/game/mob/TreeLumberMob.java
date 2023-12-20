@@ -6,14 +6,14 @@ import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.goal.tree.AttackTreeGoal;
-import xyz.gameoholic.lumbergame.game.goal.tree.CreeperAttackTreeGoal;
+import xyz.gameoholic.lumbergame.game.goal.tree.LumberAttackTreeGoal;
+import xyz.gameoholic.lumbergame.game.goal.tree.LumberCreeperAttackTreeGoal;
 import net.minecraft.world.entity.monster.Creeper;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 
 import java.util.Map;
 
-public class TreeMob extends Mob {
+public class TreeLumberMob extends LumberMob {
 
 
     /**
@@ -22,7 +22,7 @@ public class TreeMob extends Mob {
      * @param CR The challenge rating to spawn the mob with.
      * @param boneBlock Whether the mob should spawn with a bone block.
      */
-    public TreeMob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock) {
+    public TreeLumberMob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock) {
         super(plugin, mobType, CR, boneBlock);
     }
 
@@ -47,14 +47,14 @@ public class TreeMob extends Mob {
 
         Goal goal;
         if (NMSMob instanceof Creeper) {
-            goal = new CreeperAttackTreeGoal(
+            goal = new LumberCreeperAttackTreeGoal(
                 plugin,
                 (Creeper) NMSMob,
                 new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z())
             );
         }
         else {
-            goal = new AttackTreeGoal(
+            goal = new LumberAttackTreeGoal(
                 plugin,
                 (PathfinderMob) NMSMob,
                 new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z()),

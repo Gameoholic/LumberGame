@@ -4,8 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.mob.Mob;
-import xyz.gameoholic.lumbergame.game.mob.TreeMob;
+import xyz.gameoholic.lumbergame.game.mob.LumberMob;
+import xyz.gameoholic.lumbergame.game.mob.TreeLumberMob;
 import xyz.gameoholic.lumbergame.game.mob.MobType;
 import xyz.gameoholic.lumbergame.util.RandomUtil;
 
@@ -21,7 +21,7 @@ public class WaveManager {
     /**
      * Alive mobs mapped to their UUID's.
      */
-    private Map<UUID, Mob> aliveMobs = new HashMap<>();
+    private Map<UUID, LumberMob> aliveMobs = new HashMap<>();
     /**
      * The amount of CR (challenge rating) allotted to this wave.
      */
@@ -37,7 +37,7 @@ public class WaveManager {
      */
     private @Nullable BukkitTask mobSpawnerTask;
 
-    private List<Mob> mobQueue = new ArrayList<>();
+    private List<LumberMob> mobQueue = new ArrayList<>();
     Random rnd = new Random();
     public WaveManager(LumberGamePlugin plugin, Wave wave) {
         this.plugin = plugin;
@@ -73,7 +73,7 @@ public class WaveManager {
         }
         // Spawn with bone block if needed
         if (wave.boneBlock()) {
-            Mob firstMob = mobQueue.get(0); // Replace first mob with bone block variant
+            LumberMob firstMob = mobQueue.get(0); // Replace first mob with bone block variant
             mobQueue.set(0, getMob(firstMob.getMobType(), firstMob.getCR(), true));
         }
         Collections.shuffle(mobQueue); // We shuffle because of guaranteed mobs & bone blocks being at the start of the list.
@@ -121,21 +121,21 @@ public class WaveManager {
      * @param uuid The UUID of the mob entity.
      * @return The Lumber mob instance for which it belongs, or null if not found.
      */
-    public @Nullable Mob getMob(UUID uuid) {
+    public @Nullable LumberMob getMob(UUID uuid) {
         return aliveMobs.get(uuid);
     }
 
     /**
      * Called when a mob spawns, either from a wave or a debug command.
      */
-    public void onMobSpawn(Mob mob) {
+    public void onMobSpawn(LumberMob mob) {
         aliveMobs.put(mob.getMob().getUniqueId(), mob);
         plugin.getGameManager().updatePlayerScoreboards(); // Update mob count
     }
     /**
      * Called when a mob dies.
      */
-    public void onMobDeath(Mob mob) {
+    public void onMobDeath(LumberMob mob) {
         aliveMobs.remove(mob.getMob().getUniqueId());
 
         if (aliveMobs.size() == 0) {
@@ -152,7 +152,7 @@ public class WaveManager {
      * @param boneBlock Whether the mob has a bone block.
      * @throws java.util.NoSuchElementException if mobTypeId doesn't correspond to a loaded mob type.
      */
-    public Mob getMob(String mobTypeID, int CR, boolean boneBlock) {
+    public LumberMob getMob(String mobTypeID, int CR, boolean boneBlock) {
         MobType mobType = plugin.getLumberConfig().mobTypes()
             .stream().filter(filteredMobType -> filteredMobType.id().equals(mobTypeID)).findFirst().get();
 
@@ -165,12 +165,12 @@ public class WaveManager {
      * @param CR The Challenge Rating to spawn the mob with.
      * @param boneBlock Whether the mob has a bone block.
      */
-    public Mob getMob(MobType mobType, int CR, boolean boneBlock) {
-        Mob mob;
+    public LumberMob getMob(MobType mobType, int CR, boolean boneBlock) {
+        LumberMob mob;
         if (mobType.isHostile())
-            mob = new Mob(plugin, mobType, CR, boneBlock);
+            mob = new LumberMob(plugin, mobType, CR, boneBlock);
         else
-            mob = new TreeMob(plugin, mobType, CR, boneBlock);
+            mob = new TreeLumberMob(plugin, mobType, CR, boneBlock);
         return mob;
     }
 

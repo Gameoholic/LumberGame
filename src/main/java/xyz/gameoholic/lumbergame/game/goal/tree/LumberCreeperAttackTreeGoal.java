@@ -4,14 +4,14 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.phys.Vec3;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
-public class CreeperAttackTreeGoal extends AttackTreeGoal {
+public class LumberCreeperAttackTreeGoal extends LumberAttackTreeGoal {
     private final Creeper creeper = (Creeper) mob;
     /**
      * @param plugin
      * @param mob
      * @param targetLoc Location of the tree to pathfind to and ignite at.
      */
-    public CreeperAttackTreeGoal(LumberGamePlugin plugin, Creeper mob, Vec3 targetLoc) {
+    public LumberCreeperAttackTreeGoal(LumberGamePlugin plugin, Creeper mob, Vec3 targetLoc) {
         super(plugin, mob, targetLoc, 20); // We provide 20 as attack cooldown because creepers don't really have that..
     }
 

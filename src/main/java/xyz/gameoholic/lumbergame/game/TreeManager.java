@@ -2,14 +2,13 @@ package xyz.gameoholic.lumbergame.game;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.mob.Mob;
+import xyz.gameoholic.lumbergame.game.mob.LumberMob;
 import xyz.gameoholic.lumbergame.util.*;
 
 import java.io.File;
@@ -36,7 +35,7 @@ public class TreeManager {
     /**
      * Called when a mob attempts to damage the tree.
      */
-    public void onMobDamage(Mob mob) {
+    public void onMobDamage(LumberMob mob) {
         if (treeDead)
             return;
         int damage = (int) mob.getMob().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();

@@ -8,13 +8,12 @@ import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
 
-public class LumberGameManager {
+public class GameManager {
     private LumberGamePlugin plugin;
     private Set<LumberPlayer> players = new HashSet<>();
     private TreeManager treeManager;
@@ -25,7 +24,7 @@ public class LumberGameManager {
      */
     int waveNumber = 0;
 
-    public LumberGameManager(LumberGamePlugin plugin, Set<UUID> players) {
+    public GameManager(LumberGamePlugin plugin, Set<UUID> players) {
         this.plugin = plugin;
         treeManager = new TreeManager(plugin);
         players.forEach(

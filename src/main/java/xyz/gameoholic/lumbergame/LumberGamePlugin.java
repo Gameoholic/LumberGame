@@ -5,7 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.gameoholic.lumbergame.commands.*;
 import xyz.gameoholic.lumbergame.config.LumberConfig;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
-import xyz.gameoholic.lumbergame.game.LumberGameManager;
+import xyz.gameoholic.lumbergame.game.GameManager;
 import xyz.gameoholic.lumbergame.game.item.ItemManager;
 import xyz.gameoholic.lumbergame.queue.LumberQueueManager;
 
@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 public final class LumberGamePlugin extends JavaPlugin {
 
     private LumberQueueManager queueManager;
-    private @Nullable LumberGameManager gameManager = null;
+    private @Nullable GameManager gameManager = null;
     private LumberConfig config;
     private ItemManager itemManager;
     @Override
@@ -59,7 +59,7 @@ public final class LumberGamePlugin extends JavaPlugin {
      * Starts the game with all the players currently queued.
      */
     public void startGame() {
-        gameManager = new LumberGameManager(this, queueManager.getPlayers());
+        gameManager = new GameManager(this, queueManager.getPlayers());
         queueManager.resetQueue();
         itemManager = new ItemManager(this);
         gameManager.onGameLoad();
@@ -69,7 +69,7 @@ public final class LumberGamePlugin extends JavaPlugin {
         return queueManager;
     }
 
-    public LumberGameManager getGameManager() {
+    public GameManager getGameManager() {
         return gameManager;
     }
     public ItemManager getItemManager() {

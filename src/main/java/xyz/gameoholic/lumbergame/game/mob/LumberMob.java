@@ -13,13 +13,13 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Mob;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -34,12 +34,12 @@ import java.util.*;
 
 import static net.kyori.adventure.text.Component.text;
 
-public class Mob implements Listener {
+public class LumberMob implements Listener {
     protected final LumberGamePlugin plugin;
     private final MobType mobType;
     private final int CR; // Challenge Rating
 
-    protected org.bukkit.entity.Mob mob;
+    protected Mob mob;
     private final boolean boneBlock;
 
     private Random rnd = new Random();
@@ -51,7 +51,7 @@ public class Mob implements Listener {
      * @param CR        The challenge rating to spawn the mob with.
      * @param boneBlock Whether the mob should spawn with a bone block.
      */
-    public Mob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock) {
+    public LumberMob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock) {
         this.plugin = plugin;
         this.mobType = mobType;
         this.CR = CR;
@@ -293,7 +293,7 @@ public class Mob implements Listener {
     }
     @EventHandler
     public void onEntityDamageEvent(EntityDamageEvent e) {
-        @Nullable Mob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
+        @Nullable LumberMob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
         if (mob != this)
             return;
 
@@ -304,7 +304,7 @@ public class Mob implements Listener {
     public void onEntityDeathEvent(EntityDeathEvent e) {
         if (plugin.getGameManager().getWaveManager() == null)
             return;
-        @Nullable Mob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
+        @Nullable LumberMob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
         if (mob != this)
             return;
 
@@ -325,12 +325,12 @@ public class Mob implements Listener {
     public void onExplosionPrimeEvent(ExplosionPrimeEvent e) {
         if (plugin.getGameManager().getWaveManager() == null)
             return;
-        @Nullable Mob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
+        @Nullable LumberMob mob = plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId());
         if (mob != this)
             return;
 
         // If creeper is tree mob, and it exploded, we can assume it was near the tree and should deal damage to it
-        if (mob instanceof TreeMob)
+        if (mob instanceof TreeLumberMob)
             plugin.getGameManager().getTreeManager().onMobDamage(mob);
         onDeath(false);
     }
