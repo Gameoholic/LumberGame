@@ -161,15 +161,18 @@ public class LumberMob implements Listener {
         @Nullable WrappedGoal wrappedNearestAttackableTargetGoal = NMSMob.targetSelector.getAvailableGoals().stream()
             .filter(goal -> goal.getGoal() instanceof NearestAttackableTargetGoal).findFirst().orElse(null);
 
-        if (wrappedNearestAttackableTargetGoal == null)
-            throw new RuntimeException("Mob doesn't have Vanilla target goal!");
-        if (wrappedMeleeAttackGoal == null && mobType.hasMeleeAttackGoal())
-            throw new RuntimeException("Mob doesn't have Vanilla attack goal, and wasn't marked for no melee attack goal required!");
+        // If goals exist, get their priority. Otherwise, provide default value 2.
+        int nearestAttackableTargetGoalPriority = wrappedNearestAttackableTargetGoal != null ?
+            wrappedNearestAttackableTargetGoal.getPriority() : 2;
+        int meleeAttackGoalPriority = wrappedMeleeAttackGoal != null ?
+            wrappedNearestAttackableTargetGoal.getPriority() : 2;
 
-        // Remove unneeded Vanilla goals.
-        if (mobType.hasMeleeAttackGoal())
-            NMSMob.goalSelector.removeGoal(wrappedMeleeAttackGoal.getGoal());
-        NMSMob.targetSelector.removeGoal(wrappedNearestAttackableTargetGoal.getGoal());
+        // Remove unneeded Vanilla goals, if the mob has them
+        if (wrappedNearestAttackableTargetGoal != null && wrappedMeleeAttackGoal != null) {
+            if (mobType.hasMeleeAttackGoal())
+                NMSMob.goalSelector.removeGoal(wrappedMeleeAttackGoal.getGoal());
+            NMSMob.targetSelector.removeGoal(wrappedNearestAttackableTargetGoal.getGoal());
+        }
 
         // Attack speed is needed for goal, can't be added via mob attribute.
         int attackCooldown = (int) ExpressionUtil.evaluateExpression(
@@ -177,10 +180,10 @@ public class LumberMob implements Listener {
 
         // Replace them with our goals, with the same exact priorities.
         // The lower the priority of the goal, the more it will be prioritized.
-        NMSMob.targetSelector.addGoal(wrappedNearestAttackableTargetGoal.getPriority(),
+        NMSMob.targetSelector.addGoal(nearestAttackableTargetGoalPriority,
             new LumberNearestAttackablePlayerGoal(NMSMob)); // Target and lock onto player
-        if (mobType.hasMeleeAttackGoal())
-            NMSMob.goalSelector.addGoal(wrappedMeleeAttackGoal.getPriority(),
+        if (mobType.hasMeleeAttackGoal()) // If mob has (should have) melee attack goal (not in cases like skeletons)
+            NMSMob.goalSelector.addGoal(meleeAttackGoalPriority,
                 new LumberMeleeAttackGoal((PathfinderMob) NMSMob, 1.0, attackCooldown) // Attack and follow player
             );
     }
