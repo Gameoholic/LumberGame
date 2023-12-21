@@ -52,9 +52,23 @@ public record StringsConfig(
     Character goldIcon,
     Character woodIcon,
     String woodenAxeDisplayname,
-    String woodenAxeLore
-
-
+    String woodenAxeLore,
+    String leatherBootsDisplayname,
+    String leatherBootsLore,
+    String leatherLeggingsDisplayname,
+    String leatherLeggingsLore,
+    String leatherChestplateDisplayname,
+    String leatherChestplateLore,
+    String leatherHelmetDisplayname,
+    String leatherHelmetLore,
+    String ironBootsDisplayname,
+    String ironBootsLore,
+    String ironLeggingsDisplayname,
+    String ironLeggingsLore,
+    String ironChestplateDisplayname,
+    String ironChestplateLore,
+    String ironHelmetDisplayname,
+    String ironHelmetLore
 
 ) {
 

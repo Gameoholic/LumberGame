@@ -116,6 +116,14 @@ public class ItemManager {
             case "STONE_SWORD" -> getStoneSwordItem();
             case "IRON_SWORD" -> getIronSwordItem();
             case "DIAMOND_SWORD" -> getDiamondSwordItem();
+            case "LEATHER_BOOTS" -> getLeatherBootsItem();
+            case "LEATHER_LEGGINGS" -> getLeatherLeggingsItem();
+            case "LEATHER_CHESTPLATE" -> getLeatherChestplateItem();
+            case "LEATHER_HELMET" -> getLeatherHelmetItem();
+            case "IRON_BOOTS" -> getIronBootsItem();
+            case "IRON_LEGGINGS" -> getIronLeggingsItem();
+            case "IRON_CHESTPLATE" -> getIronChestplateItem();
+            case "IRON_HELMET" -> getIronHelmetItem();
             default -> null;
         };
     }
@@ -225,6 +233,71 @@ public class ItemManager {
             Material.ARROW,
             plugin.getLumberConfig().strings().arrowDisplayname(),
             plugin.getLumberConfig().strings().arrowLore()
+        );
+    }
+
+    public ItemStack getLeatherBootsItem() {
+        return getItem(
+            "LEATHER_BOOTS",
+            Material.LEATHER_BOOTS,
+            plugin.getLumberConfig().strings().leatherBootsDisplayname(),
+            plugin.getLumberConfig().strings().leatherBootsLore()
+        );
+    }
+    public ItemStack getLeatherLeggingsItem() {
+        return getItem(
+            "LEATHER_LEGGINGS",
+            Material.LEATHER_LEGGINGS,
+            plugin.getLumberConfig().strings().leatherLeggingsDisplayname(),
+            plugin.getLumberConfig().strings().leatherLeggingsLore()
+        );
+    }
+    public ItemStack getLeatherChestplateItem() {
+        return getItem(
+            "LEATHER_CHESTPLATE",
+            Material.LEATHER_CHESTPLATE,
+            plugin.getLumberConfig().strings().leatherChestplateDisplayname(),
+            plugin.getLumberConfig().strings().leatherChestplateLore()
+        );
+    }
+    public ItemStack getLeatherHelmetItem() {
+        return getItem(
+            "LEATHER_HELMET",
+            Material.LEATHER_HELMET,
+            plugin.getLumberConfig().strings().leatherHelmetDisplayname(),
+            plugin.getLumberConfig().strings().leatherHelmetLore()
+        );
+    }
+    public ItemStack getIronBootsItem() {
+        return getItem(
+            "IRON_BOOTS",
+            Material.IRON_BOOTS,
+            plugin.getLumberConfig().strings().ironBootsDisplayname(),
+            plugin.getLumberConfig().strings().ironBootsLore()
+        );
+    }
+    public ItemStack getIronLeggingsItem() {
+        return getItem(
+            "IRON_LEGGINGS",
+            Material.IRON_LEGGINGS,
+            plugin.getLumberConfig().strings().ironLeggingsDisplayname(),
+            plugin.getLumberConfig().strings().ironLeggingsLore()
+        );
+    }
+    public ItemStack getIronChestplateItem() {
+        return getItem(
+            "IRON_CHESTPLATE",
+            Material.IRON_CHESTPLATE,
+            plugin.getLumberConfig().strings().ironChestplateDisplayname(),
+            plugin.getLumberConfig().strings().ironChestplateLore()
+        );
+    }
+    public ItemStack getIronHelmetItem() {
+        return getItem(
+            "IRON_HELMET",
+            Material.IRON_HELMET,
+            plugin.getLumberConfig().strings().ironHelmetDisplayname(),
+            plugin.getLumberConfig().strings().ironHelmetLore()
         );
     }
 

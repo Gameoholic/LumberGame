@@ -97,7 +97,23 @@ public class ConfigParser {
                 root.node("gold-icon").require(Character.class),
                 root.node("wood-icon").require(Character.class),
                 Objects.requireNonNull(root.node("wooden-axe-displayname").getString()),
-                Objects.requireNonNull(root.node("wooden-axe-lore").getString())
+                Objects.requireNonNull(root.node("wooden-axe-lore").getString()),
+                Objects.requireNonNull(root.node("leather-boots-displayname").getString()),
+                Objects.requireNonNull(root.node("leather-boots-lore").getString()),
+                Objects.requireNonNull(root.node("leather-leggings-displayname").getString()),
+                Objects.requireNonNull(root.node("leather-leggings-lore").getString()),
+                Objects.requireNonNull(root.node("leather-chestplate-displayname").getString()),
+                Objects.requireNonNull(root.node("leather-chestplate-lore").getString()),
+                Objects.requireNonNull(root.node("leather-helmet-displayname").getString()),
+                Objects.requireNonNull(root.node("leather-helmet-lore").getString()),
+                Objects.requireNonNull(root.node("iron-boots-displayname").getString()),
+                Objects.requireNonNull(root.node("iron-boots-lore").getString()),
+                Objects.requireNonNull(root.node("iron-leggings-displayname").getString()),
+                Objects.requireNonNull(root.node("iron-leggings-lore").getString()),
+                Objects.requireNonNull(root.node("iron-chestplate-displayname").getString()),
+                Objects.requireNonNull(root.node("iron-chestplate-lore").getString()),
+                Objects.requireNonNull(root.node("iron-helmet-displayname").getString()),
+                Objects.requireNonNull(root.node("iron-helmet-lore").getString())
 
             );
 
