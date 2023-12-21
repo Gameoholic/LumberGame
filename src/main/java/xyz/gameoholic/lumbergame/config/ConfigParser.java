@@ -357,7 +357,7 @@ public class ConfigParser {
                         mobType -> {
                             try {
                                 String mobTypeID = mobType.node("id").require(String.class);
-                                guaranteedMobTypes.put(loadedMobTypes.stream()
+                                guaranteedMobTypesWithIndex.put(loadedMobTypes.stream()
                                         .filter(filteredMobType ->
                                             filteredMobType.id().equals(mobTypeID)).findFirst().get(),
                                     mobType.node("index-from-last").require(Integer.class));
