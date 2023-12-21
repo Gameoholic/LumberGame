@@ -30,6 +30,9 @@ public class ShopMenu extends Menu {
         setItem(21, new PurchasableMenuItem(plugin, "IRON_LEGGINGS", "GOLD", 4));
         setItem(22, new PurchasableMenuItem(plugin, "IRON_CHESTPLATE", "GOLD", 6));
         setItem(23, new PurchasableMenuItem(plugin, "IRON_HELMET", "GOLD", 2));
+
+        setItem(25, new PurchasableMenuItem(plugin, "HEALTH_POTION", "WOOD", 2));
+
     }//when upgrading tree, not all breakness udpatesa!
 
     @Override

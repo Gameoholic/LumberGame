@@ -86,7 +86,7 @@ leather-boots-lore: "<blue>+1 Armor"
 iron-helmet-displayname: "Iron Helmet"
 iron-helmet-lore: "<blue>+2 Armor"
 
-iron-chestplate-displayname: "iron Chestplate"
+iron-chestplate-displayname: "Iron Chestplate"
 iron-chestplate-lore: "<blue>+6 Armor"
 
 iron-leggings-displayname: "Iron Leggings"
@@ -94,6 +94,9 @@ iron-leggings-lore: "<blue>+5 Armor"
 
 iron-boots-displayname: "Iron Boots"
 iron-boots-lore: "<blue>+2 Armor"
+
+health-potion-displayname: "Health Potion"
+health-potion-lore: "<i><gray>Heals back some health."
 
 scoreboard-title: "<color:#ffa008>Lumber Defense</color>"
 # parameters: <wave>, <wood>, <gold_amount>, <bone_meal>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>

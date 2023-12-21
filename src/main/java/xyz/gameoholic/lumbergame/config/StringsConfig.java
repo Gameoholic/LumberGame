@@ -68,7 +68,9 @@ public record StringsConfig(
     String ironChestplateDisplayname,
     String ironChestplateLore,
     String ironHelmetDisplayname,
-    String ironHelmetLore
+    String ironHelmetLore,
+    String healthPotionDisplayname,
+    String healthPotionLore
 
 ) {
 

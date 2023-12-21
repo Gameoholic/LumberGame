@@ -14,7 +14,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
 import javax.annotation.Nullable;
@@ -124,6 +127,7 @@ public class ItemManager {
             case "IRON_LEGGINGS" -> getIronLeggingsItem();
             case "IRON_CHESTPLATE" -> getIronChestplateItem();
             case "IRON_HELMET" -> getIronHelmetItem();
+            case "HEALTH_POTION" -> getHealthPotionItem();
             default -> null;
         };
     }
@@ -301,6 +305,19 @@ public class ItemManager {
         );
     }
 
+    public ItemStack getHealthPotionItem() {
+        ItemStack item = getItem(
+            "HEALTH_POTION",
+            Material.SPLASH_POTION,
+            plugin.getLumberConfig().strings().healthPotionDisplayname(),
+            plugin.getLumberConfig().strings().healthPotionLore()
+        );
+        PotionMeta meta = (PotionMeta) item.getItemMeta();
+        meta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 0, 1), false);
+        item.setItemMeta(meta);
+        return item;
+    }
+
     /**
      * @param id          The Lumber ID of this item.
      * @param material    Item's material.
@@ -327,6 +344,7 @@ public class ItemManager {
         meta.lore(componentLores);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+        meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
 
         item.setItemMeta(meta);
         return item;

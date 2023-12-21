@@ -207,24 +207,24 @@
   bone-block: true
 
 # Wave 11
-# Mobs take longer to spawn, but CR is bumped by 4
+# Difficulty bump! CR is bumped by 5. Need to introduce new hostile mob type here.
 - wave-cr: 400
-  spawn-timer-min: 40
-  spawn-timer-max: 100
-  mob-min-cr: 15
-  mob-max-cr: 15
+  spawn-timer-min: 20
+  spawn-timer-max: 80
+  mob-min-cr: 16
+  mob-max-cr: 16
   mob-types:
     - id: SKELETON
       chance: 0.05
     - id: ZOMBIE
       chance: 0.3
     - id: TREE_ZOMBIE
-      chance: 0.25
+      chance: 0.24
     - id: TREE_CREEPER
       chance: 0.20
     - id: SNEAKY_CREEPER
       chance: 0.08
     - id: SHOVER
-      chance: 0.07
+      chance: 0.08
     - id: BABY_ZOMBIE
       chance: 0.05
