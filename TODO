@@ -18,6 +18,8 @@ Unregister events for LumberPlayer on game end. On game end make all managers nu
 - Partigon tree particles
 - Shop with NPC
 
+Mob-spawn-before-last index (for bosses, etc.)
+
 Big todo:
  - Shop & Regular Items (1d)
  - Difficulty Scaling for players (CR higher) (3h). With debug command or /start parameter.

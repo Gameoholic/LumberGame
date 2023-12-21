@@ -18,5 +18,6 @@ import java.util.Map;
  * @param boneBlock       Whether a mob with a bone block should spawn.
  */
 public record Wave(int waveCR, int spawnTimerMin, int spawnTimerMax, int mobMinCR, int mobMaxCR, List<MobType> mobTypes,
-                   List<Double> mobTypesChances, boolean boneBlock, Map<MobType, Integer> guaranteedMobTypes) {
+                   List<Double> mobTypesChances, boolean boneBlock, Map<MobType, Integer> guaranteedMobTypes,
+                   Map<MobType, Integer> guaranteedMobTypesWithIndex) {
 }

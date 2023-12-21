@@ -352,6 +352,21 @@ public class ConfigParser {
                         }
                     );
 
+                    Map<MobType, Integer> guaranteedMobTypesWithIndex = new HashMap<>();
+                    wave.node("guaranteed-mob-types-with-index").childrenList().forEach(
+                        mobType -> {
+                            try {
+                                String mobTypeID = mobType.node("id").require(String.class);
+                                guaranteedMobTypes.put(loadedMobTypes.stream()
+                                        .filter(filteredMobType ->
+                                            filteredMobType.id().equals(mobTypeID)).findFirst().get(),
+                                    mobType.node("index-from-last").require(Integer.class));
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    );
+
                     waves.add(new Wave(
                         wave.node("wave-cr").require(Integer.class),
                         wave.node("spawn-timer-min").require(Integer.class),
@@ -361,7 +376,8 @@ public class ConfigParser {
                         mobTypes,
                         mobTypesChances,
                         wave.node("bone-block").getBoolean(false),
-                        guaranteedMobTypes
+                        guaranteedMobTypes,
+                        guaranteedMobTypesWithIndex
                     ));
                 } catch (Exception e) {
                     e.printStackTrace();

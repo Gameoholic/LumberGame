@@ -203,4 +203,7 @@
       amount: 1
     - id: BABY_ZOMBIE
       amount: 2
+  guaranteed-mob-types-with-index:
+    - id: HEAVY_CREEPER
+      index-from-last: 3
   bone-block: true
