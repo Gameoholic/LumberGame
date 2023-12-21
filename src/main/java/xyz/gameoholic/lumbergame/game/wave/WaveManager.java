@@ -57,7 +57,7 @@ public class WaveManager {
 
         // Guaranteed mobs with specific index from last position
         Map<LumberMob, Integer> mobsWithIndex = new HashMap();
-        for (Map.Entry<MobType, Integer> guaranteedMob : wave.guaranteedMobTypes().entrySet()) {
+        for (Map.Entry<MobType, Integer> guaranteedMob : wave.guaranteedMobTypesWithIndex().entrySet()) {
             if (leftWaveCR <= 0) {  // This shouldn't happen from a design viewpoint, but is technically possible with the right config
                 return;
             }
@@ -158,8 +158,10 @@ public class WaveManager {
 
         if (aliveMobs.size() == 0 && mobQueue.size() == 0) {
             plugin.getLogger().info("All mobs in wave are dead!");
-            plugin.getGameManager().onWaveEnd();
-            onWaveEnd();
+            if (!waveEnded) { // This should never be called twice, just a sanity check
+                onWaveEnd();
+                plugin.getGameManager().onWaveEnd();
+            }
         }
         else
             plugin.getGameManager().updatePlayerScoreboards(); // Update mob count - Starting a new wave updates scoreboard anyway so only if wave hasn't ended
@@ -170,10 +172,11 @@ public class WaveManager {
      */
     public void onWaveEnd() {
         // Remove all mobs in case they're not dead already
-        for (Map.Entry<UUID, LumberMob> aliveMobEntry : aliveMobs.entrySet()) { //todo, make them deader
+        for (Map.Entry<UUID, LumberMob> aliveMobEntry : aliveMobs.entrySet()) {
             aliveMobEntry.getValue().remove();
         }
-        mobQueue.clear();
+        mobSpawnerTask.cancel();
+        mobSpawnerTask = null;
         waveEnded = true;
     }
 
