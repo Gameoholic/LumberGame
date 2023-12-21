@@ -2,7 +2,9 @@ package xyz.gameoholic.lumbergame.game;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -69,7 +71,7 @@ public class TreeManager {
         treeDead = true;
         plugin.getGameManager().onGameEnd();
 
-        iterateOverTreeBlocks(block -> block.breakNaturally());
+        iterateOverTreeBlocks(block -> block.setType(Material.AIR));
     }
 
 

@@ -175,8 +175,11 @@ public class WaveManager {
         for (Map.Entry<UUID, LumberMob> aliveMobEntry : aliveMobs.entrySet()) {
             aliveMobEntry.getValue().remove();
         }
-        mobSpawnerTask.cancel();
-        mobSpawnerTask = null;
+        // Task will have cancelled if it'd finished spawning the mobs
+        if (mobSpawnerTask != null) {
+            mobSpawnerTask.cancel();
+            mobSpawnerTask = null;
+        }
         waveEnded = true;
     }
 
