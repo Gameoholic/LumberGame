@@ -26,14 +26,11 @@ public class ShopMenu extends Menu {
         setItem(13, new PurchasableMenuItem(plugin, "LEATHER_CHESTPLATE", "IRON", 64));
         setItem(14, new PurchasableMenuItem(plugin, "LEATHER_HELMET", "IRON", 32));
 
-        setItem(20, new PurchasableMenuItem(plugin, "IRON_BOOTS", "GOLD", 4));
-        setItem(21, new PurchasableMenuItem(plugin, "IRON_LEGGINGS", "GOLD", 8));
-        setItem(22, new PurchasableMenuItem(plugin, "IRON_CHESTPLATE", "GOLD", 10));
-        setItem(23, new PurchasableMenuItem(plugin, "IRON_HELMET", "GOLD", 4));
+        setItem(20, new PurchasableMenuItem(plugin, "IRON_BOOTS", "GOLD", 2));
+        setItem(21, new PurchasableMenuItem(plugin, "IRON_LEGGINGS", "GOLD", 4));
+        setItem(22, new PurchasableMenuItem(plugin, "IRON_CHESTPLATE", "GOLD", 6));
+        setItem(23, new PurchasableMenuItem(plugin, "IRON_HELMET", "GOLD", 2));
     }//when upgrading tree, not all breakness udpatesa!
-    // less kelleys, more attackign mobs,  cheaper amor/more ogld
-    // new sensation song
-    // heal 50% on round end ||  wave 10 harder, faster spawn speed for round 10
 
     @Override
     protected void onUnhandledClick(MenuItem menuItem) {
