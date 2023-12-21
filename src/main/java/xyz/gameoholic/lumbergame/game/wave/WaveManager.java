@@ -217,8 +217,11 @@ public class WaveManager {
         aliveMobs.values().forEach(
             mob -> mob.getMob().setAI(false)
         );
-        mobSpawnerTask.cancel();
-        mobSpawnerTask = null;
+        // Task will have cancelled if it'd finished spawning the mobs
+        if (mobSpawnerTask != null) {
+            mobSpawnerTask.cancel();
+            mobSpawnerTask = null;
+        }
     }
 
 

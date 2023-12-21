@@ -71,6 +71,7 @@ public class TreeManager {
         treeDead = true;
         plugin.getGameManager().onGameEnd();
 
+        ParticleUtil.spawnTreeDeadParticle(plugin, plugin.getLumberConfig().mapConfig().treeLocation());
         iterateOverTreeBlocks(block -> block.setType(Material.AIR));
     }
 

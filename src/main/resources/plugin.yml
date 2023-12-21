@@ -24,3 +24,5 @@ commands:
     permission: lumbergame.shop
   test:
     permission: test
+
+depend: [ Partigon ]
