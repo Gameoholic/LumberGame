@@ -10,6 +10,12 @@ public class ParticleUtil {
     public static void spawnTreeDeadParticle(LumberGamePlugin plugin, Location location) {
         PartigonParticle particle = TreeDeadParticle.INSTANCE.getParticle(location);
         particle.start();
-        particle.stop();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                particle.stop();
+            }
+        }.runTaskLater(plugin, 1L);
     }
 }

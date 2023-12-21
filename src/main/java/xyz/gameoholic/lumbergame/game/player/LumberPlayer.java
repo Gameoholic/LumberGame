@@ -137,6 +137,15 @@ public class LumberPlayer implements Listener {
             player.playSound(sound, location.x(), location.y(), location.z());
     }
 
+    /**
+     * Plays a sound for the player that follows it.
+     */
+    public void playSound(Sound sound) {
+        @Nullable Player player = Bukkit.getPlayer(uuid);
+        if (player != null)
+            player.playSound(sound, Sound.Emitter.self());
+    }
+
     @EventHandler
     private void onPlayerJoinEvent(PlayerJoinEvent e) {
         if (!e.getPlayer().getUniqueId().equals(uuid))

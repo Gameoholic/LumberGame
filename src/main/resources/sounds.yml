@@ -2,3 +2,15 @@ tree-damaged-sound:
   sound: "minecraft:entity.zombie.break_wooden_door"
   volume: 0.7
   pitch: 0.5
+tree-died-sound:
+  sound: "minecraft:entity.wither.death"
+  volume: 1.0
+  pitch: 0.3
+wave-start-sound:
+  sound: "minecraft:entity.wither.spawn"
+  volume: 2.0
+  pitch: 1.0
+boss-wave-start-sound:
+  sound: "minecraft:entity.wither.spawn"
+  volume: 2.0
+  pitch: 0.3

@@ -69,10 +69,16 @@ public class TreeManager {
 
     private void onTreeDeath() {
         treeDead = true;
-        plugin.getGameManager().onGameEnd();
 
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> {
+            lumberPlayer.playSound(
+                plugin.getLumberConfig().soundsConfig().treeDiedSound()
+            );
+        });
         ParticleUtil.spawnTreeDeadParticle(plugin, plugin.getLumberConfig().mapConfig().treeLocation());
         iterateOverTreeBlocks(block -> block.setType(Material.AIR));
+
+        plugin.getGameManager().onGameEnd();
     }
 
 
@@ -168,6 +174,7 @@ public class TreeManager {
             blockBreakProgress
         ));
     }
+
     /**
      * Displays the tree's block destruction to a specific player.
      */
@@ -180,6 +187,7 @@ public class TreeManager {
             blockBreakProgress
         ));
     }
+
     /**
      * Iterates over every tree block in the radius of the tree.
      *

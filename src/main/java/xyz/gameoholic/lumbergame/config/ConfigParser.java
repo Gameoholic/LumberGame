@@ -17,6 +17,8 @@ import xyz.gameoholic.lumbergame.game.wave.Wave;
 import java.nio.file.Paths;
 import java.util.*;
 
+// todo: this entire class is awful,  use serializers.
+
 public class ConfigParser {
     private LumberGamePlugin plugin;
 
@@ -289,21 +291,27 @@ public class ConfigParser {
             throw new RuntimeException(e);
         }
 
-        // todo: this section is awful, and can be condensed to a simple method for every sound. Or better yet, use serializers.
 
         try {
             return new SoundsConfig(
-                Sound.sound(
-                    Key.key(root.node("tree-damaged-sound", "sound").require(String.class)),
-                    Sound.Source.valueOf(root.node("tree-damaged-sound", "source").getString("MASTER")),
-                    root.node("tree-damaged-sound", "volume").getFloat(1f),
-                    root.node("tree-damaged-sound", "pitch").getFloat(1f)
-                )
+                getSound(root, "tree-damaged-sound"),
+                getSound(root, "tree-died-sound"),
+                getSound(root, "wave-start-sound"),
+                getSound(root, "boss-wave-start-sound")
             );
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("One of the arguments for sounds is invalid or was not provided.");
         }
+    }
+
+    private Sound getSound(CommentedConfigurationNode root, String key) throws SerializationException {
+        return Sound.sound(
+            Key.key(root.node(key, "sound").require(String.class)),
+            Sound.Source.valueOf(root.node(key, "source").getString("MASTER")),
+            root.node(key, "volume").getFloat(1f),
+            root.node(key, "pitch").getFloat(1f)
+        );
     }
 
     private List<Wave> getWavesConfig(List<MobType> loadedMobTypes) {

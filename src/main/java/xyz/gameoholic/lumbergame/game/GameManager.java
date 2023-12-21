@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game;
 
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
@@ -40,7 +41,7 @@ public class GameManager {
 
     private void startGame() {
         clearOldEntities();
-        startWave();
+        startCurrentWave();
         plugin.getLogger().info("Game has started with " + players.size() + " players.");
     }
 
@@ -67,41 +68,44 @@ public class GameManager {
      */
     private void startNewWave() {
         waveNumber++;
-        startWaveWithScoreboardUpdate();
+        startCurrentWave();
     }
 
     /**
      * Starts a specific wave.
+     *
      * @param waveNumber The new wave number.
      */
     public void startSpecificWave(int waveNumber) {
         this.waveNumber = waveNumber;
-        startWaveWithScoreboardUpdate();
+        startCurrentWave();
     }
 
     /**
      * Starts the wave as per the waveNumber variable.
-     * Does not update the scoreboard.
      */
-    private void startWave() {
+    private void startCurrentWave() {
         // Wave manager should be alerted that the wave has ended, if it doesn't already know (if forced by command for example)
         if (waveManager != null && !waveManager.getWaveEnded())
             waveManager.onWaveEnd();
         waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
-        Bukkit.broadcast(MiniMessage.miniMessage().deserialize(
-            plugin.getLumberConfig().strings().newWaveStartMessage(),
-            Placeholder.component("wave", text(waveNumber + 1))
-        ));
-    }
 
-    /**
-     * Starts the wave as per the waveNumber variable.
-     * Also updates the scoreboard.
-     */
-    private void startWaveWithScoreboardUpdate() {
-        startWave();
+        // Send message
+        players.forEach(lumberPlayer ->
+            Bukkit.broadcast(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().newWaveStartMessage(),
+                Placeholder.component("wave", text(waveNumber + 1))
+            )));
+
+
+        // Play sound
+        Sound sound = ((waveNumber + 1) % 5 == 0) ?
+            plugin.getLumberConfig().soundsConfig().bossWaveStartSound() : plugin.getLumberConfig().soundsConfig().waveStartSound();
+        players.forEach(lumberPlayer -> lumberPlayer.playSound(sound));
+
         updatePlayerScoreboards(); // Update wave number
     }
+
 
     /**
      * Called after the game has fully loaded and the first wave has started.
