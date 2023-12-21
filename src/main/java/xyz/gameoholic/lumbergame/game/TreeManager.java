@@ -25,7 +25,7 @@ public class TreeManager {
     private int level = 1;
     private boolean treeDead = false;
     /**
-     * The destruction progress of the block. Range is 0 - 9, where 9 is the most destroyed. Any other number will reset it back to no destruction.
+     * The destruction progress of the tree's blocks. Range is 0 - 9, where 9 is the most destroyed. Any other number will reset it back to no destruction.
      */
     private int blockBreakProgress = -1;
 
@@ -35,7 +35,7 @@ public class TreeManager {
         updateMaxHealth();
         health = maxHealth;
 
-        pasteTreeSchematic(true);
+        pasteTreeSchematic();
     }
 
     /**
@@ -112,7 +112,7 @@ public class TreeManager {
         updateMaxHealth();
         onAnyHealthChanged();
 
-        pasteTreeSchematic(false);
+        pasteTreeSchematic();
     }
 
     /**
@@ -226,7 +226,7 @@ public class TreeManager {
     /**
      * Pastes the schematic of the tree correspondent to the current tree level.
      */
-    private void pasteTreeSchematic(boolean resetTreeBreakProgress) {
+    private void pasteTreeSchematic() {
         if (!(plugin.getLumberConfig().mapConfig().treeLevelSchematicsProvided().contains(level)))
             return;
 
@@ -239,15 +239,14 @@ public class TreeManager {
                     plugin.getLumberConfig().mapConfig().treeLocation()
                 );
 
-                // We reset tree break progress if the game's just started - the clients remembers that information from previous games
-                if (resetTreeBreakProgress)
-                    iterateOverTreeBlocks(block -> NMSUtil.displayBlockDestruction(
-                        plugin,
-                        block.getLocation().getBlockX(),
-                        block.getLocation().getBlockY(),
-                        block.getLocation().getBlockZ(),
-                        -1
-                    ));
+                // We update the tree's break progress for the new blocks we pasted
+                iterateOverTreeBlocks(block -> NMSUtil.displayBlockDestruction(
+                    plugin,
+                    block.getLocation().getBlockX(),
+                    block.getLocation().getBlockY(),
+                    block.getLocation().getBlockZ(),
+                    blockBreakProgress
+                ));
 
             }
         }.runTaskAsynchronously(plugin);
