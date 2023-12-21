@@ -199,8 +199,6 @@
       amount: 2
     - id: SNEAKY_CREEPER
       amount: 2
-    - id: HEAVY_CREEPER
-      amount: 1
     - id: BABY_ZOMBIE
       amount: 2
   guaranteed-mob-types-with-index:

@@ -170,9 +170,10 @@ public class WaveManager {
      */
     public void onWaveEnd() {
         // Remove all mobs in case they're not dead already
-        for (Map.Entry<UUID, LumberMob> aliveMobEntry : aliveMobs.entrySet()) { //todo
+        for (Map.Entry<UUID, LumberMob> aliveMobEntry : aliveMobs.entrySet()) { //todo, make them deader
             aliveMobEntry.getValue().remove();
         }
+        mobQueue.clear();
         waveEnded = true;
     }
 
