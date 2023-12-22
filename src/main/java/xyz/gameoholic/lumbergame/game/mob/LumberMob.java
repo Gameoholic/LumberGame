@@ -323,7 +323,7 @@ public class LumberMob implements Listener {
 
     @EventHandler
     public void onEntityDeathEvent(EntityDeathEvent e) {
-        if (plugin.getGameManager().getWaveManager() == null)
+        if (plugin.getGameManager().getWaveManager() == null) // todo :remove this?
             return;
         if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;

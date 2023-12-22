@@ -21,7 +21,7 @@ commands:
   startwave:
     permission: lumbergame.startwave
   shop:
-    permission: lumbergame.shop
+    description: Opens the shop
   test:
     permission: test
 
