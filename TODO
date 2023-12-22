@@ -13,7 +13,7 @@ Remove all places where we check itemstack's material. Instead, compare directly
 
 
 FIXES:
-Unregister events for LumberPlayer & Mob listeners on game end.
+todo: remove iron, ogld, etc. variables from lumberplayer. instead, work just with inventory. move the inventory calculation to the scoreboard method, and on inventory change just update scoreboard.
 
 - Partigon tree particles
 - Shop with NPC

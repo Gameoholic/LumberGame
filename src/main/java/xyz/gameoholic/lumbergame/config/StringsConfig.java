@@ -71,7 +71,8 @@ public record StringsConfig(
     String ironHelmetLore,
     String healthPotionDisplayname,
     String healthPotionLore,
-    String treeDeathMessage
+    String treeDeathMessage,
+    String playerDeathMessage
 
 ) {
 

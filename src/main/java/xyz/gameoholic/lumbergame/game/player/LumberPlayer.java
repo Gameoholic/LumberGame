@@ -2,6 +2,8 @@ package xyz.gameoholic.lumbergame.game.player;
 
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -31,6 +33,8 @@ import xyz.gameoholic.lumbergame.util.NMSUtil;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
+
+import static net.kyori.adventure.text.Component.text;
 
 /**
  * Represents a player in the Lumber game.
@@ -79,6 +83,7 @@ public class LumberPlayer implements Listener {
         BlockPlaceEvent.getHandlerList().unregister(this);
         BlockBreakEvent.getHandlerList().unregister(this);
         FoodLevelChangeEvent.getHandlerList().unregister(this);
+        PlayerDeathEvent.getHandlerList().unregister(this);
 
         treeDestructionTask.cancel();
     }
@@ -109,9 +114,35 @@ public class LumberPlayer implements Listener {
             public void run() {
                 plugin.getGameManager().getTreeManager().displayTreeDestruction();
             }
-        }.runTaskTimer(plugin, 0L , 300L); // Every 15 seconds
+        }.runTaskTimer(plugin, 0L, 300L); // Every 15 seconds
     }
 
+
+    /**
+     * Runs when the player's died.
+     *
+     * @param player The Bukkit Player instance of the player.
+     */
+    private void onDeath(Player player) {
+        // Remove half of all player's resources
+        plugin.getItemManager().removeItemsFromInventory(player, "IRON", iron / 2);
+        plugin.getItemManager().removeItemsFromInventory(player, "GOLD", gold / 2);
+        plugin.getItemManager().removeItemsFromInventory(player, "WOOD", wood / 2);
+        plugin.getItemManager().removeItemsFromInventory(player, "BONE_MEAL", boneMeal / 2);
+
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage()
+            .deserialize(
+                plugin.getLumberConfig().strings().playerDeathMessage(),
+                Placeholder.component("player", player.name()),
+                Placeholder.component("iron", text(iron / 2)),
+                Placeholder.component("gold_amount", text(gold / 2)),
+                Placeholder.component("wood", text(wood / 2)),
+                Placeholder.component("bone_meal", text(boneMeal / 2))
+            )
+        ));
+        onInventoryChanged(player.getInventory()); // todo: remove this when rework resource information
+        plugin.getGameManager().updatePlayerScoreboards(); // Update items
+    }
 
     public void updateScoreboard() {
         Player player = Bukkit.getPlayer(uuid);
@@ -163,6 +194,7 @@ public class LumberPlayer implements Listener {
         scoreboardManager = new PlayerScoreboardManager(plugin, e.getPlayer(), this);
         plugin.getGameManager().getTreeManager().displayTreeDestruction(e.getPlayer());
     }
+
     @EventHandler
     private void onPlayerQuitEvent(PlayerQuitEvent e) {
         if (!e.getPlayer().getUniqueId().equals(uuid))
@@ -170,30 +202,35 @@ public class LumberPlayer implements Listener {
         scoreboardManager.delete();
         scoreboardManager = null;
     }
+
     @EventHandler
     private void onInventoryDragEvent(InventoryDragEvent e) {
         if (!(e.getViewers().get(0) instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
         onInventoryChanged(player.getInventory());
     }
+
     @EventHandler
     private void onInventoryEvent(InventoryCreativeEvent e) {
         if (!(e.getViewers().get(0) instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
         onInventoryChanged(player.getInventory());
     }
+
     @EventHandler
     private void onInventoryEvent(EntityPickupItemEvent e) {
         if (!(e.getEntity() instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
         onInventoryChanged(player.getInventory());
     }
+
     @EventHandler
     private void onInventoryEvent(PlayerDropItemEvent e) {
         if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
         onInventoryChanged(e.getPlayer().getInventory());
     }
+
     @EventHandler
     private void onEntityDamageEvent(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof Player player) || !player.getUniqueId().equals(uuid))
@@ -236,6 +273,14 @@ public class LumberPlayer implements Listener {
         }.runTask(plugin);
     }
 
+
+    @EventHandler
+    private void onEntityRegainHealthEvent(PlayerDeathEvent e) {
+        if (!e.getPlayer().getUniqueId().equals(uuid))
+            return;
+        onDeath(e.getPlayer());
+    }
+
     private void onInventoryChanged(Inventory inventory) {
         // Inventory search is delayed by 1 tick to let the events affect the player's inventory when accessed by scoreboard manager
         new BukkitRunnable() {
@@ -248,7 +293,7 @@ public class LumberPlayer implements Listener {
                 inventory.forEach(itemStack -> {
                     if (itemStack != null)
                         switch (itemStack.getType()) {
-                            case BONE_MEAL ->  boneMeal += itemStack.getAmount();
+                            case BONE_MEAL -> boneMeal += itemStack.getAmount();
                             case OAK_WOOD -> wood += itemStack.getAmount();
                             case GOLD_INGOT -> gold += itemStack.getAmount();
                             case IRON_INGOT -> iron += itemStack.getAmount();
@@ -275,6 +320,7 @@ public class LumberPlayer implements Listener {
         e.setCancelled(true);
         plugin.getGameManager().getTreeManager().onTreeHealByPlayer(e.getPlayer());
     }
+
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent e) {
         if (!e.getPlayer().getUniqueId().equals(uuid))
@@ -316,6 +362,7 @@ public class LumberPlayer implements Listener {
         e.setCancelled(true);
         plugin.getGameManager().getTreeManager().onTreeChopByPlayer(e.getPlayer(), e.getBlock().getLocation());
     }
+
     public UUID getUuid() {
         return uuid;
     }
@@ -335,7 +382,6 @@ public class LumberPlayer implements Listener {
     public int getBoneMeal() {
         return boneMeal;
     }
-
 
 
 }
