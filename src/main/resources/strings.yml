@@ -98,6 +98,9 @@ iron-boots-lore: "<blue>+2 Armor"
 health-potion-displayname: "Health Potion"
 health-potion-lore: "<i><gray>Heals back some health."
 
+
+tree-death-message: "<gold>Tree has died! You lose! <red><bold>L."
+
 scoreboard-title: "<color:#ffa008>Lumber Defense</color>"
 # parameters: <wave>, <wood>, <gold_amount>, <bone_meal>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>
 scoreboard-lines:

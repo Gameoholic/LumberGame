@@ -92,7 +92,7 @@ public class GameManager {
 
         // Send message
         players.forEach(lumberPlayer ->
-            Bukkit.broadcast(MiniMessage.miniMessage().deserialize(
+            lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
                 plugin.getLumberConfig().strings().newWaveStartMessage(),
                 Placeholder.component("wave", text(waveNumber + 1))
             )));
@@ -118,7 +118,8 @@ public class GameManager {
      * Called when the game has ended.
      */
     public void onGameEnd() {
-        Bukkit.broadcastMessage("Game has ended! Tree is dead!");
+        players.forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage()
+            .deserialize(plugin.getLumberConfig().strings().treeDeathMessage())));
         waveManager.onGameEnd();
         players.forEach(LumberPlayer::unregisterEvents);
         plugin.onGameEnd();

@@ -146,6 +146,15 @@ public class LumberPlayer implements Listener {
             player.playSound(sound, Sound.Emitter.self());
     }
 
+    /**
+     * Sends a message to the player.
+     */
+    public void sendMessage(Component message) {
+        @Nullable Player player = Bukkit.getPlayer(uuid);
+        if (player != null)
+            player.sendMessage(message);
+    }
+
     @EventHandler
     private void onPlayerJoinEvent(PlayerJoinEvent e) {
         if (!e.getPlayer().getUniqueId().equals(uuid))

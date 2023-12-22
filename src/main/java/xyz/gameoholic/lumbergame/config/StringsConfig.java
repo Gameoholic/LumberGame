@@ -70,7 +70,8 @@ public record StringsConfig(
     String ironHelmetDisplayname,
     String ironHelmetLore,
     String healthPotionDisplayname,
-    String healthPotionLore
+    String healthPotionLore,
+    String treeDeathMessage
 
 ) {
 

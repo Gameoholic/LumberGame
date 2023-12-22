@@ -13,12 +13,10 @@ Remove all places where we check itemstack's material. Instead, compare directly
 
 
 FIXES:
-Unregister events for LumberPlayer on game end. On game end make all managers null. (Replay feature)
+Unregister events for LumberPlayer & Mob listeners on game end.
 
 - Partigon tree particles
 - Shop with NPC
-
-Mob-spawn-before-last index (for bosses, etc.)
 
 Big todo:
  - Shop & Regular Items (1d)

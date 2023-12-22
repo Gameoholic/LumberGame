@@ -115,7 +115,8 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("iron-helmet-displayname").getString()),
                 Objects.requireNonNull(root.node("iron-helmet-lore").getString()),
                 Objects.requireNonNull(root.node("health-potion-displayname").getString()),
-                Objects.requireNonNull(root.node("health-potion-lore").getString())
+                Objects.requireNonNull(root.node("health-potion-lore").getString()),
+                Objects.requireNonNull(root.node("tree-death-message").getString())
             );
 
         } catch (SerializationException e) {
