@@ -19,7 +19,15 @@ import static net.kyori.adventure.text.Component.text;
 public class GameManager {
     private final LumberGamePlugin plugin;
     private Set<LumberPlayer> players = new HashSet<>();
-    private TreeManager treeManager;
+    /**
+     * By how much to multiply every wave's challenge rating.
+     */
+    private final double waveCRMultiplier;
+    /**
+     * By how much to divide every wave's spawn rate interval.
+     */
+    private final double waveSpawnRateMultiplier;
+    private final TreeManager treeManager;
     private WaveManager waveManager;
 
     /**
@@ -27,8 +35,10 @@ public class GameManager {
      */
     int waveNumber = 0;
 
-    public GameManager(LumberGamePlugin plugin, Set<UUID> players) {
+    public GameManager(LumberGamePlugin plugin, Set<UUID> players, double waveCRMultiplier, double waveSpawnRateMultiplier) {
         this.plugin = plugin;
+        this.waveCRMultiplier = waveCRMultiplier;
+        this.waveSpawnRateMultiplier = waveSpawnRateMultiplier;
         treeManager = new TreeManager(plugin);
         players.forEach(
             uuid -> {
@@ -36,6 +46,9 @@ public class GameManager {
                 this.players.add(lumberPlayer);
             }
         );
+        plugin.getLogger().info("Starting game with wave CR multiplier of " + waveCRMultiplier +
+            " and wave spawn rate multiplier of " + waveSpawnRateMultiplier);
+
         startGame();
     }
 
@@ -88,7 +101,8 @@ public class GameManager {
         // Wave manager should be alerted that the wave has ended, if it doesn't already know (if forced by command for example)
         if (waveManager != null && !waveManager.getWaveEnded())
             waveManager.onWaveEnd();
-        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber));
+        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber),
+            waveCRMultiplier, waveSpawnRateMultiplier);
 
         // Send message
         players.forEach(lumberPlayer ->

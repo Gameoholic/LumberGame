@@ -1,6 +1,7 @@
 package xyz.gameoholic.lumbergame.commands;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,7 +32,10 @@ public class StartCommand implements CommandExecutor {
             plugin.getLumberConfig().strings().startCommandSuccessMessage())
         );
 
-        plugin.startGame();
+        double waveCRMultiplier = (args.length > 0 && NumberUtils.isCreatable(args[0])) ? Double.parseDouble(args[0]) : 1.0;
+        double waveSpawnRateMultiplier = (args.length > 1 && NumberUtils.isCreatable(args[1])) ? Double.parseDouble(args[1]) : 1.0;
+
+        plugin.startGame(waveCRMultiplier, waveSpawnRateMultiplier);
         return false;
     }
 }

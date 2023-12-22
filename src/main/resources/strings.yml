@@ -101,7 +101,7 @@ health-potion-lore: "<i><gray>Heals back some health."
 
 tree-death-message: "<gold>Tree has died! You lose! <red><bold>L."
 # Parameters: <player>, <iron>, <gold_amount>, <wood>, <bone_meal>
-player-death-message: "<red> died! They lost <white><iron>뀀 <gold_amount>뀁 <wood>뀄 <bone_meal>뀂<red>."
+player-death-message: "<red><player> died! They lost <white><iron>뀀 <gold_amount>뀁 <wood>뀄 <bone_meal>뀂<red>."
 
 scoreboard-title: "<color:#ffa008>Lumber Defense</color>"
 # parameters: <wave>, <wood>, <gold_amount>, <bone_meal>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>

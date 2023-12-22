@@ -21,7 +21,6 @@ todo: remove iron, ogld, etc. variables from lumberplayer. instead, work just wi
 Big todo:
  - Shop & Regular Items (1d)
  - Difficulty Scaling for players (CR higher) (3h). With debug command or /start parameter.
- - Player Death
 
  - Classes & Class Shop (1d)
  - More customizable Mobs + More mobs (1d)

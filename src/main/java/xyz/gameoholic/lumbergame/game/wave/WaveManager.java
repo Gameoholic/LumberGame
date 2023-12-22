@@ -27,6 +27,11 @@ public class WaveManager {
      */
     private int waveCR;
     private Wave wave;
+
+    /**
+     * By how much to divide every wave's spawn rate interval.
+     */
+    private final double waveSpawnRateMultiplier;
     /**
      * Delay before spawning next mob/s, in ticks.
      */
@@ -40,10 +45,11 @@ public class WaveManager {
     private List<LumberMob> mobQueue = new ArrayList<>();
     private final Random rnd = new Random();
     private boolean waveEnded = false;
-    public WaveManager(LumberGamePlugin plugin, Wave wave) {
+    public WaveManager(LumberGamePlugin plugin, Wave wave, double waveCRMultiplier, double waveSpawnRateMultiplier) {
         this.plugin = plugin;
-        this.waveCR = wave.waveCR();
+        this.waveCR = (int) (wave.waveCR() * waveCRMultiplier);
         this.wave = wave;
+        this.waveSpawnRateMultiplier = waveSpawnRateMultiplier;
 
         loadMobQueue();
         startWave();
@@ -107,7 +113,7 @@ public class WaveManager {
             }
         }.runTaskTimer(plugin, 0L, 1L);
 
-        spawnDelay = rnd.nextInt(wave.spawnTimerMin(), wave.spawnTimerMax() + 1);
+        spawnDelay = (int) (rnd.nextInt(wave.spawnTimerMin(), wave.spawnTimerMax() + 1) / waveSpawnRateMultiplier);
     }
 
     /**
@@ -125,7 +131,7 @@ public class WaveManager {
         }
 
         spawnMob();
-        spawnDelay = rnd.nextInt(wave.spawnTimerMin(), wave.spawnTimerMax() + 1);
+        spawnDelay = (int) (rnd.nextInt(wave.spawnTimerMin(), wave.spawnTimerMax() + 1) / waveSpawnRateMultiplier);
     }
     private void spawnMob() {
         List<Location> spawnLocations = plugin.getLumberConfig().mapConfig().spawnLocations();

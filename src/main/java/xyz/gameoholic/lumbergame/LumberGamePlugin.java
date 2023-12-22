@@ -58,8 +58,8 @@ public final class LumberGamePlugin extends JavaPlugin {
     /**
      * Starts the game with all the players currently queued.
      */
-    public void startGame() {
-        gameManager = new GameManager(this, queueManager.getPlayers());
+    public void startGame(double waveCRMultiplier, double waveSpawnRateMultiplier) {
+        gameManager = new GameManager(this, queueManager.getPlayers(), waveCRMultiplier, waveSpawnRateMultiplier);
         queueManager.resetQueue();
         itemManager = new ItemManager(this);
         gameManager.onGameLoad();
