@@ -1,5 +1,7 @@
 map: https://www.planetminecraft.com/project/attack-on-titan-shiganshina-map/
 
+resource-pack=https://download.mc-packs.net/pack/4b49ace982db080787758f18ce163bdc8ec5b04f.zip
+resource-pack-sha1=4b49ace982db080787758f18ce163bdc8ec5b04f
 
 self join/leave commands for queue.
 

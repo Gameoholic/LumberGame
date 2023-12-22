@@ -25,4 +25,4 @@ commands:
   test:
     permission: test
 
-depend: [ Partigon ]
+depend: [ Partigon, WorldEdit ]
