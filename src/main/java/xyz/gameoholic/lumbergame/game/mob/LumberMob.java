@@ -218,6 +218,8 @@ public class LumberMob implements Listener {
      * @param dropLoot Whether the mob should drop its loot, should only be true if a player killed the mob.
      */
     public void onDeath(Boolean dropLoot) {
+        if (plugin.getGameManager() == null) // If game has ended by the time this was fired (if a creeper killed the tree, and has also died)
+            return;
         plugin.getGameManager().getWaveManager().onMobDeath(this);
 
         if (!dropLoot)
@@ -304,6 +306,8 @@ public class LumberMob implements Listener {
         if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;
 
+        Bukkit.broadcastMessage("Entity damage event executed");
+
         if (e instanceof EntityDamageByEntityEvent byEntityEvent) {
             // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
             if (byEntityEvent.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof Creeper) {
@@ -350,10 +354,12 @@ public class LumberMob implements Listener {
         if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;
 
+        Bukkit.broadcastMessage("Explosion prime event executed");
         // If creeper is tree mob, and it exploded, we can assume it was near the tree and should deal damage to it
         if (this instanceof TreeLumberMob)
             plugin.getGameManager().getTreeManager().onMobDamage(this);
         onDeath(false);
+        Bukkit.broadcastMessage("Explosion prime event finished");
     }
 
     @EventHandler

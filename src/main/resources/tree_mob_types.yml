@@ -22,6 +22,7 @@
   entity-type: "CREEPER"
   health-expression: "CR * 2.8 + 3.5"
   damage-expression: "CR * 0.5 + 1"
+  knockback-resistance-expression: "0.4"
 
 # Faster creeper. Less health than normal creepers. Introduced @ Wave ~5
 - id: "SNEAKY_CREEPER"
@@ -30,12 +31,13 @@
   health-expression: "CR * 1.5"
   damage-expression: "CR * 0.5 + 1"
   speed-expression: "0.35"
+  knockback-resistance-expression: "0.4"
 
 # Does heavy damage, and walks slowly. Fully knockback resistant. Introduced @ Wave 10
 - id: "HEAVY_CREEPER"
   display-name: "뀃 <red>Heavy Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 30"
+  health-expression: "CR * 28"
   damage-expression: "CR * 4"
   speed-expression: "0.15"
   knockback-resistance-expression: "1.0"
