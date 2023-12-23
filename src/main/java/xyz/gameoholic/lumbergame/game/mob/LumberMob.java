@@ -60,7 +60,6 @@ public class LumberMob implements Listener {
         EntityDamageEvent.getHandlerList().unregister(this);
         EntityDeathEvent.getHandlerList().unregister(this);
         ExplosionPrimeEvent.getHandlerList().unregister(this);
-        Bukkit.broadcastMessage("Unregistered events!");
     }
 
     /**
@@ -221,6 +220,7 @@ public class LumberMob implements Listener {
         if (plugin.getGameManager() == null) // If game has ended by the time this was fired (if a creeper killed the tree, and has also died)
             return;
         plugin.getGameManager().getWaveManager().onMobDeath(this);
+        unregisterEvents();
 
         if (!dropLoot)
             return;
@@ -306,8 +306,6 @@ public class LumberMob implements Listener {
         if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;
 
-        Bukkit.broadcastMessage("Entity damage event executed");
-
         if (e instanceof EntityDamageByEntityEvent byEntityEvent) {
             // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
             if (byEntityEvent.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof Creeper) {
@@ -328,8 +326,6 @@ public class LumberMob implements Listener {
 
     @EventHandler
     public void onEntityDeathEvent(EntityDeathEvent e) {
-        if (plugin.getGameManager().getWaveManager() == null) // todo :remove this?
-            return;
         if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;
 
@@ -348,18 +344,16 @@ public class LumberMob implements Listener {
 
     @EventHandler
     public void onExplosionPrimeEvent(ExplosionPrimeEvent e) {
-        // Creeper does not go through normal death logic cycle when it explodes, and neither does tnt, so we handle in this event
-        if (plugin.getGameManager().getWaveManager() == null)
+        if (plugin.getGameManager() == null) // In certain edge cases this event might be fired after the game has ended and before the event was cancelled. //todo: shitty fix. if this fixes it then just keep it
             return;
+        // Creeper does not go through normal death logic cycle when it explodes, and neither does tnt, so we handle in this event
         if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;
 
-        Bukkit.broadcastMessage("Explosion prime event executed");
         // If creeper is tree mob, and it exploded, we can assume it was near the tree and should deal damage to it
         if (this instanceof TreeLumberMob)
             plugin.getGameManager().getTreeManager().onMobDamage(this);
         onDeath(false);
-        Bukkit.broadcastMessage("Explosion prime event finished");
     }
 
     @EventHandler
