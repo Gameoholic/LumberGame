@@ -11,23 +11,34 @@ Better spongepowered config.
 Input validation on wave mob chances (must add up to 1.0).
 Make ConfigParser prettier. method try/cathc ijnstead of many of them?
 Cloud framework
+
 Remove all places where we check itemstack's material. Instead, compare directly with ItemUtil.item
+remove iron, ogld, etc. variables from lumberplayer. instead, work just with inventory. move the inventory calculation to the scoreboard method, and on inventory change just update scoreboard.
 
 
-FIXES:
-todo: remove iron, ogld, etc. variables from lumberplayer. instead, work just with inventory. move the inventory calculation to the scoreboard method, and on inventory change just update scoreboard.
 
-- Partigon tree particles
-- Shop with NPC
+
+
+
+FEATURES:
+Bomber drops TNT on death
+Chucker (chucks TNT)
+Partigon tree particles
+Shop with NPC
+Chat messages for bone meal + bone block + sound
+Map Selection, CR selection, Menu
 
 Big todo:
- - Shop & Regular Items (1d)
- - Difficulty Scaling for players (CR higher) (3h). With debug command or /start parameter.
-
  - Classes & Class Shop (1d)
  - More customizable Mobs + More mobs (1d)
  - Partigon & Polish
 
- - Difficulty Selection (increases CR slightly, but mostly HP - SCALE variable). Maybe completely diff wave types?
  - Mob attacks & spells
  - Buildings & Towers?
+
+
+Super backlog (QOL stuff):
+- add healthbars to mobs
+- player glow according to color
+- different pitch for damage sounds?
+- item magnetism

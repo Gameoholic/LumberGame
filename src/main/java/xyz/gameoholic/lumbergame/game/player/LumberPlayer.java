@@ -25,6 +25,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
@@ -103,6 +105,7 @@ public class LumberPlayer implements Listener {
         player.setLevel(0);
         player.teleport(plugin.getLumberConfig().mapConfig().playerSpawnLocation());
         player.setGameMode(GameMode.ADVENTURE);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 2000000000, 1, false, false));
 
         registerEvents();
 
