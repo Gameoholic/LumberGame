@@ -23,6 +23,8 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import javax.annotation.Nullable;
 import java.util.*;
 
+import static net.kyori.adventure.text.Component.text;
+
 public class ItemManager {
 
     private LumberGamePlugin plugin;
@@ -134,183 +136,183 @@ public class ItemManager {
     }
 
     public ItemStack getGoldItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "GOLD",
             Material.GOLD_INGOT,
             plugin.getLumberConfig().strings().goldDisplayname(),
             plugin.getLumberConfig().strings().goldLore()
-        );
+        ));
     }
 
     public ItemStack getIronItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "IRON",
             Material.IRON_INGOT,
             plugin.getLumberConfig().strings().ironDisplayname(),
             plugin.getLumberConfig().strings().ironLore()
-        );
+        ));
     }
 
     public ItemStack getWoodItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "WOOD",
             Material.OAK_WOOD,
             plugin.getLumberConfig().strings().woodDisplayname(),
             plugin.getLumberConfig().strings().woodLore()
-        );
+        ));
     }
 
     public ItemStack getBoneMealItem() {
-        return applyPlaceableKeys(getItem(
+        return applyItemInformationLore(applyPlaceableKeys(getItem(
             "BONE_MEAL",
             Material.BONE_MEAL,
             plugin.getLumberConfig().strings().boneMealDisplayname(),
             plugin.getLumberConfig().strings().boneMealLore()
-        ), Arrays.asList(Material.GRASS_BLOCK));
+        ), Arrays.asList(Material.GRASS_BLOCK)));
     }
 
     public ItemStack getBoneBlockItem() {
-        return applyPlaceableKeys(getItem(
+        return applyItemInformationLore(applyPlaceableKeys(getItem(
             "BONE_BLOCK",
             Material.BONE_BLOCK,
             plugin.getLumberConfig().strings().boneBlockDisplayname(),
             plugin.getLumberConfig().strings().boneBlockLore()
-        ), Arrays.asList(Material.GRASS_BLOCK));
+        ), Arrays.asList(Material.GRASS_BLOCK)));
     }
 
     public ItemStack getBowItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "BOW",
             Material.BOW,
             plugin.getLumberConfig().strings().bowDisplayname(),
             plugin.getLumberConfig().strings().bowLore()
-        );
+        ));
     }
 
     public ItemStack getStoneAxeItem() {
-        return applyAttackDamage(applyDestroyableKeys(applyUnbreakable(applyAttackSpeed(applyAttackDamage(getItem(
+        return applyItemInformationLore(applyAttackDamage(applyDestroyableKeys(applyAttackSpeed(applyAttackDamage(getItem(
             "STONE_AXE",
             Material.STONE_AXE,
             plugin.getLumberConfig().strings().stoneAxeDisplayname(),
             plugin.getLumberConfig().strings().stoneAxeLore()
-        ), 6), -3.2)), plugin.getLumberConfig().mapConfig().treeBlockTypes()), 6);
+        ), 6), -3.2), plugin.getLumberConfig().mapConfig().treeBlockTypes()), 6));
     }
 
     public ItemStack getWoodenSwordItem() {
-        return applyEnchants(applyAttackSpeed(applyUnbreakable(applyAttackDamage(getItem(
+        return applyItemInformationLore(applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(
             "WOODEN_SWORD",
             Material.WOODEN_SWORD,
             plugin.getLumberConfig().strings().woodenSwordDisplayname(),
             plugin.getLumberConfig().strings().woodenSwordLore()
-        ), 4)), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1));
+        ), 4), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
     public ItemStack getStoneSwordItem() {
-        return applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(
+        return applyItemInformationLore(applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(
             "STONE_SWORD",
             Material.STONE_SWORD,
             plugin.getLumberConfig().strings().stoneSwordDisplayname(),
             plugin.getLumberConfig().strings().stoneSwordLore()
-        ), 7), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1));
+        ), 7), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
     public ItemStack getIronSwordItem() {
-        return applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(
+        return applyItemInformationLore(applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(
             "IRON_SWORD",
             Material.IRON_SWORD,
             plugin.getLumberConfig().strings().ironSwordDisplayname(),
             plugin.getLumberConfig().strings().ironSwordLore()
-        ), 10), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1));
+        ), 10), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
     public ItemStack getDiamondSwordItem() {
-        return applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(
+        return applyItemInformationLore(applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(
             "DIAMOND_SWORD",
             Material.DIAMOND_SWORD,
             plugin.getLumberConfig().strings().diamondSwordDisplayname(),
             plugin.getLumberConfig().strings().diamondSwordLore()
-        ), 15), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1));
+        ), 15), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
     public ItemStack getArrowItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "ARROW",
             Material.ARROW,
             plugin.getLumberConfig().strings().arrowDisplayname(),
             plugin.getLumberConfig().strings().arrowLore()
-        );
+        ));
     }
 
     public ItemStack getLeatherBootsItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "LEATHER_BOOTS",
             Material.LEATHER_BOOTS,
             plugin.getLumberConfig().strings().leatherBootsDisplayname(),
             plugin.getLumberConfig().strings().leatherBootsLore()
-        );
+        ));
     }
 
     public ItemStack getLeatherLeggingsItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "LEATHER_LEGGINGS",
             Material.LEATHER_LEGGINGS,
             plugin.getLumberConfig().strings().leatherLeggingsDisplayname(),
             plugin.getLumberConfig().strings().leatherLeggingsLore()
-        );
+        ));
     }
 
     public ItemStack getLeatherChestplateItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "LEATHER_CHESTPLATE",
             Material.LEATHER_CHESTPLATE,
             plugin.getLumberConfig().strings().leatherChestplateDisplayname(),
             plugin.getLumberConfig().strings().leatherChestplateLore()
-        );
+        ));
     }
 
     public ItemStack getLeatherHelmetItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "LEATHER_HELMET",
             Material.LEATHER_HELMET,
             plugin.getLumberConfig().strings().leatherHelmetDisplayname(),
             plugin.getLumberConfig().strings().leatherHelmetLore()
-        );
+        ));
     }
 
     public ItemStack getIronBootsItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "IRON_BOOTS",
             Material.IRON_BOOTS,
             plugin.getLumberConfig().strings().ironBootsDisplayname(),
             plugin.getLumberConfig().strings().ironBootsLore()
-        );
+        ));
     }
 
     public ItemStack getIronLeggingsItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "IRON_LEGGINGS",
             Material.IRON_LEGGINGS,
             plugin.getLumberConfig().strings().ironLeggingsDisplayname(),
             plugin.getLumberConfig().strings().ironLeggingsLore()
-        );
+        ));
     }
 
     public ItemStack getIronChestplateItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "IRON_CHESTPLATE",
             Material.IRON_CHESTPLATE,
             plugin.getLumberConfig().strings().ironChestplateDisplayname(),
             plugin.getLumberConfig().strings().ironChestplateLore()
-        );
+        ));
     }
 
     public ItemStack getIronHelmetItem() {
-        return getItem(
+        return applyItemInformationLore(getItem(
             "IRON_HELMET",
             Material.IRON_HELMET,
             plugin.getLumberConfig().strings().ironHelmetDisplayname(),
             plugin.getLumberConfig().strings().ironHelmetLore()
-        );
+        ));
     }
 
     public ItemStack getHealthPotionItem() {
@@ -323,7 +325,7 @@ public class ItemManager {
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         meta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 0, 1), false);
         item.setItemMeta(meta);
-        return item;
+        return applyItemInformationLore(item);
     }
 
     /**
@@ -334,7 +336,7 @@ public class ItemManager {
      * @return An item stack with everything applied.
      */
     private ItemStack getItem(String id, Material material, String displayName, String lore) {
-        ItemStack item = new ItemStack(material);
+        ItemStack item = applyUnbreakable(new ItemStack(material));
         ItemMeta meta = item.getItemMeta();
 
         meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING, id);
@@ -347,13 +349,50 @@ public class ItemManager {
         List<String> lores = Arrays.stream(lore.split("<br>|<linebreak>")).toList();
         List<Component> componentLores = new ArrayList<>();
         lores.forEach(tempLore -> componentLores.add(
-            MiniMessage.miniMessage().deserialize(tempLore)
-                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).colorIfAbsent(NamedTextColor.WHITE)));
+            getPlainLore(MiniMessage.miniMessage().deserialize(tempLore))
+        ));
+
         meta.lore(componentLores);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
 
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    private Component getPlainLore(Component component) {
+        return component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).colorIfAbsent(NamedTextColor.WHITE);
+    }
+
+    /**
+     * Applies the item's attribute information to the lore (attack damage, enchants, etc.)
+     *
+     * @param item
+     * @return The new item with the lore added
+     */
+    private ItemStack applyItemInformationLore(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+
+        List<Component> lores = meta.lore();
+
+        if (meta.hasAttributeModifiers()) {
+            @Nullable AttributeModifier damageAttribute = meta.getAttributeModifiers(Attribute.GENERIC_ATTACK_DAMAGE)
+                .stream().filter(a -> a.getName() == "set_damage").findFirst().orElse(null);
+            if (damageAttribute != null) {
+                String damageAmount = (damageAttribute.getAmount() + 1) + ""; // Damage attribute always 1 lower than the actual damage
+                if (damageAttribute.getAmount() == (int) damageAttribute.getAmount())
+                    damageAmount = "" + (int) (damageAttribute.getAmount() + 1); // Display "4" instead of "4.0"
+                lores.add(getPlainLore(
+                    text(damageAmount + " Attack Damage")
+                        .color(NamedTextColor.GOLD)
+                ));
+            }
+        }
+        meta.lore(lores);
         item.setItemMeta(meta);
         return item;
     }
