@@ -9,7 +9,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
@@ -29,7 +28,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.util.NMSUtil;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -98,7 +96,7 @@ public class LumberPlayer implements Listener {
         scoreboardManager = new PlayerScoreboardManager(plugin, player, this);
         player.getInventory().clear();
         player.getInventory().addItem(plugin.getItemManager().getWoodenSwordItem());
-        player.getInventory().addItem(plugin.getItemManager().getWoodenAxeItem());
+        player.getInventory().addItem(plugin.getItemManager().getStoneAxeItem());
         player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         player.setFoodLevel(20);
         player.setExp(0);

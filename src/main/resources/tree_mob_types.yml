@@ -16,18 +16,18 @@
   damage-expression: "CR * 0.25 + 1"
   attack-cooldown-expression: "50"
 
-# Normal creeper, a bit more damage than normal mobs. Introduced @ Wave ~2
+# Normal creeper, a bit more damage and health than zombies. Introduced @ Wave ~2
 - id: "TREE_CREEPER"
   display-name: "뀃 Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 2 + 3.5"
+  health-expression: "CR * 2.8 + 3.5"
   damage-expression: "CR * 0.5 + 1"
 
-# Faster creeper. Introduced @ Wave ~5
+# Faster creeper. Less health than normal creepers. Introduced @ Wave ~5
 - id: "SNEAKY_CREEPER"
   display-name: "뀃 <green>Sneaky Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 1"
+  health-expression: "CR * 1.5"
   damage-expression: "CR * 0.5 + 1"
   speed-expression: "0.35"
 
@@ -35,7 +35,7 @@
 - id: "HEAVY_CREEPER"
   display-name: "뀃 <red>Heavy Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 15"
+  health-expression: "CR * 30"
   damage-expression: "CR * 4"
   speed-expression: "0.15"
   knockback-resistance-expression: "1.0"

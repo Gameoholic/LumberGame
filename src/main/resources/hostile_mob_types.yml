@@ -46,6 +46,14 @@
 
 
 # ---------------- Mid Mobs (Waves 11-20) ----------------
+# Walks faster than normal creepers
+- id: "BOMBER"
+  display-name: "Bomber"
+  entity-type: "CREEPER"
+  health-expression: "CR * 5 + 3.5"
+  damage-expression: "CR * 0.25 + 1"
+  speed-expression: "0.28"
+
 - id: "GIANT"
   display-name: "Giant"
   entity-type: "GIANT"

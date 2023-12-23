@@ -60,6 +60,7 @@ public class LumberMob implements Listener {
         EntityDamageEvent.getHandlerList().unregister(this);
         EntityDeathEvent.getHandlerList().unregister(this);
         ExplosionPrimeEvent.getHandlerList().unregister(this);
+        Bukkit.broadcastMessage("Unregistered events!");
     }
 
     /**

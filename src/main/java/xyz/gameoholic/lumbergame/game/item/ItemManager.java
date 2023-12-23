@@ -128,6 +128,7 @@ public class ItemManager {
             case "IRON_CHESTPLATE" -> getIronChestplateItem();
             case "IRON_HELMET" -> getIronHelmetItem();
             case "HEALTH_POTION" -> getHealthPotionItem();
+            case "STONE_AXE" -> getStoneAxeItem();
             default -> null;
         };
     }
@@ -186,49 +187,49 @@ public class ItemManager {
         );
     }
 
+    public ItemStack getStoneAxeItem() {
+        return applyDestroyableKeys(applyUnbreakable(applyAttackSpeed(applyAttackDamage(getItem(
+            "STONE_AXE",
+            Material.STONE_AXE,
+            plugin.getLumberConfig().strings().stoneAxeDisplayname(),
+            plugin.getLumberConfig().strings().stoneAxeLore()
+        ), 6), -3.2)), plugin.getLumberConfig().mapConfig().treeBlockTypes());
+    }
+
     public ItemStack getWoodenSwordItem() {
-        return applyAttackSpeed(applyUnbreakable(applyAttackDamage(getItem(
+        return applyEnchants(applyAttackSpeed(applyUnbreakable(applyAttackDamage(getItem(
             "WOODEN_SWORD",
             Material.WOODEN_SWORD,
             plugin.getLumberConfig().strings().woodenSwordDisplayname(),
             plugin.getLumberConfig().strings().woodenSwordLore()
-        ), 4)), -2.4);
-    }
-
-    public ItemStack getWoodenAxeItem() {
-        return applyDestroyableKeys(applyUnbreakable(applyAttackSpeed(applyAttackDamage(getItem(
-            "WOODEN_AXE",
-            Material.WOODEN_AXE,
-            plugin.getLumberConfig().strings().woodenAxeDisplayname(),
-            plugin.getLumberConfig().strings().woodenAxeLore()
-        ), 6), -3.2)), plugin.getLumberConfig().mapConfig().treeBlockTypes());
+        ), 4)), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1));
     }
 
     public ItemStack getStoneSwordItem() {
-        return applyAttackSpeed(applyAttackDamage(getItem(
+        return applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(
             "STONE_SWORD",
             Material.STONE_SWORD,
             plugin.getLumberConfig().strings().stoneSwordDisplayname(),
             plugin.getLumberConfig().strings().stoneSwordLore()
-        ), 7), -2.4);
+        ), 7), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1));
     }
 
     public ItemStack getIronSwordItem() {
-        return applyAttackSpeed(applyAttackDamage(getItem(
+        return applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(
             "IRON_SWORD",
             Material.IRON_SWORD,
             plugin.getLumberConfig().strings().ironSwordDisplayname(),
             plugin.getLumberConfig().strings().ironSwordLore()
-        ), 10), -2.4);
+        ), 10), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1));
     }
 
     public ItemStack getDiamondSwordItem() {
-        return applyAttackSpeed(applyAttackDamage(getItem(
+        return applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(
             "DIAMOND_SWORD",
             Material.DIAMOND_SWORD,
             plugin.getLumberConfig().strings().diamondSwordDisplayname(),
             plugin.getLumberConfig().strings().diamondSwordLore()
-        ), 15), -2.4);
+        ), 15), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1));
     }
 
     public ItemStack getArrowItem() {
@@ -248,6 +249,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().leatherBootsLore()
         );
     }
+
     public ItemStack getLeatherLeggingsItem() {
         return getItem(
             "LEATHER_LEGGINGS",
@@ -256,6 +258,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().leatherLeggingsLore()
         );
     }
+
     public ItemStack getLeatherChestplateItem() {
         return getItem(
             "LEATHER_CHESTPLATE",
@@ -264,6 +267,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().leatherChestplateLore()
         );
     }
+
     public ItemStack getLeatherHelmetItem() {
         return getItem(
             "LEATHER_HELMET",
@@ -272,6 +276,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().leatherHelmetLore()
         );
     }
+
     public ItemStack getIronBootsItem() {
         return getItem(
             "IRON_BOOTS",
@@ -280,6 +285,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().ironBootsLore()
         );
     }
+
     public ItemStack getIronLeggingsItem() {
         return getItem(
             "IRON_LEGGINGS",
@@ -288,6 +294,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().ironLeggingsLore()
         );
     }
+
     public ItemStack getIronChestplateItem() {
         return getItem(
             "IRON_CHESTPLATE",
@@ -296,6 +303,7 @@ public class ItemManager {
             plugin.getLumberConfig().strings().ironChestplateLore()
         );
     }
+
     public ItemStack getIronHelmetItem() {
         return getItem(
             "IRON_HELMET",
@@ -358,6 +366,7 @@ public class ItemManager {
         item.setItemMeta(meta);
         return item;
     }
+
     private ItemStack applyDestroyableKeys(ItemStack item, List<Material> destroyableMaterials) {
         ItemMeta meta = item.getItemMeta();
         List<Namespaced> keys = new ArrayList<>();

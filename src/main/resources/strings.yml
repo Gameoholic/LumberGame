@@ -53,8 +53,8 @@ wood-lore: "<i><gray>Valuable item used for powerful crafts."
 bow-displayname: "Bow"
 bow-lore: "<i><gray>Surprisingly effective!"
 
-wooden-axe-displayname: "Wooden Axe"
-wooden-axe-lore: "<i><gray>Use to chop the tree for lumber.<br><gold>6 Attack Damage"
+stone-axe-displayname: "Stone Axe"
+stone-axe-lore: "<i><gray>Use to chop the tree for lumber.<br><gold>6 Attack Damage"
 
 wooden-sword-displayname: "Wooden Sword"
 wooden-sword-lore: "<i><gray>A pretty rusty sword.<br><gold>4 Attack Damage"

@@ -117,7 +117,7 @@
 # Wave 7
 # Introduction of the Shover.
 # From now on, use iron sword for balancing purposes.
-- wave-cr: 150
+- wave-cr: 130
   spawn-timer-min: 20
   spawn-timer-max: 80
   mob-min-cr: 6
@@ -138,7 +138,7 @@
       amount: 1
 
 # Wave 8
-- wave-cr: 200
+- wave-cr: 150
   spawn-timer-min: 20
   spawn-timer-max: 80
   mob-min-cr: 7
@@ -162,7 +162,7 @@
 
 # Wave 9
 # Full of just Shovers and Creepers
-- wave-cr: 200
+- wave-cr: 175
   spawn-timer-min: 30
   spawn-timer-max: 80
   mob-min-cr: 8
@@ -178,7 +178,7 @@
 
 # Wave 10
 # Boss round. Introduction of baby zombies and heavy creeper.
-- wave-cr: 280
+- wave-cr: 250
   spawn-timer-min: 20
   spawn-timer-max: 80
   mob-min-cr: 8
@@ -203,11 +203,11 @@
       amount: 2
   guaranteed-mob-types-with-index:
     - id: HEAVY_CREEPER
-      index-from-last: 3
+      index-from-last: 5
   bone-block: true
 
 # Wave 11
-# Difficulty bump! CR is bumped by 5. Need to introduce new hostile mob type here.
+# Difficulty bump! CR is bumped by 5. Bombers introduced.
 - wave-cr: 400
   spawn-timer-min: 20
   spawn-timer-max: 80
@@ -217,14 +217,19 @@
     - id: SKELETON
       chance: 0.05
     - id: ZOMBIE
-      chance: 0.3
+      chance: 0.25
+    - id: BOMBER
+      chance: 0.08
     - id: TREE_ZOMBIE
-      chance: 0.24
+      chance: 0.22
     - id: TREE_CREEPER
-      chance: 0.20
+      chance: 0.19
     - id: SNEAKY_CREEPER
       chance: 0.08
     - id: SHOVER
       chance: 0.08
     - id: BABY_ZOMBIE
       chance: 0.05
+  guaranteed-mob-types:
+    - id: BOMBER
+      amount: 3

@@ -19,7 +19,7 @@ public class LumberAttackTreeGoal extends Goal {
     private final int ATTACK_COOLDOWN; // LUMBER - custom attack cooldown
 
     private static final double SPEED_MODIFIER = 1.0;
-    private static final double TREE_BB_WIDTH = 2.0;
+    private static final double TREE_BB_WIDTH = 1.0;
 
     /**
      * @param plugin
