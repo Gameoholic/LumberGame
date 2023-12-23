@@ -117,7 +117,8 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("health-potion-displayname").getString()),
                 Objects.requireNonNull(root.node("health-potion-lore").getString()),
                 Objects.requireNonNull(root.node("tree-death-message").getString()),
-                Objects.requireNonNull(root.node("player-death-message").getString())
+                Objects.requireNonNull(root.node("player-death-message").getString()),
+                Objects.requireNonNull(root.node("tree-health-threshold-message").getString())
             );
 
         } catch (SerializationException e) {

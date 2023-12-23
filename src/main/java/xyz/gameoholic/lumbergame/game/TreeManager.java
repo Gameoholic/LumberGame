@@ -44,9 +44,21 @@ public class TreeManager {
     public void onMobDamage(LumberMob mob) {
         if (treeDead)
             return;
+
+        int previousHealthRatio = getHealthToMaxHealthRatio();
         int damage = (int) mob.getMob().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
         health = Math.max(health - damage, 0);
         onAnyHealthChanged();
+        int currentHealthRatio = getHealthToMaxHealthRatio();
+
+        // For certain tree health thresholds (5%, 10%, 20%, 50%) send message to players
+        boolean treeHealthThresholdPassed = (
+            (previousHealthRatio > 5 && currentHealthRatio <= 5)
+            || (previousHealthRatio > 10 && currentHealthRatio <= 10)
+            || (previousHealthRatio > 20 && currentHealthRatio <= 20)
+            || (previousHealthRatio > 50 && currentHealthRatio <= 50)
+        );
+
         plugin.getGameManager().getPlayers().forEach(lumberPlayer -> {
             lumberPlayer.playSound(
                 plugin.getLumberConfig().soundsConfig().treeDamagedSound(),
@@ -60,6 +72,16 @@ public class TreeManager {
                 Placeholder.component("tree_damage", text(damage)),
                 Placeholder.parsed("tree_health_fraction", String.valueOf(getHealthToMaxHealthRatio() / 100.0))
             ));
+            if (treeHealthThresholdPassed) {
+                lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
+                    plugin.getLumberConfig().strings().treeHealthThresholdMessage(),
+                    Placeholder.component("tree_health", text(health)),
+                    Placeholder.component("tree_max_health", text(maxHealth)),
+                    Placeholder.component("tree_health_percentage", text(currentHealthRatio)),
+                    Placeholder.component("tree_damage", text(damage)),
+                    Placeholder.parsed("tree_health_fraction", String.valueOf(currentHealthRatio / 100.0))
+                ));
+            }
         });
 
 

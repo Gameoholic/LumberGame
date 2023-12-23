@@ -34,6 +34,9 @@ new-wave-start-message: "<gold>Started wave <red><wave></red>!"
 # Parameters: tree_health, tree_max_health, tree_health_percentage, tree_damage
 tree-damaged-actionbar-message: "뀃 <transition:#ff0000:#00ff00:<tree_health_fraction>><tree_health> <bold>!</bold></transition> <red><bold>-<tree_damage></bold>❤"
 
+# Parameters: tree_health, tree_max_health, tree_health_percentage, tree_damage
+tree-health-threshold-message: "<red>Tree is at <transition:#ff0000:#00ff00:<tree_health_fraction>><tree_health_percentage></transition>% HP!"
+
 # Parameters: <name>, <health>
 mob-displayname: "<name> <#f0291a><health>❤"
 
@@ -54,19 +57,19 @@ bow-displayname: "Bow"
 bow-lore: "<i><gray>Surprisingly effective!"
 
 stone-axe-displayname: "Stone Axe"
-stone-axe-lore: "<i><gray>Use to chop the tree for lumber.<br><gold>6 Attack Damage"
+stone-axe-lore: "<i><gray>Use to chop the tree for lumber."
 
 wooden-sword-displayname: "Wooden Sword"
-wooden-sword-lore: "<i><gray>A pretty rusty sword.<br><gold>4 Attack Damage"
+wooden-sword-lore: "<i><gray>A pretty rusty sword."
 
 stone-sword-displayname: "Stone Sword"
-stone-sword-lore: "<i><gray>A slightly better starter sword.<br><gold>7 Attack Damage"
+stone-sword-lore: "<i><gray>A slightly better starter sword."
 
 iron-sword-displayname: "Iron Sword"
-iron-sword-lore: "<i><gray>A decent weapon fit to cut enemies into pieces.<br><gold>10 Attack Damage"
+iron-sword-lore: "<i><gray>A decent weapon fit to cut enemies into pieces."
 
 diamond-sword-displayname: "Diamond Sword"
-diamond-sword-lore: "<i><gray>The best you can buy for your buck.<br><gold>15 Attack Damage"
+diamond-sword-lore: "<i><gray>The best you can buy for your buck."
 
 arrow-displayname: "Arrow"
 arrow-lore: "<i><gray>Normal arrows."

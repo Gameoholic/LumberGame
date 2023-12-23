@@ -72,7 +72,8 @@ public record StringsConfig(
     String healthPotionDisplayname,
     String healthPotionLore,
     String treeDeathMessage,
-    String playerDeathMessage
+    String playerDeathMessage,
+    String treeHealthThresholdMessage
 
 ) {
 
