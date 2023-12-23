@@ -188,12 +188,12 @@ public class ItemManager {
     }
 
     public ItemStack getStoneAxeItem() {
-        return applyDestroyableKeys(applyUnbreakable(applyAttackSpeed(applyAttackDamage(getItem(
+        return applyAttackDamage(applyDestroyableKeys(applyUnbreakable(applyAttackSpeed(applyAttackDamage(getItem(
             "STONE_AXE",
             Material.STONE_AXE,
             plugin.getLumberConfig().strings().stoneAxeDisplayname(),
             plugin.getLumberConfig().strings().stoneAxeLore()
-        ), 6), -3.2)), plugin.getLumberConfig().mapConfig().treeBlockTypes());
+        ), 6), -3.2)), plugin.getLumberConfig().mapConfig().treeBlockTypes()), 6);
     }
 
     public ItemStack getWoodenSwordItem() {
