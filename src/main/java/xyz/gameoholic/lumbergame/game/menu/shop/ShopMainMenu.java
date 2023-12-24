@@ -26,7 +26,14 @@ public class ShopMainMenu extends Menu implements InventoryHolder {
     protected void onUnhandledClick(MenuItem menuItem, Player player) {
         switch (menuItem.getId()) {
             case "MENU_WEAPONS":
-                new WeaponsShopMenu(plugin, player);
+                new ShopWeaponsMenu(plugin, player);
+                break;
+            case "MENU_ARMOR":
+                new ShopArmorMenu(plugin, player);
+                break;
+            case "MENU_UTILITY":
+                new ShopUtilityMenu(plugin, player);
+                break;
         }
 
 

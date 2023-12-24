@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.menu.shop.ShopMainMenu;
-import xyz.gameoholic.lumbergame.game.menu.shop.WeaponsShopMenu;
 
 public class ShopCommand implements CommandExecutor {
     private LumberGamePlugin plugin;
@@ -20,8 +19,7 @@ public class ShopCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player))
             return false;
-        //new ShopMainMenu(plugin, player);
-        new WeaponsShopMenu(plugin, player);
+        new ShopMainMenu(plugin, player);
 
 
         return false;
