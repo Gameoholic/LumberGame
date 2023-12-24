@@ -18,7 +18,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     private LumberConfig config;
     private @Nullable GameManager gameManager = null;
     private @Nullable ItemManager itemManager = null;
-    private @Nullable PlayerNPCManager playerNPCManager = null;
+    private PlayerNPCManager playerNPCManager;
     @Override
     public void onEnable() {
         saveResource("strings.yml", true);
@@ -51,6 +51,7 @@ public final class LumberGamePlugin extends JavaPlugin {
         Bukkit.getPluginCommand("shop").setExecutor(new ShopCommand(this));
 
         queueManager = new LumberQueueManager(this);
+        playerNPCManager = new PlayerNPCManager(this);
 
 
 
@@ -63,7 +64,6 @@ public final class LumberGamePlugin extends JavaPlugin {
     public void startGame(double waveCRMultiplier, double waveSpawnRateMultiplier) {
         gameManager = new GameManager(this, queueManager.getPlayers(), waveCRMultiplier, waveSpawnRateMultiplier);
         queueManager.resetQueue();
-        playerNPCManager = new PlayerNPCManager(this);
         itemManager = new ItemManager(this);
         gameManager.onGameLoad();
     }

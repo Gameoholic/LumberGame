@@ -32,8 +32,18 @@ public class LumberNPC {
     }
 
     public void spawn() {
+        remove(); // If was spawned before
         Player player = Bukkit.getPlayer(playerUUID);
         if (player != null)
             entityId = NMSUtil.spawnNPC(player, NPCLocation, skin, signature);
     }
+    public void onInteract(boolean isAttack) {
+        Bukkit.broadcastMessage(String.valueOf(isAttack));
+    }
+
+    public int getEntityId() {
+        return entityId;
+    }
+
+
 }

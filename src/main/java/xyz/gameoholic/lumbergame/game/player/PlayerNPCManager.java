@@ -1,6 +1,10 @@
 package xyz.gameoholic.lumbergame.game.player;
 
+import io.netty.channel.*;
+import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -69,6 +73,8 @@ public class PlayerNPCManager implements Listener {
 
     @EventHandler
     private void onPlayerJoinEvent(PlayerJoinEvent e) {
+        injectPlayer(e.getPlayer());
+
         if (!players.containsKey(e.getPlayer().getUniqueId()))
             return;
         players.get(e.getPlayer().getUniqueId()).forEach(NPC -> NPC.spawn()); // Respawn all player NPC's
@@ -76,10 +82,44 @@ public class PlayerNPCManager implements Listener {
 
     @EventHandler
     private void onPlayerQuitEvent(PlayerQuitEvent e) {
+        uninjectPlayer(e.getPlayer());
+
         if (!players.containsKey(e.getPlayer().getUniqueId()))
             return;
         players.get(e.getPlayer().getUniqueId()).forEach(NPC -> NPC.remove()); // Remove all player NPC's
     }
 
+    /**
+     * Injects a listener for serverbound packets for the player.
+     * @param player The player to listen to packets from.
+     */
+    private void injectPlayer(Player player) {
+        ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
+            // Listen to serverbound packets
+            @Override
+            public void channelRead(ChannelHandlerContext channelHandlerContext, Object packet) throws Exception {
+                super.channelRead(channelHandlerContext, packet);
+
+                if (packet instanceof ServerboundInteractPacket interactPacket)
+                    players.get(player.getUniqueId()).stream()
+                        .filter( NPC -> NPC.getEntityId() == interactPacket.getEntityId()).findFirst()
+                        .ifPresent( NPC -> NPC.onInteract(interactPacket.isAttack()));
+            }
+        };
+        ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().connection.connection.channel.pipeline();
+        pipeline.addBefore("packet_handler", player.getName(), channelDuplexHandler);
+    }
+
+    /**
+     * Uninjects the listener for serverbound packets for the player.
+     * @param player The player to stop listening to packets from.
+     */
+    private void uninjectPlayer(Player player) {
+        Channel channel  = ((CraftPlayer) player).getHandle().connection.connection.channel;
+        channel.eventLoop().submit(() -> {
+            channel.pipeline().remove(player.getName());
+            return null;
+        });
+    }
 
 }
