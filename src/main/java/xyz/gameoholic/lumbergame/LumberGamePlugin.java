@@ -7,6 +7,7 @@ import xyz.gameoholic.lumbergame.config.LumberConfig;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
 import xyz.gameoholic.lumbergame.game.GameManager;
 import xyz.gameoholic.lumbergame.game.item.ItemManager;
+import xyz.gameoholic.lumbergame.game.player.PlayerNPCManager;
 import xyz.gameoholic.lumbergame.queue.LumberQueueManager;
 
 import javax.annotation.Nullable;
@@ -14,9 +15,10 @@ import javax.annotation.Nullable;
 public final class LumberGamePlugin extends JavaPlugin {
 
     private LumberQueueManager queueManager;
-    private @Nullable GameManager gameManager = null;
     private LumberConfig config;
-    @Nullable private ItemManager itemManager;
+    private @Nullable GameManager gameManager = null;
+    private @Nullable ItemManager itemManager = null;
+    private @Nullable PlayerNPCManager playerNPCManager = null;
     @Override
     public void onEnable() {
         saveResource("strings.yml", true);
@@ -61,6 +63,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     public void startGame(double waveCRMultiplier, double waveSpawnRateMultiplier) {
         gameManager = new GameManager(this, queueManager.getPlayers(), waveCRMultiplier, waveSpawnRateMultiplier);
         queueManager.resetQueue();
+        playerNPCManager = new PlayerNPCManager(this);
         itemManager = new ItemManager(this);
         gameManager.onGameLoad();
     }
@@ -84,6 +87,9 @@ public final class LumberGamePlugin extends JavaPlugin {
         return itemManager;
     }
 
+    public PlayerNPCManager getPlayerNPCManager() {
+        return playerNPCManager;
+    }
 
     public LumberConfig getLumberConfig() {
         return config;

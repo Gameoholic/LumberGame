@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundAddPlayerPacket;
 import net.minecraft.network.protocol.game.ClientboundBlockDestructionPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
+import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,6 +19,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.profile.PlayerTextures;
+import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 
@@ -70,7 +72,7 @@ public class NMSUtil {
     }
 
 
-    public static void spawnNPC(LumberGamePlugin plugin, Player player, Location NPCLocation, OfflinePlayer offlineNPCPlayer) {
+    public static int spawnNPC(LumberGamePlugin plugin, Player player, Location NPCLocation, OfflinePlayer offlineNPCPlayer) {
         PlayerProfile NPCPlayerProfile = offlineNPCPlayer.getPlayerProfile();
 
         // Update profile because it's from an offline player, async operation
@@ -80,11 +82,13 @@ public class NMSUtil {
                 .filter(property -> property.getName().equals("textures")).findFirst().get();
             String texture = textures.getValue();
             String signature = textures.getSignature();
-            spawnNPC(player, NPCLocation, texture, signature);
         }, runnable -> Bukkit.getScheduler().runTask(plugin, runnable));
+
+//        return spawnNPC(player, NPCLocation, texture, signature);
+        return -1;
     }
 
-    public static void spawnNPC(Player player, Location NPCLocation, String texture, String signature) {
+        public static int spawnNPC(Player player, Location NPCLocation, String texture, String signature) {
         CraftPlayer craftPlayer = (CraftPlayer) player; //CraftBukkit Player
         ServerPlayer serverPlayer = craftPlayer.getHandle(); //NMS Player
 
@@ -106,9 +110,19 @@ public class NMSUtil {
             playerInfo, Collections.singletonList(npc));
         ClientboundAddPlayerPacket addPlayerPacket = new ClientboundAddPlayerPacket(npc);
 
-
         listener.send(playerInfoPacket);
         listener.send(addPlayerPacket);
+        return npc.getId();
+    }
+
+    public static void removeNPC(Player player, int NPCEntityId) {
+        CraftPlayer craftPlayer = (CraftPlayer) player; //CraftBukkit Player
+        ServerPlayer serverPlayer = craftPlayer.getHandle(); //NMS Player
+
+        ServerGamePacketListenerImpl listener = serverPlayer.connection;
+
+        ClientboundRemoveEntitiesPacket removeEntitiesPacket = new ClientboundRemoveEntitiesPacket(NPCEntityId);
+        listener.send(removeEntitiesPacket);
     }
 
 }
