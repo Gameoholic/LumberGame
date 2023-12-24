@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "xyz.gameoholic"
-version = "0.1.1"
+version = "0.2"
 description = "Lumber game."
 val apiVersion = "1.20"
 
