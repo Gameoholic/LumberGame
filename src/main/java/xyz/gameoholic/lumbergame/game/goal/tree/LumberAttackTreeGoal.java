@@ -30,7 +30,7 @@ public class LumberAttackTreeGoal extends MeleeAttackGoal {
      */
 
     public LumberAttackTreeGoal(LumberGamePlugin plugin, PathfinderMob mob, Vec3 targetLoc, int attackCooldown) {
-        super(mob, 1.0, true);
+        super(mob, 1.0, false);
         this.plugin = plugin;
         this.targetLoc = targetLoc;
         this.attackCooldown = attackCooldown;

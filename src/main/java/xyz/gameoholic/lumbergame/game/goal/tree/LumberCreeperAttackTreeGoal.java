@@ -4,6 +4,10 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.phys.Vec3;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
+/**
+ * Goal that makes the mocreeper locate, target and attack the TREE, regardless of line and sight. Ignites when near tree,
+ * unignites if exits range.
+ */
 public class LumberCreeperAttackTreeGoal extends LumberAttackTreeGoal {
     private final Creeper creeper = (Creeper) mob;
     /**
