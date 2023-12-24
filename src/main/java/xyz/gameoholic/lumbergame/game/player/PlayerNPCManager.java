@@ -11,7 +11,7 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import java.util.*;
 
 /**
- *
+ * Manages NPC's visible and interactible with players.
  */
 public class PlayerNPCManager implements Listener {
     private final LumberGamePlugin plugin;
@@ -25,6 +25,11 @@ public class PlayerNPCManager implements Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
+    /**
+     * Adds an NPC and makes it visible to the player.
+     * @param player The player to show the NPC to.
+     * @param NPC The NPC specific to this player.
+     */
     public void addNPC(Player player, LumberNPC NPC) {
         List<LumberNPC> NPCS = players.get(player.getUniqueId());
         if (NPCS == null)
@@ -33,6 +38,11 @@ public class PlayerNPCManager implements Listener {
         players.get(player.getUniqueId()).add(NPC);
         NPC.spawn();
     }
+    /**
+     * Removes an NPC for this player.
+     * @param player The player to remove the NPC from.
+     * @param NPC The NPC specific to this player.
+     */
     public void removeNPC(Player player, LumberNPC NPC) {
         List<LumberNPC> NPCS = players.get(player.getUniqueId());
         if (NPCS == null)
@@ -44,6 +54,10 @@ public class PlayerNPCManager implements Listener {
             players.remove(player.getUniqueId());
     }
 
+    /**
+     * Removes all NPC's for this player.
+     * @param player The player to remove the NPC's from.
+     */
     public void removeAllNPCS(Player player) {
         List<LumberNPC> NPCS = players.get(player.getUniqueId());
         if (NPCS == null)
