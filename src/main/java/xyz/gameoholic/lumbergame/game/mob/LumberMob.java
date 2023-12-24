@@ -184,7 +184,7 @@ public class LumberMob implements Listener {
             new LumberNearestAttackablePlayerGoal(NMSMob)); // Target and lock onto player
         if (mobType.hasMeleeAttackGoal()) // If mob has (should have) melee attack goal (not in cases like skeletons)
             NMSMob.goalSelector.addGoal(meleeAttackGoalPriority,
-                new LumberMeleeAttackGoal((PathfinderMob) NMSMob, 1.0, attackCooldown) // Attack and follow player
+                new LumberMeleeAttackGoal((PathfinderMob) NMSMob, attackCooldown) // Attack and follow player
             );
     }
 
