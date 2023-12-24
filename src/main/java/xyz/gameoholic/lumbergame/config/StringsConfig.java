@@ -73,7 +73,8 @@ public record StringsConfig(
     String healthPotionLore,
     String treeDeathMessage,
     String playerDeathMessage,
-    String treeHealthThresholdMessage
+    String treeHealthThresholdMessage,
+    String shopNPCDisplayname
 
 ) {
 

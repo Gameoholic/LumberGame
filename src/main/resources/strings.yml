@@ -53,6 +53,8 @@ bone-block-lore: "<i><gray>Place near the tree to level it up.<br><i><gray>Level
 wood-displayname: "<color:#ff8d03>Lumber"
 wood-lore: "<i><gray>Valuable item used for powerful crafts."
 
+shop-npc-displayname: "<gold>Shop"
+
 bow-displayname: "Bow"
 bow-lore: "<i><gray>Surprisingly effective!"
 

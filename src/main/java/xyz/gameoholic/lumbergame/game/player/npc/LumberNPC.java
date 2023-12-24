@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game.player.npc;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -17,15 +18,17 @@ abstract class LumberNPC {
 
     protected final UUID playerUUID;
     private final Location NPCLocation;
+    private final Component NPCName;
     private final String skin;
     private final String signature;
     private int entityId;
-    public LumberNPC(LumberGamePlugin plugin, UUID playerUUID, Location NPCLocation) {
+    public LumberNPC(LumberGamePlugin plugin, UUID playerUUID, Location NPCLocation, Component NPCName) {
         this.plugin = plugin;
         this.playerUUID = playerUUID;
         this.NPCLocation = NPCLocation;
         this.skin = MERCHANT_TEXTURE;
         this.signature = MERCHANT_SIGNATURE;
+        this.NPCName = NPCName;
     }
 
     /**
@@ -44,7 +47,7 @@ abstract class LumberNPC {
         remove(); // If was spawned before
         @Nullable Player player = Bukkit.getPlayer(playerUUID);
         if (player != null)
-            entityId = NMSUtil.spawnNPC(player, NPCLocation, skin, signature);
+            entityId = NMSUtil.spawnNPC(player, NPCLocation, skin, signature, NPCName);
     }
 
     //todo fix 4 interactions on right xlixck

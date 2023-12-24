@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game.player.npc;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -10,8 +11,8 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class ShopNPC extends LumberNPC {
-    public ShopNPC(LumberGamePlugin plugin, UUID playerUUID, Location NPCLocation) {
-        super(plugin, playerUUID, NPCLocation);
+    public ShopNPC(LumberGamePlugin plugin, UUID playerUUID, Location NPCLocation, Component NPCName) {
+        super(plugin, playerUUID, NPCLocation, NPCName);
     }
 
     @Override

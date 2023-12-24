@@ -4,6 +4,9 @@ import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import io.papermc.paper.adventure.PaperAdventure;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundAddPlayerPacket;
 import net.minecraft.network.protocol.game.ClientboundBlockDestructionPacket;
@@ -88,7 +91,7 @@ public class NMSUtil {
         return -1;
     }
 
-        public static int spawnNPC(Player player, Location NPCLocation, String texture, String signature) {
+        public static int spawnNPC(Player player, Location NPCLocation, String texture, String signature, Component name) {
         CraftPlayer craftPlayer = (CraftPlayer) player; //CraftBukkit Player
         ServerPlayer serverPlayer = craftPlayer.getHandle(); //NMS Player
 
@@ -97,7 +100,7 @@ public class NMSUtil {
         MinecraftServer server = serverPlayer.getServer(); //NMS Server
         ServerLevel level = serverPlayer.serverLevel(); //NMS World
 
-        GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "Player");
+        GameProfile gameProfile = new GameProfile(UUID.randomUUID(), LegacyComponentSerializer.legacy('§').serialize(name));
 
         gameProfile.getProperties().put("textures", new Property("textures", texture, signature));
 
