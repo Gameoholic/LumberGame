@@ -18,17 +18,24 @@ public class ShopWeaponsMenu extends Menu {
 
     @Override
     protected void setInventoryItems() {
-        setItem(2, new PurchasableMenuItem(plugin, "STONE_SWORD", "IRON", 32));
-        setItem(4, new PurchasableMenuItem(plugin, "IRON_SWORD", "IRON", 96));
-        setItem(6, new PurchasableMenuItem(plugin, "DIAMOND_SWORD", "IRON", 256));
-        setItem(8, new PurchasableMenuItem(plugin, "BOW", "IRON", 32));
-        setItem(9, new PurchasableMenuItem(plugin, "ARROW", "IRON", 1));
+        setItem(12, new PurchasableMenuItem(plugin, "STONE_SWORD", "IRON", 32));
+        setItem(13, new PurchasableMenuItem(plugin, "IRON_SWORD", "IRON", 96));
+        setItem(14, new PurchasableMenuItem(plugin, "DIAMOND_SWORD", "IRON", 256));
+        setItem(22, new PurchasableMenuItem(plugin, "BOW", "IRON", 32));
+        setItem(31, new PurchasableMenuItem(plugin, "ARROW", "IRON", 1));
+
+        setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }
 
     @Override
     protected void onUnhandledClick(MenuItem menuItem, Player player) {
-        plugin.getLogger().info("Item was clicked with unhandled logic! " + menuItem.getId());
+        switch (menuItem.getId()) {
+            case "MENU_BACK":
+                new ShopMainMenu(plugin, player);
+                break;
+        }
     }
+
 
 
 }

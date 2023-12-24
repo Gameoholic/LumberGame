@@ -17,14 +17,20 @@ public class ShopUtilityMenu extends Menu {
 
     @Override
     protected void setInventoryItems() {
-        setItem(25, new PurchasableMenuItem(plugin, "HEALTH_POTION", "WOOD", 2));
+        setItem(13, new PurchasableMenuItem(plugin, "HEALTH_POTION", "WOOD", 2));
 
+        setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }
 
     @Override
     protected void onUnhandledClick(MenuItem menuItem, Player player) {
-        plugin.getLogger().info("Item was clicked with unhandled logic! " + menuItem.getId());
+        switch (menuItem.getId()) {
+            case "MENU_BACK":
+                new ShopMainMenu(plugin, player);
+                break;
+        }
     }
+
 
 
 }

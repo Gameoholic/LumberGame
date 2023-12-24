@@ -71,13 +71,10 @@ public abstract class Menu implements InventoryHolder, Listener {
     }
 
     private void registerEvents() {
-        Bukkit.broadcastMessage("Registering events");
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     private void unregisterEvents() {
-        Bukkit.broadcastMessage("UNRegistering events");
-
         InventoryClickEvent.getHandlerList().unregister(this);
         InventoryCloseEvent.getHandlerList().unregister(this);
     }

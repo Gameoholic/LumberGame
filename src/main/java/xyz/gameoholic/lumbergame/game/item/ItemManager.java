@@ -134,6 +134,7 @@ public class ItemManager {
             case "MENU_WEAPONS" -> getMenuWeaponsItem();
             case "MENU_ARMOR" -> getMenuArmorItem();
             case "MENU_UTILITY" -> getMenuUtilityItem();
+            case "MENU_BACK" -> getMenuBackItem();
             default -> null;
         };
     }
@@ -357,6 +358,15 @@ public class ItemManager {
             Material.GOLDEN_APPLE,
             "<red>Utility Items",
             "<gray><i>Purchase utility items."
+        ));
+    }
+
+    public ItemStack getMenuBackItem() {
+        return applyItemInformationLore(getItem(
+            "MENU_BACK",
+            Material.ARROW,
+            "<gray>Go back",
+            "<gray><i>Go back to the main menu."
         ));
     }
 

@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.Map;
 
 import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.Component.toComponent;
 
 public class TreeManager {
     private final LumberGamePlugin plugin;
@@ -54,9 +55,9 @@ public class TreeManager {
         // For certain tree health thresholds (5%, 10%, 20%, 50%) send message to players
         boolean treeHealthThresholdPassed = (
             (previousHealthRatio > 5 && currentHealthRatio <= 5)
-            || (previousHealthRatio > 10 && currentHealthRatio <= 10)
-            || (previousHealthRatio > 20 && currentHealthRatio <= 20)
-            || (previousHealthRatio > 50 && currentHealthRatio <= 50)
+                || (previousHealthRatio > 10 && currentHealthRatio <= 10)
+                || (previousHealthRatio > 20 && currentHealthRatio <= 20)
+                || (previousHealthRatio > 50 && currentHealthRatio <= 50)
         );
 
         plugin.getGameManager().getPlayers().forEach(lumberPlayer -> {
@@ -125,14 +126,34 @@ public class TreeManager {
     }
 
     public void onTreeHealByPlayer(Player player) {
+        int oldHealth = health;
+        double oldHealthFraction = getHealthToMaxHealthRatio() / 100.0;
         health = (int) Math.min(health + Math.ceil(maxHealth * 0.1), maxHealth);
         onAnyHealthChanged();
+
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
+            plugin.getLumberConfig().strings().boneMealUseMessage(),
+            Placeholder.component("old_tree_health", text(oldHealth)),
+            Placeholder.component("new_tree_health", text(health)),
+            Placeholder.component("player", player.name()),
+            Placeholder.parsed("old_tree_health_fraction", oldHealthFraction + ""),
+            Placeholder.parsed("new_tree_health_fraction", getHealthToMaxHealthRatio() / 100.0 + "")
+        )));
     }
 
     public void onTreeLevelUpByPlayer(Player player) {
+        int oldMaxHealth = maxHealth;
+
         level++;
         updateMaxHealth();
         onAnyHealthChanged();
+
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
+            plugin.getLumberConfig().strings().boneBlockUseMessage(),
+            Placeholder.component("old_tree_max_health", text(oldMaxHealth)),
+            Placeholder.component("new_tree_max_health", text(maxHealth)),
+            Placeholder.component("player", player.name())
+        )));
 
         pasteTreeSchematic();
     }

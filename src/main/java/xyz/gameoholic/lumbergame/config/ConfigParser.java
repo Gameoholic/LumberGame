@@ -119,7 +119,10 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("tree-death-message").getString()),
                 Objects.requireNonNull(root.node("player-death-message").getString()),
                 Objects.requireNonNull(root.node("tree-health-threshold-message").getString()),
-                Objects.requireNonNull(root.node("shop-npc-displayname").getString())
+                Objects.requireNonNull(root.node("shop-npc-displayname").getString()),
+                Objects.requireNonNull(root.node("bone-meal-use-message").getString()),
+                Objects.requireNonNull(root.node("bone-block-use-message").getString())
+
             );
 
         } catch (SerializationException e) {
