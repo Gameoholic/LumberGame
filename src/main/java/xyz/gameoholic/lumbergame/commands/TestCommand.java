@@ -3,11 +3,9 @@ package xyz.gameoholic.lumbergame.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
-import xyz.gameoholic.lumbergame.game.player.LumberNPC;
 
 import static net.kyori.adventure.text.Component.text;
 

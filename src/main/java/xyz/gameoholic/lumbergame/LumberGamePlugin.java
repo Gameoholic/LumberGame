@@ -7,7 +7,7 @@ import xyz.gameoholic.lumbergame.config.LumberConfig;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
 import xyz.gameoholic.lumbergame.game.GameManager;
 import xyz.gameoholic.lumbergame.game.item.ItemManager;
-import xyz.gameoholic.lumbergame.game.player.PlayerNPCManager;
+import xyz.gameoholic.lumbergame.game.player.npc.PlayerNPCManager;
 import xyz.gameoholic.lumbergame.queue.LumberQueueManager;
 
 import javax.annotation.Nullable;

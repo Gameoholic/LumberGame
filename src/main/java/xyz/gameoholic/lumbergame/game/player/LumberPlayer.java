@@ -21,7 +21,6 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -31,6 +30,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.player.npc.ShopNPC;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -107,7 +107,7 @@ public class LumberPlayer implements Listener {
         player.teleport(plugin.getLumberConfig().mapConfig().playerSpawnLocation());
         player.setGameMode(GameMode.ADVENTURE);
         player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 2000000000, 1, false, false));
-        plugin.getPlayerNPCManager().addNPC(player, new LumberNPC(player.getUniqueId(), player.getLocation())); // Spawn shop NPC
+        plugin.getPlayerNPCManager().addNPC(player, new ShopNPC(plugin, player.getUniqueId(), player.getLocation())); // Spawn shop NPC
 
         registerEvents();
 

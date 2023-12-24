@@ -1,15 +1,15 @@
-package xyz.gameoholic.lumbergame.game.player;
+package xyz.gameoholic.lumbergame.game.player.npc;
 
 import io.netty.channel.*;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
 import java.util.*;
@@ -31,8 +31,9 @@ public class PlayerNPCManager implements Listener {
 
     /**
      * Adds an NPC and makes it visible to the player.
+     *
      * @param player The player to show the NPC to.
-     * @param NPC The NPC specific to this player.
+     * @param NPC    The NPC specific to this player.
      */
     public void addNPC(Player player, LumberNPC NPC) {
         List<LumberNPC> NPCS = players.get(player.getUniqueId());
@@ -42,10 +43,12 @@ public class PlayerNPCManager implements Listener {
         players.get(player.getUniqueId()).add(NPC);
         NPC.spawn();
     }
+
     /**
      * Removes an NPC for this player.
+     *
      * @param player The player to remove the NPC from.
-     * @param NPC The NPC specific to this player.
+     * @param NPC    The NPC specific to this player.
      */
     public void removeNPC(Player player, LumberNPC NPC) {
         List<LumberNPC> NPCS = players.get(player.getUniqueId());
@@ -60,6 +63,7 @@ public class PlayerNPCManager implements Listener {
 
     /**
      * Removes all NPC's for this player.
+     *
      * @param player The player to remove the NPC's from.
      */
     public void removeAllNPCS(Player player) {
@@ -91,6 +95,7 @@ public class PlayerNPCManager implements Listener {
 
     /**
      * Injects a listener for serverbound packets for the player.
+     *
      * @param player The player to listen to packets from.
      */
     private void injectPlayer(Player player) {
@@ -102,8 +107,16 @@ public class PlayerNPCManager implements Listener {
 
                 if (packet instanceof ServerboundInteractPacket interactPacket)
                     players.get(player.getUniqueId()).stream()
-                        .filter( NPC -> NPC.getEntityId() == interactPacket.getEntityId()).findFirst()
-                        .ifPresent( NPC -> NPC.onInteract(interactPacket.isAttack()));
+                        .filter(NPC -> NPC.getEntityId() == interactPacket.getEntityId()).findFirst()
+                        .ifPresent(NPC ->
+                            // Must run on main thread
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    NPC.onInteract(interactPacket.isAttack());
+                                }
+                            }.runTask(plugin)
+                        );
             }
         };
         ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().connection.connection.channel.pipeline();
@@ -112,10 +125,11 @@ public class PlayerNPCManager implements Listener {
 
     /**
      * Uninjects the listener for serverbound packets for the player.
+     *
      * @param player The player to stop listening to packets from.
      */
     private void uninjectPlayer(Player player) {
-        Channel channel  = ((CraftPlayer) player).getHandle().connection.connection.channel;
+        Channel channel = ((CraftPlayer) player).getHandle().connection.connection.channel;
         channel.eventLoop().submit(() -> {
             channel.pipeline().remove(player.getName());
             return null;
