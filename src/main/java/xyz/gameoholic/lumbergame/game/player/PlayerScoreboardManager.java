@@ -59,7 +59,7 @@ public class PlayerScoreboardManager {
 
         // Add line for every other player, X lines before the last line (margin)
         for (LumberPlayer otherLumberPlayer: plugin.getGameManager().getPlayers().stream().filter(
-            filteredPlayer -> filteredPlayer.getUuid() != player.getUniqueId()).toList()
+            filteredPlayer -> !filteredPlayer.getUuid().equals(player.getUniqueId())).toList()
         ) {
             Player otherPlayer = Bukkit.getPlayer(otherLumberPlayer.getUuid());
             Component otherPlayerHealth = text("N/A").color(NamedTextColor.RED);
