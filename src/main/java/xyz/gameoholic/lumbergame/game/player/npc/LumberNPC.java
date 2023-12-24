@@ -30,7 +30,7 @@ abstract class LumberNPC {
      * The client sends 4 packets on right click, so we need this to ignore the excess ones.
      */
     private int interactionCooldown;
-    private static final int MAX_INTERACTION_COOLDOWN = 5;
+    private static final int MAX_INTERACTION_COOLDOWN = 1;
     public LumberNPC(LumberGamePlugin plugin, UUID playerUUID, Location NPCLocation, Component NPCName, boolean lookAtPlayer) {
         this.plugin = plugin;
         this.playerUUID = playerUUID;

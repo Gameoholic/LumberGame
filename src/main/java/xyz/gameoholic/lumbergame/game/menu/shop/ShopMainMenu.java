@@ -1,16 +1,18 @@
 package xyz.gameoholic.lumbergame.game.menu.shop;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryHolder;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.menu.Menu;
 import xyz.gameoholic.lumbergame.game.menu.MenuItem;
 
 import static net.kyori.adventure.text.Component.text;
 
-public class ShopMainMenu extends Menu {
+public class ShopMainMenu extends Menu implements InventoryHolder {
 
     public ShopMainMenu(LumberGamePlugin plugin, Player player) {
-        super(plugin, player, text("Shop"), 45);
+        super(plugin, text("Shop"), 45);
+        createInventory(player, this);
     }
 
     @Override

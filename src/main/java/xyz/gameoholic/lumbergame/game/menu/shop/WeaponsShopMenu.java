@@ -12,7 +12,8 @@ import static net.kyori.adventure.text.Component.text;
 public class WeaponsShopMenu extends Menu {
 
     public WeaponsShopMenu(LumberGamePlugin plugin, Player player) {
-        super(plugin, player, text("Weapons"), 45);
+        super(plugin, text("Weapons"), 45);
+        createInventory(player, this);
     }
 
     @Override

@@ -32,16 +32,36 @@ import static net.kyori.adventure.text.Component.text;
  * It unregisters them upon closing of the menu (triggered when logging off or switching to another one).
  */
 public abstract class Menu implements InventoryHolder, Listener {
-    private final UUID playerUUID;
+    private UUID playerUUID;
     protected final LumberGamePlugin plugin;
-    private final Inventory inventory;
+    private Inventory inventory;
+    /**
+     * Used for inventory holder to differentiate different Menu implementations.
+     */
+    private Menu menu;
+    private final Component title;
+    private final int size;
 
-    public Menu(LumberGamePlugin plugin, Player player, Component title, int size) {
+    public Menu(LumberGamePlugin plugin, Component title, int size) {
         this.plugin = plugin;
+        this.title = title;
+        this.size = size;
+    }
+
+    // The reason why we don't do everything in the constructor, is because we need to pass Menu and create the inventory with it.
+    // That is not possible until the parent Menu class is constructed, therefore we must construct it first,
+    // then construct the implementation and pass it.
+    /**
+     * Creates the inventory, registers events and opens it for the player. Must be ran immediately.
+     * @param player The player to open the inventory for.
+     * @param menu The menu instance implementing this Menu.
+     */
+    protected void createInventory(Player player, Menu menu) {
+        this.menu = menu;
         this.playerUUID = player.getUniqueId();
 
         inventory = Bukkit.createInventory(
-            this,
+            menu,
             size,
             title
         );
@@ -136,7 +156,9 @@ public abstract class Menu implements InventoryHolder, Listener {
 
     @EventHandler
     public void onInventoryClickEvent(InventoryClickEvent e) {
-        if (e.getWhoClicked().getUniqueId() != playerUUID)
+        if (e.getInventory().getHolder().getClass() != menu.getClass()) // Make sure the event corresponds to this menu
+            return;
+        if (e.getWhoClicked().getUniqueId() != playerUUID)  // Make sure player corresponds to this menu
             return;
 
         @Nullable Inventory clickedInv = e.getClickedInventory();
@@ -173,7 +195,9 @@ public abstract class Menu implements InventoryHolder, Listener {
 
     @EventHandler
     public void onInventoryCloseEvent(InventoryCloseEvent e) {
-        if (e.getPlayer().getUniqueId() != playerUUID)
+        if (e.getInventory().getHolder().getClass() != menu.getClass()) // Make sure the event corresponds to this menu
+            return;
+        if (e.getPlayer().getUniqueId() != playerUUID) // Make sure player corresponds to this menu
             return;
 
         unregisterEvents();
