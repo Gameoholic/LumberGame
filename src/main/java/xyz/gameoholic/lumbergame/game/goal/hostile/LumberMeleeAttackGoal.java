@@ -11,7 +11,8 @@ import net.minecraft.world.level.pathfinder.Path;
 /**
  * Represents a melee attack goal for mobs where they track a player and attack them when close.
  * Differences to vanilla melee attack goal:
- * Never stops targeting player, recalculates path every tick, ignores whether obstructed or not seen
+ * Never stops targeting player, recalculates path every tick, ignores whether obstructed or not seen,
+ * and doesn't stop locking on to player.
  */
 public class LumberMeleeAttackGoal extends MeleeAttackGoal {
     private int ticksUntilNextAttack;
@@ -39,7 +40,7 @@ public class LumberMeleeAttackGoal extends MeleeAttackGoal {
     @Override
     public void tick() {
         LivingEntity livingEntity = this.mob.getTarget();
-        // Lumber - remove path recalculation logic. Recalculate path every tick.
+        // Lumber - remove path recalculation logic. Recalculate path every tick. //todo: in the futue maybe reintroduce it to make it less jittery?
         if (livingEntity != null) {
             this.mob.getLookControl().setLookAt(livingEntity, 30.0F, 30.0F);
             double d = this.mob.getPerceivedTargetDistanceSquareForMeleeAttack(livingEntity);

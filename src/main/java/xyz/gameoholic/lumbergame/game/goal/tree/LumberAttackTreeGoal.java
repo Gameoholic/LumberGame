@@ -59,6 +59,7 @@ public class LumberAttackTreeGoal extends MeleeAttackGoal {
 
     @Override
     public void start() {
+        // Lumber - navigate to tree's coordinates
         mob.getNavigation().moveTo(targetLoc.x, targetLoc.y, targetLoc.z, 1.0);
         ticksUntilNextAttack = 0;
     }
@@ -71,6 +72,7 @@ public class LumberAttackTreeGoal extends MeleeAttackGoal {
 
     @Override
     public void tick() {
+        // Lumber - remove path recalculation logic. Recalculate path every tick.
         ticksUntilNextAttack = Math.max(ticksUntilNextAttack - 1, 0);
 
         double squaredDistance = mob.distanceToSqr(targetLoc);

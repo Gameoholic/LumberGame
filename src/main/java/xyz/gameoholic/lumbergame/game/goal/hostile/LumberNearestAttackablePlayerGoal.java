@@ -10,7 +10,7 @@ import org.bukkit.Bukkit;
 import java.util.EnumSet;
 
 /**
- * Goal that makes the mob locate and target the nearest player, regardless of line and sight.
+ * Goal that makes the mob locate and target the nearest player, regardless of line of sight and obstruction.
  * Range must still be given to the mob using Attribute.GENERIC_FOLLOW_RANGE.
  */
 public class LumberNearestAttackablePlayerGoal extends NearestAttackableTargetGoal {

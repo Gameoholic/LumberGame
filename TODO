@@ -6,7 +6,6 @@ resource-pack-sha1=4b49ace982db080787758f18ce163bdc8ec5b04f
 self join/leave commands for queue.
 
 CODE REFACTORING:
-Redo Tree attack goals, and lumberMeleeAttackGoal
 Better spongepowered config.
 Input validation on wave mob chances (must add up to 1.0).
 Make ConfigParser prettier. method try/cathc ijnstead of many of them?
