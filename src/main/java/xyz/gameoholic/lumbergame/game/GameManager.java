@@ -53,6 +53,7 @@ public class GameManager {
     }
 
     private void startGame() {
+        plugin.getPlayerNPCManager().reset();
         clearOldEntities();
         startCurrentWave();
         plugin.getLogger().info("Game has started with " + players.size() + " players.");

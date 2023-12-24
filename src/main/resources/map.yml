@@ -16,7 +16,7 @@ player-spawn-location:
   z: -353.9
 shop-npc-location:
   world: "world"
-  x: -56.031
+  x: -55.031
   y: 25
   z: -340.7
 spawn-locations:

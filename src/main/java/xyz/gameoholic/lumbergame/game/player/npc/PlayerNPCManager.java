@@ -64,15 +64,27 @@ public class PlayerNPCManager implements Listener {
     /**
      * Removes all NPC's for this player.
      *
-     * @param player The player to remove the NPC's from.
+     * @param uuid The player uuid to remove the NPC's from.
      */
-    public void removeAllNPCS(Player player) {
-        List<LumberNPC> NPCS = players.get(player.getUniqueId());
+    public void removeAllNPCS(UUID uuid) {
+        List<LumberNPC> NPCS = players.get(uuid);
         if (NPCS == null)
             return;
 
-        players.get(player.getUniqueId()).clear();
-        players.remove(player.getUniqueId());
+        NPCS.forEach( NPC -> NPC.remove());
+        players.get(uuid).clear();
+        players.remove(uuid);
+    }
+
+    /**
+     * Removes ALL NPC's from all players.
+     */
+    public void reset() {
+        players.entrySet().forEach( playerEntry -> {
+            List<LumberNPC> NPCS = playerEntry.getValue();
+            NPCS.forEach( NPC -> NPC.remove());
+        });
+        players.clear();
     }
 
     @EventHandler
