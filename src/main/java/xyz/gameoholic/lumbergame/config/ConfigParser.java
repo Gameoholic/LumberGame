@@ -206,6 +206,19 @@ public class ConfigParser {
             }
         );
 
+        Location shopNPCLocation;
+        try {
+            shopNPCLocation = new Location(
+                Bukkit.getWorld(root.node("shop-npc-location", "world").require(String.class)),
+                root.node("shop-npc-location", "x").require(Double.class),
+                root.node("shop-npc-location", "y").require(Double.class),
+                root.node("shop-npc-location", "z").require(Double.class)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Shop NPC location argument for map is invalid.");
+        }
+
         List treeBlockTypes = new ArrayList();
         root.node("tree-block-types").childrenList().forEach(
             treeBlockType -> {
@@ -224,6 +237,7 @@ public class ConfigParser {
                 treeLocation,
                 playerSpawnLocation,
                 spawnLocations,
+                shopNPCLocation,
                 root.node("tree-radius").require(Integer.class),
                 treeBlockTypes,
                 Objects.requireNonNull(root.node("tree-level-schematics-provided").getList(Integer.class))
