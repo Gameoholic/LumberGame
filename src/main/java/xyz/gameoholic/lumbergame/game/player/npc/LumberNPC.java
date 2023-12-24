@@ -1,9 +1,11 @@
 package xyz.gameoholic.lumbergame.game.player.npc;
 
 import net.kyori.adventure.text.Component;
+import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.util.NMSUtil;
 
@@ -21,14 +23,24 @@ abstract class LumberNPC {
     private final Component NPCName;
     private final String skin;
     private final String signature;
-    private int entityId;
-    public LumberNPC(LumberGamePlugin plugin, UUID playerUUID, Location NPCLocation, Component NPCName) {
+    private @Nullable ServerPlayer serverPlayer = null;
+    private final boolean lookAtPlayer;
+    public LumberNPC(LumberGamePlugin plugin, UUID playerUUID, Location NPCLocation, Component NPCName, boolean lookAtPlayer) {
         this.plugin = plugin;
         this.playerUUID = playerUUID;
         this.NPCLocation = NPCLocation;
         this.skin = MERCHANT_TEXTURE;
         this.signature = MERCHANT_SIGNATURE;
         this.NPCName = NPCName;
+        this.lookAtPlayer = lookAtPlayer;
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (serverPlayer != null)
+                    onTick();
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
     }
 
     /**
@@ -36,8 +48,8 @@ abstract class LumberNPC {
      */
     public void remove() {
         @Nullable Player player = Bukkit.getPlayer(playerUUID);
-        if (player != null)
-            NMSUtil.removeNPC(player, entityId);
+        if (player != null && serverPlayer != null)
+            NMSUtil.removeNPC(player, serverPlayer.getId());
     }
 
     /**
@@ -47,7 +59,7 @@ abstract class LumberNPC {
         remove(); // If was spawned before
         @Nullable Player player = Bukkit.getPlayer(playerUUID);
         if (player != null)
-            entityId = NMSUtil.spawnNPC(player, NPCLocation, skin, signature, NPCName);
+            serverPlayer = NMSUtil.spawnNPC(player, NPCLocation, skin, signature, NPCName);
     }
 
     //todo fix 4 interactions on right xlixck
@@ -58,8 +70,17 @@ abstract class LumberNPC {
      */
     abstract public void onInteract(boolean isAttack);
 
-    public int getEntityId() {
-        return entityId;
+
+    /**
+     * On tick, when npc is spawned.
+     */
+    private void onTick() {
+        @Nullable Player player = Bukkit.getPlayer(playerUUID);
+        if (player != null && lookAtPlayer)
+            NMSUtil.rotateNPC(player, serverPlayer, player.getLocation());
+    }
+    public ServerPlayer getServerPlayer() {
+        return serverPlayer;
     }
 
 

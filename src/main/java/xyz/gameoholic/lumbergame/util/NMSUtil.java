@@ -7,11 +7,9 @@ import com.mojang.authlib.properties.Property;
 import io.papermc.paper.adventure.PaperAdventure;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.game.ClientboundAddPlayerPacket;
-import net.minecraft.network.protocol.game.ClientboundBlockDestructionPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
-import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,7 +17,9 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
+import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
 import org.bukkit.profile.PlayerTextures;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -32,9 +32,10 @@ public class NMSUtil {
 
     /**
      * Sends a block distruction packet to all Lumber players.
-     * @param blockX The X coordinate of the block to appear destroyed.
-     * @param blockY The Y coordinate of the block to appear destroyed.
-     * @param blockZ The Z coordinate of the block to appear destroyed.
+     *
+     * @param blockX   The X coordinate of the block to appear destroyed.
+     * @param blockY   The Y coordinate of the block to appear destroyed.
+     * @param blockZ   The Z coordinate of the block to appear destroyed.
      * @param progress The destruction progress of the block. Range is 0 - 9, where 9 is the most destroyed. Any other number will reset it back to no destruction.
      */
     public static void displayBlockDestruction(LumberGamePlugin plugin, int blockX, int blockY, int blockZ, int progress) {
@@ -47,9 +48,10 @@ public class NMSUtil {
 
     /**
      * Sends a block distruction packet to a specific player.
-     * @param blockX The X coordinate of the block to appear destroyed.
-     * @param blockY The Y coordinate of the block to appear destroyed.
-     * @param blockZ The Z coordinate of the block to appear destroyed.
+     *
+     * @param blockX   The X coordinate of the block to appear destroyed.
+     * @param blockY   The Y coordinate of the block to appear destroyed.
+     * @param blockZ   The Z coordinate of the block to appear destroyed.
      * @param progress The destruction progress of the block. Range is 0 - 9, where 9 is the most destroyed. Any other number will reset it back to no destruction.
      */
     public static void displayBlockDestruction(Player player, int blockX, int blockY, int blockZ, int progress) {
@@ -91,7 +93,7 @@ public class NMSUtil {
         return -1;
     }
 
-        public static int spawnNPC(Player player, Location NPCLocation, String texture, String signature, Component name) {
+    public static ServerPlayer spawnNPC(Player player, Location NPCLocation, String texture, String signature, Component name) {
         CraftPlayer craftPlayer = (CraftPlayer) player; //CraftBukkit Player
         ServerPlayer serverPlayer = craftPlayer.getHandle(); //NMS Player
 
@@ -115,7 +117,41 @@ public class NMSUtil {
 
         listener.send(playerInfoPacket);
         listener.send(addPlayerPacket);
-        return npc.getId();
+        return npc;
+    }
+
+    /**
+     * Sends the player a packet to rotate the npc towards a certain location.
+     * @param player The player.
+     * @param npc The NPC.
+     * @param targetLocation The location to look at.
+     */
+    public static void rotateNPC(Player player, ServerPlayer npc, Location targetLocation) {
+        CraftPlayer craftPlayer = (CraftPlayer) player; //CraftBukkit Player
+        ServerPlayer serverPlayer = craftPlayer.getHandle(); //NMS Player
+
+        ServerGamePacketListenerImpl listener = serverPlayer.connection;
+
+        Location targetLoc = targetLocation.clone();
+        Location NPCLocation = new Location(npc.serverLevel().getWorld(), npc.getX(), npc.getY(), npc.getZ());
+        targetLoc.setDirection(targetLoc.subtract(NPCLocation).toVector());
+        float yaw = targetLoc.getYaw();
+        float pitch = targetLoc.getPitch();
+
+
+        ClientboundRotateHeadPacket rotateHeadPacket = new ClientboundRotateHeadPacket(
+            npc,
+            (byte) ((yaw % 360) / 360 * 256)
+            );
+        ClientboundMoveEntityPacket.Rot moveEntityPacket = new ClientboundMoveEntityPacket.Rot(
+            npc.getId(),
+            (byte) ((yaw % 360) / 360 * 256),
+            (byte) ((pitch % 360) / 360 * 256),
+            true
+        );
+        listener.send(moveEntityPacket);
+        listener.send(rotateHeadPacket);
+
     }
 
     public static void removeNPC(Player player, int NPCEntityId) {

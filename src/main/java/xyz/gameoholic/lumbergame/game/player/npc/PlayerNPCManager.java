@@ -119,7 +119,7 @@ public class PlayerNPCManager implements Listener {
 
                 if (packet instanceof ServerboundInteractPacket interactPacket)
                     players.get(player.getUniqueId()).stream()
-                        .filter(NPC -> NPC.getEntityId() == interactPacket.getEntityId()).findFirst()
+                        .filter(NPC -> NPC.getServerPlayer().getId() == interactPacket.getEntityId()).findFirst()
                         .ifPresent(NPC ->
                             // Must run on main thread
                             new BukkitRunnable() {
