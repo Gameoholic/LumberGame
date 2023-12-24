@@ -51,10 +51,13 @@ public abstract class Menu implements InventoryHolder, Listener {
     }
 
     private void registerEvents() {
+        Bukkit.broadcastMessage("Registering events");
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     private void unregisterEvents() {
+        Bukkit.broadcastMessage("UNRegistering events");
+
         InventoryClickEvent.getHandlerList().unregister(this);
         InventoryCloseEvent.getHandlerList().unregister(this);
     }
@@ -189,13 +192,13 @@ public abstract class Menu implements InventoryHolder, Listener {
                 player.getInventory().addItem(purchasedItem);
         }
         else
-            onUnhandledClick(menuItem);
+            onUnhandledClick(menuItem, player);
     }
 
     /**
      * Use to implement whatever behavior is not handled.
      */
-    protected abstract void onUnhandledClick(MenuItem menuItem);
+    protected abstract void onUnhandledClick(MenuItem menuItem, Player player);
 
     @Override
     public Inventory getInventory() {

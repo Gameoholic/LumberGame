@@ -14,7 +14,6 @@ Cloud framework
 
 Remove all places where we check itemstack's material. Instead, compare directly with ItemUtil.item
 remove iron, ogld, etc. variables from lumberplayer. instead, work just with inventory. move the inventory calculation to the scoreboard method, and on inventory change just update scoreboard.
-Right click packet sent 4 times - fix
 Component legacy string fix
 fix Id, Uuid, CR and NPC to all be id, uuid, npc, cr, getCR, getNpc, getUuid, getId
 

@@ -131,6 +131,9 @@ public class ItemManager {
             case "IRON_HELMET" -> getIronHelmetItem();
             case "HEALTH_POTION" -> getHealthPotionItem();
             case "STONE_AXE" -> getStoneAxeItem();
+            case "MENU_WEAPONS" -> getMenuWeaponsItem();
+            case "MENU_ARMOR" -> getMenuArmorItem();
+            case "MENU_UTILITY" -> getMenuUtilityItem();
             default -> null;
         };
     }
@@ -326,6 +329,35 @@ public class ItemManager {
         meta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 0, 1), false);
         item.setItemMeta(meta);
         return applyItemInformationLore(item);
+    }
+
+
+    // ------------------------------------
+    //              MENU ITEMS
+    // ------------------------------------
+    public ItemStack getMenuWeaponsItem() {
+        return applyItemInformationLore(getItem(
+            "MENU_WEAPONS",
+            Material.IRON_SWORD,
+            "<gold>Weapons",
+            "<gray><i>Purchase basic weapons."
+        ));
+    }
+    public ItemStack getMenuArmorItem() {
+        return applyItemInformationLore(getItem(
+            "MENU_ARMOR",
+            Material.DIAMOND_CHESTPLATE,
+            "<aqua>Armor",
+            "<gray><i>Purchase basic armor."
+        ));
+    }
+    public ItemStack getMenuUtilityItem() {
+        return applyItemInformationLore(getItem(
+            "MENU_UTILITY",
+            Material.GOLDEN_APPLE,
+            "<red>Utility Items",
+            "<gray><i>Purchase utility items."
+        ));
     }
 
     /**

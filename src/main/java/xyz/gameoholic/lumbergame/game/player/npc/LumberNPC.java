@@ -25,6 +25,12 @@ abstract class LumberNPC {
     private final String signature;
     private @Nullable ServerPlayer serverPlayer = null;
     private final boolean lookAtPlayer;
+    /**
+     * Amount of ticks before NPC can be interacted with again.
+     * The client sends 4 packets on right click, so we need this to ignore the excess ones.
+     */
+    private int interactionCooldown;
+    private static final int MAX_INTERACTION_COOLDOWN = 5;
     public LumberNPC(LumberGamePlugin plugin, UUID playerUUID, Location NPCLocation, Component NPCName, boolean lookAtPlayer) {
         this.plugin = plugin;
         this.playerUUID = playerUUID;
@@ -62,19 +68,30 @@ abstract class LumberNPC {
             serverPlayer = NMSUtil.spawnNPC(player, NPCLocation, skin, signature, NPCName);
     }
 
-    //todo fix 4 interactions on right xlixck
+    /**
+     * On player interact with the NPC, before cooldown is taken into account.
+     * @param isAttack Whether the interaction was an attack or not.
+     */
+    public void onInteract(boolean isAttack) {
+        if (interactionCooldown > 0) // Wait for cooldown to go down
+            return;
+        interactionCooldown = MAX_INTERACTION_COOLDOWN;
+        onNPCInteract(isAttack);
+    }
+
 
     /**
      * On player interact with the NPC.
      * @param isAttack Whether the interaction was an attack or not.
      */
-    abstract public void onInteract(boolean isAttack);
+    protected abstract void onNPCInteract(boolean isAttack);
 
 
     /**
      * On tick, when npc is spawned.
      */
     private void onTick() {
+        interactionCooldown = Math.max(0, interactionCooldown - 1);
         @Nullable Player player = Bukkit.getPlayer(playerUUID);
         if (player != null && lookAtPlayer)
             NMSUtil.rotateNPC(player, serverPlayer, player.getLocation());
