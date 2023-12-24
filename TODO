@@ -23,16 +23,13 @@ fix Id, Uuid, CR and NPC to all be id, uuid, npc, cr, getCR, getNpc, getUuid, ge
 
 FEATURES:
 Bomber drops TNT on death
-Chucker (chucks TNT)
+Ranged Bomber (chucks TNT)
 Partigon tree particles
-Shop with NPC
-Chat messages for bone meal + bone block + sound
 Map Selection, CR selection, Menu
 
 Big todo:
  - Classes & Class Shop (1d)
  - More customizable Mobs + More mobs (1d)
- - Partigon & Polish
 
  - Mob attacks & spells
  - Buildings & Towers?
