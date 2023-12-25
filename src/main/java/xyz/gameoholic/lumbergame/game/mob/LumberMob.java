@@ -246,6 +246,13 @@ public class LumberMob implements Listener {
                 mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
             }
 
+        // If mob is skeleton and was holding TNT (aka Ranged Bomber), spawn TNT on death
+        if (mob instanceof AbstractSkeleton && mob.getEquipment().getItemInMainHand().getType() == Material.TNT) {
+            TNTPrimed tnt = (TNTPrimed) mob.getLocation().getWorld().spawnEntity(mob.getLocation(), EntityType.PRIMED_TNT);
+            tnt.getPersistentDataContainer().set(new NamespacedKey(plugin, "tnt_damage"),
+                PersistentDataType.DOUBLE, mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()); // Set custom tnt damage
+        }
+
         // If mob was holding bone meal
         if (plugin.getItemManager().compareItems(
             mob.getEquipment().getItemInMainHand(),

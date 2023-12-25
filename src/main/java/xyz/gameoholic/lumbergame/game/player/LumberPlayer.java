@@ -9,9 +9,11 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.data.type.TNT;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -243,8 +245,16 @@ public class LumberPlayer implements Listener {
 
         if (e instanceof EntityDamageByEntityEvent byEntityEvent) {
             // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
-            if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof Creeper) {
-                e.setDamage(((Creeper) byEntityEvent.getDamager()).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
+            if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof Creeper creeper) {
+                e.setDamage(creeper.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
+            }
+            // TNT explosion damage should match the mob's damage attribute, otherwise vanilla explosion damage is applied
+            if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof TNTPrimed tnt) {
+                @Nullable Double tntDamage = tnt.getPersistentDataContainer().get(
+                    new NamespacedKey(plugin, "tnt_damage"), PersistentDataType.DOUBLE);
+                if (tntDamage == null) // If wasn't launched by LumberMob
+                    return;
+                e.setDamage(tntDamage);
             }
             // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
             if (byEntityEvent.getDamager() instanceof Arrow) {

@@ -10,10 +10,13 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
+import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
 import java.util.Random;
 
@@ -38,13 +41,18 @@ public class SkeletonTNTAttackGoal<T extends Monster & RangedAttackMob> extends 
     private static final double TNT_VELOCITY_MULTIPLIER_MIN = 0.9;
     private static final double TNT_VELOCITY_MULTIPLIER_MAX = 1.1;
     private static final Random RND = new Random();
+    private final double tntDamage; // Lumber - tnt damage
+    private final LumberGamePlugin plugin;
+    private static final float RANGE = 15f; // Lumber - attack range
 
-    public SkeletonTNTAttackGoal(T actor, float range, int attackCooldown) {
-        super(actor, 1.0, attackCooldown, range);
+    public SkeletonTNTAttackGoal(LumberGamePlugin plugin, T actor, int attackCooldown, double tntDamage) {
+        super(actor, 1.0, attackCooldown, RANGE);
+        this.plugin = plugin;
         this.mob = actor;
-        this.attackRadiusSqr = range * range;
+        this.attackRadiusSqr = RANGE * RANGE;
         this.attackCooldown = attackCooldown;
         this.ticksUntilNextAttack = attackCooldown;
+        this.tntDamage = tntDamage;
     }
 
 
@@ -128,6 +136,8 @@ public class SkeletonTNTAttackGoal<T extends Monster & RangedAttackMob> extends 
                             livingEntity.getZ()
                         );
                         TNTPrimed tnt = (TNTPrimed) mobLocation.getWorld().spawnEntity(mobLocation, EntityType.PRIMED_TNT);
+                        tnt.getPersistentDataContainer().set(new NamespacedKey(plugin, "tnt_damage"),
+                            PersistentDataType.DOUBLE, tntDamage); // Set custom tnt damage
                         Vector velocity = targetLocation.clone().subtract(mobLocation).toVector().normalize();
 
                         // Adjust TNT velocity based on distance

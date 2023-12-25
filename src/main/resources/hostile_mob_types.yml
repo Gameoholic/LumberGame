@@ -54,14 +54,14 @@
   damage-expression: "CR * 0.25 + 1"
   speed-expression: "0.28"
 
-# Normal skeleton, fairly weak but can be annoying to deal with.
+# Chucks TNT at players. Spawns TNT on death. Has twice the damage of normal zombies.
 - id: "RANGED_BOMBER"
-  display-name: "Skeleton"
+  display-name: "<green>Ranged Bomber"
   entity-type: "SKELETON"
   health-expression: "CR * 2 + 3.5"
-  damage-expression: "CR * 0.25 + 1"
+  damage-expression: "CR * 0.5 + 1"
   item-in-main-hand-id: "TNT"
-  has-melee-attack-goal: false
+  attack-cooldown-expression: "60"
 
 - id: "GIANT"
   display-name: "Giant"
