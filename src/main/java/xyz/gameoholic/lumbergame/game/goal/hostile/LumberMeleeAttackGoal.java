@@ -15,7 +15,7 @@ import org.bukkit.Bukkit;
  * and doesn't stop locking on to player.
  */
 public class LumberMeleeAttackGoal extends MeleeAttackGoal {
-    protected int ticksUntilNextAttack;
+    protected int ticksUntilNextAttack; // Lumber - Parent property is private
     private final int attackCooldown; // LUMBER - custom attack cooldown
 
     public LumberMeleeAttackGoal(PathfinderMob mob, int attackCooldown) {
@@ -51,6 +51,18 @@ public class LumberMeleeAttackGoal extends MeleeAttackGoal {
 
             checkAndPerformAttack(livingEntity, d);
         }
+    }
+
+    @Override
+    protected void checkAndPerformAttack(LivingEntity target, double squaredDistance) {
+        // Lumber - We need to use our ticksUntilNextAttack property
+        double d = getAttackReachSqr(target);
+        if (squaredDistance <= d && ticksUntilNextAttack <= 0) {
+            resetAttackCooldown();
+            mob.swing(InteractionHand.MAIN_HAND);
+            mob.doHurtTarget(target);
+        }
+
     }
 
 

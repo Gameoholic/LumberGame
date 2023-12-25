@@ -207,10 +207,10 @@
   bone-block: true
 
 # Wave 11
-# Difficulty bump! CR is bumped by 5. Bombers introduced.
-- wave-cr: 400
-  spawn-timer-min: 20
-  spawn-timer-max: 80
+# Difficulty bump! CR is bumped by 5. Bombers & Ranged Bombers introduced.
+- wave-cr: 350
+  spawn-timer-min: 40
+  spawn-timer-max: 120
   mob-min-cr: 16
   mob-max-cr: 16
   mob-types:
@@ -218,12 +218,10 @@
       chance: 0.05
     - id: ZOMBIE
       chance: 0.25
-    - id: BOMBER
-      chance: 0.08
     - id: TREE_ZOMBIE
-      chance: 0.22
+      chance: 0.27
     - id: TREE_CREEPER
-      chance: 0.19
+      chance: 0.2
     - id: SNEAKY_CREEPER
       chance: 0.08
     - id: SHOVER
@@ -233,3 +231,35 @@
   guaranteed-mob-types:
     - id: BOMBER
       amount: 3
+    - id: RANGED_BOMBER
+      amount: 2
+
+- wave-cr: 350
+  spawn-timer-min: 20
+  spawn-timer-max: 80
+  mob-min-cr: 16
+  mob-max-cr: 16
+  mob-types:
+    - id: SKELETON
+      chance: 0.05
+    - id: ZOMBIE
+      chance: 0.22
+    - id: BOMBER
+      chance: 0.08
+    - id: RANGED_BOMBER
+      chance: 0.06
+    - id: TREE_ZOMBIE
+      chance: 0.20
+    - id: TREE_CREEPER
+      chance: 0.18
+    - id: SNEAKY_CREEPER
+      chance: 0.08
+    - id: SHOVER
+      chance: 0.08
+    - id: BABY_ZOMBIE
+      chance: 0.05
+  guaranteed-mob-types:
+    - id: BOMBER
+      amount: 3
+    - id: RANGED_BOMBER
+      amount: 2
