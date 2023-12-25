@@ -207,9 +207,10 @@
   bone-block: true
 
 # Wave 11
-# Difficulty bump! CR is bumped by 5. Bombers & Ranged Bombers introduced.
-- wave-cr: 350
-  spawn-timer-min: 40
+# Difficulty bump! CR is bumped by 5. Bombers introduced.
+# From now on waves are slower but with more difficult mobs.
+- wave-cr: 300
+  spawn-timer-min: 60
   spawn-timer-max: 120
   mob-min-cr: 16
   mob-max-cr: 16
@@ -231,25 +232,25 @@
   guaranteed-mob-types:
     - id: BOMBER
       amount: 3
-    - id: RANGED_BOMBER
-      amount: 2
 
+# Wave 12
+# Ranged bombers introduced.
 - wave-cr: 350
-  spawn-timer-min: 20
-  spawn-timer-max: 80
+  spawn-timer-min: 50
+  spawn-timer-max: 120
   mob-min-cr: 16
-  mob-max-cr: 16
+  mob-max-cr: 17
   mob-types:
     - id: SKELETON
       chance: 0.05
     - id: ZOMBIE
-      chance: 0.22
+      chance: 0.18
     - id: BOMBER
-      chance: 0.08
+      chance: 0.12
     - id: RANGED_BOMBER
-      chance: 0.06
+      chance: 0.1
     - id: TREE_ZOMBIE
-      chance: 0.20
+      chance: 0.26
     - id: TREE_CREEPER
       chance: 0.18
     - id: SNEAKY_CREEPER
@@ -260,6 +261,8 @@
       chance: 0.05
   guaranteed-mob-types:
     - id: BOMBER
-      amount: 3
+      amount: 1
     - id: RANGED_BOMBER
       amount: 2
+    - id: HEAVY_CREEPER
+      amount: 1

@@ -4,6 +4,7 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.minecraft.world.level.ExplosionDamageCalculator;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -246,6 +247,7 @@ public class LumberPlayer implements Listener {
         if (e instanceof EntityDamageByEntityEvent byEntityEvent) {
             // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
             if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof Creeper creeper) {
+                Bukkit.broadcastMessage("vanilla creeper damage: " + e.getDamage());
                 e.setDamage(creeper.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
             }
             // TNT explosion damage should match the mob's damage attribute, otherwise vanilla explosion damage is applied
@@ -254,7 +256,9 @@ public class LumberPlayer implements Listener {
                     new NamespacedKey(plugin, "tnt_damage"), PersistentDataType.DOUBLE);
                 if (tntDamage == null) // If wasn't launched by LumberMob
                     return;
-                e.setDamage(tntDamage);
+
+
+                e.setDamage((e.getDamage() / 56.0) * tntDamage); // After testing, 56.0 is max damage of default TNT. We let it do all the calculating for us, and get the % of the maxdamage done, then multiply it by the damage we want.
             }
             // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
             if (byEntityEvent.getDamager() instanceof Arrow) {

@@ -356,7 +356,7 @@ public class LumberMob implements Listener {
                     new NamespacedKey(plugin, "tnt_damage"), PersistentDataType.DOUBLE);
                 if (tntDamage == null) // If wasn't launched by LumberMob
                     return;
-                e.setDamage(tntDamage);
+                e.setDamage((e.getDamage() / 56.0) * tntDamage); // After testing, 56.0 is max damage of default TNT. We let it do all the calculating for us, and get the % of the maxdamage done, then multiply it by the damage we want.
             }
             // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
             if (byEntityEvent.getDamager() instanceof Arrow) {
