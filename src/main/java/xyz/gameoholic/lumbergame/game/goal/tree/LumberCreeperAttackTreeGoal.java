@@ -11,6 +11,11 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 public class LumberCreeperAttackTreeGoal extends LumberAttackTreeGoal {
     private final Creeper creeper = (Creeper) mob;
     /**
+     * Range (squared) needed for creeper to ignite/unignite.
+     */
+    private static final double CREEPER_IGNITION_SQUARED_RANGE = 9.0;
+
+    /**
      * @param plugin
      * @param mob
      * @param targetLoc Location of the tree to pathfind to and ignite at.
@@ -23,13 +28,13 @@ public class LumberCreeperAttackTreeGoal extends LumberAttackTreeGoal {
     @Override
     protected void checkAndPerformAttack(double squaredDistance) {
         // If needs to cancel ignition
-        if (squaredDistance > getAttackReachSqr() && creeper.isIgnited()) {
+        if (squaredDistance > CREEPER_IGNITION_SQUARED_RANGE && creeper.isIgnited()) {
             creeper.setSwellDir(-1);
             creeper.swell = 0;
             creeper.setIgnited(false);
             resetAttackCooldown();
         }
-        if (squaredDistance <= getAttackReachSqr() && ticksUntilNextAttack <= 0) {
+        if (squaredDistance <= CREEPER_IGNITION_SQUARED_RANGE && ticksUntilNextAttack <= 0) {
             performAttack();
         }
     }
