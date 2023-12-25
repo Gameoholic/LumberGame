@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
@@ -183,11 +184,14 @@ public class LumberMob implements Listener {
             mobType.attackCooldownExpression(), Map.of("CR", (double) CR));
 
         // Specific mob goals - Ranged Bomber (TNT launching)
-        if (NMSMob instanceof net.minecraft.world.entity.monster.Skeleton) {
+        if (NMSMob instanceof net.minecraft.world.entity.monster.AbstractSkeleton &&
+            mob.getEquipment().getItemInMainHand().getType() == Material.TNT) {
             NMSMob.goalSelector.removeAllGoals(goal -> true);
             NMSMob.targetSelector.removeAllGoals(goal -> true);
 
-            NMSMob.goalSelector.addGoal(4, new SkeletonTNTAttackGoal((net.minecraft.world.entity.monster.AbstractSkeleton) NMSMob, 15.0F, 40));
+            NMSMob.goalSelector.addGoal(4, new SkeletonTNTAttackGoal(
+                plugin, (net.minecraft.world.entity.monster.AbstractSkeleton) NMSMob, attackCooldown,
+                mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()));
             NMSMob.targetSelector.addGoal(2, new LumberNearestAttackablePlayerGoal(NMSMob));
             return;
         }
@@ -237,11 +241,10 @@ public class LumberMob implements Listener {
         plugin.getGameManager().getWaveManager().onMobDeath(this);
         unregisterEvents();
 
-        if (!dropLoot)
-            return;
-        for (ItemStack itemStack : getDrops()) {
-            mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
-        }
+        if (dropLoot)
+            for (ItemStack itemStack : getDrops()) {
+                mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
+            }
 
         // If mob was holding bone meal
         if (plugin.getItemManager().compareItems(
@@ -325,6 +328,14 @@ public class LumberMob implements Listener {
             // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
             if (byEntityEvent.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof Creeper) {
                 e.setDamage(((Creeper) byEntityEvent.getDamager()).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
+            }
+            // TNT explosion damage should match the mob's damage attribute, otherwise vanilla explosion damage is applied
+            if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof TNTPrimed tnt) {
+                @Nullable Double tntDamage = tnt.getPersistentDataContainer().get(
+                    new NamespacedKey(plugin, "tnt_damage"), PersistentDataType.DOUBLE);
+                if (tntDamage == null) // If wasn't launched by LumberMob
+                    return;
+                e.setDamage(tntDamage);
             }
             // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
             if (byEntityEvent.getDamager() instanceof Arrow) {
