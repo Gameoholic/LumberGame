@@ -50,7 +50,8 @@ public class TreeLumberMob extends LumberMob {
             goal = new LumberCreeperAttackTreeGoal(
                 plugin,
                 (Creeper) NMSMob,
-                new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z())
+                new Vec3(treeLocation.x(), treeLocation.y(), treeLocation.z()),
+                attackCooldown
             );
         }
         else {

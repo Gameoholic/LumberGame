@@ -53,6 +53,7 @@
   health-expression: "CR * 5 + 3.5"
   damage-expression: "CR * 0.25 + 1"
   speed-expression: "0.28"
+  attack-cooldown-expression: "10"
 
 # Chucks TNT at players. Spawns TNT on death. Has twice the damage of normal zombies.
 - id: "RANGED_BOMBER"

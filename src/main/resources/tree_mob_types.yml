@@ -23,6 +23,7 @@
   health-expression: "CR * 2.8 + 3.5"
   damage-expression: "CR * 0.5 + 1"
   knockback-resistance-expression: "0.4"
+  attack-cooldown-expression: "10"
 
 # Faster creeper. Less health than normal creepers. Introduced @ Wave ~5
 - id: "SNEAKY_CREEPER"
