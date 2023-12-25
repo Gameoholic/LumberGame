@@ -247,8 +247,7 @@ public class LumberPlayer implements Listener {
         if (e instanceof EntityDamageByEntityEvent byEntityEvent) {
             // Creeper explosion damage should match the explosion's damage attribute, otherwise vanilla explosion damage is applied
             if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof Creeper creeper) {
-                Bukkit.broadcastMessage("vanilla creeper damage: " + e.getDamage());
-                e.setDamage(creeper.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue());
+                e.setDamage((e.getDamage() / 43.0) * creeper.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()); // After testing, 43.0 is max damage of a default creeper. We let it do all the calculating for us, and get the % of the maxdamage done, then multiply it by the damage we want.
             }
             // TNT explosion damage should match the mob's damage attribute, otherwise vanilla explosion damage is applied
             if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof TNTPrimed tnt) {
