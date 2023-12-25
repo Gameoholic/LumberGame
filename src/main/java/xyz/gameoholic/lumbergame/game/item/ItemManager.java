@@ -116,6 +116,7 @@ public class ItemManager {
             case "BONE_MEAL" -> getBoneMealItem();
             case "BONE_BLOCK" -> getBoneBlockItem();
             case "BOW" -> getBowItem();
+            case "TNT" -> getTNTItem();
             case "ARROW" -> getArrowItem();
             case "WOODEN_SWORD" -> getWoodenSwordItem();
             case "STONE_SWORD" -> getStoneSwordItem();
@@ -332,6 +333,18 @@ public class ItemManager {
         return applyItemInformationLore(item);
     }
 
+
+    // ------------------------------------
+    //              MOB EXCLUSIVE ITEMS
+    // ------------------------------------
+    public ItemStack getTNTItem() {
+        return applyItemInformationLore(getItem(
+            "TNT",
+            Material.TNT,
+            "",
+            ""
+        ));
+    }
 
     // ------------------------------------
     //              MENU ITEMS

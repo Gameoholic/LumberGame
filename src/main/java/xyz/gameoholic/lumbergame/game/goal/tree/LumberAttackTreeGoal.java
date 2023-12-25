@@ -2,13 +2,11 @@ package xyz.gameoholic.lumbergame.game.goal.tree;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.phys.Vec3;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.LumberMob;
-
-import java.util.EnumSet;
 import java.util.Objects;
 
 /**
@@ -21,7 +19,6 @@ public class LumberAttackTreeGoal extends MeleeAttackGoal {
     private final int attackCooldown; // LUMBER - custom attack cooldown
     private static final double TREE_BB_WIDTH = 1.0; // Lumber - custom tree hitbox
     private long lastCanUseCheck;
-
 
     /**
      * @param plugin

@@ -1,13 +1,10 @@
 package xyz.gameoholic.lumbergame.game.goal.hostile;
 
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-import org.bukkit.Bukkit;
 
-import java.util.EnumSet;
 
 /**
  * Goal that makes the mob locate and target the nearest player, regardless of line of sight and obstruction.

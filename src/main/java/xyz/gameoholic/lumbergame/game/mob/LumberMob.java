@@ -4,7 +4,10 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Turtle;
+import net.minecraft.world.entity.player.Player;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,6 +24,7 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberNearestAttackablePlayerGoal;
+import xyz.gameoholic.lumbergame.game.goal.hostile.SkeletonTNTAttackGoal;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 
 
@@ -177,6 +181,17 @@ public class LumberMob implements Listener {
         // Attack speed is needed for goal, can't be added via mob attribute.
         int attackCooldown = (int) ExpressionUtil.evaluateExpression(
             mobType.attackCooldownExpression(), Map.of("CR", (double) CR));
+
+        // Specific mob goals - Ranged Bomber (TNT launching)
+        if (NMSMob instanceof net.minecraft.world.entity.monster.Skeleton) {
+            NMSMob.goalSelector.removeAllGoals(goal -> true);
+            NMSMob.targetSelector.removeAllGoals(goal -> true);
+
+            NMSMob.goalSelector.addGoal(4, new SkeletonTNTAttackGoal((net.minecraft.world.entity.monster.AbstractSkeleton) NMSMob, 15.0F, 40));
+            NMSMob.targetSelector.addGoal(2, new LumberNearestAttackablePlayerGoal(NMSMob));
+            return;
+        }
+
 
         // Replace them with our goals, with the same exact priorities.
         // The lower the priority of the goal, the more it will be prioritized.

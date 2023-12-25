@@ -8,6 +8,7 @@ import xyz.gameoholic.lumbergame.config.ConfigParser;
 import xyz.gameoholic.lumbergame.game.GameManager;
 import xyz.gameoholic.lumbergame.game.item.ItemManager;
 import xyz.gameoholic.lumbergame.game.player.npc.PlayerNPCManager;
+import xyz.gameoholic.lumbergame.listeners.EntityExplodeEvent;
 import xyz.gameoholic.lumbergame.queue.LumberQueueManager;
 
 import javax.annotation.Nullable;
@@ -35,6 +36,7 @@ public final class LumberGamePlugin extends JavaPlugin {
             saveResource("schematics/tree/level_" + level + ".schem", true)
         );
 
+        Bukkit.getPluginManager().registerEvents(new EntityExplodeEvent(), this);
 
 
 

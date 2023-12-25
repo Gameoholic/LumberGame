@@ -54,6 +54,15 @@
   damage-expression: "CR * 0.25 + 1"
   speed-expression: "0.28"
 
+# Normal skeleton, fairly weak but can be annoying to deal with.
+- id: "RANGED_BOMBER"
+  display-name: "Skeleton"
+  entity-type: "SKELETON"
+  health-expression: "CR * 2 + 3.5"
+  damage-expression: "CR * 0.25 + 1"
+  item-in-main-hand-id: "TNT"
+  has-melee-attack-goal: false
+
 - id: "GIANT"
   display-name: "Giant"
   entity-type: "GIANT"

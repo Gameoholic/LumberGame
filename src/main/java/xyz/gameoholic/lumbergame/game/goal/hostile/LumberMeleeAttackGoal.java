@@ -1,12 +1,9 @@
 package xyz.gameoholic.lumbergame.game.goal.hostile;
 
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.pathfinder.Path;
 
 /**
  * Represents a melee attack goal for mobs where they track a player and attack them when close.
