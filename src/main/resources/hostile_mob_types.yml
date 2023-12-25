@@ -46,16 +46,16 @@
 
 
 # ---------------- Mid Mobs (Waves 11-20) ----------------
-# Walks faster than normal creepers
+# Walks faster than normal creepers. Same damage as tree creepers.
 - id: "BOMBER"
   display-name: "Bomber"
   entity-type: "CREEPER"
-  health-expression: "CR * 5 + 3.5"
-  damage-expression: "CR * 0.25 + 1"
+  health-expression: "CR * 2.8 + 3.5"
+  damage-expression: "CR * 0.5 + 1"
   speed-expression: "0.28"
   attack-cooldown-expression: "10"
 
-# Chucks TNT at players. Spawns TNT on death. Has twice the damage of normal zombies.
+# Chucks TNT at players. Spawns TNT on death. Has same damage as bombers.
 - id: "RANGED_BOMBER"
   display-name: "<green>Ranged Bomber"
   entity-type: "SKELETON"

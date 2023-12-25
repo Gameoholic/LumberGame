@@ -13,7 +13,7 @@ public class LumberCreeperAttackTreeGoal extends LumberAttackTreeGoal {
     /**
      * Range (squared) needed for creeper to ignite/unignite.
      */
-    private static final double CREEPER_IGNITION_SQUARED_RANGE = 9.0;
+    private static final double CREEPER_IGNITION_SQUARED_RANGE = 4.5;
 
     /**
      * @param plugin

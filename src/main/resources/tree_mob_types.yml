@@ -16,13 +16,13 @@
   damage-expression: "CR * 0.25 + 1"
   attack-cooldown-expression: "50"
 
-# Normal creeper, a bit more damage and health than zombies. Introduced @ Wave ~2
+# Normal creeper with a bit of kb resistance, a bit more damage and health than zombies. Introduced @ Wave ~2
 - id: "TREE_CREEPER"
   display-name: "뀃 Creeper"
   entity-type: "CREEPER"
   health-expression: "CR * 2.8 + 3.5"
   damage-expression: "CR * 0.5 + 1"
-  knockback-resistance-expression: "0.4"
+  knockback-resistance-expression: "0.3"
   attack-cooldown-expression: "10"
 
 # Faster creeper. Less health than normal creepers. Introduced @ Wave ~5

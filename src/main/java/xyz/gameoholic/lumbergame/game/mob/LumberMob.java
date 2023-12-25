@@ -207,7 +207,7 @@ public class LumberMob implements Listener {
             NMSMob.goalSelector.addGoal(meleeAttackGoalPriority,
                 new LumberCreeperAttackGoal((PathfinderMob) NMSMob, attackCooldown) // Attack and follow player
             );
-            // Remove vanilla Swell goal, we have our own logic in LumberCreeperAttackGoal
+            // Remove vanilla Swell goal, as we have our own logic in LumberCreeperAttackGoal
             @Nullable WrappedGoal wrappedSwellGoal = NMSMob.targetSelector.getAvailableGoals().stream()
                 .filter(goal -> goal.getGoal() instanceof SwellGoal).findFirst().orElse(null);
             if (wrappedSwellGoal != null)
