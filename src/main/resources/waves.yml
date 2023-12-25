@@ -263,7 +263,7 @@
     - id: BOMBER
       amount: 1
     - id: RANGED_BOMBER
-      amount: 2
+      amount: 4
   guaranteed-mob-types-with-index:
     - id: HEAVY_CREEPER
       index-from-last: 3

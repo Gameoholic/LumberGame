@@ -74,7 +74,7 @@
   health-expression: "CR * 3.2 + 3.5"
   damage-expression: "CR * 0.75 + 1"
   item-in-main-hand-id: "TNT"
-  attack-cooldown-expression: "60"
+  attack-cooldown-expression: "40"
 
 - id: "GIANT"
   display-name: "Giant"
