@@ -209,50 +209,50 @@
 # Wave 11
 # Difficulty bump! CR is bumped by 5. Bombers introduced.
 # From now on waves are slower but with more difficult mobs.
-- wave-cr: 300
-  spawn-timer-min: 60
-  spawn-timer-max: 120
+- wave-cr: 400
+  spawn-timer-min: 50
+  spawn-timer-max: 100
   mob-min-cr: 16
   mob-max-cr: 16
   mob-types:
     - id: SKELETON
-      chance: 0.05
+      chance: 0.08
     - id: ZOMBIE
-      chance: 0.25
-    - id: TREE_ZOMBIE
-      chance: 0.27
-    - id: TREE_CREEPER
       chance: 0.2
+    - id: TREE_ZOMBIE
+      chance: 0.22
+    - id: TREE_CREEPER
+      chance: 0.23
     - id: SNEAKY_CREEPER
-      chance: 0.08
+      chance: 0.09
     - id: SHOVER
-      chance: 0.08
+      chance: 0.12
     - id: BABY_ZOMBIE
-      chance: 0.05
+      chance: 0.06
   guaranteed-mob-types:
     - id: BOMBER
       amount: 3
 
 # Wave 12
 # Ranged bombers introduced.
-- wave-cr: 350
+- wave-cr: 450
   spawn-timer-min: 50
-  spawn-timer-max: 120
+  spawn-timer-max: 100
   mob-min-cr: 16
   mob-max-cr: 17
   mob-types:
     - id: SKELETON
       chance: 0.05
     - id: ZOMBIE
-      chance: 0.18
+      chance: 0.16
     - id: BOMBER
       chance: 0.12
     - id: RANGED_BOMBER
-      chance: 0.1
+      chance: 0.12
     - id: TREE_ZOMBIE
-      chance: 0.26
+      chance: 0.2
     - id: TREE_CREEPER
-      chance: 0.18
+      chance: 0.14
     - id: SNEAKY_CREEPER
       chance: 0.08
     - id: SHOVER
@@ -264,5 +264,65 @@
       amount: 1
     - id: RANGED_BOMBER
       amount: 2
+  guaranteed-mob-types-with-index:
     - id: HEAVY_CREEPER
-      amount: 1
+      index-from-last: 3
+
+# Wave 13
+# Sneaky bombers introduced
+- wave-cr: 500
+  spawn-timer-min: 50
+  spawn-timer-max: 100
+  mob-min-cr: 17
+  mob-max-cr: 18
+  mob-types:
+    - id: SKELETON
+      chance: 0.04
+    - id: ZOMBIE
+      chance: 0.16
+    - id: BOMBER
+      chance: 0.12
+    - id: RANGED_BOMBER
+      chance: 0.1
+    - id: TREE_ZOMBIE
+      chance: 0.2
+    - id: TREE_CREEPER
+      chance: 0.14
+    - id: SNEAKY_CREEPER
+      chance: 0.06
+    - id: SHOVER
+      chance: 0.08
+    - id: BABY_ZOMBIE
+      chance: 0.05
+    - id: SNEAKY_BOMBER
+      chance: 0.05
+  guaranteed-mob-types:
+    - id: SNEAKY_BOMBER
+      amount: 3
+
+# Wave 14
+# Explosive mobs & shovers only. Long round.
+- wave-cr: 700
+  spawn-timer-min: 50
+  spawn-timer-max: 100
+  mob-min-cr: 18
+  mob-max-cr: 19
+  mob-types:
+    - id: BOMBER
+      chance: 0.25
+    - id: RANGED_BOMBER
+      chance: 0.25
+    - id: TREE_CREEPER
+      chance: 0.25
+    - id: SNEAKY_CREEPER
+      chance: 0.1
+    - id: SHOVER
+      chance: 0.1
+    - id: SNEAKY_BOMBER
+      chance: 0.05
+  guaranteed-mob-types:
+    - id: SNEAKY_BOMBER
+      amount: 2
+  guaranteed-mob-types-with-index:
+    - id: HEAVY_CREEPER
+      index-from-last: 3

@@ -427,7 +427,7 @@ public class ConfigParser {
                     ));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    throw new RuntimeException("One of the arguments for wave number " + root.childrenList().indexOf(wave) + 1 +
+                    throw new RuntimeException("One of the arguments for wave number " + (root.childrenList().indexOf(wave) + 1) +
                         " is invalid or was not provided.\n");
                 }
             }
