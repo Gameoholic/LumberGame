@@ -8,6 +8,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,9 +24,11 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.goal.hostile.LumberCreeperAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberNearestAttackablePlayerGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.SkeletonTNTAttackGoal;
+import xyz.gameoholic.lumbergame.game.goal.tree.LumberCreeperAttackTreeGoal;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 
 
@@ -173,9 +176,11 @@ public class LumberMob implements Listener {
             wrappedNearestAttackableTargetGoal.getPriority() : 2;
 
         // Remove unneeded Vanilla goals, if the mob has them
-        if (wrappedNearestAttackableTargetGoal != null && wrappedMeleeAttackGoal != null) {
-            if (mobType.hasMeleeAttackGoal())
-                NMSMob.goalSelector.removeGoal(wrappedMeleeAttackGoal.getGoal());
+        if (wrappedMeleeAttackGoal != null) {
+//            if (mobType.hasMeleeAttackGoal())  // If mob has (should have) melee attack goal (not in cases like bowed skeletons)
+            NMSMob.goalSelector.removeGoal(wrappedMeleeAttackGoal.getGoal());
+        }
+        if (wrappedNearestAttackableTargetGoal != null) {
             NMSMob.targetSelector.removeGoal(wrappedNearestAttackableTargetGoal.getGoal());
         }
 
@@ -183,25 +188,34 @@ public class LumberMob implements Listener {
         int attackCooldown = (int) ExpressionUtil.evaluateExpression(
             mobType.attackCooldownExpression(), Map.of("CR", (double) CR));
 
-        // Specific mob goals - Ranged Bomber (TNT launching)
-        if (NMSMob instanceof net.minecraft.world.entity.monster.AbstractSkeleton &&
-            mob.getEquipment().getItemInMainHand().getType() == Material.TNT) {
-            NMSMob.goalSelector.removeAllGoals(goal -> true);
-            NMSMob.targetSelector.removeAllGoals(goal -> true);
-
-            NMSMob.goalSelector.addGoal(4, new SkeletonTNTAttackGoal(
-                plugin, (net.minecraft.world.entity.monster.AbstractSkeleton) NMSMob, attackCooldown,
-                mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()));
-            NMSMob.targetSelector.addGoal(2, new LumberNearestAttackablePlayerGoal(NMSMob));
-            return;
-        }
-
 
         // Replace them with our goals, with the same exact priorities.
         // The lower the priority of the goal, the more it will be prioritized.
         NMSMob.targetSelector.addGoal(nearestAttackableTargetGoalPriority,
             new LumberNearestAttackablePlayerGoal(NMSMob)); // Target and lock onto player
-        if (mobType.hasMeleeAttackGoal()) // If mob has (should have) melee attack goal (not in cases like skeletons)
+
+        // Specific mob goals - Ranged Bomber (TNT launching)
+        if (NMSMob instanceof net.minecraft.world.entity.monster.AbstractSkeleton &&
+            mob.getEquipment().getItemInMainHand().getType() == Material.TNT) {
+            NMSMob.goalSelector.addGoal(4, new SkeletonTNTAttackGoal(
+                plugin, (net.minecraft.world.entity.monster.AbstractSkeleton) NMSMob, attackCooldown,
+                mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()));
+            return;
+        }
+        // Specific mob goals - Bomber (Hostile creeper)
+        if (NMSMob instanceof net.minecraft.world.entity.monster.Creeper) {
+            NMSMob.goalSelector.addGoal(meleeAttackGoalPriority,
+                new LumberCreeperAttackGoal((PathfinderMob) NMSMob, attackCooldown) // Attack and follow player
+            );
+            // Remove vanilla Swell goal, we have our own logic in LumberCreeperAttackGoal
+            @Nullable WrappedGoal wrappedSwellGoal = NMSMob.targetSelector.getAvailableGoals().stream()
+                .filter(goal -> goal.getGoal() instanceof SwellGoal).findFirst().orElse(null);
+            if (wrappedSwellGoal != null)
+                NMSMob.targetSelector.removeGoal(wrappedSwellGoal.getGoal());
+            return;
+        }
+
+        if (mobType.hasMeleeAttackGoal()) // If mob has (should have) melee attack goal (not in cases like bowed skeletons)
             NMSMob.goalSelector.addGoal(meleeAttackGoalPriority,
                 new LumberMeleeAttackGoal((PathfinderMob) NMSMob, attackCooldown) // Attack and follow player
             );

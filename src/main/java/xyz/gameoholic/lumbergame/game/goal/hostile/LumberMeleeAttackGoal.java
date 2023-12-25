@@ -1,9 +1,12 @@
 package xyz.gameoholic.lumbergame.game.goal.hostile;
 
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
+import org.bukkit.Bukkit;
 
 /**
  * Represents a melee attack goal for mobs where they track a player and attack them when close.
@@ -12,7 +15,7 @@ import net.minecraft.world.entity.player.Player;
  * and doesn't stop locking on to player.
  */
 public class LumberMeleeAttackGoal extends MeleeAttackGoal {
-    private int ticksUntilNextAttack;
+    protected int ticksUntilNextAttack;
     private final int attackCooldown; // LUMBER - custom attack cooldown
 
     public LumberMeleeAttackGoal(PathfinderMob mob, int attackCooldown) {
@@ -36,16 +39,17 @@ public class LumberMeleeAttackGoal extends MeleeAttackGoal {
 
     @Override
     public void tick() {
-        LivingEntity livingEntity = this.mob.getTarget();
+        LivingEntity livingEntity = mob.getTarget();
         // Lumber - remove path recalculation logic. Recalculate path every tick. //todo: in the futue maybe reintroduce it to make it less jittery?
         if (livingEntity != null) {
-            this.mob.getLookControl().setLookAt(livingEntity, 30.0F, 30.0F);
-            double d = this.mob.getPerceivedTargetDistanceSquareForMeleeAttack(livingEntity);
+            mob.getLookControl().setLookAt(livingEntity, 30.0F, 30.0F);
+            double d = mob.getPerceivedTargetDistanceSquareForMeleeAttack(livingEntity);
 
-            this.mob.getNavigation().moveTo(livingEntity, 1.0);
+            mob.getNavigation().moveTo(livingEntity, 1.0);
 
-            this.ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
-            this.checkAndPerformAttack(livingEntity, d);
+            ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
+
+            checkAndPerformAttack(livingEntity, d);
         }
     }
 
