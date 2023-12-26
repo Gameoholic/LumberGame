@@ -7,7 +7,6 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
@@ -247,17 +246,22 @@ public class LumberMob implements Listener {
     /**
      * Should be called when the mob dies.
      *
-     * @param dropLoot Whether the mob should drop its loot, should only be true if a player killed the mob.
+     * @param player The player that killed the mob, or null if it died otherwise.
      */
-    public void onDeath(Boolean dropLoot) {
+    public void onDeath(@Nullable Player player) {
         if (plugin.getGameManager() == null) // If game has ended by the time this was fired (if a creeper killed the tree, and has also died)
             return;
         plugin.getGameManager().getWaveManager().onMobDeath(this);
         unregisterEvents();
 
-        if (dropLoot)
+        if (player != null) // Only drop loot if player killed mob
             for (ItemStack itemStack : getDrops()) {
-                mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
+                Item item = mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
+                item.setPickupDelay(5);
+                // Item magnetism: Give velocity towards player for easier pickup
+                if (player != null) {
+                    item.setVelocity(player.getLocation().subtract(item.getLocation()).toVector().normalize().multiply(0.5));
+                }
             }
 
         // If mob is skeleton and was holding TNT (aka Ranged Bomber), spawn TNT on death
@@ -376,17 +380,17 @@ public class LumberMob implements Listener {
         if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
             return;
 
+        @Nullable Player killerPlayer = null;
         // Mobs should only drop loot in case a player killed it
-        boolean dropLoot = false;
         if (e.getEntity().getLastDamageCause() != null &&
             e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent damageEvent) {
-            if (damageEvent.getDamager().getType() == EntityType.PLAYER)
-                dropLoot = true;
+            if (damageEvent.getDamager() instanceof Player player)
+                killerPlayer = player;
         }
 
         e.setDroppedExp(0);
         e.getDrops().clear();
-        onDeath(dropLoot);
+        onDeath(killerPlayer);
     }
 
     @EventHandler
@@ -400,7 +404,7 @@ public class LumberMob implements Listener {
         // If creeper is tree mob, and it exploded, we can assume it was near the tree and should deal damage to it
         if (this instanceof TreeLumberMob)
             plugin.getGameManager().getTreeManager().onMobDamage(this);
-        onDeath(false);
+        onDeath(null);
     }
 
     @EventHandler
