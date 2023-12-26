@@ -13,6 +13,7 @@ object TreeDeadParticle {
 
     fun getParticle(location: Location) = multiParticle {
         singularParticle {
+            maxFrameAmount = 2
             particleType = Particle.SMOKE_NORMAL
             originLocation = ConstantLocation(location)
 
@@ -26,6 +27,7 @@ object TreeDeadParticle {
         }.add()
 
         singularParticle {
+            maxFrameAmount = 2
             particleType = Particle.EXPLOSION_HUGE
             originLocation = ConstantLocation(location)
 

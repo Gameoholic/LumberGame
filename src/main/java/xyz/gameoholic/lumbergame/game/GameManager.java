@@ -154,6 +154,7 @@ public class GameManager {
             .deserialize(plugin.getLumberConfig().strings().treeDeathMessage())));
         waveManager.onGameEnd();
         players.forEach(LumberPlayer::unregisterEvents);
+        particleManager.stopParticles();
         plugin.onGameEnd();
     }
 

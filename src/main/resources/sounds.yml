@@ -14,3 +14,11 @@ boss-wave-start-sound:
   sound: "minecraft:entity.wither.spawn"
   volume: 2.0
   pitch: 0.3
+tree-heal-sound:
+  sound: "minecraft:block.note_block.banjo"
+  volume: 1.0
+  pitch: 1.0
+tree-level-up-sound:
+  sound: "minecraft:item.totem.use"
+  volume: 1.0
+  pitch: 2.0

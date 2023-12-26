@@ -41,7 +41,7 @@ public class TreeManager {
      * Called after the game has fully loaded and the first wave has started.
      */
     public void onGameLoad() {
-        plugin.getGameManager().getParticleManager().spawnTreePassiveParticle(plugin.getLumberConfig().mapConfig().treeLocation());
+        plugin.getGameManager().getParticleManager().spawnTreePassiveParticle();
     }
 
     /**
@@ -103,7 +103,7 @@ public class TreeManager {
                 plugin.getLumberConfig().soundsConfig().treeDiedSound()
             );
         });
-        plugin.getGameManager().getParticleManager().spawnTreeDeadParticle(plugin, plugin.getLumberConfig().mapConfig().treeLocation());
+        plugin.getGameManager().getParticleManager().spawnTreeDeadParticle();
         iterateOverTreeBlocks(block -> block.setType(Material.AIR));
 
         plugin.getGameManager().onGameEnd();
@@ -136,14 +136,18 @@ public class TreeManager {
         health = (int) Math.min(health + Math.ceil(maxHealth * 0.1), maxHealth);
         onAnyHealthChanged();
 
-        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
-            plugin.getLumberConfig().strings().boneMealUseMessage(),
-            Placeholder.component("old_tree_health", text(oldHealth)),
-            Placeholder.component("new_tree_health", text(health)),
-            Placeholder.component("player", player.name()),
-            Placeholder.parsed("old_tree_health_fraction", oldHealthFraction + ""),
-            Placeholder.parsed("new_tree_health_fraction", getHealthToMaxHealthRatio() / 100.0 + "")
-        )));
+        // Send message & play sound
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> {
+            lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().boneMealUseMessage(),
+                Placeholder.component("old_tree_health", text(oldHealth)),
+                Placeholder.component("new_tree_health", text(health)),
+                Placeholder.component("player", player.name()),
+                Placeholder.parsed("old_tree_health_fraction", oldHealthFraction + ""),
+                Placeholder.parsed("new_tree_health_fraction", getHealthToMaxHealthRatio() / 100.0 + "")
+            ));
+            lumberPlayer.playSound(plugin.getLumberConfig().soundsConfig().treeHealSound());
+        });
     }
 
     public void onTreeLevelUpByPlayer(Player player) {
@@ -153,13 +157,18 @@ public class TreeManager {
         updateMaxHealth();
         onAnyHealthChanged();
 
-        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
-            plugin.getLumberConfig().strings().boneBlockUseMessage(),
-            Placeholder.component("old_tree_max_health", text(oldMaxHealth)),
-            Placeholder.component("new_tree_max_health", text(maxHealth)),
-            Placeholder.component("player", player.name())
-        )));
+        // Send message & play sound
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer -> {
+            lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().boneBlockUseMessage(),
+                Placeholder.component("old_tree_max_health", text(oldMaxHealth)),
+                Placeholder.component("new_tree_max_health", text(maxHealth)),
+                Placeholder.component("player", player.name())
+            ));
+            lumberPlayer.playSound(plugin.getLumberConfig().soundsConfig().treeLevelUpSound());
+        });
 
+        plugin.getGameManager().getParticleManager().spawnTreeLevelUpParticle();
         pasteTreeSchematic();
     }
 

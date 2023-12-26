@@ -335,7 +335,9 @@ public class ConfigParser {
                 getSound(root, "tree-damaged-sound"),
                 getSound(root, "tree-died-sound"),
                 getSound(root, "wave-start-sound"),
-                getSound(root, "boss-wave-start-sound")
+                getSound(root, "boss-wave-start-sound"),
+                getSound(root, "tree-heal-sound"),
+                getSound(root, "tree-level-up-sound")
             );
         } catch (Exception e) {
             e.printStackTrace();
