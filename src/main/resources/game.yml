@@ -6,3 +6,5 @@ gold-drop-expression: "min(0.8 * CR, 20)"
 bone-meal-spawn-expression: "min(CR * 0.5 + 1.0, 7.5)"
 
 scoreboard-player-line-margin: 2 # How many lines before the last line to put player lines at
+
+respawn-cooldown: 3

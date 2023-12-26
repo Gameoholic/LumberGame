@@ -121,7 +121,9 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("tree-health-threshold-message").getString()),
                 Objects.requireNonNull(root.node("shop-npc-displayname").getString()),
                 Objects.requireNonNull(root.node("bone-meal-use-message").getString()),
-                Objects.requireNonNull(root.node("bone-block-use-message").getString())
+                Objects.requireNonNull(root.node("bone-block-use-message").getString()),
+                Objects.requireNonNull(root.node("respawn-cooldown-message").getString()),
+                Objects.requireNonNull(root.node("respawned-message").getString())
 
             );
 
@@ -147,7 +149,8 @@ public class ConfigParser {
                 root.node("iron-drop-expression").require(String.class),
                 root.node("gold-drop-expression").require(String.class),
                 root.node("bone-meal-spawn-expression").require(String.class),
-                root.node("scoreboard-player-line-margin").require(Integer.class)
+                root.node("scoreboard-player-line-margin").require(Integer.class),
+                root.node("respawn-cooldown").require(Integer.class)
             );
         } catch (SerializationException e) {
             e.printStackTrace();

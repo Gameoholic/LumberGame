@@ -4,6 +4,8 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.title.Title;
+import net.kyori.adventure.title.TitlePart;
 import net.minecraft.world.level.ExplosionDamageCalculator;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -26,6 +28,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
@@ -36,6 +39,7 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.npc.ShopNPC;
 
 import javax.annotation.Nullable;
+import java.time.Duration;
 import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
@@ -88,6 +92,7 @@ public class LumberPlayer implements Listener {
         BlockBreakEvent.getHandlerList().unregister(this);
         FoodLevelChangeEvent.getHandlerList().unregister(this);
         PlayerDeathEvent.getHandlerList().unregister(this);
+        PlayerRespawnEvent.getHandlerList().unregister(this);
 
         treeDestructionTask.cancel();
     }
@@ -302,6 +307,48 @@ public class LumberPlayer implements Listener {
         if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
         onDeath(e.getPlayer());
+    }
+
+    @EventHandler
+    private void onPlayerRespawnEvent(PlayerRespawnEvent e) {
+        if (!e.getPlayer().getUniqueId().equals(uuid))
+            return;
+        e.getPlayer().setGameMode(GameMode.SPECTATOR);
+
+        new BukkitRunnable() {
+            int secondsPassed = 0;
+
+            @Override
+            public void run() {
+                // Respawning in... message
+                e.getPlayer().sendTitlePart(TitlePart.TITLE,
+                    MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().respawnCooldownMessage(),
+                        Placeholder.component("seconds", text(plugin.getLumberConfig().gameConfig().respawnCooldown() - secondsPassed))
+                    )
+                );
+                e.getPlayer().sendTitlePart(TitlePart.TIMES, Title.Times.times(
+                    Duration.ofMillis(0),
+                    Duration.ofMillis(2000),
+                    Duration.ofMillis(50)
+                ));
+
+                // Respawn mechanic
+                if (secondsPassed >= plugin.getLumberConfig().gameConfig().respawnCooldown()) {
+                    e.getPlayer().setGameMode(GameMode.ADVENTURE);
+                    e.getPlayer().teleport(plugin.getLumberConfig().mapConfig().playerSpawnLocation());
+                    e.getPlayer().sendTitlePart(TitlePart.TITLE,
+                        MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().respawnedMessage())
+                    );
+                    e.getPlayer().sendTitlePart(TitlePart.TIMES, Title.Times.times(
+                        Duration.ofMillis(100),
+                        Duration.ofMillis(1000),
+                        Duration.ofMillis(200)
+                    ));
+                    cancel();
+                }
+                secondsPassed++;
+            }
+        }.runTaskTimer(plugin, 0L, 20L);
     }
 
     private void onInventoryChanged(Inventory inventory) {

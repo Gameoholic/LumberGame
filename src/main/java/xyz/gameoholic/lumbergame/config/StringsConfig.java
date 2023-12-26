@@ -76,7 +76,9 @@ public record StringsConfig(
     String treeHealthThresholdMessage,
     String shopNPCDisplayname,
     String boneMealUseMessage,
-    String boneBlockUseMessage
+    String boneBlockUseMessage,
+    String respawnCooldownMessage,
+    String respawnedMessage
 
 ) {
 

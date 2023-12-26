@@ -128,3 +128,7 @@ purchasable-item-lore: "<currency_icon><cost>"
 iron-icon: '뀀'
 gold-icon: '뀁'
 wood-icon: '뀄'
+
+
+respawn-cooldown-message: "<gold>Respawning in <red><seconds></red>"
+respawned-message: "<gold>Respawned!"
