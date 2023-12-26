@@ -24,6 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
+import xyz.gameoholic.lumbergame.util.ParticleManager;
 
 import java.util.*;
 
@@ -42,6 +43,7 @@ public class GameManager {
     private final double waveSpawnRateMultiplier;
     private final TreeManager treeManager;
     private WaveManager waveManager;
+    private final ParticleManager particleManager;
 
     /**
      * The wave number, uses zeroth index numbering.
@@ -52,6 +54,7 @@ public class GameManager {
         this.plugin = plugin;
         this.waveCRMultiplier = waveCRMultiplier;
         this.waveSpawnRateMultiplier = waveSpawnRateMultiplier;
+        this.particleManager = new ParticleManager(plugin);
         treeManager = new TreeManager(plugin);
         players.forEach(
             uuid -> {
@@ -140,6 +143,7 @@ public class GameManager {
      */
     public void onGameLoad() {
         players.forEach(player -> player.onGameLoad());
+        treeManager.onGameLoad();
     }
 
     /**
@@ -174,5 +178,9 @@ public class GameManager {
 
     public Set<LumberPlayer> getPlayers() {
         return players;
+    }
+
+    public ParticleManager getParticleManager() {
+        return particleManager;
     }
 }

@@ -18,7 +18,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     private LumberQueueManager queueManager;
     private LumberConfig config;
     private @Nullable GameManager gameManager = null;
-    private @Nullable ItemManager itemManager = null;
+    private @Nullable ItemManager itemManager = null; //todo: move this to gamemanager
     private PlayerNPCManager playerNPCManager;
     @Override
     public void onEnable() {

@@ -2,7 +2,6 @@ package xyz.gameoholic.lumbergame.game;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -37,6 +36,12 @@ public class TreeManager {
         health = maxHealth;
 
         pasteTreeSchematic();
+    }
+    /**
+     * Called after the game has fully loaded and the first wave has started.
+     */
+    public void onGameLoad() {
+        plugin.getGameManager().getParticleManager().spawnTreePassiveParticle(plugin.getLumberConfig().mapConfig().treeLocation());
     }
 
     /**
@@ -98,7 +103,7 @@ public class TreeManager {
                 plugin.getLumberConfig().soundsConfig().treeDiedSound()
             );
         });
-        ParticleUtil.spawnTreeDeadParticle(plugin, plugin.getLumberConfig().mapConfig().treeLocation());
+        plugin.getGameManager().getParticleManager().spawnTreeDeadParticle(plugin, plugin.getLumberConfig().mapConfig().treeLocation());
         iterateOverTreeBlocks(block -> block.setType(Material.AIR));
 
         plugin.getGameManager().onGameEnd();
