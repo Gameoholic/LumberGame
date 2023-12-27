@@ -164,7 +164,7 @@
 # Full of just Shovers and Creepers
 - wave-cr: 175
   spawn-timer-min: 30
-  spawn-timer-max: 80
+  spawn-timer-max: 100
   mob-min-cr: 8
   mob-max-cr: 9
   mob-types:
@@ -179,8 +179,8 @@
 # Wave 10
 # Boss round. Introduction of baby zombies and heavy creeper.
 - wave-cr: 250
-  spawn-timer-min: 20
-  spawn-timer-max: 80
+  spawn-timer-min: 30
+  spawn-timer-max: 100
   mob-min-cr: 8
   mob-max-cr: 10
   mob-types:

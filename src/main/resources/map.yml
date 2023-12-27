@@ -40,6 +40,7 @@ spawn-locations:
     x: -71.4
     y: 24
     z: -374.4
+
 tree-level-schematics-provided:
   - 1
   - 2

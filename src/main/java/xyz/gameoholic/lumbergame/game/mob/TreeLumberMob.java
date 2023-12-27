@@ -4,7 +4,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftMob;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.tree.LumberAttackTreeGoal;
 import xyz.gameoholic.lumbergame.game.goal.tree.LumberCreeperAttackTreeGoal;

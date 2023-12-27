@@ -21,7 +21,8 @@ public class LumberCreeperAttackGoal extends LumberMeleeAttackGoal {
     }
 
     @Override
-    protected void checkAndPerformAttack(LivingEntity target, double squaredDistance) {
+    protected void checkAndPerformAttack(LivingEntity target) {
+        double squaredDistance = target.distanceToSqr(mob); // Lumber - custom distance calculation equivalent to 1.20.1 NMS
         // If needs to cancel ignition
         if (creeper.isIgnited() && (squaredDistance > CREEPER_IGNITION_SQUARED_RANGE ||
             mob.getTarget().isSpectator() ||

@@ -11,6 +11,7 @@ import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
@@ -18,7 +19,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.NPC;
 import org.bukkit.entity.Player;
 import org.bukkit.profile.PlayerTextures;
@@ -106,17 +107,22 @@ public class NMSUtil {
 
         gameProfile.getProperties().put("textures", new Property("textures", texture, signature));
 
-        ServerPlayer npc = new ServerPlayer(server, level, gameProfile);
+        ServerPlayer npc = new ServerPlayer(server, level, gameProfile, ClientInformation.createDefault());
         npc.setPos(NPCLocation.getBlockX(), NPCLocation.getBlockY(), NPCLocation.getBlockZ());
+        npc.connection = serverPlayer.connection; // npc must have a dummy connection otherwise NPE
 
-        EnumSet<ClientboundPlayerInfoUpdatePacket.Action> playerInfo = EnumSet.of
-            (ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER);
         ClientboundPlayerInfoUpdatePacket playerInfoPacket = new ClientboundPlayerInfoUpdatePacket(
-            playerInfo, Collections.singletonList(npc));
-        ClientboundAddPlayerPacket addPlayerPacket = new ClientboundAddPlayerPacket(npc);
+            ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, npc
+        );
+
+
+
+        ClientboundAddEntityPacket addEntityPacket = new ClientboundAddEntityPacket(npc);
+
+
 
         listener.send(playerInfoPacket);
-        listener.send(addPlayerPacket);
+        listener.send(addEntityPacket);
         return npc;
     }
 

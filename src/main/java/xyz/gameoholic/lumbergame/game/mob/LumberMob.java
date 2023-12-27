@@ -14,7 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftMob;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftMob;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

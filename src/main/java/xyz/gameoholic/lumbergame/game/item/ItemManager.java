@@ -218,7 +218,7 @@ public class ItemManager {
             Material.STONE_SWORD,
             plugin.getLumberConfig().strings().stoneSwordDisplayname(),
             plugin.getLumberConfig().strings().stoneSwordLore()
-        ), 6), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
+        ), 8), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
     public ItemStack getIronSwordItem() {
@@ -227,7 +227,7 @@ public class ItemManager {
             Material.IRON_SWORD,
             plugin.getLumberConfig().strings().ironSwordDisplayname(),
             plugin.getLumberConfig().strings().ironSwordLore()
-        ), 8), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
+        ), 10), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
     public ItemStack getDiamondSwordItem() {
@@ -236,7 +236,7 @@ public class ItemManager {
             Material.DIAMOND_SWORD,
             plugin.getLumberConfig().strings().diamondSwordDisplayname(),
             plugin.getLumberConfig().strings().diamondSwordLore()
-        ), 14), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
+        ), 15), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
     public ItemStack getArrowItem() {

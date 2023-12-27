@@ -43,28 +43,33 @@ public class LumberMeleeAttackGoal extends MeleeAttackGoal {
         // Lumber - remove path recalculation logic. Recalculate path every tick. //todo: in the futue maybe reintroduce it to make it less jittery?
         if (livingEntity != null) {
             mob.getLookControl().setLookAt(livingEntity, 30.0F, 30.0F);
-            double d = mob.getPerceivedTargetDistanceSquareForMeleeAttack(livingEntity);
 
             mob.getNavigation().moveTo(livingEntity, 1.0);
 
             ticksUntilNextAttack = Math.max(this.ticksUntilNextAttack - 1, 0);
 
-            checkAndPerformAttack(livingEntity, d);
+            checkAndPerformAttack(livingEntity);
         }
     }
 
     @Override
-    protected void checkAndPerformAttack(LivingEntity target, double squaredDistance) {
-        // Lumber - We need to use our ticksUntilNextAttack property
-        double d = getAttackReachSqr(target);
-        if (squaredDistance <= d && ticksUntilNextAttack <= 0) {
+    protected void checkAndPerformAttack(LivingEntity target) {
+        if (canPerformAttack(target)) {
             resetAttackCooldown();
             mob.swing(InteractionHand.MAIN_HAND);
             mob.doHurtTarget(target);
         }
-
     }
 
+    @Override
+    protected boolean canPerformAttack(LivingEntity target) {
+        return this.isTimeToAttack() && this.mob.isWithinMeleeAttackRange(target); // Lumber - remove line of sight check
+    }
+
+    @Override
+    protected boolean isTimeToAttack() {
+        return this.ticksUntilNextAttack <= 0; // Lumber - use ours, and not parent's attack cooldown property
+    }
 
     // Lumber - reset attack cooldown to what we want
     protected void resetAttackCooldown() {
