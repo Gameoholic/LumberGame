@@ -37,9 +37,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.npc.ShopNPC;
+import xyz.gameoholic.lumbergame.game.player.perk.Perk;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
@@ -55,6 +58,7 @@ public class LumberPlayer implements Listener {
     private int iron = 0;
     private int gold = 0;
     private int boneMeal = 0;
+    private List<Perk> perks = new ArrayList<>();
     /**
      * Task that sends out block destruction packets for the tree every 15 seconds, otherwise they disappear.
      */
