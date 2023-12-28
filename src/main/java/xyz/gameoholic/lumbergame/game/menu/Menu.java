@@ -112,7 +112,7 @@ public abstract class Menu implements InventoryHolder, Listener {
                 default -> '-';
             };
             List<Component> lores = itemMeta.lore();
-            lores.add(MiniMessage.miniMessage().deserialize("<reset><white><currency_icon><cost>",
+            lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
                 Placeholder.component("cost", text(purchasableMenuItem.getCurrencyAmount())),
                 Placeholder.component("currency_icon", text(currencyIcon)))
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
@@ -120,6 +120,39 @@ public abstract class Menu implements InventoryHolder, Listener {
             );
             itemMeta.lore(lores);
         }
+
+        // If item is purchasable perk menu item, store the currency id and amount in the PDC and add additional lore
+        if (menuItem instanceof PurchasablePerkMenuItem purchasablePerkMenuItem) {
+            itemMeta.getPersistentDataContainer()
+                .set(new NamespacedKey(plugin, "purchasable_item_currency_id"),
+                    PersistentDataType.STRING, purchasablePerkMenuItem.getPerk().getCurrencyId());
+            itemMeta.getPersistentDataContainer()
+                .set(new NamespacedKey(plugin, "purchasable_item_currency_amount"),
+                    PersistentDataType.INTEGER, purchasablePerkMenuItem.getPerk().getCost());
+
+            // Convert currency_icon to equivalent icon of currency
+            Character currencyIcon = switch (purchasablePerkMenuItem.getPerk().getCurrencyId()) {
+                case "IRON" -> plugin.getLumberConfig().strings().ironIcon();
+                case "GOLD" -> plugin.getLumberConfig().strings().goldIcon();
+                case "WOOD" -> plugin.getLumberConfig().strings().woodIcon();
+                default -> '-';
+            };
+            List<Component> lores = itemMeta.lore();
+            lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
+                    Placeholder.component("cost", text(purchasablePerkMenuItem.getPerk().getCost())),
+                    Placeholder.component("currency_icon", text(currencyIcon)))
+                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                .colorIfAbsent(NamedTextColor.WHITE)
+            );
+            lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level></red>/<max_level>",
+                    Placeholder.component("level", text(purchasablePerkMenuItem.getPerk().getLevel())),
+                    Placeholder.component("max_level", text(purchasablePerkMenuItem.getPerk().getLevel())))
+                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                .colorIfAbsent(NamedTextColor.WHITE)
+            );
+            itemMeta.lore(lores);
+        }
+
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(index, itemStack);
     }

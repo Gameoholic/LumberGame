@@ -7,14 +7,23 @@ import java.util.Map;
 
 public abstract class Perk {
     private int level = 1;
-    abstract void apply(Player player);
-    abstract void onRespawn(Player player);
+    public abstract void apply(Player player);
+    public abstract void onRespawn(Player player);
 
-    int getCost() {
+    public int getCost() {
         return (int) ExpressionUtil.evaluateExpression(getCostExpression(), Map.of("LEVEL", (double) level));
     }
-    abstract String getCostExpression();
-    abstract int getMaxLevel();
+    public abstract String getCostExpression();
+    public abstract int getMaxLevel();
+
+    /**
+     * @return The item ID of the currency used to purchase this perk.
+     */
+    public abstract String getCurrencyId();
+    /**
+     * @return The item ID associated with this perk.
+     */
+    public abstract String getItemId();
 
     public int getLevel() {
         return level;

@@ -20,6 +20,7 @@ public class ShopMainMenu extends Menu implements InventoryHolder {
         setItem(21, new MenuItem(plugin, "MENU_WEAPONS"));
         setItem(22, new MenuItem(plugin, "MENU_ARMOR"));
         setItem(23, new MenuItem(plugin, "MENU_UTILITY"));
+        setItem(25, new MenuItem(plugin, "MENU_PERKS"));
     }
 
     @Override
@@ -33,6 +34,9 @@ public class ShopMainMenu extends Menu implements InventoryHolder {
                 break;
             case "MENU_UTILITY":
                 new ShopUtilityMenu(plugin, player);
+                break;
+            case "MENU_PERKS":
+                new ShopPerksMenu(plugin, player);
                 break;
         }
 

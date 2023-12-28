@@ -6,12 +6,12 @@ import org.bukkit.potion.PotionEffectType;
 
 public abstract class PotionEffectPerk extends Perk {
     @Override
-    void apply(Player player) {
+    public void apply(Player player) {
         player.addPotionEffect(new PotionEffect(getPotionEffectType(), 10000000, getLevel(), false, false));
     }
 
     @Override
-    void onRespawn(Player player) {
+    public void onRespawn(Player player) {
         // When player respawns, loses potion effect. Reapply it.
         apply(player);
     }

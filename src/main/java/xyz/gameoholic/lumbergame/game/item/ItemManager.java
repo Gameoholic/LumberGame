@@ -135,7 +135,9 @@ public class ItemManager {
             case "MENU_WEAPONS" -> getMenuWeaponsItem();
             case "MENU_ARMOR" -> getMenuArmorItem();
             case "MENU_UTILITY" -> getMenuUtilityItem();
+            case "MENU_PERKS" -> getMenuPerksItem();
             case "MENU_BACK" -> getMenuBackItem();
+            case "REGEN_PERK" -> getRegenPerkItem();
             default -> null;
         };
     }
@@ -373,6 +375,14 @@ public class ItemManager {
             "<gray><i>Purchase utility items."
         ));
     }
+    public ItemStack getMenuPerksItem() {
+        return applyItemInformationLore(getItem(
+            "MENU_PERKS",
+            Material.GOLDEN_APPLE,
+            "<gold>Perks",
+            "<gray><i>Purchase perks."
+        ));
+    }
 
     public ItemStack getMenuBackItem() {
         return applyItemInformationLore(getItem(
@@ -380,6 +390,19 @@ public class ItemManager {
             Material.ARROW,
             "<gray>Go back",
             "<gray><i>Go back to the main menu."
+        ));
+    }
+
+    // ------------------------------------
+    //              PERK MENU ITEMS
+    // ------------------------------------
+
+    public ItemStack getRegenPerkItem() {
+        return applyItemInformationLore(getItem(
+            "REGEN_PERK",
+            Material.APPLE,
+            "<aqua>Regeneration",
+            "<gold>Perk details"
         ));
     }
 
