@@ -20,13 +20,14 @@ public abstract class Perk {
      * @return The item ID of the currency used to purchase this perk.
      */
     public abstract String getCurrencyId();
-    /**
-     * @return The item ID associated with this perk.
-     */
-    public abstract String getItemId();
 
+
+    public abstract PerkType getType();
     public int getLevel() {
         return level;
     }
 
+    public void incrementLevel() {
+        level++;
+    }
 }

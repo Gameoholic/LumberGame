@@ -456,6 +456,7 @@ public class LumberPlayer implements Listener {
     public int getBoneMeal() {
         return boneMeal;
     }
+    public List<Perk> getPerks() { return perks; }
 
 
 }

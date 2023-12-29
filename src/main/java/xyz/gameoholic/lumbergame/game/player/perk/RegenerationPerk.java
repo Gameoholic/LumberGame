@@ -19,9 +19,10 @@ public class RegenerationPerk extends PotionEffectPerk {
     }
 
     @Override
-    public String getItemId() {
-        return "REGEN_PERK";
+    public PerkType getType() {
+        return PerkType.EFFECT_REGEN;
     }
+
 
     @Override
     PotionEffectType getPotionEffectType() {

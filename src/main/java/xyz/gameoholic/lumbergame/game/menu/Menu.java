@@ -18,10 +18,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
+import xyz.gameoholic.lumbergame.game.player.perk.Perk;
+import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
+import xyz.gameoholic.lumbergame.game.player.perk.RegenerationPerk;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
@@ -51,10 +56,12 @@ public abstract class Menu implements InventoryHolder, Listener {
     // The reason why we don't do everything in the constructor, is because we need to pass Menu and create the inventory with it.
     // That is not possible until the parent Menu class is constructed, therefore we must construct it first,
     // then construct the implementation and pass it.
+
     /**
      * Creates the inventory, registers events and opens it for the player. Must be ran immediately.
+     *
      * @param player The player to open the inventory for.
-     * @param menu The menu instance implementing this Menu.
+     * @param menu   The menu instance implementing this Menu.
      */
     protected void createInventory(Player player, Menu menu) {
         this.menu = menu;
@@ -113,8 +120,8 @@ public abstract class Menu implements InventoryHolder, Listener {
             };
             List<Component> lores = itemMeta.lore();
             lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
-                Placeholder.component("cost", text(purchasableMenuItem.getCurrencyAmount())),
-                Placeholder.component("currency_icon", text(currencyIcon)))
+                    Placeholder.component("cost", text(purchasableMenuItem.getCurrencyAmount())),
+                    Placeholder.component("currency_icon", text(currencyIcon)))
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
                 .colorIfAbsent(NamedTextColor.WHITE)
             );
@@ -124,33 +131,31 @@ public abstract class Menu implements InventoryHolder, Listener {
         // If item is purchasable perk menu item, store the currency id and amount in the PDC and add additional lore
         if (menuItem instanceof PurchasablePerkMenuItem purchasablePerkMenuItem) {
             itemMeta.getPersistentDataContainer()
-                .set(new NamespacedKey(plugin, "purchasable_item_currency_id"),
-                    PersistentDataType.STRING, purchasablePerkMenuItem.getPerk().getCurrencyId());
-            itemMeta.getPersistentDataContainer()
-                .set(new NamespacedKey(plugin, "purchasable_item_currency_amount"),
-                    PersistentDataType.INTEGER, purchasablePerkMenuItem.getPerk().getCost());
+                .set(new NamespacedKey(plugin, "purchasable_perk"),
+                    PersistentDataType.STRING, purchasablePerkMenuItem.getType().toString());
 
-            // Convert currency_icon to equivalent icon of currency
-            Character currencyIcon = switch (purchasablePerkMenuItem.getPerk().getCurrencyId()) {
-                case "IRON" -> plugin.getLumberConfig().strings().ironIcon();
-                case "GOLD" -> plugin.getLumberConfig().strings().goldIcon();
-                case "WOOD" -> plugin.getLumberConfig().strings().woodIcon();
-                default -> '-';
-            };
-            List<Component> lores = itemMeta.lore();
-            lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
-                    Placeholder.component("cost", text(purchasablePerkMenuItem.getPerk().getCost())),
-                    Placeholder.component("currency_icon", text(currencyIcon)))
-                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                .colorIfAbsent(NamedTextColor.WHITE)
-            );
-            lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level></red>/<max_level>",
-                    Placeholder.component("level", text(purchasablePerkMenuItem.getPerk().getLevel())),
-                    Placeholder.component("max_level", text(purchasablePerkMenuItem.getPerk().getLevel())))
-                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                .colorIfAbsent(NamedTextColor.WHITE)
-            );
-            itemMeta.lore(lores);
+
+//            // Convert currency_icon to equivalent icon of currency
+//            Character currencyIcon = switch (purchasablePerkMenuItem.getPerk().getCurrencyId()) {
+//                case "IRON" -> plugin.getLumberConfig().strings().ironIcon();
+//                case "GOLD" -> plugin.getLumberConfig().strings().goldIcon();
+//                case "WOOD" -> plugin.getLumberConfig().strings().woodIcon();
+//                default -> '-';
+//            };
+//            List<Component> lores = itemMeta.lore();
+//            lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
+//                    Placeholder.component("cost", text(purchasablePerkMenuItem.getPerk().getCost())),
+//                    Placeholder.component("currency_icon", text(currencyIcon)))
+//                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+//                .colorIfAbsent(NamedTextColor.WHITE)
+//            );
+//            lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level></red>/<max_level>",
+//                    Placeholder.component("level", text(purchasablePerkMenuItem.getPerk().getLevel())),
+//                    Placeholder.component("max_level", text(purchasablePerkMenuItem.getPerk().getLevel())))
+//                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+//                .colorIfAbsent(NamedTextColor.WHITE)
+//            );
+//            itemMeta.lore(lores);
         }
 
         itemStack.setItemMeta(itemMeta);
@@ -171,6 +176,36 @@ public abstract class Menu implements InventoryHolder, Listener {
         if (processPurchase(menuItem.getCurrencyItemId(), menuItem.getCurrencyAmount()))
             return menuItem.item;
         return null;
+    }
+
+    /**
+     * Attempts to purchase the item for the player.
+     *
+     * @param perk The purchasable perk menu item to attempt to purchase.
+     * @return The ItemStack if the purchase was successful, null otherwise.
+     */
+    protected boolean purchasePerk(PurchasablePerkMenuItem perk) {
+        LumberPlayer player = plugin.getGameManager().getPlayers().stream()
+            .filter(lumberPlayer -> lumberPlayer.getUuid() == playerUUID).findFirst().get();
+
+        @Nullable Perk foundPerk = player.getPerks().stream()
+            .filter(filteredPerk -> filteredPerk.getType() == filteredPerk.getType()).findFirst().orElse(null);
+
+        if (!processPurchase(foundPerk.getCurrencyId(), foundPerk.getCost()))
+            return false;
+
+        // If purchase was successful:
+
+        // If perk exists, level it up
+        if (foundPerk != null) {
+            foundPerk.incrementLevel();
+        }
+        // Otherwise, add new perk to player
+        player.getPerks().add(switch (perk.getType()) {
+                case EFFECT_REGEN -> new RegenerationPerk();
+            }
+        );
+        return true;
     }
 
     /**
@@ -216,9 +251,16 @@ public abstract class Menu implements InventoryHolder, Listener {
         @Nullable Integer currencyAmount = itemStack.getItemMeta().getPersistentDataContainer()
             .get(new NamespacedKey(plugin, "purchasable_item_currency_amount"), PersistentDataType.INTEGER);
 
+        // Check if item is purchasable perk
+        @Nullable String perkTypeString = itemStack.getItemMeta().getPersistentDataContainer()
+            .get(new NamespacedKey(plugin, "purchasable_perk"), PersistentDataType.STRING);
+        @Nullable PerkType perkType = perkTypeString != null ? PerkType.valueOf(perkTypeString) : null;
+
         // Return MenuItem/PurchasableMenuItem
         if (currencyId != null && currencyAmount != null)
             handleClick(new PurchasableMenuItem(plugin, itemId, currencyId, currencyAmount), player);
+        else if (perkType != null)
+            handleClick(new PurchasablePerkMenuItem(plugin, itemId, perkType), player);
         else
             handleClick(new MenuItem(plugin, itemId), player);
     }
@@ -244,8 +286,9 @@ public abstract class Menu implements InventoryHolder, Listener {
             @Nullable ItemStack purchasedItem = purchaseItem(purchasableMenuItem);
             if (purchasedItem != null)
                 player.getInventory().addItem(purchasedItem);
-        }
-        else
+        } else if (menuItem instanceof PurchasablePerkMenuItem purchasablePerkMenuItem) {
+            purchasePerk(purchasablePerkMenuItem);
+        } else
             onUnhandledClick(menuItem, player);
     }
 
