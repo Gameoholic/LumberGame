@@ -155,7 +155,7 @@ public abstract class Menu implements InventoryHolder, Listener {
             );
             lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level><gold>/</gold><max_level>",
                     Placeholder.component("level", text(perk.getLevel())),
-                    Placeholder.component("max_level", text(perk.getLevel())))
+                    Placeholder.component("max_level", text(perk.getMaxLevel())))
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
                 .colorIfAbsent(NamedTextColor.WHITE)
             );
