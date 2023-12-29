@@ -77,6 +77,7 @@ public abstract class Menu implements InventoryHolder, Listener {
         player.openInventory(inventory);
     }
 
+
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
@@ -153,12 +154,17 @@ public abstract class Menu implements InventoryHolder, Listener {
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
                 .colorIfAbsent(NamedTextColor.WHITE)
             );
-            lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level><gold>/</gold><max_level>",
-                    Placeholder.component("level", text(perk.getLevel())),
-                    Placeholder.component("max_level", text(perk.getMaxLevel())))
-                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                .colorIfAbsent(NamedTextColor.WHITE)
-            );
+            if (perk.getLevel() == 0) { // If perk isn't purchased yet
+                lores.add(text("Click to purchase.").color(NamedTextColor.GOLD));
+            }
+            else {
+                lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level><gold>/</gold><max_level>",
+                        Placeholder.component("level", text(perk.getLevel())),
+                        Placeholder.component("max_level", text(perk.getMaxLevel())))
+                    .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                    .colorIfAbsent(NamedTextColor.WHITE)
+                );
+            }
             itemMeta.lore(lores);
         }
 
@@ -201,10 +207,11 @@ public abstract class Menu implements InventoryHolder, Listener {
             return false;
 
         // If purchase was successful:
-        if (playerHasPerk)
-            perk.incrementLevel(); // If perk exists, level it up
-        else
-            player.getPerks().add(perk); // Otherwise, add new perk to player
+        if (!playerHasPerk)
+            player.getPerks().add(perk); // If player doesn't have perk, add it
+        perk.incrementLevel(); // Increment level. If perk was just added it'd be at level 0 anyway so we make it level 1
+
+        setInventoryItems(); // Refresh the items with the new perk data
         return true;
     }
 
