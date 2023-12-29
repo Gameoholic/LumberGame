@@ -3,6 +3,9 @@ package xyz.gameoholic.lumbergame.game.player.perk;
 import org.bukkit.potion.PotionEffectType;
 
 public class RegenerationPerk extends PotionEffectPerk {
+    public RegenerationPerk(int level) {
+        this.level = level;
+    }
     @Override
     public String getCostExpression() {
         return "2 + (2 * LEVEL) * LEVEL"; // 2*x^2 + 2

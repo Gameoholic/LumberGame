@@ -135,27 +135,31 @@ public abstract class Menu implements InventoryHolder, Listener {
                     PersistentDataType.STRING, purchasablePerkMenuItem.getType().toString());
 
 
-//            // Convert currency_icon to equivalent icon of currency
-//            Character currencyIcon = switch (purchasablePerkMenuItem.getPerk().getCurrencyId()) {
-//                case "IRON" -> plugin.getLumberConfig().strings().ironIcon();
-//                case "GOLD" -> plugin.getLumberConfig().strings().goldIcon();
-//                case "WOOD" -> plugin.getLumberConfig().strings().woodIcon();
-//                default -> '-';
-//            };
-//            List<Component> lores = itemMeta.lore();
-//            lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
-//                    Placeholder.component("cost", text(purchasablePerkMenuItem.getPerk().getCost())),
-//                    Placeholder.component("currency_icon", text(currencyIcon)))
-//                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-//                .colorIfAbsent(NamedTextColor.WHITE)
-//            );
-//            lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level></red>/<max_level>",
-//                    Placeholder.component("level", text(purchasablePerkMenuItem.getPerk().getLevel())),
-//                    Placeholder.component("max_level", text(purchasablePerkMenuItem.getPerk().getLevel())))
-//                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-//                .colorIfAbsent(NamedTextColor.WHITE)
-//            );
-//            itemMeta.lore(lores);
+            LumberPlayer player = plugin.getGameManager().getPlayers().stream()
+                .filter(lumberPlayer -> lumberPlayer.getUuid() == playerUUID).findFirst().get();
+            Perk perk = Perk.getPerk(player, purchasablePerkMenuItem.getType());
+
+            // Convert currency_icon to equivalent icon of currency
+            Character currencyIcon = switch (perk.getCurrencyId()) {
+                case "IRON" -> plugin.getLumberConfig().strings().ironIcon();
+                case "GOLD" -> plugin.getLumberConfig().strings().goldIcon();
+                case "WOOD" -> plugin.getLumberConfig().strings().woodIcon();
+                default -> '-';
+            };
+            List<Component> lores = itemMeta.lore();
+            lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
+                    Placeholder.component("cost", text(perk.getCost())),
+                    Placeholder.component("currency_icon", text(currencyIcon)))
+                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                .colorIfAbsent(NamedTextColor.WHITE)
+            );
+            lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level><gold>/</gold><max_level>",
+                    Placeholder.component("level", text(perk.getLevel())),
+                    Placeholder.component("max_level", text(perk.getLevel())))
+                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                .colorIfAbsent(NamedTextColor.WHITE)
+            );
+            itemMeta.lore(lores);
         }
 
         itemStack.setItemMeta(itemMeta);
@@ -181,30 +185,26 @@ public abstract class Menu implements InventoryHolder, Listener {
     /**
      * Attempts to purchase the item for the player.
      *
-     * @param perk The purchasable perk menu item to attempt to purchase.
+     * @param purchasablePerkMenuItem The purchasable perk menu item to attempt to purchase.
      * @return The ItemStack if the purchase was successful, null otherwise.
      */
-    protected boolean purchasePerk(PurchasablePerkMenuItem perk) {
+    protected boolean purchasePerk(PurchasablePerkMenuItem purchasablePerkMenuItem) {
         LumberPlayer player = plugin.getGameManager().getPlayers().stream()
             .filter(lumberPlayer -> lumberPlayer.getUuid() == playerUUID).findFirst().get();
 
-        @Nullable Perk foundPerk = player.getPerks().stream()
-            .filter(filteredPerk -> filteredPerk.getType() == filteredPerk.getType()).findFirst().orElse(null);
+        boolean playerHasPerk = player.getPerks().stream()
+            .filter(filteredPerk -> filteredPerk.getType() == purchasablePerkMenuItem.getType()).findFirst().isPresent();
 
-        if (!processPurchase(foundPerk.getCurrencyId(), foundPerk.getCost()))
+        Perk perk = Perk.getPerk(player, purchasablePerkMenuItem.getType());
+
+        if (!processPurchase(perk.getCurrencyId(), perk.getCost()))
             return false;
 
         // If purchase was successful:
-
-        // If perk exists, level it up
-        if (foundPerk != null) {
-            foundPerk.incrementLevel();
-        }
-        // Otherwise, add new perk to player
-        player.getPerks().add(switch (perk.getType()) {
-                case EFFECT_REGEN -> new RegenerationPerk();
-            }
-        );
+        if (playerHasPerk)
+            perk.incrementLevel(); // If perk exists, level it up
+        else
+            player.getPerks().add(perk); // Otherwise, add new perk to player
         return true;
     }
 
