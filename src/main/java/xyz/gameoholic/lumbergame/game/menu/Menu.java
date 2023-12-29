@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
+import static xyz.gameoholic.lumbergame.util.LoreUtil.addLore;
 
 /**
  * Represents an inventory menu.
@@ -153,30 +154,26 @@ public abstract class Menu implements InventoryHolder, Listener {
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
                 .colorIfAbsent(NamedTextColor.WHITE));
             // Cost lore
-            lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
-                    Placeholder.component("cost", text(perk.getCost())),
-                    Placeholder.component("currency_icon", text(currencyIcon)))
-                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                .colorIfAbsent(NamedTextColor.WHITE)
-            );
+            if (perk.getLevel() < perk.getMaxLevel()) {
+                lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
+                        Placeholder.component("cost", text(perk.getCost())),
+                        Placeholder.component("currency_icon", text(currencyIcon)))
+                    .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                    .colorIfAbsent(NamedTextColor.WHITE)
+                );
+            }
             // Level lore
             if (perk.getLevel() == 0) { // If perk isn't purchased yet
                 lores.add(MiniMessage.miniMessage().deserialize("<green><bold>CLICK TO PURCHASE.")
                     .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
                     .colorIfAbsent(NamedTextColor.WHITE));
-            }
-            else if (perk.getLevel() == perk.getMaxLevel()) {
-                lores.add(MiniMessage.miniMessage().deserialize("<red><bold>MAX LEVEL")
-                    .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                    .colorIfAbsent(NamedTextColor.WHITE));
-            }
-            else {
-                lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level><gold>/</gold><max_level><br><green><bold>CLICK TO UPGRADE",
-                        Placeholder.component("level", text(perk.getLevel())),
-                        Placeholder.component("max_level", text(perk.getMaxLevel())))
-                    .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                    .colorIfAbsent(NamedTextColor.WHITE) // todo: maybe have util function for this italic and white stuff?
-                );
+            } else if (perk.getLevel() == perk.getMaxLevel()) {
+                addLore(lores, MiniMessage.miniMessage().deserialize("<red><bold>MAX LEVEL"));
+            } else {
+                addLore(lores, MiniMessage.miniMessage().deserialize("<gold>Level <red><level><gold>/</gold><max_level><br><green><bold>CLICK TO UPGRADE",
+                    Placeholder.component("level", text(perk.getLevel())),
+                    Placeholder.component("max_level", text(perk.getMaxLevel()))
+                ));
             }
             itemMeta.lore(lores);
         }
