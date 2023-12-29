@@ -28,6 +28,7 @@ public abstract class Perk {
     public int getLevel() {
         return level;
     }
+    public abstract String getDescription();
 
     public void incrementLevel() {
         level++;

@@ -135,7 +135,6 @@ public abstract class Menu implements InventoryHolder, Listener {
                 .set(new NamespacedKey(plugin, "purchasable_perk"),
                     PersistentDataType.STRING, purchasablePerkMenuItem.getType().toString());
 
-
             LumberPlayer player = plugin.getGameManager().getPlayers().stream()
                 .filter(lumberPlayer -> lumberPlayer.getUuid() == playerUUID).findFirst().get();
             Perk perk = Perk.getPerk(player, purchasablePerkMenuItem.getType());
@@ -147,22 +146,36 @@ public abstract class Menu implements InventoryHolder, Listener {
                 case "WOOD" -> plugin.getLumberConfig().strings().woodIcon();
                 default -> '-';
             };
+
             List<Component> lores = itemMeta.lore();
+            // Perk description lore
+            lores.add(MiniMessage.miniMessage().deserialize(perk.getDescription())
+                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                .colorIfAbsent(NamedTextColor.WHITE));
+            // Cost lore
             lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
                     Placeholder.component("cost", text(perk.getCost())),
                     Placeholder.component("currency_icon", text(currencyIcon)))
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
                 .colorIfAbsent(NamedTextColor.WHITE)
             );
+            // Level lore
             if (perk.getLevel() == 0) { // If perk isn't purchased yet
-                lores.add(text("Click to purchase.").color(NamedTextColor.GOLD));
+                lores.add(MiniMessage.miniMessage().deserialize("<green><bold>CLICK TO PURCHASE.")
+                    .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                    .colorIfAbsent(NamedTextColor.WHITE));
+            }
+            else if (perk.getLevel() == perk.getMaxLevel()) {
+                lores.add(MiniMessage.miniMessage().deserialize("<red><bold>MAX LEVEL")
+                    .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
+                    .colorIfAbsent(NamedTextColor.WHITE));
             }
             else {
-                lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level><gold>/</gold><max_level>",
+                lores.add(MiniMessage.miniMessage().deserialize("<gold>Level <red><level><gold>/</gold><max_level><br><green><bold>CLICK TO UPGRADE",
                         Placeholder.component("level", text(perk.getLevel())),
                         Placeholder.component("max_level", text(perk.getMaxLevel())))
                     .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                    .colorIfAbsent(NamedTextColor.WHITE)
+                    .colorIfAbsent(NamedTextColor.WHITE) // todo: maybe have util function for this italic and white stuff?
                 );
             }
             itemMeta.lore(lores);
@@ -202,6 +215,9 @@ public abstract class Menu implements InventoryHolder, Listener {
             .filter(filteredPerk -> filteredPerk.getType() == purchasablePerkMenuItem.getType()).findFirst().isPresent();
 
         Perk perk = Perk.getPerk(player, purchasablePerkMenuItem.getType());
+
+        if (perk.getLevel() == perk.getMaxLevel()) // Can't level up beyond max level
+            return false;
 
         if (!processPurchase(perk.getCurrencyId(), perk.getCost()))
             return false;
