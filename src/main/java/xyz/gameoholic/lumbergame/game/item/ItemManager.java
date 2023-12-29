@@ -401,8 +401,8 @@ public class ItemManager {
         return applyItemInformationLore(getItem(
             "REGEN_PERK",
             Material.APPLE,
-            "<aqua>Regeneration",
-            "<gold>Perk details"
+            "<red>Regeneration Perk",
+            ""
         ));
     }
 
@@ -424,13 +424,15 @@ public class ItemManager {
             .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).colorIfAbsent(NamedTextColor.WHITE));
 
         // Lore
-        List<String> lores = Arrays.stream(lore.split("<br>|<linebreak>")).toList();
+        List<String> lores = lore.equals("") ? new ArrayList() : // If lore is empty "", don't add lore
+            Arrays.stream(lore.split("<br>|<linebreak>")).toList();
         List<Component> componentLores = new ArrayList<>();
         lores.forEach(tempLore -> componentLores.add(
             getPlainLore(MiniMessage.miniMessage().deserialize(tempLore))
         ));
-
         meta.lore(componentLores);
+
+        // Item flags
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
         meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
