@@ -138,6 +138,7 @@ public class ItemManager {
             case "MENU_PERKS" -> getMenuPerksItem();
             case "MENU_BACK" -> getMenuBackItem();
             case "REGEN_PERK" -> getRegenPerkItem();
+            case "SPEED_PERK" -> getSpeedPerkItem();
             default -> null;
         };
     }
@@ -402,6 +403,14 @@ public class ItemManager {
             "REGEN_PERK",
             Material.APPLE,
             "<red>Regeneration Perk",
+            ""
+        ));
+    }
+    public ItemStack getSpeedPerkItem() {
+        return applyItemInformationLore(getItem(
+            "SPEED_PERK",
+            Material.FEATHER,
+            "<yellow>Speed Perk",
             ""
         ));
     }

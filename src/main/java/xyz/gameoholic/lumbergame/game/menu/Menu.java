@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
-import static xyz.gameoholic.lumbergame.util.LoreUtil.addLore;
+import static xyz.gameoholic.lumbergame.util.OtherUtil.addLore;
 
 /**
  * Represents an inventory menu.

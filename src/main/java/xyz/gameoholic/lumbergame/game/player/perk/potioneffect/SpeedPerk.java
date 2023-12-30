@@ -1,9 +1,10 @@
-package xyz.gameoholic.lumbergame.game.player.perk;
+package xyz.gameoholic.lumbergame.game.player.perk.potioneffect;
 
 import org.bukkit.potion.PotionEffectType;
+import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
 
-public class RegenerationPerk extends PotionEffectPerk {
-    public RegenerationPerk(int level) {
+public class SpeedPerk extends PotionEffectPerk {
+    public SpeedPerk(int level) {
         this.level = level;
     }
     @Override
@@ -23,16 +24,16 @@ public class RegenerationPerk extends PotionEffectPerk {
 
     @Override
     public PerkType getType() {
-        return PerkType.EFFECT_REGEN;
+        return PerkType.EFFECT_SPEED;
     }
 
     @Override
     PotionEffectType getPotionEffectType() {
-        return PotionEffectType.REGENERATION;
+        return PotionEffectType.SPEED;
     }
 
     @Override
     protected String getEffectName() {
-        return "Regeneration";
+        return "Speed";
     }
 }

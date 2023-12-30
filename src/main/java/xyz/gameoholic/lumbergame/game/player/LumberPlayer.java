@@ -119,7 +119,7 @@ public class LumberPlayer implements Listener {
         player.setLevel(0);
         player.teleport(plugin.getLumberConfig().mapConfig().playerSpawnLocation());
         player.setGameMode(GameMode.ADVENTURE);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 2000000000, 1, false, false));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1, false, false));
         plugin.getPlayerNPCManager().addNPC(player, // Spawn shop NPC
             new ShopNPC(plugin, player.getUniqueId(), plugin.getLumberConfig().mapConfig().shopNPCLocation(),
                 MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().shopNPCDisplayname())));

@@ -4,10 +4,8 @@ import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.menu.Menu;
 import xyz.gameoholic.lumbergame.game.menu.MenuItem;
-import xyz.gameoholic.lumbergame.game.menu.PurchasableMenuItem;
 import xyz.gameoholic.lumbergame.game.menu.PurchasablePerkMenuItem;
 import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
-import xyz.gameoholic.lumbergame.game.player.perk.RegenerationPerk;
 
 import static net.kyori.adventure.text.Component.text;
 
@@ -21,6 +19,8 @@ public class ShopPerksMenu extends Menu {
     @Override
     protected void setInventoryItems() {
         setItem(13, new PurchasablePerkMenuItem(plugin, "REGEN_PERK", PerkType.EFFECT_REGEN));
+        setItem(14, new PurchasablePerkMenuItem(plugin, "SPEED_PERK", PerkType.EFFECT_SPEED));
+
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }
