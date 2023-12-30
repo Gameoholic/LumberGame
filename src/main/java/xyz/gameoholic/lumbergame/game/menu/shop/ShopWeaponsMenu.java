@@ -20,7 +20,7 @@ public class ShopWeaponsMenu extends Menu {
     protected void setInventoryItems() {
         setItem(12, new PurchasableMenuItem(plugin, "STONE_SWORD", "IRON", 32));
         setItem(13, new PurchasableMenuItem(plugin, "IRON_SWORD", "IRON", 96));
-        setItem(14, new PurchasableMenuItem(plugin, "DIAMOND_SWORD", "IRON", 256));
+        setItem(14, new PurchasableMenuItem(plugin, "DIAMOND_SWORD", "WOOD", 80));
         setItem(22, new PurchasableMenuItem(plugin, "BOW", "IRON", 32));
         setItem(31, new PurchasableMenuItem(plugin, "ARROW", "IRON", 1));
 
