@@ -26,7 +26,7 @@ public abstract class Perk {
     public abstract void onRespawn(Player player);
 
     public int getCost() {
-        return (int) ExpressionUtil.evaluateExpression(getCostExpression(), Map.of("LEVEL", (double) level));
+        return (int) ExpressionUtil.evaluateExpression(getCostExpression(), Map.of("LEVEL", (double) (level + 1)));
     }
     public abstract String getCostExpression();
     public abstract int getMaxLevel();
