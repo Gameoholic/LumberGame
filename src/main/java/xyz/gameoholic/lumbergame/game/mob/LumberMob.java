@@ -226,9 +226,11 @@ public class LumberMob implements Listener {
             plugin.getLumberConfig().gameConfig().boneMealMeterFillExpression(),
             Map.of("CR", (double) CR)
         ));
-        if (plugin.getGameManager().getBoneMealMeter() >= 100)
+        if (plugin.getGameManager().getBoneMealMeter() >= 100) {
             plugin.getGameManager().resetBoneMealMeter();
-        return plugin.getGameManager().getBoneMealMeter() >= 100.0;
+            return true;
+        }
+        return false;
     }
 
 
