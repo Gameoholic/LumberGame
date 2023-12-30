@@ -21,12 +21,10 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.player.perk.Perk;
 import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
-import xyz.gameoholic.lumbergame.game.player.perk.RegenerationPerk;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
@@ -121,12 +119,10 @@ public abstract class Menu implements InventoryHolder, Listener {
                 default -> '-';
             };
             List<Component> lores = itemMeta.lore();
-            lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
-                    Placeholder.component("cost", text(purchasableMenuItem.getCurrencyAmount())),
-                    Placeholder.component("currency_icon", text(currencyIcon)))
-                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                .colorIfAbsent(NamedTextColor.WHITE)
-            );
+            addLore(lores, MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
+                Placeholder.component("cost", text(purchasableMenuItem.getCurrencyAmount())),
+                Placeholder.component("currency_icon", text(currencyIcon))
+            ));
             itemMeta.lore(lores);
         }
 
@@ -150,23 +146,19 @@ public abstract class Menu implements InventoryHolder, Listener {
 
             List<Component> lores = itemMeta.lore();
             // Perk description lore
-            lores.add(MiniMessage.miniMessage().deserialize(perk.getDescription())
+            addLore(lores, MiniMessage.miniMessage().deserialize(perk.getDescription())
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
                 .colorIfAbsent(NamedTextColor.WHITE));
             // Cost lore
             if (perk.getLevel() < perk.getMaxLevel()) {
-                lores.add(MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
-                        Placeholder.component("cost", text(perk.getCost())),
-                        Placeholder.component("currency_icon", text(currencyIcon)))
-                    .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                    .colorIfAbsent(NamedTextColor.WHITE)
-                );
+                addLore(lores, MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
+                    Placeholder.component("cost", text(perk.getCost())),
+                    Placeholder.component("currency_icon", text(currencyIcon))
+                ));
             }
             // Level lore
             if (perk.getLevel() == 0) { // If perk isn't purchased yet
-                lores.add(MiniMessage.miniMessage().deserialize("<green><bold>CLICK TO PURCHASE.")
-                    .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                    .colorIfAbsent(NamedTextColor.WHITE));
+                addLore(lores, MiniMessage.miniMessage().deserialize("<green><bold>CLICK TO PURCHASE."));
             } else if (perk.getLevel() == perk.getMaxLevel()) {
                 addLore(lores, MiniMessage.miniMessage().deserialize("<red><bold>MAX LEVEL"));
             } else {
@@ -223,6 +215,7 @@ public abstract class Menu implements InventoryHolder, Listener {
         if (!playerHasPerk)
             player.getPerks().add(perk); // If player doesn't have perk, add it
         perk.incrementLevel(); // Increment level. If perk was just added it'd be at level 0 anyway so we make it level 1
+        perk.activate(Bukkit.getPlayer(playerUUID));
 
         setInventoryItems(); // Refresh the items with the new perk data
         return true;

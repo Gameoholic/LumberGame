@@ -9,7 +9,16 @@ import java.util.Map;
 
 public abstract class Perk {
     protected int level = 1;
-    public abstract void apply(Player player);
+
+    /**
+     * Activates the perk. Triggered on purchase or level up of perk.
+     * @param player The Player this perk belongs to.
+     */
+    public abstract void activate(Player player);
+    /**
+     * Triggered on respawn of the player.
+     * @param player The Player this perk belongs to.
+     */
     public abstract void onRespawn(Player player);
 
     public int getCost() {
