@@ -234,7 +234,7 @@
       amount: 3
 
 # Wave 12
-# Ranged bombers introduced.
+# Ranged bombers introduced. 2 Heavy bombers.
 - wave-cr: 450
   spawn-timer-min: 50
   spawn-timer-max: 100
@@ -262,6 +262,8 @@
   guaranteed-mob-types:
     - id: BOMBER
       amount: 1
+    - id: HEAVY_CREEPER
+      amount: 1
     - id: RANGED_BOMBER
       amount: 4
   guaranteed-mob-types-with-index:
@@ -269,10 +271,10 @@
       index-from-last: 3
 
 # Wave 13
-# Sneaky bombers introduced
-- wave-cr: 500
-  spawn-timer-min: 50
-  spawn-timer-max: 100
+# Sneaky bombers introduced.
+- wave-cr: 550
+  spawn-timer-min: 40
+  spawn-timer-max: 90
   mob-min-cr: 17
   mob-max-cr: 18
   mob-types:
@@ -299,6 +301,8 @@
   guaranteed-mob-types:
     - id: SNEAKY_BOMBER
       amount: 3
+    - id: RANGED_BOMBER
+      amount: 2
 
 # Wave 14
 # Explosive mobs & shovers only. Long round.
