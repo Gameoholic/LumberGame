@@ -130,6 +130,10 @@ public class ItemManager {
             case "IRON_LEGGINGS" -> getIronLeggingsItem();
             case "IRON_CHESTPLATE" -> getIronChestplateItem();
             case "IRON_HELMET" -> getIronHelmetItem();
+            case "DIAMOND_BOOTS" -> getDiamondBootsItem();
+            case "DIAMOND_LEGGINGS" -> getDiamondLeggingsItem();
+            case "DIAMOND_CHESTPLATE" -> getDiamondChestplateItem();
+            case "DIAMOND_HELMET" -> getDiamondHelmetItem();
             case "HEALTH_POTION" -> getHealthPotionItem();
             case "STONE_AXE" -> getStoneAxeItem();
             case "MENU_WEAPONS" -> getMenuWeaponsItem();
@@ -322,6 +326,42 @@ public class ItemManager {
             Material.IRON_HELMET,
             plugin.getLumberConfig().strings().ironHelmetDisplayname(),
             plugin.getLumberConfig().strings().ironHelmetLore()
+        ));
+    }
+
+    public ItemStack getDiamondBootsItem() {
+        return applyItemInformationLore(getItem(
+            "DIAMOND_BOOTS",
+            Material.DIAMOND_BOOTS,
+            "Diamond Boots",
+            ""
+        ));
+    }
+
+    public ItemStack getDiamondLeggingsItem() {
+        return applyItemInformationLore(getItem(
+            "DIAMOND_LEGGINGS",
+            Material.DIAMOND_LEGGINGS,
+            "Diamond Leggings",
+            ""
+        ));
+    }
+
+    public ItemStack getDiamondChestplateItem() {
+        return applyItemInformationLore(getItem(
+            "DIAMOND_CHESTPLATE",
+            Material.DIAMOND_CHESTPLATE,
+            "Diamond Chestplate",
+            ""
+        ));
+    }
+
+    public ItemStack getDiamondHelmetItem() {
+        return applyItemInformationLore(getItem(
+            "DIAMOND_HELMET",
+            Material.DIAMOND_HELMET,
+            "Diamond Helmet",
+            ""
         ));
     }
 
