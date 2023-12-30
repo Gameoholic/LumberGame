@@ -110,6 +110,7 @@ public class LumberPlayer implements Listener {
             return;
         scoreboardManager = new PlayerScoreboardManager(plugin, player, this);
         player.getInventory().clear();
+        player.clearActivePotionEffects();
         player.getInventory().addItem(plugin.getItemManager().getWoodenSwordItem());
         player.getInventory().addItem(plugin.getItemManager().getStoneAxeItem());
         player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
