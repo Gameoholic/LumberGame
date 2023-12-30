@@ -70,7 +70,7 @@
 # Chucks TNT at players. Spawns TNT on death. Has same damage & health as bombers.
 - id: "RANGED_BOMBER"
   display-name: "<green>Ranged Bomber"
-  entity-type: "STRIDER"
+  entity-type: "STRAY"
   health-expression: "CR * 3.2 + 3.5"
   damage-expression: "CR * 0.75 + 1"
   item-in-main-hand-id: "TNT"
