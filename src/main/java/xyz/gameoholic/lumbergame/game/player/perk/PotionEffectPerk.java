@@ -7,7 +7,7 @@ import org.bukkit.potion.PotionEffectType;
 public abstract class PotionEffectPerk extends Perk {
     @Override
     public void activate(Player player) {
-        player.addPotionEffect(new PotionEffect(getPotionEffectType(), 10000000, getLevel(), false, false));
+        player.addPotionEffect(new PotionEffect(getPotionEffectType(), 10000000, getLevel() - 1, false, false));
     }
 
     @Override

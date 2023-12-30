@@ -338,21 +338,31 @@ public class LumberPlayer implements Listener {
 
                 // Respawn mechanic
                 if (secondsPassed >= plugin.getLumberConfig().gameConfig().respawnCooldown()) {
-                    e.getPlayer().setGameMode(GameMode.ADVENTURE);
-                    e.getPlayer().teleport(plugin.getLumberConfig().mapConfig().playerSpawnLocation());
-                    e.getPlayer().sendTitlePart(TitlePart.TITLE,
-                        MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().respawnedMessage())
-                    );
-                    e.getPlayer().sendTitlePart(TitlePart.TIMES, Title.Times.times(
-                        Duration.ofMillis(100),
-                        Duration.ofMillis(1000),
-                        Duration.ofMillis(200)
-                    ));
+                    respawnPlayer(e.getPlayer());
                     cancel();
                 }
                 secondsPassed++;
             }
         }.runTaskTimer(plugin, 0L, 20L);
+    }
+
+    /**
+     * Respawn the player after a cooldown.
+     *
+     * @param player The player.
+     */
+    private void respawnPlayer(Player player) {
+        player.setGameMode(GameMode.ADVENTURE);
+        player.teleport(plugin.getLumberConfig().mapConfig().playerSpawnLocation());
+        player.sendTitlePart(TitlePart.TITLE,
+            MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().respawnedMessage())
+        );
+        player.sendTitlePart(TitlePart.TIMES, Title.Times.times(
+            Duration.ofMillis(100),
+            Duration.ofMillis(1000),
+            Duration.ofMillis(200)
+        ));
+        perks.forEach(perk -> perk.onRespawn(player));
     }
 
     private void onInventoryChanged(Inventory inventory) {
@@ -456,7 +466,10 @@ public class LumberPlayer implements Listener {
     public int getBoneMeal() {
         return boneMeal;
     }
-    public List<Perk> getPerks() { return perks; }
+
+    public List<Perk> getPerks() {
+        return perks;
+    }
 
 
 }
