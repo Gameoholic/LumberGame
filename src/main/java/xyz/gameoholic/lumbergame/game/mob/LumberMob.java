@@ -4,10 +4,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.Turtle;
-import net.minecraft.world.phys.Vec3;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,7 +24,6 @@ import xyz.gameoholic.lumbergame.game.goal.hostile.LumberCreeperAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberNearestAttackablePlayerGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.SkeletonTNTAttackGoal;
-import xyz.gameoholic.lumbergame.game.goal.tree.LumberCreeperAttackTreeGoal;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 
 
@@ -140,7 +136,7 @@ public class LumberMob implements Listener {
         ));
 
         // Post-spawn parameters/attributes (bone block / bone meal)
-        if (shouldHoldBoneMeal())
+        if (fillBoneMealMeter())
             mob.getEquipment().setItemInMainHand(plugin.getItemManager().getBoneMealItem());
 
         // todo: bone block should only be placed on entity that can have item on its helmet. not like creeper for example.
@@ -221,18 +217,18 @@ public class LumberMob implements Listener {
     }
 
     /**
-     * Randomly determines if the mob should be holding a bone meal.
+     * Fills up the bone meal meter. If reaches 100, the mob should spawn holding bone meal.
+     * @return Whether the mob should hold bone meal or not.
      */
-    private boolean shouldHoldBoneMeal() {
-        int random = rnd.nextInt(99) + 1; // Gen num 1-100
-        // If smaller than random evaluation, return true
-
-
-        return random <=
+    private boolean fillBoneMealMeter() {
+        plugin.getGameManager().increaseBoneMealMeter(
             ExpressionUtil.evaluateExpression(
-                plugin.getLumberConfig().gameConfig().boneMealSpawnExpression(),
-                Map.of("CR", (double) CR)
-            );
+            plugin.getLumberConfig().gameConfig().boneMealMeterFillExpression(),
+            Map.of("CR", (double) CR)
+        ));
+        if (plugin.getGameManager().getBoneMealMeter() >= 100)
+            plugin.getGameManager().resetBoneMealMeter();
+        return plugin.getGameManager().getBoneMealMeter() >= 100.0;
     }
 
 

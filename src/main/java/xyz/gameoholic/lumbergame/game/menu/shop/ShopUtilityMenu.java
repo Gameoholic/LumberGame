@@ -18,6 +18,7 @@ public class ShopUtilityMenu extends Menu {
     @Override
     protected void setInventoryItems() {
         setItem(22, new PurchasableMenuItem(plugin, "HEALTH_POTION", "WOOD", 2));
+        setItem(13, new PurchasableMenuItem(plugin, "GOLD", "WOOD", 5));
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }

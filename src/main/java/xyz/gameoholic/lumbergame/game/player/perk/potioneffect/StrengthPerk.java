@@ -9,7 +9,7 @@ public class StrengthPerk extends PotionEffectPerk {
     }
     @Override
     public String getCostExpression() {
-        return "LEVEL * LEVEL * 3 + 4"; // {1, 2, 3} -> {7, 16, 31}
+        return "LEVEL * LEVEL * 3 + 7"; // {1, 2, 3} -> {10, 19, 34}
     }
 
     @Override
