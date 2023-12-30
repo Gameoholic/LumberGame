@@ -3,13 +3,13 @@ package xyz.gameoholic.lumbergame.game.player.perk.potioneffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
 
-public class SpeedPerk extends PotionEffectPerk {
-    public SpeedPerk(int level) {
+public class StrengthPerk extends PotionEffectPerk {
+    public StrengthPerk(int level) {
         this.level = level;
     }
     @Override
     public String getCostExpression() {
-        return "LEVEL * LEVEL"; // {1, 2, 3} -> {1, 4, 9}
+        return "LEVEL * LEVEL * 3 + 4"; // {1, 2, 3} -> {7, 16, 31}
     }
 
     @Override
@@ -24,16 +24,16 @@ public class SpeedPerk extends PotionEffectPerk {
 
     @Override
     public PerkType getType() {
-        return PerkType.EFFECT_SPEED;
+        return PerkType.EFFECT_STRENGTH;
     }
 
     @Override
     PotionEffectType getPotionEffectType() {
-        return PotionEffectType.SPEED;
+        return PotionEffectType.INCREASE_DAMAGE;
     }
 
     @Override
     protected String getEffectName() {
-        return "Speed";
+        return "Strength";
     }
 }

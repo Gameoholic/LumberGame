@@ -9,7 +9,7 @@ public class RegenerationPerk extends PotionEffectPerk {
     }
     @Override
     public String getCostExpression() {
-        return "2 + (3 * LEVEL) * LEVEL"; // 2*x^2 + 2
+        return "LEVEL * LEVEL * 2.5 + 2"; // {1, 2, 3} -> {4, 12, 24}
     }
 
     @Override

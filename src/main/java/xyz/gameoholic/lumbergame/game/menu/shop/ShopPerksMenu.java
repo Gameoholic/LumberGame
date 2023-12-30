@@ -20,6 +20,8 @@ public class ShopPerksMenu extends Menu {
     protected void setInventoryItems() {
         setItem(13, new PurchasablePerkMenuItem(plugin, "REGEN_PERK", PerkType.EFFECT_REGEN));
         setItem(14, new PurchasablePerkMenuItem(plugin, "SPEED_PERK", PerkType.EFFECT_SPEED));
+        setItem(18, new PurchasablePerkMenuItem(plugin, "STRENGTH_PERK", PerkType.EFFECT_STRENGTH));
+        setItem(19, new PurchasablePerkMenuItem(plugin, "HEALTH_BOOST_PERK", PerkType.EFFECT_HEALTH_BOOST));
 
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));

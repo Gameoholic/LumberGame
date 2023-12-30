@@ -2,8 +2,10 @@ package xyz.gameoholic.lumbergame.game.player.perk;
 
 import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
+import xyz.gameoholic.lumbergame.game.player.perk.potioneffect.HealthBoostPerk;
 import xyz.gameoholic.lumbergame.game.player.perk.potioneffect.RegenerationPerk;
 import xyz.gameoholic.lumbergame.game.player.perk.potioneffect.SpeedPerk;
+import xyz.gameoholic.lumbergame.game.player.perk.potioneffect.StrengthPerk;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 
 import javax.annotation.Nullable;
@@ -59,6 +61,8 @@ public abstract class Perk {
         return (foundPerk != null) ? foundPerk : switch (perkType) {
             case EFFECT_REGEN -> new RegenerationPerk(0);
             case EFFECT_SPEED -> new SpeedPerk(0);
+            case EFFECT_STRENGTH -> new StrengthPerk(0);
+            case EFFECT_HEALTH_BOOST -> new HealthBoostPerk(0);
         };
     }
 }

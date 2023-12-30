@@ -139,6 +139,8 @@ public class ItemManager {
             case "MENU_BACK" -> getMenuBackItem();
             case "REGEN_PERK" -> getRegenPerkItem();
             case "SPEED_PERK" -> getSpeedPerkItem();
+            case "STRENGTH_PERK" -> getStrengthPerkItem();
+            case "HEALTH_BOOST_PERK" -> getHealthBoostPerkItem();
             default -> null;
         };
     }
@@ -411,6 +413,22 @@ public class ItemManager {
             "SPEED_PERK",
             Material.FEATHER,
             "<yellow>Speed Perk",
+            ""
+        ));
+    }
+    public ItemStack getStrengthPerkItem() {
+        return applyItemInformationLore(getItem(
+            "STRENGTH_PERK",
+            Material.GOLDEN_SWORD,
+            "<dark_red>Strength Perk",
+            ""
+        ));
+    }
+    public ItemStack getHealthBoostPerkItem() {
+        return applyItemInformationLore(getItem(
+            "HEALTH_BOOST_PERK",
+            Material.ENCHANTED_GOLDEN_APPLE,
+            "<aqua>Health Boost Perk",
             ""
         ));
     }
