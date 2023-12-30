@@ -29,7 +29,7 @@ public abstract class PotionEffectPerk extends Perk {
             return "<gray>Grants you PERMANENT <effect_name> <level>."
                 .replace("<effect_name>", getEffectName())
                 .replace("<level>", intToRoman(level));
-        return "<green>Grants you PERMANENT <effect_name> <level> <green> -> <new_level></green>."
+        return "<gray>Grants you PERMANENT <effect_name> <level> <green> -> <new_level></green>."
             .replace("<effect_name>", getEffectName())
             .replace("<level>", intToRoman(level))
             .replace("<new_level>", intToRoman(level + 1));
