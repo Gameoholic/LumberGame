@@ -4,6 +4,7 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.EntityType;
 import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
@@ -70,8 +71,14 @@ public class GameManager {
                 if (entity.getPersistentDataContainer().get(
                     new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN) != null)
                     entity.remove();
+
+                // We also clear out items left on the floor
+                if (entity.getType() == EntityType.DROPPED_ITEM)
+                    entity.remove();
             }
         );
+
+
     }
 
     /**
