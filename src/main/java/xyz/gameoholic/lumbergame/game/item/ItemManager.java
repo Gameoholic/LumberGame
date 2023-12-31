@@ -414,7 +414,7 @@ public class ItemManager {
         return applyItemInformationLore(getItem(
             "MENU_UTILITY",
             Material.GOLDEN_APPLE,
-            "<red>Utility Items",
+            "<red>Utility & Currencies",
             "<gray><i>Purchase utility items.<br><gray><i>Additionally, convert your currencies to gold."
         ));
     }

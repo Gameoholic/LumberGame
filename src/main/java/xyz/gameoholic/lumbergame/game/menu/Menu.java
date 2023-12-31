@@ -158,7 +158,9 @@ public abstract class Menu implements InventoryHolder, Listener {
             }
             // Level lore
             if (perk.getLevel() == 0) { // If perk isn't purchased yet
-                addLore(lores, MiniMessage.miniMessage().deserialize("<green><bold>CLICK TO PURCHASE"));
+                addLore(lores, MiniMessage.miniMessage().deserialize("<red>Max Level: <max_level><br><green><bold>CLICK TO PURCHASE",
+                    Placeholder.component("max_level", text(perk.getMaxLevel()))
+                ));
             } else if (perk.getLevel() == perk.getMaxLevel()) {
                 addLore(lores, MiniMessage.miniMessage().deserialize("<red><bold>MAX LEVEL"));
             } else {
