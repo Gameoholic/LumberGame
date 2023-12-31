@@ -42,6 +42,7 @@ public class PlayerScoreboardManager {
                 lines.add(MiniMessage.miniMessage().deserialize(
                     line,
                     Placeholder.component("wave", text(plugin.getGameManager().getWaveNumber() + 1)),
+                    Placeholder.component("queued_mobs", text(plugin.getGameManager().getWaveManager().getMobQueueSize())),
                     Placeholder.component("alive_mobs", text(plugin.getGameManager().getWaveManager().getAliveMobsSize())),
                     Placeholder.component("tree_health_percentage", text(plugin.getGameManager().getTreeManager()
                         .getHealthToMaxHealthRatio())),

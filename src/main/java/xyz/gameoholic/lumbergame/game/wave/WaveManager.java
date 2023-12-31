@@ -137,8 +137,9 @@ public class WaveManager {
         List<Location> spawnLocations = plugin.getLumberConfig().mapConfig().spawnLocations();
         Location selectedSpawnLocation = spawnLocations.get(rnd.nextInt(spawnLocations.size()));
 
-        mobQueue.get(0).spawnMob(selectedSpawnLocation);
+        LumberMob mob = mobQueue.get(0);
         mobQueue.remove(0);
+        mob.spawnMob(selectedSpawnLocation);
     }
 
     /**
@@ -240,5 +241,9 @@ public class WaveManager {
 
     public boolean getWaveEnded() {
         return waveEnded;
+    }
+
+    public int getMobQueueSize() {
+        return mobQueue.size();
     }
 }

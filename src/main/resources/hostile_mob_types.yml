@@ -27,7 +27,7 @@
   item-in-main-hand-id: "BOW"
   has-melee-attack-goal: false
 
-# High knockback and higher speed. 50% damage of normal zombies.
+# High knockback and higher speed. 50% damage scaling of normal zombies.
 - id: "SHOVER"
   display-name: "<green>Shover"
   entity-type: "ZOMBIE_VILLAGER"

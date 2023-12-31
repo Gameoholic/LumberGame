@@ -334,7 +334,7 @@ public class ItemManager {
             "DIAMOND_BOOTS",
             Material.DIAMOND_BOOTS,
             "Diamond Boots",
-            ""
+            "<blue>+3 Armor"
         ));
     }
 
@@ -343,7 +343,7 @@ public class ItemManager {
             "DIAMOND_LEGGINGS",
             Material.DIAMOND_LEGGINGS,
             "Diamond Leggings",
-            ""
+            "<blue>+6 Armor"
         ));
     }
 
@@ -352,7 +352,7 @@ public class ItemManager {
             "DIAMOND_CHESTPLATE",
             Material.DIAMOND_CHESTPLATE,
             "Diamond Chestplate",
-            ""
+            "<blue>+8 Armor"
         ));
     }
 
@@ -361,7 +361,7 @@ public class ItemManager {
             "DIAMOND_HELMET",
             Material.DIAMOND_HELMET,
             "Diamond Helmet",
-            ""
+            "<blue>+3 Armor"
         ));
     }
 

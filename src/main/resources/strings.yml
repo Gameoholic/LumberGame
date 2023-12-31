@@ -112,14 +112,14 @@ tree-death-message: "<gold>Tree has died! You lose! <red><bold>L."
 player-death-message: "<red><player> died! They lost <white><iron>뀀 <gold_amount>뀁 <wood>뀄 <bone_meal>뀂<red>."
 
 scoreboard-title: "<color:#ffa008>Lumber Defense</color>"
-# parameters: <wave>, <wood>, <gold_amount>, <bone_meal>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>
+# parameters: <wave>, <wood>, <gold_amount>, <bone_meal>, <iron>, <alive_mobs>, <tree_health_percentage>, <tree_health>, <tree_max_health>, <queued_mobs>
 scoreboard-lines:
   - "Wave <color:#f08000><wave></color>"
   - "뀃 <transition:#ff0000:#00ff00:<tree_health_fraction>><tree_health_percentage></transition>% <color:#8a8a8a>(<tree_health>/<tree_max_health>)</color>"
   - ""
   - "<color:#f0e40e>You</color> <white><iron>뀀 <gold_amount>뀁 <wood>뀄 <bone_meal>뀂"
   - ""
-  - "<color:#f02805>Mobs</color>: <alive_mobs>"
+  - "<color:#f02805>Mobs</color>: <alive_mobs> <gray>with <queued_mobs> to come.."
 player-scoreboard-line: "<player> <red>❤<transition:#ff0000:#00ff00:<health_fraction>><health></transition></red> <white><iron>뀀 <gold_amount>뀁 <wood>뀄 <bone_meal>뀂"
 
 
