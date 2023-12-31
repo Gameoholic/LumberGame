@@ -408,6 +408,13 @@ public class LumberPlayer implements Listener {
             return;
 
         e.setCancelled(true);
+        if (plugin.getGameManager().getTreeManager().getHealthToMaxHealthRatio() == 100) { // If tree is max health, don't let the tree heal
+            e.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize(
+                plugin.getLumberConfig().strings().treeHealMaxHealthMessage())
+            );
+            return;
+        }
+
         plugin.getGameManager().getTreeManager().onTreeHealByPlayer(e.getPlayer());
     }
 

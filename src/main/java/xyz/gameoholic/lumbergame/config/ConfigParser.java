@@ -123,8 +123,8 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("bone-meal-use-message").getString()),
                 Objects.requireNonNull(root.node("bone-block-use-message").getString()),
                 Objects.requireNonNull(root.node("respawn-cooldown-message").getString()),
-                Objects.requireNonNull(root.node("respawned-message").getString())
-
+                Objects.requireNonNull(root.node("respawned-message").getString()),
+                Objects.requireNonNull(root.node("tree-heal-max-health-message").getString())
             );
 
         } catch (SerializationException e) {

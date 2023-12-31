@@ -78,7 +78,8 @@ public record StringsConfig(
     String boneMealUseMessage,
     String boneBlockUseMessage,
     String respawnCooldownMessage,
-    String respawnedMessage
+    String respawnedMessage,
+    String treeHealMaxHealthMessage
 
 ) {
 
