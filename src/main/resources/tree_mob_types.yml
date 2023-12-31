@@ -8,7 +8,7 @@
 
 # ---------------- Early Mobs ----------------
 
-# Normal zombie, fairly weak. Introduced @ Wave ~1
+# Normal zombie, fairly weak.
 - id: "TREE_ZOMBIE"
   display-name: "뀃 Zombie"
   entity-type: "ZOMBIE"
@@ -16,7 +16,7 @@
   damage-expression: "CR * 0.25 + 1"
   attack-cooldown-expression: "50"
 
-# Normal creeper with a bit of kb resistance, a bit more damage and health than zombies. Introduced @ Wave ~2
+# Normal creeper with a bit of kb resistance, a bit more damage and health than zombies.
 - id: "TREE_CREEPER"
   display-name: "뀃 Creeper"
   entity-type: "CREEPER"
@@ -25,7 +25,7 @@
   knockback-resistance-expression: "0.3"
   attack-cooldown-expression: "10"
 
-# Faster creeper. Less health than normal creepers. Introduced @ Wave ~5
+# Faster creeper. Less health than normal creepers.
 - id: "SNEAKY_CREEPER"
   display-name: "뀃 <green>Sneaky Creeper"
   entity-type: "CREEPER"
@@ -34,11 +34,11 @@
   speed-expression: "0.35"
   knockback-resistance-expression: "0.4"
 
-# Does heavy damage, and walks slowly. Fully knockback resistant. Introduced @ Wave 10
+# Does heavy damage, and walks slowly. Fully knockback resistant.
 - id: "HEAVY_CREEPER"
   display-name: "뀃 <red>Heavy Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 20 + 20"
-  damage-expression: "CR * 4"
-  speed-expression: "0.1"
+  health-expression: "CR * 25 + 20"
+  damage-expression: "CR * 5"
+  speed-expression: "0.2"
   knockback-resistance-expression: "1.0"
