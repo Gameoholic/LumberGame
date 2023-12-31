@@ -43,7 +43,7 @@ mob-displayname: "<name> <#f0291a><health>❤"
 iron-displayname: "<white>Iron"
 gold-displayname: "<gold>Gold"
 iron-lore: "<i><gray>Common drop from mobs."
-gold-lore: "<i><gray>Rare drop from mobs.<br><i><gray>Use to craft <red>Placeholder</red>."
+gold-lore: "<i><gray>Rare drop from mobs.<br><i><gray>Use to buy <red>perks</red> from the shop."
 
 bone-meal-displayname: "<white>Bone Meal"
 bone-meal-lore: "<i><gray>Place near the tree to regenerate its health.<br><i><gray>Regenerates <white>10%</white> of its health."
@@ -51,7 +51,7 @@ bone-block-displayname: "<white><bold>Bone Block"
 bone-block-lore: "<i><gray>Place near the tree to level it up.<br><i><gray>Levelling it up increases its Max HP."
 
 wood-displayname: "<color:#ff8d03>Lumber"
-wood-lore: "<i><gray>Valuable item used for powerful crafts."
+wood-lore: "<i><gray>Valuable item used for powerful crafts.<br><i><gray>Can be converted to <gold>gold</gold> in the shop."
 
 shop-npc-displayname: "<gold>Shop"
 bone-meal-use-message: "<gold><player> has healed the tree by 10%! <transition:#ff0000:#00ff00:<old_tree_health_fraction>><old_tree_health></transition> -> <transition:#ff0000:#00ff00:<new_tree_health_fraction>><new_tree_health></transition>"
