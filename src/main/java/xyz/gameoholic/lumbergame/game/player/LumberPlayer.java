@@ -254,6 +254,11 @@ public class LumberPlayer implements Listener {
         if (!(e.getEntity() instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
 
+        if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
+            // Disable fall damage
+            e.setCancelled(true);
+            return;
+        }
         if (e instanceof EntityDamageByEntityEvent byEntityEvent) {
             // Cancel friendly fire
             if (byEntityEvent.getDamager() instanceof Player) {
