@@ -4,6 +4,11 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
 import java.util.List;
 
@@ -25,5 +30,25 @@ public class OtherUtil {
         String[] tens = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
         String[] units = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
         return thousands[number / 1000] + hundreds[(number % 1000) / 100] + tens[(number % 100) / 10] + units[number % 10];
+    }
+
+    /**
+     * Gives the item velocity in the direction of the player for easier pickup. If not picked up after 10 ticks, forces it into the player's inventory.
+     * @param item The spawned item.
+     * @param player The player who is supposed to pick it up.
+     */
+    public static void pullItemToPlayer(LumberGamePlugin plugin, Item item, Player player) {
+        item.setOwner(player.getUniqueId()); // Prevent stealing mob loot from players
+        item.setPickupDelay(5);
+        item.setVelocity(player.getLocation().subtract(item.getLocation()).toVector().normalize().multiply(0.5));
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!item.isDead())
+                    item.teleport(player.getLocation());
+            }
+        }.runTaskLater(plugin, 10L);
+
     }
 }

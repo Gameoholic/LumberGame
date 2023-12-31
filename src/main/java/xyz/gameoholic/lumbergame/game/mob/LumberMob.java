@@ -31,6 +31,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 import static net.kyori.adventure.text.Component.text;
+import static xyz.gameoholic.lumbergame.util.OtherUtil.pullItemToPlayer;
 
 public class LumberMob implements Listener {
     protected final LumberGamePlugin plugin;
@@ -255,11 +256,7 @@ public class LumberMob implements Listener {
         if (player != null) // Only drop loot if player killed mob
             for (ItemStack itemStack : getDrops()) {
                 Item item = mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
-                item.setPickupDelay(5);
-                // Item magnetism: Give velocity towards player for easier pickup
-                if (player != null) {
-                    item.setVelocity(player.getLocation().subtract(item.getLocation()).toVector().normalize().multiply(0.5));
-                }
+                pullItemToPlayer(plugin, item, player); // Item magnetism: Give velocity towards player for easier pickup
             }
 
         // If mob is skeleton and was holding TNT (aka Ranged Bomber), spawn TNT on death
