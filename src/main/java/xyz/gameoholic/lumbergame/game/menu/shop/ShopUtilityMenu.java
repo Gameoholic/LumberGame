@@ -19,6 +19,7 @@ public class ShopUtilityMenu extends Menu {
     protected void setInventoryItems() {
         setItem(22, new PurchasableMenuItem(plugin, "HEALTH_POTION", "WOOD", 2));
         setItem(13, new PurchasableMenuItem(plugin, "GOLD", "WOOD", 5));
+        setItem(13, new PurchasableMenuItem(plugin, "GOLD", "IRON", 64));
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }

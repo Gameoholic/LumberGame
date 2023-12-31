@@ -415,7 +415,7 @@ public class ItemManager {
             "MENU_UTILITY",
             Material.GOLDEN_APPLE,
             "<red>Utility Items",
-            "<gray><i>Purchase utility items."
+            "<gray><i>Purchase utility items and convert your currencies to gold."
         ));
     }
     public ItemStack getMenuPerksItem() {

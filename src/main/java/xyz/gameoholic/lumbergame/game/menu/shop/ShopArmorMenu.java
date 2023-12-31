@@ -22,15 +22,15 @@ public class ShopArmorMenu extends Menu {
         setItem(21, new PurchasableMenuItem(plugin, "LEATHER_CHESTPLATE", "IRON", 48));
         setItem(30, new PurchasableMenuItem(plugin, "LEATHER_HELMET", "IRON", 32));
 
-        setItem(4, new PurchasableMenuItem(plugin, "IRON_BOOTS", "IRON", 32));
-        setItem(13, new PurchasableMenuItem(plugin, "IRON_LEGGINGS", "IRON", 64));
-        setItem(22, new PurchasableMenuItem(plugin, "IRON_CHESTPLATE", "IRON", 96));
-        setItem(31, new PurchasableMenuItem(plugin, "IRON_HELMET", "IRON", 64));
+        setItem(4, new PurchasableMenuItem(plugin, "IRON_BOOTS", "IRON", 64));
+        setItem(13, new PurchasableMenuItem(plugin, "IRON_LEGGINGS", "IRON", 128));
+        setItem(22, new PurchasableMenuItem(plugin, "IRON_CHESTPLATE", "IRON", 192));
+        setItem(31, new PurchasableMenuItem(plugin, "IRON_HELMET", "IRON", 128));
 
-        setItem(5, new PurchasableMenuItem(plugin, "DIAMOND_BOOTS", "WOOD", 20));
-        setItem(14, new PurchasableMenuItem(plugin, "DIAMOND_LEGGINGS", "WOOD", 40));
-        setItem(23, new PurchasableMenuItem(plugin, "DIAMOND_CHESTPLATE", "WOOD", 64));
-        setItem(32, new PurchasableMenuItem(plugin, "DIAMOND_HELMET", "WOOD", 40));
+        setItem(5, new PurchasableMenuItem(plugin, "DIAMOND_BOOTS", "WOOD", 32));
+        setItem(14, new PurchasableMenuItem(plugin, "DIAMOND_LEGGINGS", "WOOD", 64));
+        setItem(23, new PurchasableMenuItem(plugin, "DIAMOND_CHESTPLATE", "WOOD", 96));
+        setItem(32, new PurchasableMenuItem(plugin, "DIAMOND_HELMET", "WOOD", 64));
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }
