@@ -35,7 +35,4 @@ public class ShopPerksMenu extends Menu {
                 break;
         }
     }
-
-
-
 }

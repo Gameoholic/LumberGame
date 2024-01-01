@@ -408,6 +408,7 @@ public class LumberPlayer implements Listener {
             e.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize(
                 plugin.getLumberConfig().strings().treeHealMaxHealthMessage())
             );
+            e.setCancelled(true);
             return;
         }
 

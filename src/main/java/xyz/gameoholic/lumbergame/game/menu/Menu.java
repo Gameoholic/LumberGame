@@ -21,6 +21,7 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.player.perk.Perk;
 import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
+import xyz.gameoholic.lumbergame.game.player.perk.TeamPerk;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -199,13 +200,13 @@ public abstract class Menu implements InventoryHolder, Listener {
      * @return The ItemStack if the purchase was successful, null otherwise.
      */
     protected boolean purchasePerk(PurchasablePerkMenuItem purchasablePerkMenuItem) {
-        LumberPlayer player = plugin.getGameManager().getPlayers().stream()
-            .filter(lumberPlayer -> lumberPlayer.getUuid() == playerUUID).findFirst().get();
+        LumberPlayer lumberPlayer = plugin.getGameManager().getPlayers().stream()
+            .filter(filteredLumberPlayer -> filteredLumberPlayer.getUuid() == playerUUID).findFirst().get();
 
-        boolean playerHasPerk = player.getPerks().stream()
+        boolean playerHasPerk = lumberPlayer.getPerks().stream()
             .filter(filteredPerk -> filteredPerk.getType() == purchasablePerkMenuItem.getType()).findFirst().isPresent();
 
-        Perk perk = Perk.getPerk(player, purchasablePerkMenuItem.getType());
+        Perk perk = Perk.getPerk(lumberPlayer, purchasablePerkMenuItem.getType());
 
         if (perk.getLevel() == perk.getMaxLevel()) // Can't level up beyond max level
             return false;
@@ -214,12 +215,32 @@ public abstract class Menu implements InventoryHolder, Listener {
             return false;
 
         // If purchase was successful:
-        if (!playerHasPerk)
-            player.getPerks().add(perk); // If player doesn't have perk, add it
-        perk.incrementLevel(); // Increment level. If perk was just added it'd be at level 0 anyway so we make it level 1
-        perk.activate(Bukkit.getPlayer(playerUUID));
+        if (perk instanceof TeamPerk) {
+            // Apply perk to all players
+            plugin.getGameManager().getPlayers().forEach(teamLumberPlayer -> {
+                if (!playerHasPerk) // If player doesn't have team perk, nobody has it
+                    teamLumberPlayer.getPerks().add(Perk.getPerk(teamLumberPlayer, purchasablePerkMenuItem.getType())); // Get new perk specific to this player
 
-        setInventoryItems(); // Refresh the items with the new perk data
+                @Nullable Player teamPlayer = Bukkit.getPlayer(teamLumberPlayer.getUuid());
+                Perk teamPerk = teamLumberPlayer.getPerks().stream()
+                    .filter(filteredPerk -> filteredPerk.getType() == purchasablePerkMenuItem.getType()).findFirst().get();
+                teamPerk.incrementLevel();
+
+                if (teamPlayer != null)
+                    teamPerk.activate(teamPlayer);
+                // todo: refresh inventory items for every player not just the one who purchased it.
+                setInventoryItems();
+                //todo: send message
+            });
+        } else {
+            // Apply perk only to player who bought it
+            if (!playerHasPerk) {  // If player doesn't have perk, add it
+                lumberPlayer.getPerks().add(perk);
+            }
+            perk.incrementLevel(); // Increment level. If perk was just added it'd be at level 0 anyway so we make it level 1
+            perk.activate(Bukkit.getPlayer(playerUUID));
+            setInventoryItems(); // Refresh the items with the new perk data
+        }
         return true;
     }
 

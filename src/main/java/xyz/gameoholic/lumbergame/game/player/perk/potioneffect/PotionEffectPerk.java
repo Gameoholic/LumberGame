@@ -3,11 +3,11 @@ package xyz.gameoholic.lumbergame.game.player.perk.potioneffect;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import xyz.gameoholic.lumbergame.game.player.perk.Perk;
+import xyz.gameoholic.lumbergame.game.player.perk.TeamPerk;
 
 import static xyz.gameoholic.lumbergame.util.OtherUtil.intToRoman;
 
-public abstract class PotionEffectPerk extends Perk {
+public abstract class PotionEffectPerk extends TeamPerk {
     @Override
     public void activate(Player player) {
         player.addPotionEffect(new PotionEffect(getPotionEffectType(), Integer.MAX_VALUE, getLevel() - 1, false, false));
