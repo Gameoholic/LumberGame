@@ -53,7 +53,7 @@ bone-block-lore: "<i><gray>Place near the tree to level it up.<br><i><gray>Level
 wood-displayname: "<color:#ff8d03>Lumber"
 wood-lore: "<i><gray>Valuable item used for powerful crafts.<br><i><gray>Can be converted to <gold>gold</gold> in the shop."
 
-shop-npc-displayname: "<gold>Shop"
+shop-npc-displayname: "Shop"
 bone-meal-use-message: "<gold><player> has healed the tree by 10%! <transition:#ff0000:#00ff00:<old_tree_health_fraction>><old_tree_health></transition> -> <transition:#ff0000:#00ff00:<new_tree_health_fraction>><new_tree_health></transition>"
 bone-block-use-message: "<gold><bold><player> has levelled up the tree! Max health: <gray><old_tree_max_health></gray> -> <green><new_tree_max_health></green>"
 

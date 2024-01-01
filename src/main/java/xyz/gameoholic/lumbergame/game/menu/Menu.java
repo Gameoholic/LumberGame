@@ -232,7 +232,7 @@ public abstract class Menu implements InventoryHolder, Listener {
                     teamPerk.activate(teamPlayer);
                     teamPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
                         plugin.getLumberConfig().strings().teamPerkBuyMessage(),
-                        Placeholder.component("player", teamPlayer.name()),
+                        Placeholder.component("player", Bukkit.getPlayer(playerUUID).name()),
                         Placeholder.component("perk", teamPerk.getName()),
                         Placeholder.component("level", text(intToRoman(teamPerk.getLevel())))
                     ));

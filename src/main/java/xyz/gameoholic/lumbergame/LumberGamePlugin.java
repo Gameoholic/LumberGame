@@ -22,7 +22,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     private PlayerNPCManager playerNPCManager;
     @Override
     public void onEnable() {
-        saveResource("strings.yml", true);
+        saveResource("strings.yml", false);
         saveResource("hostile_mob_types.yml", true);
         saveResource("tree_mob_types.yml", true);
         saveResource("map.yml", true);
