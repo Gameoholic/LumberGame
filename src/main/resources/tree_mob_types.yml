@@ -24,6 +24,7 @@
   damage-expression: "CR * 0.5 + 1"
   knockback-resistance-expression: "0.3"
   attack-cooldown-expression: "10"
+  can-spawn-with-bone-meal: false
 
 # Faster creeper. Less health than normal creepers.
 - id: "SNEAKY_CREEPER"
@@ -33,6 +34,7 @@
   damage-expression: "CR * 0.5 + 1"
   speed-expression: "0.35"
   knockback-resistance-expression: "0.4"
+  can-spawn-with-bone-meal: false
 
 # Does heavy damage, and walks slowly. Fully knockback resistant.
 - id: "HEAVY_CREEPER"
@@ -42,3 +44,4 @@
   damage-expression: "CR * 5"
   speed-expression: "0.2"
   knockback-resistance-expression: "1.0"
+  can-spawn-with-bone-meal: false

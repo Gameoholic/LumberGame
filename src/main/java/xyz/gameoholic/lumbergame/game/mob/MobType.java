@@ -23,6 +23,7 @@ public record MobType(
     @Nullable String itemInChestplateID,
     @Nullable String itemInLeggingsID,
     @Nullable String itemInBootsID,
-    boolean hasMeleeAttackGoal
+    boolean hasMeleeAttackGoal,
+    boolean canSpawnWithBoneMeal
 ) {
 }

@@ -227,6 +227,8 @@ public class LumberMob implements Listener {
             plugin.getLumberConfig().gameConfig().boneMealMeterFillExpression(),
             Map.of("CR", (double) CR)
         ));
+        if (!mobType.canSpawnWithBoneMeal()) // If mob can't spawn with bone meal, skip this mob but don't reset the meter
+            return false;
         if (plugin.getGameManager().getBoneMealMeter() >= 100) {
             plugin.getGameManager().resetBoneMealMeter();
             return true;

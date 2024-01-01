@@ -308,7 +308,8 @@ public class ConfigParser {
                         mobType.node("item-in-chestplate-id").getString(),
                         mobType.node("item-in-leggings-id").getString(),
                         mobType.node("item-in-boots-id").getString(),
-                        mobType.node("has-melee-attack-goal").getBoolean(true)
+                        mobType.node("has-melee-attack-goal").getBoolean(true),
+                        mobType.node("can-spawn-with-bone-meal").getBoolean(true)
                     ));
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -89,17 +89,18 @@ public class WaveManager {
             mobQueue.add(getMob(selectedMobType, mobCR, false));
             leftWaveCR -= mobCR;
         }
-        // Spawn with bone block if needed
-        if (wave.boneBlock()) {
-            LumberMob firstMob = mobQueue.get(0); // Replace first mob with bone block variant
-            mobQueue.set(0, getMob(firstMob.getMobType(), firstMob.getCR(), true));
-        }
-        Collections.shuffle(mobQueue); // We shuffle because of guaranteed mobs & bone blocks being at the start of the list.
+        Collections.shuffle(mobQueue); // We shuffle because of guaranteed mobs being at the start of the list.
 
         // Iterate over mobs with specific indices, add them to the mobQueue at wanted index
         for (Map.Entry<LumberMob, Integer> mobTypeEntry : mobsWithIndex.entrySet()) {
             // Index specified is the index from the end of the list. (for example, 0 would be end of list, 1 would be one before)
             mobQueue.add(mobQueue.size() - mobTypeEntry.getValue(), mobTypeEntry.getKey());
+        }
+
+        // Spawn with bone block if needed
+        if (wave.boneBlock()) {
+            LumberMob lastMob = mobQueue.get(mobQueue.size() - 1); // Replace last mob with bone block variant
+            mobQueue.set(mobQueue.size() - 1, getMob(lastMob.getMobType(), lastMob.getCR(), true));
         }
 
         plugin.getLogger().info("Loaded " + mobQueue.size() + " mobs for the round.");
