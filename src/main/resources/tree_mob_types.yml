@@ -40,7 +40,7 @@
 - id: "HEAVY_CREEPER"
   display-name: "뀃 <red>Heavy Creeper"
   entity-type: "CREEPER"
-  health-expression: "CR * 20 + 20"
+  health-expression: "CR * 15 + 20"
   damage-expression: "CR * 5"
   speed-expression: "0.2"
   knockback-resistance-expression: "1.0"
