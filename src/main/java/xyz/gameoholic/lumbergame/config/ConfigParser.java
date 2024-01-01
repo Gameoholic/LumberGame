@@ -124,7 +124,8 @@ public class ConfigParser {
                 Objects.requireNonNull(root.node("bone-block-use-message").getString()),
                 Objects.requireNonNull(root.node("respawn-cooldown-message").getString()),
                 Objects.requireNonNull(root.node("respawned-message").getString()),
-                Objects.requireNonNull(root.node("tree-heal-max-health-message").getString())
+                Objects.requireNonNull(root.node("tree-heal-max-health-message").getString()),
+                Objects.requireNonNull(root.node("team-perk-buy-message").getString())
             );
 
         } catch (SerializationException e) {

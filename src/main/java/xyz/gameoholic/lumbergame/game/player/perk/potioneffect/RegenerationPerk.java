@@ -1,7 +1,10 @@
 package xyz.gameoholic.lumbergame.game.player.perk.potioneffect;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.potion.PotionEffectType;
 import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
+
+import static net.kyori.adventure.text.Component.text;
 
 public class RegenerationPerk extends PotionEffectPerk {
     public RegenerationPerk(int level) {
@@ -9,7 +12,7 @@ public class RegenerationPerk extends PotionEffectPerk {
     }
     @Override
     public String getCostExpression() {
-        return "LEVEL * LEVEL * 2.5 + 2"; // {1, 2, 3} -> {4, 12, 24}
+        return "LEVEL * LEVEL * 2 + 2"; // {1, 2, 3} -> {4, 10, 20}
     }
 
     @Override
@@ -35,5 +38,9 @@ public class RegenerationPerk extends PotionEffectPerk {
     @Override
     protected String getEffectName() {
         return "Regeneration";
+    }
+    @Override
+    public Component getName() {
+        return text(getEffectName());
     }
 }

@@ -1,7 +1,10 @@
 package xyz.gameoholic.lumbergame.game.player.perk.potioneffect;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.potion.PotionEffectType;
 import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
+
+import static net.kyori.adventure.text.Component.text;
 
 public class SpeedPerk extends PotionEffectPerk {
     public SpeedPerk(int level) {
@@ -9,7 +12,7 @@ public class SpeedPerk extends PotionEffectPerk {
     }
     @Override
     public String getCostExpression() {
-        return "LEVEL * LEVEL"; // {1, 2, 3} -> {1, 4, 9}
+        return "LEVEL * 2 - 1"; // {1, 2, 3} -> {1, 3, 5}
     }
 
     @Override
@@ -35,5 +38,9 @@ public class SpeedPerk extends PotionEffectPerk {
     @Override
     protected String getEffectName() {
         return "Speed";
+    }
+    @Override
+    public Component getName() {
+        return text(getEffectName());
     }
 }

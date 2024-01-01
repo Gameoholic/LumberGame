@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
 import static xyz.gameoholic.lumbergame.util.OtherUtil.addLore;
+import static xyz.gameoholic.lumbergame.util.OtherUtil.intToRoman;
 
 /**
  * Represents an inventory menu.
@@ -211,7 +212,8 @@ public abstract class Menu implements InventoryHolder, Listener {
         if (perk.getLevel() == perk.getMaxLevel()) // Can't level up beyond max level
             return false;
 
-        if (!processPurchase(perk.getCurrencyId(), perk.getCost()))
+        int perkCostMultiplier = (perk instanceof TeamPerk) ? plugin.getGameManager().getPlayers().size() : 1; // If perk is team perk, multiply cost by player count
+        if (!processPurchase(perk.getCurrencyId(), perk.getCost() * perkCostMultiplier))
             return false;
 
         // If purchase was successful:
@@ -222,15 +224,20 @@ public abstract class Menu implements InventoryHolder, Listener {
                     teamLumberPlayer.getPerks().add(Perk.getPerk(teamLumberPlayer, purchasablePerkMenuItem.getType())); // Get new perk specific to this player
 
                 @Nullable Player teamPlayer = Bukkit.getPlayer(teamLumberPlayer.getUuid());
-                Perk teamPerk = teamLumberPlayer.getPerks().stream()
+                TeamPerk teamPerk = (TeamPerk) teamLumberPlayer.getPerks().stream()
                     .filter(filteredPerk -> filteredPerk.getType() == purchasablePerkMenuItem.getType()).findFirst().get();
                 teamPerk.incrementLevel();
 
-                if (teamPlayer != null)
+                if (teamPlayer != null) {
                     teamPerk.activate(teamPlayer);
-                // todo: refresh inventory items for every player not just the one who purchased it.
-                setInventoryItems();
-                //todo: send message
+                    teamPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
+                        plugin.getLumberConfig().strings().teamPerkBuyMessage(),
+                        Placeholder.component("player", teamPlayer.name()),
+                        Placeholder.component("perk", teamPerk.getName()),
+                        Placeholder.component("level", text(intToRoman(teamPerk.getLevel())))
+                    ));
+                }
+                // todo: refresh inventory items for every player not just the one who purchased it. with setInventoryItems()
             });
         } else {
             // Apply perk only to player who bought it
@@ -239,8 +246,8 @@ public abstract class Menu implements InventoryHolder, Listener {
             }
             perk.incrementLevel(); // Increment level. If perk was just added it'd be at level 0 anyway so we make it level 1
             perk.activate(Bukkit.getPlayer(playerUUID));
-            setInventoryItems(); // Refresh the items with the new perk data
         }
+        setInventoryItems(); // Refresh the items with the new perk data
         return true;
     }
 

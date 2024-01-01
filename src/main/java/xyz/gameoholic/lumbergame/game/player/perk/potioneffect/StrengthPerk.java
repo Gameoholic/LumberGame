@@ -1,7 +1,10 @@
 package xyz.gameoholic.lumbergame.game.player.perk.potioneffect;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.potion.PotionEffectType;
 import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
+
+import static net.kyori.adventure.text.Component.text;
 
 public class StrengthPerk extends PotionEffectPerk {
     public StrengthPerk(int level) {
@@ -9,7 +12,7 @@ public class StrengthPerk extends PotionEffectPerk {
     }
     @Override
     public String getCostExpression() {
-        return "LEVEL * LEVEL * 3 + 7"; // {1, 2, 3} -> {10, 19, 34}
+        return "LEVEL * LEVEL * 3 + 5"; // {1, 2, 3} -> {8, 17, 32}
     }
 
     @Override
@@ -35,5 +38,9 @@ public class StrengthPerk extends PotionEffectPerk {
     @Override
     protected String getEffectName() {
         return "Strength";
+    }
+    @Override
+    public Component getName() {
+        return text(getEffectName());
     }
 }

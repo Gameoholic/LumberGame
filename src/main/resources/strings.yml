@@ -133,3 +133,5 @@ wood-icon: '뀄'
 respawn-cooldown-message: "<gold>Respawning in <red><seconds></red>"
 respawned-message: "<gold>Respawned!"
 tree-heal-max-health-message: "<red>Tree is already on max health!"
+# parameters: <player>, <perk>, <level>
+team-perk-buy-message: "<gold><red><player></red> purchased <perk> <level>!"

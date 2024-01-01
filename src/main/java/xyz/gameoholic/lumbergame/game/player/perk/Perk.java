@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game.player.perk;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.player.perk.potioneffect.HealthBoostPerk;
@@ -25,6 +26,9 @@ public abstract class Perk {
      */
     public abstract void onRespawn(Player player);
 
+    /**
+     * @return The cost to upgrade/purchase this perk.
+     */
     public int getCost() {
         return (int) ExpressionUtil.evaluateExpression(getCostExpression(), Map.of("LEVEL", (double) (level + 1)));
     }
@@ -47,7 +51,6 @@ public abstract class Perk {
         level++;
     }
 
-
     /**
      * Gets a player's perk.
      * @param player The player.
@@ -65,4 +68,6 @@ public abstract class Perk {
             case EFFECT_HEALTH_BOOST -> new HealthBoostPerk(0);
         };
     }
+
+
 }

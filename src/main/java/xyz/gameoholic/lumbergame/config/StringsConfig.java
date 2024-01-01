@@ -79,7 +79,8 @@ public record StringsConfig(
     String boneBlockUseMessage,
     String respawnCooldownMessage,
     String respawnedMessage,
-    String treeHealMaxHealthMessage
+    String treeHealMaxHealthMessage,
+    String teamPerkBuyMessage
 
 ) {
 

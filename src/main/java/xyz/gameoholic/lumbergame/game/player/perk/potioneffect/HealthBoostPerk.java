@@ -1,8 +1,10 @@
 package xyz.gameoholic.lumbergame.game.player.perk.potioneffect;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.potion.PotionEffectType;
 import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
 
+import static net.kyori.adventure.text.Component.text;
 import static xyz.gameoholic.lumbergame.util.OtherUtil.intToRoman;
 
 public class HealthBoostPerk extends PotionEffectPerk {
@@ -49,5 +51,10 @@ public class HealthBoostPerk extends PotionEffectPerk {
         return "<gray>Grants you PERMANENT <hearts> <green> -> <new_hearts></green> hearts."
             .replace("<hearts>", level * 2 + "")
             .replace("<new_hearts>", (level + 1) * 2 + "");
+    }
+
+    @Override
+    public Component getName() {
+        return text(getEffectName());
     }
 }
