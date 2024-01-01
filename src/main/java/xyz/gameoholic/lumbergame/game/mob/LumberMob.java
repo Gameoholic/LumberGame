@@ -271,13 +271,21 @@ public class LumberMob implements Listener {
             mob.getEquipment().getItemInMainHand(),
             plugin.getItemManager().getBoneMealItem()
         ))
-            mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getItemInMainHand());
+            pullItemToPlayer(
+                plugin,
+                mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getItemInMainHand()),
+                player
+            );
         // If mob had bone block on head
         if (plugin.getItemManager().compareItems(
             mob.getEquipment().getHelmet(),
             plugin.getItemManager().getBoneBlockItem()
         ))
-            mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), plugin.getItemManager().getBoneBlockItem());
+            pullItemToPlayer(
+                plugin,
+                mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), plugin.getItemManager().getBoneBlockItem()),
+                player
+            );
     }
 
     /**

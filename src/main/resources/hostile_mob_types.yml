@@ -81,5 +81,3 @@
   entity-type: "GIANT"
   health-expression: "CR * 5 + 3.5"
   damage-expression: "CR * 0.25 + 1"
-  speed-expression: "0.25"
-

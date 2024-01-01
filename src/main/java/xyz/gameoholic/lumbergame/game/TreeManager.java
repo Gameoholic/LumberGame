@@ -17,6 +17,7 @@ import java.util.Map;
 
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.toComponent;
+import static xyz.gameoholic.lumbergame.util.OtherUtil.pullItemToPlayer;
 
 public class TreeManager {
     private final LumberGamePlugin plugin;
@@ -37,6 +38,7 @@ public class TreeManager {
 
         pasteTreeSchematic();
     }
+
     /**
      * Called after the game has fully loaded and the first wave has started.
      */
@@ -126,7 +128,11 @@ public class TreeManager {
         onAnyHealthChanged();
 
         for (int i = 0; i < healthChopped; i++) {
-            location.getWorld().dropItemNaturally(location, plugin.getItemManager().getWoodItem());
+            pullItemToPlayer(
+                plugin,
+                location.getWorld().dropItemNaturally(location, plugin.getItemManager().getWoodItem()),
+                player
+            );
         }
     }
 
