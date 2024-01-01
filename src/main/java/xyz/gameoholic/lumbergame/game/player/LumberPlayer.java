@@ -402,19 +402,21 @@ public class LumberPlayer implements Listener {
         if (e.getBlock().getLocation().distanceSquared(plugin.getLumberConfig().mapConfig().treeLocation())
             > plugin.getLumberConfig().mapConfig().treeRadius())
             return;
-        // Check whether the bone meal that was used is the Lumber bone meal
-        boolean hasItem = plugin.getItemManager().removeItemsFromInventory(e.getPlayer(), "BONE_MEAL", 1);
-        if (!hasItem)
-            return;
 
-        e.setCancelled(true);
-        if (plugin.getGameManager().getTreeManager().getHealthToMaxHealthRatio() == 100) { // If tree is max health, don't let the tree heal
+        // If tree is max health, don't let the tree heal
+        if (plugin.getGameManager().getTreeManager().getHealthToMaxHealthRatio() == 100) {
             e.getPlayer().sendMessage(MiniMessage.miniMessage().deserialize(
                 plugin.getLumberConfig().strings().treeHealMaxHealthMessage())
             );
             return;
         }
 
+        // Check whether the bone meal that was used is the Lumber bone meal
+        boolean hasItem = plugin.getItemManager().removeItemsFromInventory(e.getPlayer(), "BONE_MEAL", 1);
+        if (!hasItem)
+            return;
+
+        e.setCancelled(true);
         plugin.getGameManager().getTreeManager().onTreeHealByPlayer(e.getPlayer());
     }
 
