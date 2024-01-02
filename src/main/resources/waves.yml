@@ -210,8 +210,8 @@
 # Difficulty bump! CR is bumped by 5. Bombers introduced.
 # From now on waves are slower but with more difficult mobs.
 - wave-cr: 400
-  spawn-timer-min: 50
-  spawn-timer-max: 100
+  spawn-timer-min: 60
+  spawn-timer-max: 120
   mob-min-cr: 16
   mob-max-cr: 16
   mob-types:
@@ -236,8 +236,8 @@
 # Wave 12
 # Ranged bombers introduced. 2 Heavy bombers.
 - wave-cr: 450
-  spawn-timer-min: 50
-  spawn-timer-max: 100
+  spawn-timer-min: 60
+  spawn-timer-max: 120
   mob-min-cr: 16
   mob-max-cr: 17
   mob-types:
@@ -273,8 +273,8 @@
 # Wave 13
 # Sneaky bombers introduced.
 - wave-cr: 550
-  spawn-timer-min: 40
-  spawn-timer-max: 90
+  spawn-timer-min: 60
+  spawn-timer-max: 120
   mob-min-cr: 17
   mob-max-cr: 18
   mob-types:
@@ -307,8 +307,8 @@
 # Wave 14
 # Explosive mobs & shovers only. Long round.
 - wave-cr: 700
-  spawn-timer-min: 50
-  spawn-timer-max: 100
+  spawn-timer-min: 60
+  spawn-timer-max: 120
   mob-min-cr: 18
   mob-max-cr: 19
   mob-types:

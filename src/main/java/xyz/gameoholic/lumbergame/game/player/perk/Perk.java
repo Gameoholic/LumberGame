@@ -2,6 +2,7 @@ package xyz.gameoholic.lumbergame.game.player.perk;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
+import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.player.perk.potioneffect.HealthBoostPerk;
 import xyz.gameoholic.lumbergame.game.player.perk.potioneffect.RegenerationPerk;
@@ -25,6 +26,7 @@ public abstract class Perk {
      * @param player The Player this perk belongs to.
      */
     public abstract void onRespawn(Player player);
+    public abstract void onGameEnd();
 
     /**
      * @return The cost to upgrade/purchase this perk.
@@ -55,9 +57,10 @@ public abstract class Perk {
      * Gets a player's perk.
      * @param player The player.
      * @param perkType The perk type.
+     * @param plugin The plugin instance.
      * @return The perk belonging to the player, or a new perk with level 0.
      */
-    public static Perk getPerk(LumberPlayer player, PerkType perkType) {
+    public static Perk getPerk(LumberPlayer player, PerkType perkType, LumberGamePlugin plugin) {
         @Nullable Perk foundPerk = player.getPerks().stream()
             .filter(filteredPerk -> filteredPerk.getType() == perkType).findFirst().orElse(null);
 
@@ -66,6 +69,7 @@ public abstract class Perk {
             case EFFECT_SPEED -> new SpeedPerk(0);
             case EFFECT_STRENGTH -> new StrengthPerk(0);
             case EFFECT_HEALTH_BOOST -> new HealthBoostPerk(0);
+            case DOUBLE_JUMP -> new DoubleJumpPerk(0, player.getUuid(), plugin);
         };
     }
 

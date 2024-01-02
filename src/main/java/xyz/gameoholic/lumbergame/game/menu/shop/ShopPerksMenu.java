@@ -22,6 +22,7 @@ public class ShopPerksMenu extends Menu {
         setItem(13, new PurchasablePerkMenuItem(plugin, "REGEN_PERK", PerkType.EFFECT_REGEN));
         setItem(14, new PurchasablePerkMenuItem(plugin, "STRENGTH_PERK", PerkType.EFFECT_STRENGTH));
         setItem(22, new PurchasablePerkMenuItem(plugin, "HEALTH_BOOST_PERK", PerkType.EFFECT_HEALTH_BOOST));
+        setItem(23, new PurchasablePerkMenuItem(plugin, "HEALTH_BOOST_PERK", PerkType.DOUBLE_JUMP));
 
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));

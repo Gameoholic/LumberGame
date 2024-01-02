@@ -136,7 +136,7 @@ public abstract class Menu implements InventoryHolder, Listener {
 
             LumberPlayer player = plugin.getGameManager().getPlayers().stream()
                 .filter(lumberPlayer -> lumberPlayer.getUuid() == playerUUID).findFirst().get();
-            Perk perk = Perk.getPerk(player, purchasablePerkMenuItem.getType());
+            Perk perk = Perk.getPerk(player, purchasablePerkMenuItem.getType(), plugin);
 
             // Convert currency_icon to equivalent icon of currency
             Character currencyIcon = switch (perk.getCurrencyId()) {
@@ -207,7 +207,7 @@ public abstract class Menu implements InventoryHolder, Listener {
         boolean playerHasPerk = lumberPlayer.getPerks().stream()
             .filter(filteredPerk -> filteredPerk.getType() == purchasablePerkMenuItem.getType()).findFirst().isPresent();
 
-        Perk perk = Perk.getPerk(lumberPlayer, purchasablePerkMenuItem.getType());
+        Perk perk = Perk.getPerk(lumberPlayer, purchasablePerkMenuItem.getType(), plugin);
 
         if (perk.getLevel() == perk.getMaxLevel()) // Can't level up beyond max level
             return false;
@@ -221,7 +221,7 @@ public abstract class Menu implements InventoryHolder, Listener {
             // Apply perk to all players
             plugin.getGameManager().getPlayers().forEach(teamLumberPlayer -> {
                 if (!playerHasPerk) // If player doesn't have team perk, nobody has it
-                    teamLumberPlayer.getPerks().add(Perk.getPerk(teamLumberPlayer, purchasablePerkMenuItem.getType())); // Get new perk specific to this player
+                    teamLumberPlayer.getPerks().add(Perk.getPerk(teamLumberPlayer, purchasablePerkMenuItem.getType(), plugin)); // Get new perk specific to this player
 
                 @Nullable Player teamPlayer = Bukkit.getPlayer(teamLumberPlayer.getUuid());
                 TeamPerk teamPerk = (TeamPerk) teamLumberPlayer.getPerks().stream()

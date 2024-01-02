@@ -11,6 +11,7 @@ public class HealthBoostPerk extends PotionEffectPerk {
     public HealthBoostPerk(int level) {
         this.level = level;
     }
+
     @Override
     public String getCostExpression() {
         return "LEVEL * LEVEL + 3"; // {1, 2, 3, 4, 5} -> {4, 7, 12, 19, 28}

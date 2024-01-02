@@ -18,6 +18,9 @@ public abstract class PotionEffectPerk extends TeamPerk {
         // When player respawns, loses potion effect. Reapply it.
         activate(player);
     }
+    @Override
+    public void onGameEnd() {
+    }
     abstract PotionEffectType getPotionEffectType();
 
     @Override

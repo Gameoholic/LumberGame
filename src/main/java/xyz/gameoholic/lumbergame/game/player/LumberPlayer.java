@@ -98,6 +98,7 @@ public class LumberPlayer implements Listener {
         PlayerDeathEvent.getHandlerList().unregister(this);
         PlayerRespawnEvent.getHandlerList().unregister(this);
 
+        perks.forEach(perk -> perk.onGameEnd());
         treeDestructionTask.cancel();
     }
 
