@@ -11,8 +11,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+import xyz.gameoholic.lumbergame.DoubleJumpLandParticle;
+import xyz.gameoholic.lumbergame.DoubleJumpParticle;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
+import xyz.gameoholic.partigon.particle.PartigonParticle;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -30,6 +33,7 @@ public class DoubleJumpPerk extends Perk implements Listener {
      */
     private boolean doubleJumped = false;
     private static final int MIN_LEVEL_FOR_DAMAGE = 2;
+    private @Nullable PartigonParticle doubleJumpParticle = null;
 
     public DoubleJumpPerk(int level, UUID playerUUID, LumberGamePlugin plugin) {
         this.level = level;
@@ -69,6 +73,9 @@ public class DoubleJumpPerk extends Perk implements Listener {
                 .setY(0.75)
         );
         doubleJumped = true;
+        e.getPlayer().setAllowFlight(false);
+        doubleJumpParticle = DoubleJumpParticle.INSTANCE.getParticle(e.getPlayer());
+        doubleJumpParticle.start();
     }
     private void onTick() {
         @Nullable Player player = Bukkit.getPlayer(playerUUID);
@@ -76,10 +83,15 @@ public class DoubleJumpPerk extends Perk implements Listener {
             return;
         if (doubleJumped && player.isOnGround()) { // We should not be using Player#isOnGround, unreliable & susceptible to spoofing
             doubleJumped = false; // Reset flag, allow double jumping again
+            player.setAllowFlight(true);
+            doubleJumpParticle.stop();
+            doubleJumpParticle = null;
+
             if (level >= MIN_LEVEL_FOR_DAMAGE) {
+                DoubleJumpLandParticle.INSTANCE.getParticle(player.getLocation(), getRadius(level)).start();
                 // Hurt entities in radius
                 Collection<Entity> hurtEntities = player.getLocation()
-                    .getNearbyEntities(getRadius(level) * 0.5, getRadius(level) * 0.5, getRadius(level) * 0.5);
+                    .getNearbyEntities(getRadius(level), getRadius(level), getRadius(level));
                 hurtEntities.forEach(entity -> {
                     if (entity instanceof Mob mob) {
                         mob.damage(getDamage(level));
@@ -91,17 +103,18 @@ public class DoubleJumpPerk extends Perk implements Listener {
 
     @Override
     public void onRespawn(Player player) {
+        player.setAllowFlight(true);
     }
 
 
     public String getCostExpression() {
-        return "LEVEL * LEVEL + 3"; // {1, 2, 3, 4, 5} -> {4, 7, 12, 19, 28}
+        return "LEVEL * LEVEL + 3"; // {1, 2, 3, 4, 5, 6} -> {4, 7, 12, 19, 28, 39}
     }
 
 
     @Override
     public int getMaxLevel() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -119,8 +132,8 @@ public class DoubleJumpPerk extends Perk implements Listener {
         return (int) evaluateExpression("LEVEL * LEVEL * 1.5", Map.of("LEVEL", (double) level));
     }
     private double getRadius(int level) {
-        // radius expression: {2, 3, 4, 5, 6} -> {3.0, 3.5, 4.0, 4.5, 5.0}
-        return evaluateExpression("3 + (LEVEL - 2) * 0.5", Map.of("LEVEL", (double) level));
+        // radius expression: {2, 3, 4, 5, 6} -> {1.0, 1.75, 2.5, 3.25, 4.0}
+        return evaluateExpression("1 + (LEVEL - 2) * 0.75", Map.of("LEVEL", (double) level));
     }
 
     @Override
