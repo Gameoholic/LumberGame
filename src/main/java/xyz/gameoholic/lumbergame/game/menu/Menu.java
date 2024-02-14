@@ -106,7 +106,6 @@ public abstract class Menu implements InventoryHolder, Listener {
             .set(new NamespacedKey(plugin, "menu_item_id"), PersistentDataType.STRING, menuItem.getId());
         // If item is purchasable menu item, store the currency id and amount in the PDC and add additional lore
         if (menuItem instanceof PurchasableMenuItem purchasableMenuItem) {
-
             itemMeta.getPersistentDataContainer()
                 .set(new NamespacedKey(plugin, "purchasable_item_currency_id"),
                     PersistentDataType.STRING, purchasableMenuItem.getCurrencyItemId());
@@ -158,6 +157,10 @@ public abstract class Menu implements InventoryHolder, Listener {
                     Placeholder.component("currency_icon", text(currencyIcon))
                 );
             }
+            // Team/solo perk lore
+            if (perk instanceof TeamPerk) {
+                addLore(lores, "<red><bold>TEAM PERK");
+            }
             // Level lore
             if (perk.getLevel() == 0) { // If perk isn't purchased yet
                 addLore(lores, "<red>Max Level: <max_level><br><green><bold>CLICK TO PURCHASE",
@@ -171,6 +174,7 @@ public abstract class Menu implements InventoryHolder, Listener {
                     Placeholder.component("max_level", text(perk.getMaxLevel()))
                 );
             }
+
             itemMeta.lore(lores);
         }
 
