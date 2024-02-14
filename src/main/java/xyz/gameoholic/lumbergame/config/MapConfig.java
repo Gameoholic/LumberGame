@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import java.util.List;
 
 public record MapConfig(Location treeLocation, Location playerSpawnLocation, List<Location> spawnLocations,
-                        Location shopNPCLocation, int treeRadius,
+                        List<Location> spawnDisplayLocations, Location shopNPCLocation, int treeRadius,
                         List<Material> treeBlockTypes, List<Integer> treeLevelSchematicsProvided) {
 
 }

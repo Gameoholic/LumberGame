@@ -8,6 +8,7 @@
 
 # Wave 1
 - wave-cr: 8
+  active-spawns: 1
   spawn-timer-min: 40
   spawn-timer-max: 120
   mob-min-cr: 1
@@ -23,6 +24,7 @@
 
 # Wave 2
 - wave-cr: 10
+  active-spawns: 2
   spawn-timer-min: 20
   spawn-timer-max: 120
   mob-min-cr: 1
@@ -38,6 +40,7 @@
 # Wave 3
 # Last "Super Easy" Wave. Player should start purchasing items after this.
 - wave-cr: 40
+  active-spawns: 2
   spawn-timer-min: 20
   spawn-timer-max: 100
   mob-min-cr: 3
@@ -57,6 +60,7 @@
 
 # Wave 4
 - wave-cr: 60
+  active-spawns: 2
   spawn-timer-min: 20
   spawn-timer-max: 100
   mob-min-cr: 4
@@ -76,6 +80,7 @@
 # Introduction of sneaky creepers.
 # From now on, use stone sword for balancing purposes.
 - wave-cr: 85
+  active-spawns: 3
   spawn-timer-min: 20
   spawn-timer-max: 80
   mob-min-cr: 4
@@ -96,6 +101,7 @@
 
 # Wave 6
 - wave-cr: 120
+  active-spawns: 3
   spawn-timer-min: 20
   spawn-timer-max: 80
   mob-min-cr: 5
@@ -118,6 +124,7 @@
 # Introduction of the Shover.
 # From now on, use iron sword for balancing purposes.
 - wave-cr: 130
+  active-spawns: 3
   spawn-timer-min: 20
   spawn-timer-max: 80
   mob-min-cr: 6
@@ -139,6 +146,7 @@
 
 # Wave 8
 - wave-cr: 150
+  active-spawns: 3
   spawn-timer-min: 20
   spawn-timer-max: 80
   mob-min-cr: 7
@@ -163,6 +171,7 @@
 # Wave 9
 # Full of just Shovers and Creepers
 - wave-cr: 175
+  active-spawns: 2
   spawn-timer-min: 30
   spawn-timer-max: 100
   mob-min-cr: 8
@@ -179,6 +188,7 @@
 # Wave 10
 # Boss round. Introduction of baby zombies and heavy creeper.
 - wave-cr: 250
+  active-spawns: 4
   spawn-timer-min: 30
   spawn-timer-max: 100
   mob-min-cr: 8
@@ -210,6 +220,7 @@
 # Difficulty bump! CR is bumped by 5. Bombers introduced.
 # From now on waves are slightly slower but with more difficult mobs.
 - wave-cr: 400
+  active-spawns: 4
   spawn-timer-min: 40
   spawn-timer-max: 100
   mob-min-cr: 16
@@ -236,6 +247,7 @@
 # Wave 12
 # Ranged bombers introduced. 2 Heavy bombers.
 - wave-cr: 450
+  active-spawns: 4
   spawn-timer-min: 40
   spawn-timer-max: 100
   mob-min-cr: 16
@@ -273,6 +285,7 @@
 # Wave 13
 # Sneaky bombers introduced.
 - wave-cr: 550
+  active-spawns: 4
   spawn-timer-min: 40
   spawn-timer-max: 100
   mob-min-cr: 17
@@ -307,6 +320,7 @@
 # Wave 14
 # Explosive mobs & shovers only. Long round.
 - wave-cr: 700
+  active-spawns: 4
   spawn-timer-min: 40
   spawn-timer-max: 100
   mob-min-cr: 18

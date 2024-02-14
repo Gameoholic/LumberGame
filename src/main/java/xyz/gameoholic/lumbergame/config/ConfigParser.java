@@ -214,6 +214,24 @@ public class ConfigParser {
             }
         );
 
+        List spawnDisplayLocations = new ArrayList();
+        root.node("spawn-display-locations").childrenList().forEach(
+                spawnLocationDisplay -> {
+                    try {
+                        spawnDisplayLocations.add(new Location(
+                                Bukkit.getWorld(spawnLocationDisplay.node("world").require(String.class)),
+                                spawnLocationDisplay.node("x").require(Double.class),
+                                spawnLocationDisplay.node("y").require(Double.class),
+                                spawnLocationDisplay.node("z").require(Double.class)
+                        ));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        throw new RuntimeException("One of the arguments for spawn location display number " +
+                                root.childrenList().indexOf(spawnLocationDisplay) + 1 + " is invalid or was not provided.\n");
+                    }
+                }
+        );
+
         Location shopNPCLocation;
         try {
             shopNPCLocation = new Location(
@@ -245,6 +263,7 @@ public class ConfigParser {
                 treeLocation,
                 playerSpawnLocation,
                 spawnLocations,
+                spawnDisplayLocations,
                 shopNPCLocation,
                 root.node("tree-radius").require(Integer.class),
                 treeBlockTypes,
@@ -422,6 +441,7 @@ public class ConfigParser {
 
                     waves.add(new Wave(
                         wave.node("wave-cr").require(Integer.class),
+                        wave.node("active-spawns").require(Integer.class),
                         wave.node("spawn-timer-min").require(Integer.class),
                         wave.node("spawn-timer-max").require(Integer.class),
                         wave.node("mob-min-cr").require(Integer.class),

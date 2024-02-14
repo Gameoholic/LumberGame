@@ -1,13 +1,24 @@
 package xyz.gameoholic.lumbergame.game;
 
 import net.kyori.adventure.sound.Sound;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.objecthunter.exp4j.ExpressionBuilder;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Display;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.TextDisplay;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.Transformation;
+import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
+import xyz.gameoholic.lumbergame.game.wave.Wave;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 import xyz.gameoholic.lumbergame.util.ParticleManager;
@@ -43,6 +54,7 @@ public class GameManager {
      * The wave number, uses zeroth index numbering.
      */
     int waveNumber = 0;
+    private List<TextDisplay> spawnDisplays = new ArrayList<>();
 
     public GameManager(LumberGamePlugin plugin, Set<UUID> players, double waveCRMultiplier, double waveSpawnRateMultiplier) {
         this.plugin = plugin;
@@ -65,8 +77,28 @@ public class GameManager {
     private void startGame() {
         plugin.getPlayerNPCManager().reset();
         clearOldEntities();
+        spawnDisplays();
         startCurrentWave();
         plugin.getLogger().info("Game has started with " + players.size() + " players.");
+    }
+
+    private void spawnDisplays() {
+        List<Location> locations = plugin.getLumberConfig().mapConfig().spawnDisplayLocations();
+        for (int i = 0; i < locations.size(); i++) {
+            TextDisplay display = (TextDisplay) locations.get(i).getWorld().spawnEntity(locations.get(i), EntityType.TEXT_DISPLAY);
+
+            display.text(text(i + 1).color(NamedTextColor.WHITE));
+
+            Transformation transformation = display.getTransformation();
+            transformation.getScale().set(2, 2, 2);
+            display.setTransformation(transformation);
+
+            display.setBillboard(Display.Billboard.VERTICAL);
+            display.setBackgroundColor(org.bukkit.Color.fromARGB(0, 0, 0, 0)); // Transparent background
+            display.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN, true);
+
+            spawnDisplays.add(display);
+        }
     }
 
     private void clearOldEntities() {
@@ -118,8 +150,16 @@ public class GameManager {
         // Wave manager should be alerted that the wave has ended, if it doesn't already know (if forced by command for example)
         if (waveManager != null && !waveManager.getWaveEnded())
             waveManager.onWaveEnd();
-        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber),
-            waveCRMultiplier, waveSpawnRateMultiplier);
+
+        waveManager = new WaveManager(plugin, plugin.getLumberConfig().waves().get(waveNumber), waveCRMultiplier, waveSpawnRateMultiplier);
+
+        // Color all active spawn displays in red, others in white
+        for (int i = 0; i < spawnDisplays.size(); i++) {
+            if (waveManager.getActiveSpawns().contains(i))
+                spawnDisplays.get(i).text(text(i + 1).color(TextColor.color(0xde1010)));
+            else
+                spawnDisplays.get(i).text(text(i + 1).color(NamedTextColor.WHITE));
+        }
 
         // Send message
         players.forEach(lumberPlayer ->
@@ -127,7 +167,6 @@ public class GameManager {
                 plugin.getLumberConfig().strings().newWaveStartMessage(),
                 Placeholder.component("wave", text(waveNumber + 1))
             )));
-
 
         // Play sound
         Sound sound = ((waveNumber + 1) % 5 == 0) ?

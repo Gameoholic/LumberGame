@@ -29,6 +29,11 @@ public class WaveManager {
     private Wave wave;
 
     /**
+     * Spawn location indices that are currently active (monsters can spawn at), 0 indexed.
+     */
+    private final Set<Integer> activeSpawns;
+
+    /**
      * By how much to divide every wave's spawn rate interval.
      */
     private final double waveSpawnRateMultiplier;
@@ -45,15 +50,55 @@ public class WaveManager {
     private List<LumberMob> mobQueue = new ArrayList<>();
     private final Random rnd = new Random();
     private boolean waveEnded = false;
+
     public WaveManager(LumberGamePlugin plugin, Wave wave, double waveCRMultiplier, double waveSpawnRateMultiplier) {
         this.plugin = plugin;
         this.waveCR = (int) (wave.waveCR() * waveCRMultiplier);
         this.wave = wave;
         this.waveSpawnRateMultiplier = waveSpawnRateMultiplier;
 
+        activeSpawns = genActiveSpawns();
         loadMobQueue();
         startWave();
     }
+
+    /**
+     * Activates random spawns based on the amount of spawns that should be active.
+     *
+     * @return The numbers of the activated spawns.
+     */
+    private Set<Integer> genActiveSpawns() {
+        Set<Integer> selectedActiveSpawns = new HashSet<>();
+
+        // Generate pool of available spawn indices
+        Set<Integer> availableSpawnsPool = new HashSet<>();
+        for (int i = 0; i < plugin.getLumberConfig().mapConfig().spawnLocations().size(); i++) {
+            availableSpawnsPool.add(i);
+        }
+
+        // Generate initial active spawn
+        int initialActiveSpawn = new Random().nextInt(plugin.getLumberConfig().mapConfig().spawnLocations().size());
+        availableSpawnsPool.remove(initialActiveSpawn);
+        selectedActiveSpawns.add(initialActiveSpawn);
+
+        // Generate rest of active spawns
+        for (int i = 1; i < wave.activeSpawns(); i++) {
+            int selectedSpawn;
+            if (i == 1) // 2nd active spawn must be adjacent
+                selectedSpawn = availableSpawnsPool.contains(initialActiveSpawn + 1) ? initialActiveSpawn + 1 : initialActiveSpawn - 1;
+            else {
+                // Rest can be random
+                List<Integer> poolAsList = new ArrayList<>(availableSpawnsPool);
+                Collections.shuffle(poolAsList);
+                selectedSpawn = poolAsList.get(0);
+            }
+            selectedActiveSpawns.add(selectedSpawn);
+            availableSpawnsPool.remove(selectedSpawn);
+        }
+
+        return selectedActiveSpawns;
+    }
+
 
     /**
      * Loads the mobs into the mob queue.
@@ -106,6 +151,7 @@ public class WaveManager {
         plugin.getLogger().info("Loaded " + mobQueue.size() + " mobs for the round.");
 
     }
+
     private void startWave() {
         mobSpawnerTask = new BukkitRunnable() {
             @Override
@@ -134,9 +180,11 @@ public class WaveManager {
         spawnMob();
         spawnDelay = (int) (rnd.nextInt(wave.spawnTimerMin(), wave.spawnTimerMax() + 1) / waveSpawnRateMultiplier);
     }
+
     private void spawnMob() {
-        List<Location> spawnLocations = plugin.getLumberConfig().mapConfig().spawnLocations();
-        Location selectedSpawnLocation = spawnLocations.get(rnd.nextInt(spawnLocations.size()));
+        List<Integer> activeSpawnsAsList = new ArrayList<>(activeSpawns);
+        Collections.shuffle(activeSpawnsAsList);
+        Location selectedSpawnLocation = plugin.getLumberConfig().mapConfig().spawnLocations().get(activeSpawnsAsList.get(0));
 
         LumberMob mob = mobQueue.get(0);
         mobQueue.remove(0);
@@ -158,6 +206,7 @@ public class WaveManager {
         aliveMobs.put(mob.getMob().getUniqueId(), mob);
         plugin.getGameManager().updatePlayerScoreboards(); // Update mob count
     }
+
     /**
      * Called when a mob dies.
      */
@@ -170,8 +219,7 @@ public class WaveManager {
                 onWaveEnd();
                 plugin.getGameManager().onWaveEnd();
             }
-        }
-        else
+        } else
             plugin.getGameManager().updatePlayerScoreboards(); // Update mob count - Starting a new wave updates scoreboard anyway so only if wave hasn't ended
     }
 
@@ -193,22 +241,24 @@ public class WaveManager {
 
     /**
      * Instantiates the mob class.
+     *
      * @param mobTypeID The ID of the mob type.
-     * @param CR The Challenge Rating to spawn the mob with.
+     * @param CR        The Challenge Rating to spawn the mob with.
      * @param boneBlock Whether the mob has a bone block.
      * @throws java.util.NoSuchElementException if mobTypeId doesn't correspond to a loaded mob type.
      */
     public LumberMob getMob(String mobTypeID, int CR, boolean boneBlock) {
         MobType mobType = plugin.getLumberConfig().mobTypes()
-            .stream().filter(filteredMobType -> filteredMobType.id().equals(mobTypeID)).findFirst().get();
+                .stream().filter(filteredMobType -> filteredMobType.id().equals(mobTypeID)).findFirst().get();
 
         return getMob(mobType, CR, boneBlock);
     }
 
     /**
      * Instantiates the mob class.
-     * @param mobType The Lumber MobType of the mob.
-     * @param CR The Challenge Rating to spawn the mob with.
+     *
+     * @param mobType   The Lumber MobType of the mob.
+     * @param CR        The Challenge Rating to spawn the mob with.
      * @param boneBlock Whether the mob has a bone block.
      */
     public LumberMob getMob(MobType mobType, int CR, boolean boneBlock) {
@@ -223,10 +273,10 @@ public class WaveManager {
     public void onGameEnd() {
         // Disable all mobs & unregister events for them
         aliveMobs.values().forEach(
-            mob ->  {
-                mob.getMob().setAI(false);
-                mob.unregisterEvents();
-            }
+                mob -> {
+                    mob.getMob().setAI(false);
+                    mob.unregisterEvents();
+                }
         );
         // Task will have cancelled if it'd finished spawning the mobs
         if (mobSpawnerTask != null) {
@@ -246,5 +296,8 @@ public class WaveManager {
 
     public int getMobQueueSize() {
         return mobQueue.size();
+    }
+    public Set<Integer> getActiveSpawns() {
+        return activeSpawns;
     }
 }

@@ -20,26 +20,57 @@ shop-npc-location:
   y: 25
   z: -340.7
 spawn-locations:
+  # 1
   - world: "world"
     x: -31.4
     y: 24
     z: -376.6
+  # 2
   - world: "world"
     x: -23.5
     y: 25
     z: -349.4
+  # 3
   - world: "world"
     x: -40.6
     y: 26
     z: -326.5
+  # 4
   - world: "world"
     x: -71.5
     y: 25
     z: -326.4
+  # 5
   - world: "world"
     x: -71.4
     y: 24
     z: -374.4
+spawn-display-locations:
+  # 1
+  - world: "world"
+    x: -40.8
+    y: 25.4
+    z: -365.3
+  # 2
+  - world: "world"
+    x: -34.5
+    y: 25.4
+    z: -355.6
+  # 3
+  - world: "world"
+    x: -44.8
+    y: 25.4
+    z: -336.8
+  # 4
+  - world: "world"
+    x: -61
+    y: 25.4
+    z: -341.8
+  # 5
+  - world: "world"
+    x: -59.1
+    y: 25.4
+    z: -363.7
 
 tree-level-schematics-provided:
   - 1
