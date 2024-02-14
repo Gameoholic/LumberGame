@@ -113,6 +113,9 @@ public class LumberMob implements Listener {
                 ageableMob.setBaby();
         }
 
+        // Make undeads not burn in daylight
+        mob.getEquipment().setItem(EquipmentSlot.HEAD, new ItemStack(Material.OAK_BUTTON, 1));
+
         // Optional parameters - equipment
         if (mobType.itemInMainHandID() != null)
             mob.getEquipment().setItemInMainHand(plugin.getItemManager().getItem(mobType.itemInMainHandID()));
@@ -127,7 +130,6 @@ public class LumberMob implements Listener {
         if (mobType.itemInBootsID() != null)
             mob.getEquipment().setItem(EquipmentSlot.FEET, plugin.getItemManager().getItem(mobType.itemInBootsID()), true);
 
-
         // Mob's custom name to be applied after parameters
         mob.setCustomNameVisible(true);
         mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
@@ -139,7 +141,6 @@ public class LumberMob implements Listener {
         // Post-spawn parameters/attributes (bone block / bone meal)
         if (fillBoneMealMeter())
             mob.getEquipment().setItemInMainHand(plugin.getItemManager().getBoneMealItem());
-
         // todo: bone block should only be placed on entity that can have item on its helmet. not like creeper for example.
         // todo: also, it should not just be the first entity, rather a randm one otherwise guaranteed mob fgets it
         if (boneBlock) {
