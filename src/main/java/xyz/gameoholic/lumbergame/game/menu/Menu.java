@@ -121,10 +121,10 @@ public abstract class Menu implements InventoryHolder, Listener {
                 default -> '-';
             };
             List<Component> lores = itemMeta.lore();
-            addLore(lores, MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
+            addLore(lores, "<currency_icon><cost>",
                 Placeholder.component("cost", text(purchasableMenuItem.getCurrencyAmount())),
                 Placeholder.component("currency_icon", text(currencyIcon))
-            ));
+            );
             itemMeta.lore(lores);
         }
 
@@ -148,28 +148,26 @@ public abstract class Menu implements InventoryHolder, Listener {
 
             List<Component> lores = itemMeta.lore();
             // Perk description lore
-            addLore(lores, MiniMessage.miniMessage().deserialize(perk.getDescription())
-                .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                .colorIfAbsent(NamedTextColor.WHITE));
+            addLore(lores, perk.getDescription());
             // Cost lore
             if (perk.getLevel() < perk.getMaxLevel()) {
-                addLore(lores, MiniMessage.miniMessage().deserialize("<currency_icon><cost>",
+                addLore(lores, "<currency_icon><cost>",
                     Placeholder.component("cost", text(perk.getCost())),
                     Placeholder.component("currency_icon", text(currencyIcon))
-                ));
+                );
             }
             // Level lore
             if (perk.getLevel() == 0) { // If perk isn't purchased yet
-                addLore(lores, MiniMessage.miniMessage().deserialize("<red>Max Level: <max_level><br><green><bold>CLICK TO PURCHASE",
+                addLore(lores, "<red>Max Level: <max_level><br><green><bold>CLICK TO PURCHASE",
                     Placeholder.component("max_level", text(perk.getMaxLevel()))
-                ));
+                );
             } else if (perk.getLevel() == perk.getMaxLevel()) {
-                addLore(lores, MiniMessage.miniMessage().deserialize("<red><bold>MAX LEVEL"));
+                addLore(lores, "<red><bold>MAX LEVEL");
             } else {
-                addLore(lores, MiniMessage.miniMessage().deserialize("<gold>Level <red><level><gold>/</gold><max_level><br><green><bold>CLICK TO UPGRADE",
+                addLore(lores, "<gold>Level <red><level><gold>/</gold><max_level><br><green><bold>CLICK TO UPGRADE",
                     Placeholder.component("level", text(perk.getLevel())),
                     Placeholder.component("max_level", text(perk.getMaxLevel()))
-                ));
+                );
             }
             itemMeta.lore(lores);
         }

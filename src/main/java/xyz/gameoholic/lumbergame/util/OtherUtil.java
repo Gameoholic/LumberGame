@@ -4,21 +4,24 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
 import java.util.List;
 
 public class OtherUtil {
-    public static void addLore(List<Component> dest, Component lore) {
-        String[] lores = MiniMessage.miniMessage().serialize(lore).split("<br>|<linebreak>|\n");
+    public static void addLore(List<Component> dest, String lore, TagResolver... tagResolvers) {
+        String[] lores = lore.split("<br>|<linebreak>|\n");
         for (String s : lores) {
-            dest.add(MiniMessage.miniMessage().deserialize(s)
+            dest.add(MiniMessage.miniMessage().deserialize(s, tagResolvers)
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
-                .colorIfAbsent(NamedTextColor.WHITE));
+                .colorIfAbsent(NamedTextColor.WHITE)
+            );
         }
     }
 

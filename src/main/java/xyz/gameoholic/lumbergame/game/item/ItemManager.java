@@ -145,6 +145,7 @@ public class ItemManager {
             case "SPEED_PERK" -> getSpeedPerkItem();
             case "STRENGTH_PERK" -> getStrengthPerkItem();
             case "HEALTH_BOOST_PERK" -> getHealthBoostPerkItem();
+            case "DOUBLE_JUMP_PERK" -> getDoubleJumpPerkItem();
             default -> null;
         };
     }
@@ -470,6 +471,15 @@ public class ItemManager {
             Material.ENCHANTED_GOLDEN_APPLE,
             "<aqua>Health Boost Perk",
             ""
+        ));
+    }
+
+    public ItemStack getDoubleJumpPerkItem() {
+        return applyItemInformationLore(getItem(
+                "DOUBLE_JUMP_PERK",
+                Material.FEATHER,
+                "<aqua>Double Jump Perk",
+                ""
         ));
     }
 
