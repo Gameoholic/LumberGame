@@ -106,6 +106,7 @@ public abstract class Menu implements InventoryHolder, Listener {
             .set(new NamespacedKey(plugin, "menu_item_id"), PersistentDataType.STRING, menuItem.getId());
         // If item is purchasable menu item, store the currency id and amount in the PDC and add additional lore
         if (menuItem instanceof PurchasableMenuItem purchasableMenuItem) {
+
             itemMeta.getPersistentDataContainer()
                 .set(new NamespacedKey(plugin, "purchasable_item_currency_id"),
                     PersistentDataType.STRING, purchasableMenuItem.getCurrencyItemId());
@@ -150,9 +151,10 @@ public abstract class Menu implements InventoryHolder, Listener {
             // Perk description lore
             addLore(lores, perk.getDescription());
             // Cost lore
+            int perkCostMultiplier = (perk instanceof TeamPerk) ? plugin.getGameManager().getPlayers().size() : 1; // If perk is team perk, multiply cost by player count
             if (perk.getLevel() < perk.getMaxLevel()) {
                 addLore(lores, "<currency_icon><cost>",
-                    Placeholder.component("cost", text(perk.getCost())),
+                    Placeholder.component("cost", text(perk.getCost() * perkCostMultiplier)),
                     Placeholder.component("currency_icon", text(currencyIcon))
                 );
             }
