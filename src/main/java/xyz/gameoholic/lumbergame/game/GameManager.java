@@ -9,6 +9,7 @@ import org.bukkit.persistence.PersistentDataType;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
+import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 import xyz.gameoholic.lumbergame.util.ParticleManager;
 
 import java.util.*;
@@ -32,6 +33,10 @@ public class GameManager {
      * Meter fills up whenever a mob spawns. When reaches 100, a mob will spawn with bone meal.
      */
     private double boneMealMeter = 0.0;
+    /**
+     * Meter fills up whenever a mob dies. When reaches 100, a mob will drop 1 gold.
+     */
+    private double goldMeter = 0.0;
     private final ParticleManager particleManager;
 
     /**
@@ -160,6 +165,32 @@ public class GameManager {
         players.forEach(player -> player.updateScoreboard());
     }
 
+    /**
+     * Increases the bone meal meter depending on the mob's CR.
+     * @param CR The challenge rating of the mob that spawned.
+     */
+    public void increaseBoneMealMeter(int CR) {
+        boneMealMeter += ExpressionUtil.evaluateExpression(
+                plugin.getLumberConfig().gameConfig().boneMealMeterFillExpression(),
+                Map.of("CR", (double) CR));
+    }
+    public void resetBoneMealMeter() {
+        boneMealMeter = 0.0;
+    }
+
+    /**
+     * Increases the gold meter depending on the mob's CR.
+     * @param CR The challenge rating of the mob that died.
+     */
+    public void increaseGoldMeter(int CR) {
+        goldMeter += ExpressionUtil.evaluateExpression(
+                plugin.getLumberConfig().gameConfig().goldMeterFillExpression(),
+                Map.of("CR", (double) CR));
+    }
+    public void resetGoldMeter() {
+        goldMeter = 0.0;
+    }
+
     public int getWaveNumber() {
         return waveNumber;
     }
@@ -179,15 +210,11 @@ public class GameManager {
     public ParticleManager getParticleManager() {
         return particleManager;
     }
-
-    public void increaseBoneMealMeter(double amount) {
-        boneMealMeter += amount;
-    }
-    public void resetBoneMealMeter() {
-        boneMealMeter = 0.0;
-    }
     public double getBoneMealMeter() {
         return boneMealMeter;
+    }
+    public double getGoldMeter() {
+        return goldMeter;
     }
 
 }

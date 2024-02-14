@@ -148,7 +148,7 @@ public class ConfigParser {
             gameConfig = new GameConfig(
                 root.node("tree-health-expression").require(String.class),
                 root.node("iron-drop-expression").require(String.class),
-                root.node("gold-drop-expression").require(String.class),
+                root.node("gold-meter-fill-expression\"").require(String.class),
                 root.node("bone-meal-meter-fill-expression").require(String.class),
                 root.node("scoreboard-player-line-margin").require(Integer.class),
                 root.node("respawn-cooldown").require(Integer.class)

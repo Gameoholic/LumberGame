@@ -141,8 +141,6 @@ public class LumberMob implements Listener {
         // Post-spawn parameters/attributes (bone block / bone meal)
         if (fillBoneMealMeter())
             mob.getEquipment().setItemInMainHand(plugin.getItemManager().getBoneMealItem());
-        // todo: bone block should only be placed on entity that can have item on its helmet. not like creeper for example.
-        // todo: also, it should not just be the first entity, rather a randm one otherwise guaranteed mob fgets it
         if (boneBlock) {
             mob.getEquipment().setHelmet(plugin.getItemManager().getBoneBlockItem());
         }
@@ -223,11 +221,7 @@ public class LumberMob implements Listener {
      * @return Whether the mob should hold bone meal or not.
      */
     private boolean fillBoneMealMeter() {
-        plugin.getGameManager().increaseBoneMealMeter(
-            ExpressionUtil.evaluateExpression(
-            plugin.getLumberConfig().gameConfig().boneMealMeterFillExpression(),
-            Map.of("CR", (double) CR)
-        ));
+        plugin.getGameManager().increaseBoneMealMeter(CR);
         if (!mobType.canSpawnWithBoneMeal()) // If mob can't spawn with bone meal, skip this mob but don't reset the meter
             return false;
         if (plugin.getGameManager().getBoneMealMeter() >= 100) {
@@ -307,19 +301,26 @@ public class LumberMob implements Listener {
             plugin.getLumberConfig().gameConfig().ironDropExpression(),
             Map.of("CR", (double) CR)
         );
-        double goldChance = ExpressionUtil.evaluateExpression(
-            plugin.getLumberConfig().gameConfig().goldDropExpression(),
-            Map.of("CR", (double) CR)
-        );
-
         for (int i = 0; i < getSpecificDropAmount(ironChance); i++) {
             items.add(plugin.getItemManager().getIronItem());
         }
-        for (int i = 0; i < getSpecificDropAmount(goldChance); i++) {
+        if (fillGoldMeter())
             items.add(plugin.getItemManager().getGoldItem());
-        }
 
         return items;
+    }
+
+    /**
+     * Fills up the gold meter. If reaches 100, the mob should drop 1 gold.
+     * @return Whether the mob should drop gold or not.
+     */
+    private boolean fillGoldMeter() {
+        plugin.getGameManager().increaseGoldMeter(CR);
+        if (plugin.getGameManager().getGoldMeter() >= 100) {
+            plugin.getGameManager().resetGoldMeter();
+            return true;
+        }
+        return false;
     }
 
     /**
