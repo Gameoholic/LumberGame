@@ -428,7 +428,10 @@ public class ConfigParser {
                         wave.node("mob-max-cr").require(Integer.class),
                         mobTypes,
                         mobTypesChances,
-                        wave.node("bone-block").getBoolean(false),
+                            wave.node("bone-block-mob-type-id").getString() != null ?
+                                    loadedMobTypes.stream().filter(filteredMobType ->
+                                    filteredMobType.id().equals(wave.node("bone-block-mob-type-id").getString())
+                            ).findFirst().get() : null, // bone block mobtype can be null, or can be a mob id
                         guaranteedMobTypes,
                         guaranteedMobTypesWithIndex
                     ));

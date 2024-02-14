@@ -2,6 +2,7 @@ package xyz.gameoholic.lumbergame.game.wave;
 
 import xyz.gameoholic.lumbergame.game.mob.MobType;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +16,9 @@ import java.util.Map;
  * @param mobMaxCR        The maximum CR to spawn mobs with.
  * @param mobTypes        The mob types that can spawn.
  * @param mobTypesChances The chances (0.0-1.0) of the mobs types to spawn, must be same indices as mobTypes.
- * @param boneBlock       Whether a mob with a bone block should spawn.
+ * @param boneBlockMobType The mob type to spawn a bone block with, if any.
  */
 public record Wave(int waveCR, int spawnTimerMin, int spawnTimerMax, int mobMinCR, int mobMaxCR, List<MobType> mobTypes,
-                   List<Double> mobTypesChances, boolean boneBlock, Map<MobType, Integer> guaranteedMobTypes,
+                   List<Double> mobTypesChances, @Nullable MobType boneBlockMobType, Map<MobType, Integer> guaranteedMobTypes,
                    Map<MobType, Integer> guaranteedMobTypesWithIndex) {
 }

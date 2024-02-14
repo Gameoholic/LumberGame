@@ -42,6 +42,6 @@
   entity-type: "CREEPER"
   health-expression: "CR * 15 + 20"
   damage-expression: "CR * 5"
-  speed-expression: "0.2"
+  speed-expression: "0.15"
   knockback-resistance-expression: "1.0"
   can-spawn-with-bone-meal: false

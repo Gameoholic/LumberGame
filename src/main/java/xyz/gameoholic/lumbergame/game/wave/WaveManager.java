@@ -82,6 +82,12 @@ public class WaveManager {
                 leftWaveCR -= mobCR;
             }
         }
+        // Put bone block mob at end of queue if needed
+        if (wave.boneBlockMobType() != null) {
+            int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
+            mobsWithIndex.put(getMob(wave.boneBlockMobType(), mobCR, true), 0);
+            leftWaveCR -= mobCR;
+        }
         // Random mobs
         while (leftWaveCR > 0) {
             MobType selectedMobType = RandomUtil.getRandom(wave.mobTypes(), wave.mobTypesChances());
@@ -95,12 +101,6 @@ public class WaveManager {
         for (Map.Entry<LumberMob, Integer> mobTypeEntry : mobsWithIndex.entrySet()) {
             // Index specified is the index from the end of the list. (for example, 0 would be end of list, 1 would be one before)
             mobQueue.add(mobQueue.size() - mobTypeEntry.getValue(), mobTypeEntry.getKey());
-        }
-
-        // Spawn with bone block if needed
-        if (wave.boneBlock()) {
-            LumberMob lastMob = mobQueue.get(mobQueue.size() - 1); // Replace last mob with bone block variant
-            mobQueue.set(mobQueue.size() - 1, getMob(lastMob.getMobType(), lastMob.getCR(), true));
         }
 
         plugin.getLogger().info("Loaded " + mobQueue.size() + " mobs for the round.");
