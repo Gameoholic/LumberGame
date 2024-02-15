@@ -3,6 +3,7 @@ package xyz.gameoholic.lumbergame.game.mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftMob;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
@@ -30,9 +31,11 @@ public class TreeLumberMob extends LumberMob {
     public void spawnMob(Location location) {
         super.spawnMob(location);
 
-        // Tree mob green glow
-        mob.setGlowing(true);
-        plugin.getGameManager().getRedTeam().addEntity(mob);
+        // Add tree mob green glow, if doesn't already have glow (aka is not in a team)
+        if (Bukkit.getScoreboardManager().getMainScoreboard().getEntityTeam(mob) == null) {
+            mob.setGlowing(true);
+            plugin.getGameManager().getGreenTeam().addEntity(mob);
+        }
     }
 
 
