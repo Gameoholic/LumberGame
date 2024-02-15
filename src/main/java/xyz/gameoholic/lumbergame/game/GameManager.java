@@ -95,10 +95,10 @@ public class GameManager {
     }
     private void setUpTeams() {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-        greenTeam = scoreboard.registerNewTeam("green");
+        greenTeam = (scoreboard.getTeam("ld_green") == null) ? scoreboard.registerNewTeam("ld_green") : scoreboard.getTeam("ld_green");
         greenTeam.color(NamedTextColor.GREEN);
 
-        redTeam = scoreboard.registerNewTeam("red");
+        redTeam = (scoreboard.getTeam("ld_red") == null) ? scoreboard.registerNewTeam("ld_red") : scoreboard.getTeam("ld_red");
         redTeam.color(NamedTextColor.DARK_RED);
     }
 
