@@ -90,14 +90,14 @@ public class LumberMob implements Listener {
         int health = (int) Math.min(2000, new ExpressionBuilder(mobType.healthExpression())
             .variables("CR")
             .build()
-            .setVariable("CR", CR).evaluate()); // Health cannot be above 2,048 in MC
+            .setVariable("CR", CR).evaluate() * (mobType.isBoss() ? plugin.getGameManager().getWaveCRMultiplier() : 1)); // Health cannot be above 2,048 in MC, multiply health by CR multiplier if mob is boss
         mob.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(Double.MAX_VALUE);
         mob.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN, true);
         mob.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, -1, 1, false, false));
 
         // Required parameter - health-expression
         mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
-        mob.setHealth(mobType.isBoss() ? health * plugin.getGameManager().getPlayers().size() : health); // If is boss move, multiply health by player count
+        mob.setHealth(health);
 
         // Required parameter - damage-expression
         mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(

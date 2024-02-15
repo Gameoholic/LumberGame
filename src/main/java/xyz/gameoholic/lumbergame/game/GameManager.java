@@ -34,7 +34,7 @@ public class GameManager {
     private final LumberGamePlugin plugin;
     private Set<LumberPlayer> players = new HashSet<>();
     /**
-     * By how much to multiply every wave's challenge rating.
+     * By how much to multiply every wave's challenge rating. Also used for scaling calculations (team perk costs, etc.)
      */
     private final double waveCRMultiplier;
     /**
@@ -280,6 +280,9 @@ public class GameManager {
     }
     public Team getRedTeam() {
         return redTeam;
+    }
+    public double getWaveCRMultiplier() {
+        return waveCRMultiplier;
     }
 
 }

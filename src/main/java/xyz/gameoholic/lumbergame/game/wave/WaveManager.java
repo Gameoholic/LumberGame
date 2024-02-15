@@ -38,6 +38,7 @@ public class WaveManager {
      * By how much to divide every wave's spawn rate interval.
      */
     private final double waveSpawnRateMultiplier;
+
     /**
      * Delay before spawning next mob/s, in ticks.
      */
@@ -59,7 +60,7 @@ public class WaveManager {
         this.waveSpawnRateMultiplier = waveSpawnRateMultiplier;
 
         activeSpawns = genActiveSpawns();
-        loadMobQueue();
+        loadMobQueue(waveCRMultiplier);
         startWave();
     }
 
@@ -104,22 +105,24 @@ public class WaveManager {
     /**
      * Loads the mobs into the mob queue.
      */
-    private void loadMobQueue() {
+    private void loadMobQueue(double waveCRMultiplier) {
         int leftWaveCR = waveCR;
 
         // Guaranteed mobs with specific index from last position
         Map<LumberMob, Integer> mobsWithIndex = new HashMap();
         for (Map.Entry<MobType, Integer> guaranteedMob : wave.guaranteedMobTypesWithIndex().entrySet()) {
-            if (leftWaveCR <= 0) {  // This shouldn't happen from a design viewpoint, but is technically possible with the right config
-                return;
+            for (int i = 0; i < (guaranteedMob.getKey().isBoss() ? 1 : waveCRMultiplier); i++) { // Scale guaranteed mob count with cr scale, only if not boss because its health gets scaled
+                if (leftWaveCR <= 0) {  // This shouldn't happen from a design viewpoint, but is technically possible with the right config
+                    return;
+                }
+                int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
+                mobsWithIndex.put(getMob(guaranteedMob.getKey(), mobCR, false), guaranteedMob.getValue());
+                leftWaveCR -= mobCR;
             }
-            int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
-            mobsWithIndex.put(getMob(guaranteedMob.getKey(), mobCR, false), guaranteedMob.getValue());
-            leftWaveCR -= mobCR;
         }
         // Guaranteed mobs
         for (Map.Entry<MobType, Integer> guaranteedMob : wave.guaranteedMobTypes().entrySet()) {
-            for (int i = 0; i < guaranteedMob.getValue() * plugin.getGameManager().getPlayers().size(); i++) { // Multiply amount spawned by player count
+            for (int i = 0; i < (guaranteedMob.getKey().isBoss() ? 1 : waveCRMultiplier); i++) { // Scale guaranteed mob count with cr scale, only if not boss because its health gets scaled
                 if (leftWaveCR <= 0) {  // This shouldn't happen from a design viewpoint, but is technically possible with the right config
                     return;
                 }

@@ -45,4 +45,4 @@
   speed-expression: "0.175"
   knockback-resistance-expression: "1.0"
   can-spawn-with-bone-meal: false
-  is-boss: true
+  is-boss: true # Spawns with lightning animation, has red glow, and health multiplied by CR multiplier

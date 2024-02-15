@@ -216,7 +216,7 @@ public abstract class Menu implements InventoryHolder, Listener {
         if (perk.getLevel() == perk.getMaxLevel()) // Can't level up beyond max level
             return false;
 
-        int perkCostMultiplier = (perk instanceof TeamPerk) ? plugin.getGameManager().getPlayers().size() : 1; // If perk is team perk, multiply cost by player count
+        int perkCostMultiplier = (perk instanceof TeamPerk) ? (int) plugin.getGameManager().getWaveCRMultiplier() : 1; // If perk is team perk, multiply cost by CR multiplier
         if (!processPurchase(perk.getCurrencyId(), perk.getCost() * perkCostMultiplier))
             return false;
 
