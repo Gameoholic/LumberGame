@@ -21,8 +21,6 @@ public class ShopWeaponsMenu extends Menu {
         setItem(12, new PurchasableMenuItem(plugin, "STONE_SWORD", "IRON", 32));
         setItem(13, new PurchasableMenuItem(plugin, "IRON_SWORD", "IRON", 128));
         setItem(14, new PurchasableMenuItem(plugin, "DIAMOND_SWORD", "WOOD", 80));
-        setItem(22, new PurchasableMenuItem(plugin, "BOW", "IRON", 32));
-        setItem(31, new PurchasableMenuItem(plugin, "ARROW", "IRON", 1));
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }

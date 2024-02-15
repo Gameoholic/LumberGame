@@ -10,6 +10,7 @@ public record MobType(
     String displayName,
     EntityType entityType,
     boolean isHostile,
+    boolean isBoss,
     String healthExpression,
     String damageExpression,
     String speedExpression,

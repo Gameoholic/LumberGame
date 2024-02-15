@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.objecthunter.exp4j.ExpressionBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -14,6 +15,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Transformation;
 import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
@@ -49,6 +52,14 @@ public class GameManager {
      */
     private double goldMeter = 0.0;
     private final ParticleManager particleManager;
+    /**
+     * Green team used for tree monsters glow
+     */
+    private Team greenTeam;
+    /**
+     * Green team used for bosses glow
+     */
+    private Team redTeam;
 
     /**
      * The wave number, uses zeroth index numbering.
@@ -79,7 +90,16 @@ public class GameManager {
         clearOldEntities();
         spawnDisplays();
         startCurrentWave();
+        setUpTeams();
         plugin.getLogger().info("Game has started with " + players.size() + " players.");
+    }
+    private void setUpTeams() {
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+        greenTeam = scoreboard.registerNewTeam("green");
+        greenTeam.color(NamedTextColor.GREEN);
+
+        redTeam = scoreboard.registerNewTeam("red");
+        redTeam.color(NamedTextColor.DARK_RED);
     }
 
     private void spawnDisplays() {
@@ -90,7 +110,7 @@ public class GameManager {
             display.text(text(i + 1).color(NamedTextColor.WHITE));
 
             Transformation transformation = display.getTransformation();
-            transformation.getScale().set(2, 2, 2);
+            transformation.getScale().set(3, 3, 3);
             display.setTransformation(transformation);
 
             display.setBillboard(Display.Billboard.VERTICAL);
@@ -254,6 +274,12 @@ public class GameManager {
     }
     public double getGoldMeter() {
         return goldMeter;
+    }
+    public Team getGreenTeam() {
+        return greenTeam;
+    }
+    public Team getRedTeam() {
+        return redTeam;
     }
 
 }

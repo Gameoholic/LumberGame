@@ -29,6 +29,10 @@ public class TreeLumberMob extends LumberMob {
     @Override
     public void spawnMob(Location location) {
         super.spawnMob(location);
+
+        // Tree mob green glow
+        mob.setGlowing(true);
+        plugin.getGameManager().getRedTeam().addEntity(mob);
     }
 
 

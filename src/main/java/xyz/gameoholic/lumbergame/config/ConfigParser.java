@@ -315,6 +315,7 @@ public class ConfigParser {
                         mobType.node("display-name").require(String.class),
                         EntityType.valueOf(mobType.node("entity-type").require(String.class)),
                         isHostile,
+                        mobType.node("is-boss").getBoolean(false),
                         mobType.node("health-expression").require(String.class),
                         mobType.node("damage-expression").require(String.class),
                         mobType.node("speed-expression").getString("0.23"),

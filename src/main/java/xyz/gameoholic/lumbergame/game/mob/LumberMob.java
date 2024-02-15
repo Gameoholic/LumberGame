@@ -1,5 +1,7 @@
 package xyz.gameoholic.lumbergame.game.mob;
 
+import com.sk89q.worldedit.util.formatting.text.format.TextColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.minecraft.world.entity.PathfinderMob;
@@ -19,6 +21,14 @@ import org.bukkit.event.entity.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
+import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberCreeperAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
@@ -30,6 +40,7 @@ import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 import javax.annotation.Nullable;
 import java.util.*;
 
+import static net.kyori.adventure.text.Component.score;
 import static net.kyori.adventure.text.Component.text;
 import static xyz.gameoholic.lumbergame.util.OtherUtil.pullItemToPlayer;
 
@@ -82,6 +93,7 @@ public class LumberMob implements Listener {
             .setVariable("CR", CR).evaluate()); // Health cannot be above 2,048 in MC
         mob.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(Double.MAX_VALUE);
         mob.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN, true);
+        mob.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, -1, 1, false, false));
 
         // Required parameter - health-expression
         mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
@@ -136,13 +148,20 @@ public class LumberMob implements Listener {
             Placeholder.component("cr", text(CR)),
             Placeholder.component("health", text((int) mob.getHealth())),
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
-        ));
+        ).colorIfAbsent(NamedTextColor.WHITE));
 
         // Post-spawn parameters/attributes (bone block / bone meal)
         if (fillBoneMealMeter())
             mob.getEquipment().setItemInMainHand(plugin.getItemManager().getBoneMealItem());
         if (boneBlock) {
             mob.getEquipment().setHelmet(plugin.getItemManager().getBoneBlockItem());
+        }
+
+        // Boss mob red glow & spawn lightning
+        if (mobType.isBoss()) {
+            mob.setGlowing(true);
+            plugin.getGameManager().getRedTeam().addEntity(mob);
+            mob.getLocation().getWorld().spawnEntity(mob.getLocation(), EntityType.LIGHTNING);
         }
 
         applyGoals();
