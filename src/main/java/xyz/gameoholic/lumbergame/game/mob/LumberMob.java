@@ -144,11 +144,7 @@ public class LumberMob implements Listener {
 
         // Mob's custom name to be applied after parameters
         mob.setCustomNameVisible(true);
-        mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
-            Placeholder.component("cr", text(CR)),
-            Placeholder.component("health", text((int) mob.getHealth())),
-            Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
-        ).colorIfAbsent(NamedTextColor.WHITE));
+        updateMobCustomName(mob.getHealth());
 
         // Post-spawn parameters/attributes (bone block / bone meal)
         if (fillBoneMealMeter())
@@ -375,7 +371,7 @@ public class LumberMob implements Listener {
             Placeholder.component("cr", text(CR)),
             Placeholder.component("health", text(newHealthAdjusted)),
             Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
-        ));
+        ).colorIfAbsent(NamedTextColor.WHITE));
     }
     @EventHandler
     public void onEntityDamageEvent(EntityDamageEvent e) {
