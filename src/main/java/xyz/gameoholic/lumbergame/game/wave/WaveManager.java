@@ -7,6 +7,7 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.LumberMob;
 import xyz.gameoholic.lumbergame.game.mob.TreeLumberMob;
 import xyz.gameoholic.lumbergame.game.mob.MobType;
+import xyz.gameoholic.lumbergame.game.player.perk.TeamPerk;
 import xyz.gameoholic.lumbergame.util.RandomUtil;
 
 import javax.annotation.Nullable;
@@ -118,7 +119,7 @@ public class WaveManager {
         }
         // Guaranteed mobs
         for (Map.Entry<MobType, Integer> guaranteedMob : wave.guaranteedMobTypes().entrySet()) {
-            for (int i = 0; i < guaranteedMob.getValue(); i++) {
+            for (int i = 0; i < guaranteedMob.getValue() * plugin.getGameManager().getPlayers().size(); i++) { // Multiply amount spawned by player count
                 if (leftWaveCR <= 0) {  // This shouldn't happen from a design viewpoint, but is technically possible with the right config
                     return;
                 }

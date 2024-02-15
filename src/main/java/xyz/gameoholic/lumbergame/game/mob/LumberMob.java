@@ -97,7 +97,7 @@ public class LumberMob implements Listener {
 
         // Required parameter - health-expression
         mob.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
-        mob.setHealth(health);
+        mob.setHealth(mobType.isBoss() ? health * plugin.getGameManager().getPlayers().size() : health); // If is boss move, multiply health by player count
 
         // Required parameter - damage-expression
         mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(
