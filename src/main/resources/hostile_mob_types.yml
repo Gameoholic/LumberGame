@@ -16,14 +16,14 @@
   display-name: "Zombie"
   entity-type: "ZOMBIE"
   health-expression: "CR * 2.5 + 3.5"
-  damage-expression: "CR * 0.25 + 1"
+  damage-expression: "CR * 0.35 + 1"
 
 # Normal skeleton, fairly weak but can be annoying to deal with.
 - id: "SKELETON"
   display-name: "Skeleton"
   entity-type: "SKELETON"
   health-expression: "CR * 2.5 + 3.5"
-  damage-expression: "CR * 0.25 + 1"
+  damage-expression: "CR * 0.35 + 1"
   item-in-main-hand-id: "BOW"
   has-melee-attack-goal: false
   can-spawn-with-bone-meal: false
@@ -33,7 +33,7 @@
   display-name: "<green>Shover"
   entity-type: "ZOMBIE_VILLAGER"
   health-expression: "CR * 2.2 + 3.5"
-  damage-expression: "CR * 0.125 + 1"
+  damage-expression: "CR * 0.175 + 1"
   speed-expression: "0.35"
   knockback-expression: "3.5"
 
@@ -42,7 +42,7 @@
   display-name: "Baby Zombie"
   entity-type: "ZOMBIE"
   health-expression: "CR * 1.5 + 3.5"
-  damage-expression: "CR * 0.25 + 1"
+  damage-expression: "CR * 0.35 + 1"
   is-baby: true
 
 
@@ -52,7 +52,7 @@
   display-name: "Bomber"
   entity-type: "CREEPER"
   health-expression: "CR * 3.2 + 3.5"
-  damage-expression: "CR * 0.75 + 1"
+  damage-expression: "CR * 1.05 + 1"
   speed-expression: "0.3"
   knockback-resistance-expression: "0.3"
   attack-cooldown-expression: "0"
@@ -64,7 +64,7 @@
   display-name: "<green>Sneaky Bomber"
   entity-type: "CREEPER"
   health-expression: "CR * 1.6 + 3.5"
-  damage-expression: "CR * 0.6 + 1"
+  damage-expression: "CR * 0.84 + 1"
   speed-expression: "0.4"
   knockback-resistance-expression: "0.3"
   attack-cooldown-expression: "0"
@@ -75,7 +75,7 @@
   display-name: "<green>Ranged Bomber"
   entity-type: "STRAY"
   health-expression: "CR * 3.2 + 3.5"
-  damage-expression: "CR * 0.75 + 1"
+  damage-expression: "CR * 1.05 + 1"
   item-in-main-hand-id: "TNT"
   attack-cooldown-expression: "40"
   can-spawn-with-bone-meal: false
@@ -84,5 +84,5 @@
   display-name: "Giant"
   entity-type: "GIANT"
   health-expression: "CR * 5 + 3.5"
-  damage-expression: "CR * 0.25 + 1"
+  damage-expression: "CR * 0.35 + 1"
   can-spawn-with-bone-meal: false

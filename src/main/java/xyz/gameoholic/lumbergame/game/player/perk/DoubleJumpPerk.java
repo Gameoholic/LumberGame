@@ -128,12 +128,12 @@ public class DoubleJumpPerk extends Perk implements Listener {
     }
 
     private int getDamage(int level) {
-        // damage expression: {2, 3, 4, 5, 6} -> {6, 13, 24, 37, 54}
-        return (int) evaluateExpression("LEVEL * LEVEL * 1.5", Map.of("LEVEL", (double) level));
+        // damage expression: {2, 3, 4, 5, 6} -> {10, 20, 34, 52, 74}
+        return (int) evaluateExpression("LEVEL * LEVEL * 2.0 + 2.0", Map.of("LEVEL", (double) level));
     }
     private double getRadius(int level) {
-        // radius expression: {2, 3, 4, 5, 6} -> {1.0, 1.75, 2.5, 3.25, 4.0}
-        return evaluateExpression("1 + (LEVEL - 2) * 0.75", Map.of("LEVEL", (double) level));
+        // radius expression: {2, 3, 4, 5, 6} -> {1.75, 2.5, 3.25, 4.0, 4.75}
+        return evaluateExpression("1 + (LEVEL - 1) * 0.75", Map.of("LEVEL", (double) level));
     }
 
     @Override

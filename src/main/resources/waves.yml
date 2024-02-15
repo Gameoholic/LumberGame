@@ -218,10 +218,10 @@
 
 # Wave 11
 # Difficulty bump! CR is bumped by 5. Bombers introduced.
-# From now on waves are slightly slower but with more difficult mobs.
+# From now on waves have more difficult mobs.
 - wave-cr: 400
   active-spawns: 4
-  spawn-timer-min: 40
+  spawn-timer-min: 20
   spawn-timer-max: 100
   mob-min-cr: 16
   mob-max-cr: 16
@@ -248,7 +248,7 @@
 # Ranged bombers introduced. 2 Heavy bombers.
 - wave-cr: 450
   active-spawns: 4
-  spawn-timer-min: 40
+  spawn-timer-min: 20
   spawn-timer-max: 100
   mob-min-cr: 16
   mob-max-cr: 17
@@ -286,7 +286,7 @@
 # Sneaky bombers introduced.
 - wave-cr: 550
   active-spawns: 4
-  spawn-timer-min: 40
+  spawn-timer-min: 20
   spawn-timer-max: 100
   mob-min-cr: 17
   mob-max-cr: 18
@@ -321,7 +321,7 @@
 # Explosive mobs & shovers only. Long round.
 - wave-cr: 700
   active-spawns: 4
-  spawn-timer-min: 40
+  spawn-timer-min: 20
   spawn-timer-max: 100
   mob-min-cr: 18
   mob-max-cr: 19
@@ -331,9 +331,9 @@
     - id: RANGED_BOMBER
       chance: 0.25
     - id: TREE_CREEPER
-      chance: 0.25
+      chance: 0.2
     - id: SNEAKY_CREEPER
-      chance: 0.1
+      chance: 0.15
     - id: SHOVER
       chance: 0.1
     - id: SNEAKY_BOMBER
