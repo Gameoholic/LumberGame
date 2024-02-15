@@ -111,37 +111,37 @@ public class WaveManager {
         // Guaranteed mobs with specific index from last position
         Map<LumberMob, Integer> mobsWithIndex = new HashMap();
         for (Map.Entry<MobType, Integer> guaranteedMob : wave.guaranteedMobTypesWithIndex().entrySet()) {
-            for (int i = 0; i < (guaranteedMob.getKey().isBoss() ? 1 : waveCRMultiplier); i++) { // Scale guaranteed mob count with cr scale, only if not boss because its health gets scaled
+            for (int i = 0; i < (guaranteedMob.getKey().isBoss() ? 1 : waveCRMultiplier); i++) { // Scale guaranteed mob count with cr scale, unless they're bosses
                 if (leftWaveCR <= 0) {  // This shouldn't happen from a design viewpoint, but is technically possible with the right config
                     return;
                 }
                 int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
-                mobsWithIndex.put(getMob(guaranteedMob.getKey(), mobCR, false), guaranteedMob.getValue());
+                mobsWithIndex.put(getMob(guaranteedMob.getKey(), mobCR, false, true), guaranteedMob.getValue());
                 leftWaveCR -= mobCR;
             }
         }
         // Guaranteed mobs
         for (Map.Entry<MobType, Integer> guaranteedMob : wave.guaranteedMobTypes().entrySet()) {
-            for (int i = 0; i < (guaranteedMob.getKey().isBoss() ? 1 : waveCRMultiplier); i++) { // Scale guaranteed mob count with cr scale, only if not boss because its health gets scaled
+            for (int i = 0; i < guaranteedMob.getValue() * waveCRMultiplier; i++) { // Scale guaranteed mob count with cr scale
                 if (leftWaveCR <= 0) {  // This shouldn't happen from a design viewpoint, but is technically possible with the right config
                     return;
                 }
                 int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
-                mobQueue.add(getMob(guaranteedMob.getKey(), mobCR, false));
+                mobQueue.add(getMob(guaranteedMob.getKey(), mobCR, false, false));
                 leftWaveCR -= mobCR;
             }
         }
         // Put bone block mob at end of queue if needed
         if (wave.boneBlockMobType() != null) {
             int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
-            mobsWithIndex.put(getMob(wave.boneBlockMobType(), mobCR, true), 0);
+            mobsWithIndex.put(getMob(wave.boneBlockMobType(), mobCR, true, false), 0);
             leftWaveCR -= mobCR;
         }
         // Random mobs
         while (leftWaveCR > 0) {
             MobType selectedMobType = RandomUtil.getRandom(wave.mobTypes(), wave.mobTypesChances());
             int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
-            mobQueue.add(getMob(selectedMobType, mobCR, false));
+            mobQueue.add(getMob(selectedMobType, mobCR, false, false));
             leftWaveCR -= mobCR;
         }
         Collections.shuffle(mobQueue); // We shuffle because of guaranteed mobs being at the start of the list.
@@ -249,28 +249,30 @@ public class WaveManager {
      * @param mobTypeID The ID of the mob type.
      * @param CR        The Challenge Rating to spawn the mob with.
      * @param boneBlock Whether the mob has a bone block.
+     * @param guaranteedSpawn Whether the mob was a guaranteed spawn.
      * @throws java.util.NoSuchElementException if mobTypeId doesn't correspond to a loaded mob type.
      */
-    public LumberMob getMob(String mobTypeID, int CR, boolean boneBlock) {
+    public LumberMob getMob(String mobTypeID, int CR, boolean boneBlock, boolean guaranteedSpawn) {
         MobType mobType = plugin.getLumberConfig().mobTypes()
                 .stream().filter(filteredMobType -> filteredMobType.id().equals(mobTypeID)).findFirst().get();
 
-        return getMob(mobType, CR, boneBlock);
+        return getMob(mobType, CR, boneBlock, guaranteedSpawn);
     }
 
     /**
      * Instantiates the mob class.
      *
-     * @param mobType   The Lumber MobType of the mob.
-     * @param CR        The Challenge Rating to spawn the mob with.
-     * @param boneBlock Whether the mob has a bone block.
+     * @param mobType               The Lumber MobType of the mob.
+     * @param CR                    The Challenge Rating to spawn the mob with.
+     * @param boneBlock             Whether the mob has a bone block.
+     * @param guaranteedSingleSpawn Whether the mob was a guaranteed spawn and was spawned on its own (guaranteed with index).
      */
-    public LumberMob getMob(MobType mobType, int CR, boolean boneBlock) {
+    public LumberMob getMob(MobType mobType, int CR, boolean boneBlock, boolean guaranteedSingleSpawn) {
         LumberMob mob;
         if (mobType.isHostile())
-            mob = new LumberMob(plugin, mobType, CR, boneBlock);
+            mob = new LumberMob(plugin, mobType, CR, boneBlock, guaranteedSingleSpawn);
         else
-            mob = new TreeLumberMob(plugin, mobType, CR, boneBlock);
+            mob = new TreeLumberMob(plugin, mobType, CR, boneBlock, guaranteedSingleSpawn);
         return mob;
     }
 

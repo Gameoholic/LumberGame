@@ -1,6 +1,5 @@
 package xyz.gameoholic.lumbergame.game.mob;
 
-import com.sk89q.worldedit.util.formatting.text.format.TextColor;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -23,12 +22,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
-import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberCreeperAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
@@ -51,6 +44,7 @@ public class LumberMob implements Listener {
 
     protected Mob mob;
     private final boolean boneBlock;
+    private final boolean guaranteedSingleSpawn;
 
     private Random rnd = new Random();
 
@@ -61,11 +55,12 @@ public class LumberMob implements Listener {
      * @param CR        The challenge rating to spawn the mob with.
      * @param boneBlock Whether the mob should spawn with a bone block.
      */
-    public LumberMob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock) {
+    public LumberMob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock, boolean guaranteedSingleSpawn) {
         this.plugin = plugin;
         this.mobType = mobType;
         this.CR = CR;
         this.boneBlock = boneBlock;
+        this.guaranteedSingleSpawn = guaranteedSingleSpawn;
     }
 
     private void registerEvents() {
@@ -90,7 +85,7 @@ public class LumberMob implements Listener {
         int health = (int) Math.min(2000, new ExpressionBuilder(mobType.healthExpression())
             .variables("CR")
             .build()
-            .setVariable("CR", CR).evaluate() * (mobType.isBoss() ? plugin.getGameManager().getWaveCRMultiplier() : 1)); // Health cannot be above 2,048 in MC, multiply health by CR multiplier if mob is boss
+            .setVariable("CR", CR).evaluate() * (mobType.isBoss() && guaranteedSingleSpawn ? plugin.getGameManager().getWaveCRMultiplier() : 1)); // Health cannot be above 2,048 in MC, multiply health by CR multiplier if mob is boss and was spawned as a single mob
         mob.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(Double.MAX_VALUE);
         mob.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN, true);
         mob.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, -1, 1, false, false));

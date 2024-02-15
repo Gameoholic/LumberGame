@@ -19,12 +19,13 @@ public class TreeLumberMob extends LumberMob {
 
     /**
      * Use WaveManager to instantiate, don't use this constructor directly.
-     * @param mobType The Lumber MobType of the mob.
-     * @param CR The challenge rating to spawn the mob with.
-     * @param boneBlock Whether the mob should spawn with a bone block.
+     * @param mobType         The Lumber MobType of the mob.
+     * @param CR              The Challenge Rating to spawn the mob with.
+     * @param boneBlock       Whether the mob has a bone block.
+     * @param guaranteedSingleSpawn Whether the mob was a guaranteed spawn.
      */
-    public TreeLumberMob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock) {
-        super(plugin, mobType, CR, boneBlock);
+    public TreeLumberMob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock, boolean guaranteedSingleSpawn) {
+        super(plugin, mobType, CR, boneBlock, guaranteedSingleSpawn);
     }
 
     @Override

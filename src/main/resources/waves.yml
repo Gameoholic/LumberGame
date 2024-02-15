@@ -355,9 +355,14 @@
   mob-types:
     - id: ZOMBIE
       chance: 1.0
+  guaranteed-mob-types:
+    - id: RANGED_BOMBER
+      amount: 2
   guaranteed-mob-types-with-index:
     - id: HEAVY_CREEPER
       index-from-last: 3 #3 - 3 mobs after it
+    - id: SNEAKY_CREEPER
+      index-from-last: 0
 #  guaranteed-mob-types-with-index:
 #    - id: HEAVY_CREEPER
 #      index-from-last: 3
