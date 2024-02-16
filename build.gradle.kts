@@ -34,6 +34,7 @@ dependencies {
     compileOnly("xyz.gameoholic:partigon:1.3.5")
     compileOnly ("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
     implementation ("org.spongepowered:configurate-hocon:4.0.0")
+    implementation("org.mongodb:mongodb-driver-sync:5.0.0-beta0")
     implementation("net.objecthunter", "exp4j","0.4.8")
     implementation("fr.mrmicky", "fastboard" ,"2.0.2")
     implementation(platform("com.intellectualsites.bom:bom-newest:1.34"))
