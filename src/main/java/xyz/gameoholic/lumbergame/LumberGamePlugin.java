@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.gameoholic.lumbergame.commands.*;
 import xyz.gameoholic.lumbergame.config.LumberConfig;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
+import xyz.gameoholic.lumbergame.game.data.PlayerDataManager;
 import xyz.gameoholic.lumbergame.game.GameManager;
 import xyz.gameoholic.lumbergame.game.item.ItemManager;
 import xyz.gameoholic.lumbergame.game.player.npc.PlayerNPCManager;
@@ -20,6 +21,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     private @Nullable GameManager gameManager = null;
     private @Nullable ItemManager itemManager = null; //todo: move this to gamemanager
     private PlayerNPCManager playerNPCManager;
+    private PlayerDataManager playerDataManager;
     @Override
     public void onEnable() {
         saveResource("strings.yml", true);
@@ -54,9 +56,7 @@ public final class LumberGamePlugin extends JavaPlugin {
 
         queueManager = new LumberQueueManager(this);
         playerNPCManager = new PlayerNPCManager(this);
-
-
-
+        playerDataManager = new PlayerDataManager(this);
     }
 
     /**

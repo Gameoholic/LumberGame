@@ -1,21 +1,25 @@
 package xyz.gameoholic.lumbergame.commands;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import org.bson.UuidRepresentation;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.TreeLevelUpParticle;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
 
-import java.util.Collection;
-
+import static com.mongodb.client.model.Filters.eq;
 import static net.kyori.adventure.text.Component.text;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import xyz.gameoholic.lumbergame.game.data.PlayerData;
+import xyz.gameoholic.lumbergame.util.MongoDBUtil;
 
+import java.util.UUID;
 
 /**
  * DEBUG COMMAND
@@ -31,16 +35,20 @@ public class TestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         plugin.setConfig(new ConfigParser(plugin).parse());
 
-        Player player = (Player) sender;
-        Collection<Entity> hurtEntities = player.getLocation()
-            .getNearbyEntities(Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[0]));
-        hurtEntities.forEach(
-            it -> {
-                if (it instanceof Mob mob) {
-                    Bukkit.broadcast(mob.name());
-                }
-            }
-        );
+        UUID uuid = ((Player)sender).getUniqueId();
+
+        Bukkit.broadcastMessage("" + MongoDBUtil.uploadPlayerData(new PlayerData(uuid, 0,0 ,0,1,1,0,0,0,0)));
+        Bukkit.broadcastMessage(MongoDBUtil.getPlayerData(uuid) + "");
+
+
         return false;
+    }
+
+    public MongoClient mongo() throws Exception {
+        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/test");
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+                .uuidRepresentation(UuidRepresentation.STANDARD)
+                .applyConnectionString(connectionString).build();
+        return MongoClients.create(mongoClientSettings);
     }
 }

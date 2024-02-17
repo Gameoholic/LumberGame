@@ -1,4 +1,4 @@
-package xyz.gameoholic.lumbergame.util;
+package xyz.gameoholic.lumbergame.game;
 
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
