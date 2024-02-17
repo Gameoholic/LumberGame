@@ -37,7 +37,6 @@ public class TestCommand implements CommandExecutor {
 
         UUID uuid = ((Player)sender).getUniqueId();
 
-        Bukkit.broadcastMessage("" + MongoDBUtil.uploadPlayerData(new PlayerData(uuid, 0,0 ,0,1,1,0,0,0,0)));
         Bukkit.broadcastMessage(MongoDBUtil.getPlayerData(uuid) + "");
 
 

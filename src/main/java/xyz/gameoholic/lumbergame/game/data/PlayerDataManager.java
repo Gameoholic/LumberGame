@@ -37,10 +37,11 @@ public class PlayerDataManager {
     }
 
     /**
-     * @return Returns the cached player data matching this uuid, if it exists.
+     * @return Returns the cached player data matching this uuid.
+     * @throws java.util.NoSuchElementException If no cached player data exists for the provided uuid.
      */
     public @Nullable PlayerData getCachedPlayerData(UUID uuid) {
-        return cachedPlayerData.stream().filter( playerData -> playerData.getUuid().equals(uuid)).findFirst().orElse(null); //TODO repalce all == in uuids to equals()
+        return cachedPlayerData.stream().filter( playerData -> playerData.getUuid().equals(uuid)).findFirst().orElseThrow(null); //TODO repalce all == in uuids to equals()
     }
 
 }

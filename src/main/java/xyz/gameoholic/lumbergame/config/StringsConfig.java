@@ -80,7 +80,8 @@ public record StringsConfig(
     String respawnCooldownMessage,
     String respawnedMessage,
     String treeHealMaxHealthMessage,
-    String teamPerkBuyMessage
+    String teamPerkBuyMessage,
+    String statsMessage
 
 ) {
 

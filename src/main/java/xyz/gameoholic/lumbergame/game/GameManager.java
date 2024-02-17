@@ -16,10 +16,12 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.bukkit.util.Transformation;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.data.PlayerData;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.wave.WaveManager;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 import static net.kyori.adventure.text.Component.text;
@@ -204,9 +206,20 @@ public class GameManager {
      * Called when the game has ended.
      */
     public void onGameEnd() {
-        players.forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage()
-                .deserialize(plugin.getLumberConfig().strings().treeDeathMessage())));
-        players.forEach(lumberPlayer -> plugin.getPlayerDataManager().getCachedPlayerData(lumberPlayer.getUuid()).incLosses(1));
+        for (LumberPlayer lumberPlayer : players) {
+            PlayerData playerData = plugin.getPlayerDataManager().getCachedPlayerData(lumberPlayer.getUuid());
+            playerData.incLosses(1);
+            lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().treeDeathMessage()));
+            lumberPlayer.sendMessage(MiniMessage.miniMessage()
+                    .deserialize(plugin.getLumberConfig().strings().statsMessage(),
+                            Placeholder.component("kills", text(playerData.getKills())),
+                            Placeholder.component("deaths", text(playerData.getDeaths())),
+                            Placeholder.component("iron", text(playerData.getIronCollected())),
+                            Placeholder.component("gold", text(playerData.getGoldCollected())),
+                            Placeholder.component("wood", text(playerData.getWoodCollected()))
+                    ));
+        }
+
 
         waveManager.onGameEnd();
         players.forEach(LumberPlayer::unregisterEvents);
