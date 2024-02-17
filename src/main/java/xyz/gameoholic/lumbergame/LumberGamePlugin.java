@@ -56,13 +56,13 @@ public final class LumberGamePlugin extends JavaPlugin {
 
         queueManager = new LumberQueueManager(this);
         playerNPCManager = new PlayerNPCManager(this);
-        playerDataManager = new PlayerDataManager(this);
     }
 
     /**
      * Starts the game with all the players currently queued.
      */
     public void startGame(double waveCRMultiplier, double waveSpawnRateMultiplier) {
+        playerDataManager = new PlayerDataManager(this, queueManager.getPlayers());
         gameManager = new GameManager(this, queueManager.getPlayers(), waveCRMultiplier, waveSpawnRateMultiplier);
         queueManager.resetQueue();
         itemManager = new ItemManager(this);
@@ -102,4 +102,7 @@ public final class LumberGamePlugin extends JavaPlugin {
     }
 
 
+    public PlayerDataManager getPlayerDataManager() {
+        return playerDataManager;
+    }
 }

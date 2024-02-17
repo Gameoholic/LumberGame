@@ -6,13 +6,11 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.TitlePart;
-import net.minecraft.world.level.ExplosionDamageCalculator;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.block.data.type.TNT;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
@@ -161,6 +159,7 @@ public class LumberPlayer implements Listener {
         ));
         onInventoryChanged(player.getInventory()); // todo: remove this when rework resource information
         plugin.getGameManager().updatePlayerScoreboards(); // Update items
+        plugin.getPlayerDataManager().getCachedPlayerData(uuid).incDeaths(1);
     }
 
     public void updateScoreboard() {
@@ -300,7 +299,7 @@ public class LumberPlayer implements Listener {
     }
 
     @EventHandler
-    private void onEntityRegainHealthEvent(EntityRegainHealthEvent e) {
+    private void onEntityDeathEvent(EntityRegainHealthEvent e) {
         if (!(e.getEntity() instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
         // Health change is delayed by 1 tick to let the event affect the player's health when accessed by scoreboard manager
@@ -314,7 +313,7 @@ public class LumberPlayer implements Listener {
 
 
     @EventHandler
-    private void onEntityRegainHealthEvent(PlayerDeathEvent e) {
+    private void onEntityDeathEvent(PlayerDeathEvent e) {
         if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
         onDeath(e.getPlayer());

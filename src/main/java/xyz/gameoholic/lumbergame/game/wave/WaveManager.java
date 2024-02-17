@@ -7,7 +7,6 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.LumberMob;
 import xyz.gameoholic.lumbergame.game.mob.TreeLumberMob;
 import xyz.gameoholic.lumbergame.game.mob.MobType;
-import xyz.gameoholic.lumbergame.game.player.perk.TeamPerk;
 import xyz.gameoholic.lumbergame.util.RandomUtil;
 
 import javax.annotation.Nullable;
@@ -241,6 +240,12 @@ public class WaveManager {
             mobSpawnerTask = null;
         }
         waveEnded = true;
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer ->
+                plugin.getPlayerDataManager().getCachedPlayerData(lumberPlayer.getUuid()).incWavesCompleted(1)
+        );
+        plugin.getGameManager().getPlayers().forEach(lumberPlayer ->
+                plugin.getPlayerDataManager().getCachedPlayerData(lumberPlayer.getUuid()).setMaxWaveCompleted(plugin.getGameManager().getWaveNumber())
+        );
     }
 
     /**

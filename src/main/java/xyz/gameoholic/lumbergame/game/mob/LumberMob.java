@@ -260,11 +260,19 @@ public class LumberMob implements Listener {
         plugin.getGameManager().getWaveManager().onMobDeath(this);
         unregisterEvents();
 
-        if (player != null) // Only drop loot if player killed mob
+        if (player != null) { // Only drop loot & increase stats if player killed mob
             for (ItemStack itemStack : getDrops()) {
                 Item item = mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), itemStack);
                 pullItemToPlayer(plugin, item, player); // Item magnetism: Give velocity towards player for easier pickup
+                // Increase item pickup stats
+                switch (itemStack.getType()) {
+                    case IRON_INGOT -> plugin.getPlayerDataManager().getCachedPlayerData(player.getUniqueId()).incIronCollected(itemStack.getAmount());
+                    case GOLD_INGOT -> plugin.getPlayerDataManager().getCachedPlayerData(player.getUniqueId()).incGoldCollected(itemStack.getAmount());
+                }
             }
+            plugin.getPlayerDataManager().getCachedPlayerData(player.getUniqueId()).incKills(1);
+        }
+
 
         // If mob is skeleton and was holding TNT (aka Ranged Bomber), spawn TNT on death
         if (mob instanceof AbstractSkeleton && mob.getEquipment().getItemInMainHand().getType() == Material.TNT) {

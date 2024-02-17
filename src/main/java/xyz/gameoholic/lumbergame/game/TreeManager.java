@@ -134,6 +134,7 @@ public class TreeManager {
                 player
             );
         }
+        plugin.getPlayerDataManager().getCachedPlayerData(player.getUniqueId()).incWoodCollected(healthChopped); // Inc wood collected stat
     }
 
     public void onTreeHealByPlayer(Player player) {

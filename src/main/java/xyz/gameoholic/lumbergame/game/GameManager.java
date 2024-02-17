@@ -68,13 +68,13 @@ public class GameManager {
         this.particleManager = new ParticleManager(plugin);
         treeManager = new TreeManager(plugin);
         players.forEach(
-            uuid -> {
-                LumberPlayer lumberPlayer = new LumberPlayer(plugin, uuid);
-                this.players.add(lumberPlayer);
-            }
+                uuid -> {
+                    LumberPlayer lumberPlayer = new LumberPlayer(plugin, uuid);
+                    this.players.add(lumberPlayer);
+                }
         );
         plugin.getLogger().info("Starting game with wave CR multiplier of " + waveCRMultiplier +
-            " and wave spawn rate multiplier of " + waveSpawnRateMultiplier);
+                " and wave spawn rate multiplier of " + waveSpawnRateMultiplier);
 
         startGame();
     }
@@ -87,6 +87,7 @@ public class GameManager {
         setUpTeams();
         plugin.getLogger().info("Game has started with " + players.size() + " players.");
     }
+
     private void setUpTeams() {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         greenTeam = (scoreboard.getTeam("ld_green") == null) ? scoreboard.registerNewTeam("ld_green") : scoreboard.getTeam("ld_green");
@@ -118,15 +119,15 @@ public class GameManager {
     private void clearOldEntities() {
         // If entity contains lumber_mob key, it's an old mob from previous waves.
         plugin.getLumberConfig().mapConfig().treeLocation().getWorld().getEntities().forEach(entity ->
-            {
-                if (entity.getPersistentDataContainer().get(
-                    new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN) != null)
-                    entity.remove();
+                {
+                    if (entity.getPersistentDataContainer().get(
+                            new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN) != null)
+                        entity.remove();
 
-                // We also clear out items left on the floor
-                if (entity.getType() == EntityType.DROPPED_ITEM)
-                    entity.remove();
-            }
+                    // We also clear out items left on the floor
+                    if (entity.getType() == EntityType.DROPPED_ITEM)
+                        entity.remove();
+                }
         );
 
 
@@ -177,14 +178,14 @@ public class GameManager {
 
         // Send message
         players.forEach(lumberPlayer ->
-            lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
-                plugin.getLumberConfig().strings().newWaveStartMessage(),
-                Placeholder.component("wave", text(waveNumber + 1))
-            )));
+                lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
+                        plugin.getLumberConfig().strings().newWaveStartMessage(),
+                        Placeholder.component("wave", text(waveNumber + 1))
+                )));
 
         // Play sound
         Sound sound = ((waveNumber + 1) % 5 == 0) ?
-            plugin.getLumberConfig().soundsConfig().bossWaveStartSound() : plugin.getLumberConfig().soundsConfig().waveStartSound();
+                plugin.getLumberConfig().soundsConfig().bossWaveStartSound() : plugin.getLumberConfig().soundsConfig().waveStartSound();
         players.forEach(lumberPlayer -> lumberPlayer.playSound(sound));
 
         updatePlayerScoreboards(); // Update wave number
@@ -204,10 +205,16 @@ public class GameManager {
      */
     public void onGameEnd() {
         players.forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage()
-            .deserialize(plugin.getLumberConfig().strings().treeDeathMessage())));
+                .deserialize(plugin.getLumberConfig().strings().treeDeathMessage())));
+        players.forEach(lumberPlayer -> plugin.getPlayerDataManager().getCachedPlayerData(lumberPlayer.getUuid()).incLosses(1));
+
         waveManager.onGameEnd();
         players.forEach(LumberPlayer::unregisterEvents);
         particleManager.stopParticles();
+        if (!plugin.getPlayerDataManager().uploadAllData())
+            players.forEach(lumberPlayer -> lumberPlayer.sendMessage(
+                    text("There was an error uploading this game's data! Please contact an administrator for more info.")
+                            .color(NamedTextColor.RED)));  //todo: put in config
         plugin.onGameEnd();
     }
 
@@ -220,6 +227,7 @@ public class GameManager {
 
     /**
      * Increases the bone meal meter depending on the mob's CR.
+     *
      * @param CR The challenge rating of the mob that spawned.
      */
     public void increaseBoneMealMeter(int CR) {
@@ -227,12 +235,14 @@ public class GameManager {
                 plugin.getLumberConfig().gameConfig().boneMealMeterFillExpression(),
                 Map.of("CR", (double) CR));
     }
+
     public void resetBoneMealMeter() {
         boneMealMeter = 0.0;
     }
 
     /**
      * Increases the gold meter depending on the mob's CR.
+     *
      * @param CR The challenge rating of the mob that died.
      */
     public void increaseGoldMeter(int CR) {
@@ -240,6 +250,7 @@ public class GameManager {
                 plugin.getLumberConfig().gameConfig().goldMeterFillExpression(),
                 Map.of("CR", (double) CR));
     }
+
     public void resetGoldMeter() {
         goldMeter = 0.0;
     }
@@ -263,18 +274,23 @@ public class GameManager {
     public ParticleManager getParticleManager() {
         return particleManager;
     }
+
     public double getBoneMealMeter() {
         return boneMealMeter;
     }
+
     public double getGoldMeter() {
         return goldMeter;
     }
+
     public Team getGreenTeam() {
         return greenTeam;
     }
+
     public Team getRedTeam() {
         return redTeam;
     }
+
     public double getWaveCRMultiplier() {
         return waveCRMultiplier;
     }
