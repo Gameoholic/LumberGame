@@ -59,6 +59,7 @@
       amount: 1
 
 # Wave 4
+# Introduction of sneaky creepers.
 - wave-cr: 60
   active-spawns: 2
   spawn-timer-min: 20
@@ -74,10 +75,12 @@
       chance: 0.4
     - id: TREE_CREEPER
       chance: 0.2
+  guaranteed-mob-types:
+    - id: SNEAKY_CREEPER # Introduce new mob
+      amount: 1
 
 # Wave 5
 # This is where things stop being easy. Player should start buying items. Also, first bone block.
-# Introduction of sneaky creepers.
 # From now on, use stone sword for balancing purposes.
 - wave-cr: 85
   active-spawns: 3
@@ -91,12 +94,12 @@
     - id: ZOMBIE
       chance: 0.35
     - id: TREE_ZOMBIE
-      chance: 0.4
+      chance: 0.375
     - id: TREE_CREEPER
       chance: 0.2
-  guaranteed-mob-types:
-    - id: SNEAKY_CREEPER # Introduce new mob
-      amount: 1
+    - id: SNEAKY_CREEPER
+      chance: 0.05
+
   bone-block-mob-type-id: ZOMBIE
 
 # Wave 6

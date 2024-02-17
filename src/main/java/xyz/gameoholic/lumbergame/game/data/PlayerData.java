@@ -18,9 +18,14 @@ public class PlayerData {
     private int woodCollected;
     private int maxWaveCompleted;
 
+
+    // POJO mongo constructor
+    public PlayerData() {
+
+    }
+
     /**
      * @param uuid           The UUID of the player.
-     * @param maxWaveCompleted Max 0-th index wave completed.
      */
     public PlayerData(UUID uuid, int wins, int losses, int wavesCompleted, int kills, int deaths, int ironCollected, int goldCollected, int woodCollected, int maxWaveCompleted) {
         this.uuid = uuid;
@@ -33,12 +38,10 @@ public class PlayerData {
         this.goldCollected = goldCollected;
         this.woodCollected = woodCollected;
         this.maxWaveCompleted = maxWaveCompleted;
-    }
-
-    // POJO mongo constructor
-    public PlayerData() {
 
     }
+
+
 
 
     /**
@@ -123,5 +126,44 @@ public class PlayerData {
 
     public void setMaxWaveCompleted(int maxWaveCompleted) {
         this.maxWaveCompleted = maxWaveCompleted;
+    }
+
+    /**
+     * These setters are required for POJO classes to be populated in mongoDB
+     */
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
+    public void setWavesCompleted(int wavesCompleted) {
+        this.wavesCompleted = wavesCompleted;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+
+    public void setIronCollected(int ironCollected) {
+        this.ironCollected = ironCollected;
+    }
+
+    public void setGoldCollected(int goldCollected) {
+        this.goldCollected = goldCollected;
+    }
+
+    public void setWoodCollected(int woodCollected) {
+        this.woodCollected = woodCollected;
     }
 }

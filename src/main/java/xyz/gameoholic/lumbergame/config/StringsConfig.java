@@ -81,7 +81,8 @@ public record StringsConfig(
     String respawnedMessage,
     String treeHealMaxHealthMessage,
     String teamPerkBuyMessage,
-    String statsMessage
+    String statsMessage,
+    String statsCommandMessage
 
 ) {
 

@@ -9,10 +9,12 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
+import org.bson.Document;
 import org.bson.UuidRepresentation;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
+import org.bukkit.Bukkit;
 import xyz.gameoholic.lumbergame.game.data.PlayerData;
 
 import javax.annotation.Nullable;
@@ -56,6 +58,7 @@ public class MongoDBUtil {
             }
             return playerDocument;
         } catch (Exception e) {
+            Bukkit.broadcastMessage("ERROR " + e.getMessage());
             //todo error message in plugin's info e.getMessage()
             return null;
         }

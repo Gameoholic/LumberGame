@@ -210,14 +210,13 @@ public class GameManager {
             PlayerData playerData = plugin.getPlayerDataManager().getCachedPlayerData(lumberPlayer.getUuid());
             playerData.incLosses(1);
             lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().treeDeathMessage()));
-            lumberPlayer.sendMessage(MiniMessage.miniMessage()
-                    .deserialize(plugin.getLumberConfig().strings().statsMessage(),
-                            Placeholder.component("kills", text(playerData.getKills())),
-                            Placeholder.component("deaths", text(playerData.getDeaths())),
-                            Placeholder.component("iron", text(playerData.getIronCollected())),
-                            Placeholder.component("gold", text(playerData.getGoldCollected())),
-                            Placeholder.component("wood", text(playerData.getWoodCollected()))
-                    ));
+            lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().statsMessage(),
+                    Placeholder.component("kills", text(playerData.getKills())),
+                    Placeholder.component("deaths", text(playerData.getDeaths())),
+                    Placeholder.component("iron", text(playerData.getIronCollected())),
+                    Placeholder.component("gold_collected", text(playerData.getGoldCollected())),
+                    Placeholder.component("wood", text(playerData.getWoodCollected()))
+            ));
         }
 
 

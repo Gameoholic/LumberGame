@@ -22,6 +22,8 @@ commands:
     permission: lumbergame.startwave
   shop:
     description: Opens the shop
+  stats:
+    description: Shows your lifetime stats.
   test:
     permission: test
 

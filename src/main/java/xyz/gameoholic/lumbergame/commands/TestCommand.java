@@ -43,11 +43,5 @@ public class TestCommand implements CommandExecutor {
         return false;
     }
 
-    public MongoClient mongo() throws Exception {
-        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/test");
-        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
-                .uuidRepresentation(UuidRepresentation.STANDARD)
-                .applyConnectionString(connectionString).build();
-        return MongoClients.create(mongoClientSettings);
-    }
+
 }

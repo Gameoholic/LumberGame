@@ -136,4 +136,5 @@ tree-heal-max-health-message: "<red>Tree is already on max health!"
 # parameters: <player>, <perk>, <level>
 team-perk-buy-message: "<gold><red><player></red> purchased <perk> <level>!"
 
-stats-message: "Stats from this round:<br>You've killed <kills> mobs!<br>You've died <deaths> times.<br>You've collected <iron> 뀀.<br>You've collected <gold> 뀁.<br>You've collected <wood> 뀄.<br>View your lifetime stats with /stats."
+stats-message: "<gold>Stats from this round:</gold><br>You've killed <yellow><kills></yellow> mobs!<br>You've died <yellow><deaths></yellow> times.<br>You've collected <yellow><iron></yellow>뀀.<br>You've collected <yellow><gold_collected></yellow>뀁.<br>You've collected <yellow><wood></yellow>뀄.<br><gray>View your lifetime stats with /stats."
+stats-command-message: "<gray>Lifetime stats:</gray><br>You've killed <yellow><kills></yellow> mobs.<br>You've died <yellow><deaths></yellow> times.<br>You've survived <yellow><waves_completed></yellow> waves.<br>The highest wave you've beaten is wave <yellow><max_waves_completed></yellow>.<br>You've collected <yellow><iron></yellow>뀀.<br>You've collected <yellow><gold_collected></yellow>뀁.<br>You've collected <yellow><wood></yellow>뀄.<br>You've won <yellow><wins></yellow> times.<br>You've lost <yellow><losses></yellow> times."

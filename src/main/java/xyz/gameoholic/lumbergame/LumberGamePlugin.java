@@ -53,6 +53,7 @@ public final class LumberGamePlugin extends JavaPlugin {
         Bukkit.getPluginCommand("spawnmob").setExecutor(new SpawnMobCommand(this));
         Bukkit.getPluginCommand("spawnitem").setExecutor(new SpawnItemCommand(this));
         Bukkit.getPluginCommand("shop").setExecutor(new ShopCommand(this));
+        Bukkit.getPluginCommand("stats").setExecutor(new StatsCommand(this));
 
         queueManager = new LumberQueueManager(this);
         playerNPCManager = new PlayerNPCManager(this);
