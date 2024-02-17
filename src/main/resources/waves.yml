@@ -191,7 +191,7 @@
       amount: 5
 
 # Wave 10
-# Boss round. Introduction of baby zombies and heavy creeper.
+# Boss round. Introduction of baby zombies and giants.
 - wave-cr: 250
   active-spawns: 4
   spawn-timer-min: 30
@@ -218,6 +218,11 @@
       amount: 2
     - id: HEAVY_CREEPER
       amount: 2
+  guaranteed-mob-types-with-index:
+    - id: GIANT
+      index-from-last: 8
+    - id: GIANT
+      index-from-last: 3
   bone-block-mob-type-id: SHOVER
 
 # Wave 11

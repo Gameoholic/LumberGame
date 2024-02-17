@@ -112,7 +112,6 @@ public class WaveManager {
         // Guaranteed mobs with specific index from last position
         Map<LumberMob, Integer> mobsWithIndex = new HashMap();
         for (Pair<MobType, Integer> guaranteedMob : wave.guaranteedMobTypesWithIndex()) {
-            Bukkit.broadcastMessage("Guaranteed mob " + guaranteedMob.getFirst().displayName());
             for (int i = 0; i < (guaranteedMob.getFirst().isBoss() ? 1 : waveCRMultiplier); i++) { // Scale guaranteed mob count with cr scale, unless they're bosses
                 if (leftWaveCR <= 0) {  // This shouldn't happen from a design viewpoint, but is technically possible with the right config
                     return;
