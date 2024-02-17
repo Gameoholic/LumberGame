@@ -99,7 +99,9 @@
       chance: 0.2
     - id: SNEAKY_CREEPER
       chance: 0.05
-
+  guaranteed-mob-types-with-index:
+    - id: HEAVY_CREEPER
+      index-from-last: 4
   bone-block-mob-type-id: ZOMBIE
 
 # Wave 6
@@ -111,13 +113,13 @@
   mob-max-cr: 6
   mob-types:
     - id: SKELETON
-      chance: 0.05
+      chance: 0.1
     - id: ZOMBIE
-      chance: 0.35
+      chance: 0.3
     - id: TREE_ZOMBIE
-      chance: 0.35
+      chance: 0.3
     - id: TREE_CREEPER
-      chance: 0.17
+      chance: 0.22
     - id: SNEAKY_CREEPER
       chance: 0.08
   guaranteed-mob-types:
@@ -134,13 +136,13 @@
   mob-max-cr: 7
   mob-types:
     - id: SKELETON
-      chance: 0.05
+      chance: 0.08
     - id: ZOMBIE
-      chance: 0.35
+      chance: 0.32
     - id: TREE_ZOMBIE
-      chance: 0.33
+      chance: 0.3
     - id: TREE_CREEPER
-      chance: 0.17
+      chance: 0.2
     - id: SNEAKY_CREEPER
       chance: 0.1
   guaranteed-mob-types:
@@ -174,9 +176,9 @@
 # Wave 9
 # Full of just Shovers and Creepers
 - wave-cr: 175
-  active-spawns: 2
-  spawn-timer-min: 30
-  spawn-timer-max: 100
+  active-spawns: 3
+  spawn-timer-min: 20
+  spawn-timer-max: 90
   mob-min-cr: 8
   mob-max-cr: 9
   mob-types:
@@ -214,9 +216,8 @@
       amount: 2
     - id: BABY_ZOMBIE
       amount: 2
-  guaranteed-mob-types-with-index:
     - id: HEAVY_CREEPER
-      index-from-last: 5
+      amount: 2
   bone-block-mob-type-id: SHOVER
 
 # Wave 11
