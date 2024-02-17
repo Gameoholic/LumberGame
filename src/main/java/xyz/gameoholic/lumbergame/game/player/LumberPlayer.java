@@ -52,10 +52,6 @@ import static net.kyori.adventure.text.Component.text;
  */
 public class LumberPlayer implements Listener {
     private final UUID uuid;
-    private int wood = 0;
-    private int iron = 0;
-    private int gold = 0;
-    private int boneMeal = 0;
     private List<Perk> perks = new ArrayList<>();
     /**
      * Task that sends out block destruction packets for the tree every 15 seconds, otherwise they disappear.
@@ -142,22 +138,21 @@ public class LumberPlayer implements Listener {
      */
     private void onDeath(Player player) {
         // Remove half of all player's resources
-        plugin.getItemManager().removeItemsFromInventory(player, "IRON", iron / 2);
-        plugin.getItemManager().removeItemsFromInventory(player, "GOLD", gold / 2);
-        plugin.getItemManager().removeItemsFromInventory(player, "WOOD", wood / 2);
-        plugin.getItemManager().removeItemsFromInventory(player, "BONE_MEAL", boneMeal / 2);
+        plugin.getItemManager().removeItemsFromInventory(player, "IRON", plugin.getItemManager().countItemsInInventory(player, "IRON") / 2);
+        plugin.getItemManager().removeItemsFromInventory(player, "GOLD", plugin.getItemManager().countItemsInInventory(player, "GOLD") / 2);
+        plugin.getItemManager().removeItemsFromInventory(player, "WOOD", plugin.getItemManager().countItemsInInventory(player, "WOOD") / 2);
+        plugin.getItemManager().removeItemsFromInventory(player, "BONE_MEAL", plugin.getItemManager().countItemsInInventory(player, "BONE_MEAL") / 2);
 
         plugin.getGameManager().getPlayers().forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage()
             .deserialize(
                 plugin.getLumberConfig().strings().playerDeathMessage(),
                 Placeholder.component("player", player.name()),
-                Placeholder.component("iron", text(iron / 2)),
-                Placeholder.component("gold_amount", text(gold / 2)),
-                Placeholder.component("wood", text(wood / 2)),
-                Placeholder.component("bone_meal", text(boneMeal / 2))
+                Placeholder.component("iron", text(plugin.getItemManager().countItemsInInventory(player, "IRON") / 2)),
+                Placeholder.component("gold_amount", text(plugin.getItemManager().countItemsInInventory(player, "GOLD") / 2)),
+                Placeholder.component("wood", text(plugin.getItemManager().countItemsInInventory(player, "WOOD") / 2)),
+                Placeholder.component("bone_meal", text(plugin.getItemManager().countItemsInInventory(player, "BONE_MEAL") / 2))
             )
         ));
-        onInventoryChanged(player.getInventory()); // todo: remove this when rework resource information
         plugin.getGameManager().updatePlayerScoreboards(); // Update items
         plugin.getPlayerDataManager().getCachedPlayerData(uuid).incDeaths(1);
     }
@@ -225,28 +220,28 @@ public class LumberPlayer implements Listener {
     private void onInventoryDragEvent(InventoryDragEvent e) {
         if (!(e.getViewers().get(0) instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
-        onInventoryChanged(player.getInventory());
+        onInventoryChanged();
     }
 
     @EventHandler
     private void onInventoryEvent(InventoryCreativeEvent e) {
         if (!(e.getViewers().get(0) instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
-        onInventoryChanged(player.getInventory());
+        onInventoryChanged();
     }
 
     @EventHandler
     private void onInventoryEvent(EntityPickupItemEvent e) {
         if (!(e.getEntity() instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
-        onInventoryChanged(player.getInventory());
+        onInventoryChanged();
     }
 
     @EventHandler
     private void onInventoryEvent(PlayerDropItemEvent e) {
         if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
-        onInventoryChanged(e.getPlayer().getInventory());
+        onInventoryChanged();
     }
 
     @EventHandler
@@ -371,24 +366,11 @@ public class LumberPlayer implements Listener {
         perks.forEach(perk -> perk.onRespawn(player));
     }
 
-    private void onInventoryChanged(Inventory inventory) {
-        // Inventory search is delayed by 1 tick to let the events affect the player's inventory when accessed by scoreboard manager
+    private void onInventoryChanged() {
+        // Scoreboard update isis delayed by 1 tick to let the events affect the player's inventory when accessed by scoreboard manager's inventory searcher
         new BukkitRunnable() {
             @Override
             public void run() {
-                boneMeal = 0;
-                wood = 0;
-                gold = 0;
-                iron = 0;
-                inventory.forEach(itemStack -> {
-                    if (itemStack != null)
-                        switch (itemStack.getType()) {
-                            case BONE_MEAL -> boneMeal += itemStack.getAmount();
-                            case OAK_WOOD -> wood += itemStack.getAmount();
-                            case GOLD_INGOT -> gold += itemStack.getAmount();
-                            case IRON_INGOT -> iron += itemStack.getAmount();
-                        }
-                });
                 plugin.getGameManager().updatePlayerScoreboards(); // Update player item amounts
             }
         }.runTask(plugin);
@@ -465,22 +447,6 @@ public class LumberPlayer implements Listener {
 
     public UUID getUuid() {
         return uuid;
-    }
-
-    public int getWood() {
-        return wood;
-    }
-
-    public int getIron() {
-        return iron;
-    }
-
-    public int getGold() {
-        return gold;
-    }
-
-    public int getBoneMeal() {
-        return boneMeal;
     }
 
     public List<Perk> getPerks() {

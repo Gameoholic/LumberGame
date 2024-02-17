@@ -5,7 +5,10 @@ import xyz.gameoholic.partigon.util.Utils.envelope
 import org.bukkit.Particle
 import org.bukkit.entity.Entity
 import xyz.gameoholic.partigon.particle.MultiParticle.Companion.multiParticle
+import xyz.gameoholic.partigon.particle.envelope.LinearEnvelope
+import xyz.gameoholic.partigon.particle.envelope.wrapper.LinearEnvelopeWrapper
 import xyz.gameoholic.partigon.particle.location.EntityLocation
+import xyz.gameoholic.partigon.particle.loop.BounceLoop
 
 object GiantFootstepsParticle {
 
