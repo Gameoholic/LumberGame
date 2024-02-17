@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game.wave;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -7,6 +8,7 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.LumberMob;
 import xyz.gameoholic.lumbergame.game.mob.TreeLumberMob;
 import xyz.gameoholic.lumbergame.game.mob.MobType;
+import xyz.gameoholic.lumbergame.util.Pair;
 import xyz.gameoholic.lumbergame.util.RandomUtil;
 
 import javax.annotation.Nullable;
@@ -109,13 +111,14 @@ public class WaveManager {
 
         // Guaranteed mobs with specific index from last position
         Map<LumberMob, Integer> mobsWithIndex = new HashMap();
-        for (Map.Entry<MobType, Integer> guaranteedMob : wave.guaranteedMobTypesWithIndex().entrySet()) {
-            for (int i = 0; i < (guaranteedMob.getKey().isBoss() ? 1 : waveCRMultiplier); i++) { // Scale guaranteed mob count with cr scale, unless they're bosses
+        for (Pair<MobType, Integer> guaranteedMob : wave.guaranteedMobTypesWithIndex()) {
+            Bukkit.broadcastMessage("Guaranteed mob " + guaranteedMob.getFirst().displayName());
+            for (int i = 0; i < (guaranteedMob.getFirst().isBoss() ? 1 : waveCRMultiplier); i++) { // Scale guaranteed mob count with cr scale, unless they're bosses
                 if (leftWaveCR <= 0) {  // This shouldn't happen from a design viewpoint, but is technically possible with the right config
                     return;
                 }
                 int mobCR = rnd.nextInt(wave.mobMinCR(), wave.mobMaxCR() + 1);
-                mobsWithIndex.put(getMob(guaranteedMob.getKey(), mobCR, false, true), guaranteedMob.getValue());
+                mobsWithIndex.put(getMob(guaranteedMob.getFirst(), mobCR, false, true), guaranteedMob.getSecond());
                 leftWaveCR -= mobCR;
             }
         }

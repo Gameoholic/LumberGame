@@ -84,5 +84,7 @@
   display-name: "Giant"
   entity-type: "GIANT"
   health-expression: "CR * 5 + 3.5"
-  damage-expression: "CR * 0.35 + 1"
+  damage-expression: "CR * 0.5 + 1"
+  speed-expression: "0.354"
   can-spawn-with-bone-meal: false
+  is-boss: true

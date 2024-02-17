@@ -1,6 +1,7 @@
 package xyz.gameoholic.lumbergame.game.wave;
 
 import xyz.gameoholic.lumbergame.game.mob.MobType;
+import xyz.gameoholic.lumbergame.util.Pair;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -21,5 +22,5 @@ import java.util.Map;
  */
 public record Wave(int waveCR, int activeSpawns, int spawnTimerMin, int spawnTimerMax, int mobMinCR, int mobMaxCR, List<MobType> mobTypes,
                    List<Double> mobTypesChances, @Nullable MobType boneBlockMobType, Map<MobType, Integer> guaranteedMobTypes,
-                   Map<MobType, Integer> guaranteedMobTypesWithIndex) {
+                   List<Pair<MobType, Integer>> guaranteedMobTypesWithIndex) {
 }

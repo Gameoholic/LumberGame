@@ -13,6 +13,7 @@ import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.mob.MobType;
 import xyz.gameoholic.lumbergame.game.wave.Wave;
+import xyz.gameoholic.lumbergame.util.Pair;
 
 import java.nio.file.Paths;
 import java.util.*;
@@ -427,20 +428,17 @@ public class ConfigParser {
                                 }
                         );
 
-                        Map<MobType, Integer> guaranteedMobTypesWithIndex = new HashMap<>();
-                        wave.node("guaranteed-mob-types-with-index").childrenList().forEach(
-                                mobType -> {
-                                    try {
-                                        String mobTypeID = mobType.node("id").require(String.class);
-                                        guaranteedMobTypesWithIndex.put(loadedMobTypes.stream()
-                                                        .filter(filteredMobType ->
-                                                                filteredMobType.id().equals(mobTypeID)).findFirst().get(),
-                                                mobType.node("index-from-last").require(Integer.class));
-                                    } catch (Exception e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }
-                        );
+                        List<Pair<MobType, Integer>> guaranteedMobTypesWithIndex = new ArrayList<>();
+                        for (CommentedConfigurationNode mobType : wave.node("guaranteed-mob-types-with-index").childrenList()) {
+                            try {
+                                String mobTypeID = mobType.node("id").require(String.class);
+                                guaranteedMobTypesWithIndex.add(new Pair(loadedMobTypes.stream()
+                                        .filter(filteredMobType -> filteredMobType.id().equals(mobTypeID)).findFirst().get(),
+                                        mobType.node("index-from-last").require(Integer.class)));
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
 
                         waves.add(new Wave(
                                 wave.node("wave-cr").require(Integer.class),
