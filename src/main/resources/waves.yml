@@ -200,13 +200,13 @@
   mob-max-cr: 10
   mob-types:
     - id: SKELETON
-      chance: 0.05
+      chance: 0.07
     - id: ZOMBIE
       chance: 0.37
     - id: TREE_ZOMBIE
       chance: 0.3
     - id: TREE_CREEPER
-      chance: 0.20
+      chance: 0.18
     - id: SNEAKY_CREEPER
       chance: 0.08
   guaranteed-mob-types:
@@ -215,7 +215,7 @@
     - id: SNEAKY_CREEPER
       amount: 2
     - id: BABY_ZOMBIE
-      amount: 2
+      amount: 3
     - id: HEAVY_CREEPER
       amount: 2
   guaranteed-mob-types-with-index:
@@ -223,6 +223,8 @@
       index-from-last: 8
     - id: GIANT
       index-from-last: 3
+    - id: GIANT
+      index-from-last: 1
   bone-block-mob-type-id: SHOVER
 
 # Wave 11
@@ -355,14 +357,14 @@
       index-from-last: 3
 # Wave 15
 # Explosive mobs & shovers only. Long round.
-- wave-cr: 10
+- wave-cr: 50
   active-spawns: 1
   spawn-timer-min: 20
   spawn-timer-max: 40
-  mob-min-cr: 1
-  mob-max-cr: 1
+  mob-min-cr: 5
+  mob-max-cr: 5
   mob-types:
-    - id: ZOMBIE
+    - id: GIANT
       chance: 1.0
   guaranteed-mob-types:
     - id: RANGED_BOMBER

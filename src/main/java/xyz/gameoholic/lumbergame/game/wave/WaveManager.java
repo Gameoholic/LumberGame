@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.mob.GiantMob;
 import xyz.gameoholic.lumbergame.game.mob.LumberMob;
 import xyz.gameoholic.lumbergame.game.mob.TreeLumberMob;
 import xyz.gameoholic.lumbergame.game.mob.MobType;
@@ -276,7 +277,9 @@ public class WaveManager {
      */
     public LumberMob getMob(MobType mobType, int CR, boolean boneBlock, boolean guaranteedSingleSpawn) {
         LumberMob mob;
-        if (mobType.isHostile())
+        if (mobType.id().equals("GIANT"))
+            mob = new GiantMob(plugin, mobType, CR, boneBlock, guaranteedSingleSpawn);
+        else if (mobType.isHostile())
             mob = new LumberMob(plugin, mobType, CR, boneBlock, guaranteedSingleSpawn);
         else
             mob = new TreeLumberMob(plugin, mobType, CR, boneBlock, guaranteedSingleSpawn);

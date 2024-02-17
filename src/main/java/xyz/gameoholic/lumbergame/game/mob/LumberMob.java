@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game.mob;
 
+import io.papermc.paper.event.entity.EntityMoveEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -22,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import xyz.gameoholic.lumbergame.GiantFootstepsParticle;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberCreeperAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
@@ -54,6 +56,7 @@ public class LumberMob implements Listener {
      * @param mobType   The Lumber MobType of the mob.
      * @param CR        The challenge rating to spawn the mob with.
      * @param boneBlock Whether the mob should spawn with a bone block.
+     * @param guaranteedSingleSpawn Whether the mob was spawned on its own.
      */
     public LumberMob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock, boolean guaranteedSingleSpawn) {
         this.plugin = plugin;

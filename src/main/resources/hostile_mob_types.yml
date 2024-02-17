@@ -80,12 +80,12 @@
   attack-cooldown-expression: "40"
   can-spawn-with-bone-meal: false
 
-# Deals more damage than zombies, and has higher HP & speed.
+# Deals more damage than zombies, and has higher HP & speed. When entities are close to it, deals 1/4th the damage every 5 ticks and launches them away.
 - id: "GIANT"
   display-name: "Giant"
   entity-type: "GIANT"
-  health-expression: "CR * 7.5 + 3.5"
+  health-expression: "CR * 4.0 + 3.5"
   damage-expression: "CR * 0.5 + 1"
-  speed-expression: "0.354"
+  speed-expression: "0.3"
   can-spawn-with-bone-meal: false
   is-boss: true
