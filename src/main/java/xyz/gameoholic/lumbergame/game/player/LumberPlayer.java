@@ -21,8 +21,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFertilizeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -452,6 +454,13 @@ public class LumberPlayer implements Listener {
 
         e.setCancelled(true);
         plugin.getGameManager().getTreeManager().onTreeChopByPlayer(e.getPlayer(), e.getBlock().getLocation());
+    }
+
+    @EventHandler
+    public void onBlockBreakEvent(CraftItemEvent e) {
+        if (!e.getWhoClicked().getUniqueId().equals(uuid))
+            return;
+        e.setCancelled(true);
     }
 
     public UUID getUuid() {
