@@ -21,14 +21,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFertilizeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.InventoryCreativeEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
@@ -36,6 +30,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.game.item.FireStaffItem;
+import xyz.gameoholic.lumbergame.game.item.SpecialItem;
 import xyz.gameoholic.lumbergame.game.player.npc.ShopNPC;
 import xyz.gameoholic.lumbergame.game.player.perk.Perk;
 import xyz.gameoholic.lumbergame.util.ItemUtil;
@@ -48,6 +44,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
+import static xyz.gameoholic.lumbergame.util.OtherUtil.equalsNotNull;
 
 /**
  * Represents a player in the Lumber game.
@@ -55,6 +52,7 @@ import static net.kyori.adventure.text.Component.text;
  * Handles displaying scoreboard when logging on/off, updating scoreboards, etc.
  */
 public class LumberPlayer implements Listener {
+    private final LumberGamePlugin plugin;
     private final UUID uuid;
     private List<Perk> perks = new ArrayList<>();
     /**
@@ -66,7 +64,10 @@ public class LumberPlayer implements Listener {
      * Is null when player is logged off.
      */
     private @Nullable PlayerScoreboardManager scoreboardManager;
-    private final LumberGamePlugin plugin;
+    /**
+     * Currently item currently held by the player in their main hand.
+     */
+    private @Nullable SpecialItem specialItem;
 
     public LumberPlayer(LumberGamePlugin plugin, UUID uuid) {
         this.uuid = uuid;
@@ -226,34 +227,45 @@ public class LumberPlayer implements Listener {
                 plugin.getGameManager().updatePlayerScoreboards(); // Update the fact that the player is offline
             }
         }.runTask(plugin);
+        specialItem.isStillUsed(); // Disable special item
+        specialItem = null;
+    }
+
+    @EventHandler
+    private void onInventoryDragEvent(PlayerItemHeldEvent e) {
+        onAnyInventoryChanged(e.getPlayer());
+    }
+    @EventHandler
+    private void onInventoryDragEvent(InventoryClickEvent e) {
+        onAnyInventoryChanged((Player) e.getWhoClicked());
     }
 
     @EventHandler
     private void onInventoryDragEvent(InventoryDragEvent e) {
         if (!(e.getViewers().get(0) instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
-        onInventoryChanged();
+        onInventoryChanged((Player) e.getWhoClicked());
     }
 
     @EventHandler
     private void onInventoryEvent(InventoryCreativeEvent e) {
         if (!(e.getViewers().get(0) instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
-        onInventoryChanged();
+        onInventoryChanged((Player) e.getWhoClicked());
     }
 
     @EventHandler
     private void onInventoryEvent(EntityPickupItemEvent e) {
         if (!(e.getEntity() instanceof Player player) || !player.getUniqueId().equals(uuid))
             return;
-        onInventoryChanged();
+        onInventoryChanged(player);
     }
 
     @EventHandler
     private void onInventoryEvent(PlayerDropItemEvent e) {
         if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
-        onInventoryChanged();
+        onInventoryChanged(e.getPlayer());
     }
 
     @EventHandler
@@ -378,12 +390,34 @@ public class LumberPlayer implements Listener {
         perks.forEach(perk -> perk.onRespawn(player));
     }
 
-    private void onInventoryChanged() {
+    /**
+     * Called when the inventory items themselves have changed (new items/changed count, etc.)
+     */
+    private void onInventoryChanged(Player player) {
+        onAnyInventoryChanged(player);
         // Scoreboard update isis delayed by 1 tick to let the events affect the player's inventory when accessed by scoreboard manager's inventory searcher
         new BukkitRunnable() {
             @Override
             public void run() {
                 plugin.getGameManager().updatePlayerScoreboards(); // Update player item amounts
+            }
+        }.runTask(plugin);
+    }
+
+    /**
+     * Called when any change has been made to the inventory (eg. item index, selected item, hotbar, etc.)
+     */
+    private void onAnyInventoryChanged(Player player) {
+        // Run later to let inventory update
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (specialItem != null && !specialItem.isStillUsed()) {
+                    specialItem = null;
+                }
+                else if (specialItem == null && equalsNotNull(ItemUtil.getLumberItemId(plugin, player.getInventory().getItemInMainHand()), "FIRE_STAFF")) {
+                    specialItem = new FireStaffItem(plugin, player); // todo not just firestaff :) have like a switch() or smthn idk
+                }
             }
         }.runTask(plugin);
     }
@@ -463,6 +497,7 @@ public class LumberPlayer implements Listener {
             return;
         e.setCancelled(true);
     }
+
 
     public UUID getUuid() {
         return uuid;

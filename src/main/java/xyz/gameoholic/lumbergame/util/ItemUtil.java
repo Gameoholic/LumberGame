@@ -148,6 +148,7 @@ public class ItemUtil {
             case "STRENGTH_PERK" -> getStrengthPerkItem(plugin);
             case "HEALTH_BOOST_PERK" -> getHealthBoostPerkItem(plugin);
             case "DOUBLE_JUMP_PERK" -> getDoubleJumpPerkItem(plugin);
+            case "FIRE_STAFF" -> getFireStaffItem(plugin);
             default -> null;
         };
     }
@@ -380,7 +381,14 @@ public class ItemUtil {
         item.setItemMeta(meta);
         return applyItemInformationLore(item);
     }
-
+    public static ItemStack getFireStaffItem(LumberGamePlugin plugin) {
+        return applyItemInformationLore(applyAttackDamage(applyDestroyableKeys(applyAttackSpeed(applyAttackDamage(getItem(plugin,
+                "FIRE_STAFF",
+                Material.BLAZE_ROD,
+                "Fire Staff",
+                "<i><gray>Use to chop the tree for lumber."
+        ), 6), -3.2), plugin.getLumberConfig().mapConfig().treeBlockTypes()), 6));
+    }
 
     // ------------------------------------
     //              MOB EXCLUSIVE ITEMS

@@ -54,4 +54,14 @@ public class OtherUtil {
         }.runTaskLater(plugin, 10L);
 
     }
+
+    /**
+     * @return Whether var1 is equal to var2, and are both not null.
+     */
+    public static<T> boolean equalsNotNull(T var1, T var2) {
+        if (var1 == null || var2 == null)
+            return false;
+        return var1.equals(var2);
+    }
+
 }
