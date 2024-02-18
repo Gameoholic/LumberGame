@@ -206,6 +206,8 @@ public class LumberPlayer implements Listener {
         // Resend tree destruction packet that player did not get while offline
         scoreboardManager = new PlayerScoreboardManager(plugin, e.getPlayer(), this);
         plugin.getGameManager().getTreeManager().displayTreeDestruction(e.getPlayer());
+
+        plugin.getGameManager().updatePlayerScoreboards(); // Update the fact that the player is online
     }
 
     @EventHandler
@@ -214,6 +216,7 @@ public class LumberPlayer implements Listener {
             return;
         scoreboardManager.delete();
         scoreboardManager = null;
+        plugin.getGameManager().updatePlayerScoreboards(); // Update the fact that the player is offline
     }
 
     @EventHandler
