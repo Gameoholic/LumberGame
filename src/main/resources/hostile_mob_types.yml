@@ -77,7 +77,7 @@
   health-expression: "CR * 3.2 + 3.5"
   damage-expression: "CR * 1.05 + 1"
   item-in-main-hand-id: "TNT"
-  attack-cooldown-expression: "40"
+  attack-cooldown-expression: "60"
   can-spawn-with-bone-meal: false
 
 # Special hard-coded mob.

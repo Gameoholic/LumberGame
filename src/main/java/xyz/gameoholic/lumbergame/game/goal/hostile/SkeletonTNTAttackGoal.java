@@ -136,6 +136,7 @@ public class SkeletonTNTAttackGoal<T extends Monster & RangedAttackMob> extends 
                             livingEntity.getZ()
                         );
                         TNTPrimed tnt = (TNTPrimed) mobLocation.getWorld().spawnEntity(mobLocation, EntityType.PRIMED_TNT);
+                        tnt.setFuseTicks(40); // max fuse ticks is 80 - will detonate after 40 ticks (2 seconds)
                         tnt.getPersistentDataContainer().set(new NamespacedKey(plugin, "tnt_damage"),
                             PersistentDataType.DOUBLE, tntDamage); // Set custom tnt damage
                         Vector velocity = targetLocation.clone().subtract(mobLocation).toVector().normalize();

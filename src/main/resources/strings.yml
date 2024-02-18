@@ -40,11 +40,11 @@ new-wave-start-messages: # 1-th index wave start messages, optional
   - wave: 5
     message: "<red>Boss wave.<br><gold>A <white>bone block</white> will spawn. Use it to upgrade your tree."
   - wave: 7
-    message: "<gold>Watch out for <green>Shovers</green>."
+    message: "<gold><green>Shover</green>? I hardly know her!"
   - wave: 9
     message: "<gold>Shovers, creepers and sneaky creepers! Sneaky shovey creepers?"
   - wave: 10
-    message: "<red>Boss wave.<br>You could call this one a \"Giant Wave\" ;)"
+    message: "<red>Boss wave.<br><gold>You could call this one a \"<red>Giant</red> Wave\" ;)"
   - wave: 11
     message: "<gold>Things are gonna get more explosive from now on."
   - wave: 12

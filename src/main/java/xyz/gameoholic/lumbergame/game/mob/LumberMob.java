@@ -301,6 +301,7 @@ public class LumberMob implements Listener {
             TNTPrimed tnt = (TNTPrimed) mob.getLocation().getWorld().spawnEntity(mob.getLocation(), EntityType.PRIMED_TNT);
             tnt.getPersistentDataContainer().set(new NamespacedKey(plugin, "tnt_damage"),
                     PersistentDataType.DOUBLE, mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()); // Set custom tnt damage
+            tnt.setFuseTicks(40); // max fuse ticks is 80 - will detonate after 40 ticks (2 seconds)
         }
 
         // If mob was holding bone meal

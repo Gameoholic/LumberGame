@@ -10,7 +10,7 @@
 - wave-cr: 8
   active-spawns: 1
   spawn-timer-min: 40
-  spawn-timer-max: 120
+  spawn-timer-max: 100
   mob-min-cr: 1
   mob-max-cr: 1
   mob-types:
@@ -25,8 +25,8 @@
 # Wave 2
 - wave-cr: 10
   active-spawns: 2
-  spawn-timer-min: 20
-  spawn-timer-max: 100
+  spawn-timer-min: 10
+  spawn-timer-max: 60
   mob-min-cr: 1
   mob-max-cr: 2
   mob-types:
@@ -41,8 +41,8 @@
 # Last "Super Easy" Wave. Player should start purchasing items after this.
 - wave-cr: 40
   active-spawns: 2
-  spawn-timer-min: 20
-  spawn-timer-max: 80
+  spawn-timer-min: 10
+  spawn-timer-max: 60
   mob-min-cr: 3
   mob-max-cr: 4
   mob-types:
@@ -62,8 +62,8 @@
 # Introduction of sneaky creepers.
 - wave-cr: 60
   active-spawns: 2
-  spawn-timer-min: 20
-  spawn-timer-max: 80
+  spawn-timer-min: 10
+  spawn-timer-max: 60
   mob-min-cr: 4
   mob-max-cr: 5
   mob-types:
@@ -286,12 +286,9 @@
     - id: BOMBER
       amount: 1
     - id: HEAVY_CREEPER
-      amount: 1
+      amount: 2
     - id: RANGED_BOMBER
       amount: 4
-  guaranteed-mob-types-with-index:
-    - id: HEAVY_CREEPER
-      index-from-last: 3
 
 # Wave 13
 # Sneaky bombers introduced.
@@ -307,9 +304,9 @@
     - id: ZOMBIE
       chance: 0.16
     - id: BOMBER
-      chance: 0.12
+      chance: 0.145
     - id: RANGED_BOMBER
-      chance: 0.1
+      chance: 0.075
     - id: TREE_ZOMBIE
       chance: 0.2
     - id: TREE_CREEPER
@@ -326,6 +323,8 @@
     - id: SNEAKY_BOMBER
       amount: 3
     - id: RANGED_BOMBER
+      amount: 2
+    - id: GIANT
       amount: 2
 
 # Wave 14
@@ -354,7 +353,11 @@
       amount: 2
   guaranteed-mob-types-with-index:
     - id: HEAVY_CREEPER
+      index-from-last: 2
+    - id: GIANT
       index-from-last: 3
+    - id: GIANT
+      index-from-last: 6
 # Wave 15
 # Explosive mobs & shovers only. Long round.
 - wave-cr: 50
