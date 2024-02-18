@@ -77,7 +77,9 @@ public class ItemUtil {
      * @return Whether two items are the same Lumber item (matching ID's).
      */
     public static boolean compareItems(LumberGamePlugin plugin, @Nullable ItemStack item1, @Nullable ItemStack item2) {
-        return getLumberItemId(plugin, item1).equals(getLumberItemId(plugin, item2));
+        @Nullable String item1Id = getLumberItemId(plugin, item1);
+        @Nullable String item2Id = getLumberItemId(plugin, item2);
+        return item1Id != null && item2Id != null && item1Id.equals(item2Id);
     }
     /**
      * Checks if an item is a Lumber item.
@@ -96,7 +98,8 @@ public class ItemUtil {
      * @return Whether the item provided matches the ID of a lumber item
      */
     public static boolean isLumberItem(LumberGamePlugin plugin, @Nullable ItemStack item, String lumberItemId) {
-        return ItemUtil.getLumberItemId(plugin, item).equals(lumberItemId);
+        @Nullable String itemId = ItemUtil.getLumberItemId(plugin, item);
+        return itemId != null && itemId.equals(lumberItemId);
     }
 
     /**
