@@ -1,6 +1,5 @@
 package xyz.gameoholic.lumbergame.game.mob;
 
-import io.papermc.paper.event.entity.EntityMoveEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -23,13 +22,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import xyz.gameoholic.lumbergame.GiantFootstepsParticle;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberCreeperAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberMeleeAttackGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.LumberNearestAttackablePlayerGoal;
 import xyz.gameoholic.lumbergame.game.goal.hostile.SkeletonTNTAttackGoal;
+import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
+import xyz.gameoholic.lumbergame.util.NMSUtil;
 
 
 import javax.annotation.Nullable;
@@ -123,6 +123,12 @@ public class LumberMob implements Listener {
                 ageableMob.setBaby();
         }
 
+        // Optional parameter - is-charged
+        if (mob instanceof Creeper creeper) {
+            if (mobType.isCharged())
+                creeper.setPowered(true);
+        }
+
         // Make undeads not burn in daylight
         mob.getEquipment().setItem(EquipmentSlot.HEAD, new ItemStack(Material.OAK_BUTTON, 1));
 
@@ -155,7 +161,14 @@ public class LumberMob implements Listener {
         if (mobType.isBoss()) {
             mob.setGlowing(true);
             plugin.getGameManager().getRedTeam().addEntity(mob);
-            mob.getLocation().getWorld().spawnEntity(mob.getLocation(), EntityType.LIGHTNING);
+
+            // Client-side lightning strike for every player
+            for (LumberPlayer lumberPlayer : plugin.getGameManager().getPlayers()) {
+                @Nullable Player player = Bukkit.getPlayer(lumberPlayer.getUuid());
+                if (player == null)
+                    continue;
+                NMSUtil.spawnEntity(player, mob.getLocation(), EntityType.LIGHTNING);
+            }
         }
 
         applyGoals();

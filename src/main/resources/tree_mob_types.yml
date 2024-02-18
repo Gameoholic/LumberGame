@@ -41,8 +41,9 @@
   display-name: "뀃 <red>Heavy Creeper"
   entity-type: "CREEPER"
   health-expression: "CR * 22 + 20"
-  damage-expression: "CR * 7"
+  damage-expression: "CR * 3.5"
   speed-expression: "0.175"
   knockback-resistance-expression: "1.0"
   can-spawn-with-bone-meal: false
+  is-charged: true
   is-boss: true # Spawns with lightning animation, has red glow, and health multiplied by CR multiplier

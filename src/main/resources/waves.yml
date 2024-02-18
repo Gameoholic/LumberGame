@@ -26,7 +26,7 @@
 - wave-cr: 10
   active-spawns: 2
   spawn-timer-min: 20
-  spawn-timer-max: 120
+  spawn-timer-max: 100
   mob-min-cr: 1
   mob-max-cr: 2
   mob-types:
@@ -42,7 +42,7 @@
 - wave-cr: 40
   active-spawns: 2
   spawn-timer-min: 20
-  spawn-timer-max: 100
+  spawn-timer-max: 80
   mob-min-cr: 3
   mob-max-cr: 4
   mob-types:
@@ -63,7 +63,7 @@
 - wave-cr: 60
   active-spawns: 2
   spawn-timer-min: 20
-  spawn-timer-max: 100
+  spawn-timer-max: 80
   mob-min-cr: 4
   mob-max-cr: 5
   mob-types:

@@ -2,6 +2,7 @@ package xyz.gameoholic.lumbergame.config;
 
 
 import java.util.List;
+import java.util.Map;
 
 public record StringsConfig(
     String addAllToQueueCommandNoneFoundMessage,
@@ -82,7 +83,8 @@ public record StringsConfig(
     String treeHealMaxHealthMessage,
     String teamPerkBuyMessage,
     String statsMessage,
-    String statsCommandMessage
+    String statsCommandMessage,
+    Map<Integer, String> newWaveStartMessages
 
 ) {
 

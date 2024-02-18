@@ -4,10 +4,8 @@ import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import io.papermc.paper.adventure.PaperAdventure;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.MinecraftServer;
@@ -15,15 +13,13 @@ import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
-import org.bukkit.entity.NPC;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.profile.PlayerTextures;
-import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 
@@ -168,6 +164,28 @@ public class NMSUtil {
 
         ClientboundRemoveEntitiesPacket removeEntitiesPacket = new ClientboundRemoveEntitiesPacket(NPCEntityId);
         listener.send(removeEntitiesPacket);
+    }
+
+    public static void spawnEntity(Player player, Location location, EntityType entityType) {
+        CraftPlayer craftPlayer = (CraftPlayer) player;
+        ServerPlayer serverPlayer = craftPlayer.getHandle(); // NMS Player
+
+        ServerGamePacketListenerImpl listener = serverPlayer.connection;
+
+        ClientboundAddEntityPacket addEntityPacket = new ClientboundAddEntityPacket(
+                new Random().nextInt(),
+                UUID.randomUUID(),
+                location.getX(),
+                location.getY(),
+                location.getZ(),
+                0f,
+                0f,
+                net.minecraft.world.entity.EntityType.byString(entityType.getName()).get(),
+                0,
+                new Vec3(0.0, 0.0, 0.0),
+                0.0
+        );
+        listener.send(addEntityPacket);
     }
 
 }

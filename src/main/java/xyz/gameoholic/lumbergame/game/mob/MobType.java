@@ -25,6 +25,7 @@ public record MobType(
     @Nullable String itemInLeggingsID,
     @Nullable String itemInBootsID,
     boolean hasMeleeAttackGoal,
-    boolean canSpawnWithBoneMeal
+    boolean canSpawnWithBoneMeal,
+    boolean isCharged
 ) {
 }

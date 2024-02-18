@@ -29,7 +29,28 @@ start-command-game-in-progress-message: "<red>A game is already in progress!"
 start-command-success-message: "<green>Started the game!"
 
 # Parameters: <wave>
-new-wave-start-message: "<gold>Started wave <red><wave></red>!"
+new-wave-start-message: "<gold>Wave <red><wave></red>"
+new-wave-start-messages: # 1-th index wave start messages, optional
+  - wave: 1
+    message: "뀃<green> Tree mobs</green> target your tree.<br>If your tree gets to <red>0 HP</red>, you <red>lose!</red><br>Chop your tree to get 뀄 <gold>Lumber</gold>, which can be used in the shop.<br>Use 뀂 Bone Meal to heal your tree.<br><gold>Good luck!"
+  - wave: 2
+    message: "<gold>Active entrances are marked in <dark_red>red</dark_red>. More entrances will open in later waves."
+  - wave: 4
+    message: "<gold>Beware of <green>Sneaky Creepers</green>."
+  - wave: 5
+    message: "<red>Boss wave.<br><gold>A <white>bone block</white> will spawn. Use it to upgrade your tree."
+  - wave: 7
+    message: "<gold>Watch out for <green>Shovers</green>."
+  - wave: 9
+    message: "<gold>Shovers, creepers and sneaky creepers! Sneaky shovey creepers?"
+  - wave: 10
+    message: "<red>Boss wave.<br>You could call this one a \"Giant Wave\" ;)"
+  - wave: 11
+    message: "<gold>Things are gonna get more explosive from now on."
+  - wave: 12
+    message: "<gold>Things not explosive enough? Okay."
+  - wave: 13
+    message: "<gold>I like my Bombers sneaky."
 
 # Parameters: tree_health, tree_max_health, tree_health_percentage, tree_damage
 tree-damaged-actionbar-message: "뀃 <transition:#ff0000:#00ff00:<tree_health_fraction>><tree_health> <bold>!</bold></transition> <red><bold>-<tree_damage></bold>❤"

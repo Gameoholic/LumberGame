@@ -49,6 +49,20 @@ public class ConfigParser {
 
         StringsConfig stringsConfig = null;
         try {
+
+            Map<Integer, String> newWaveStartMessages = new HashMap<>();
+            root.node("new-wave-start-messages").childrenList().forEach(
+                    waveMessage -> {
+                        try {
+                            int waveNumber = waveMessage.node("wave").require(Integer.class);
+                            String waveMessageString = waveMessage.node("message").require(String.class);
+                            newWaveStartMessages.put(waveNumber, waveMessageString);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+            );
+
             stringsConfig = new StringsConfig(
                     root.node("add-all-to-queue-command-none-found-message").getString(""),
                     root.node("add-all-to-queue-command-added-message").getString(""),
@@ -128,7 +142,8 @@ public class ConfigParser {
                     Objects.requireNonNull(root.node("tree-heal-max-health-message").getString()),
                     Objects.requireNonNull(root.node("team-perk-buy-message").getString()),
                     Objects.requireNonNull(root.node("stats-message").getString()),
-                    Objects.requireNonNull(root.node("stats-command-message").getString())
+                    Objects.requireNonNull(root.node("stats-command-message").getString()),
+                    newWaveStartMessages
             );
 
         } catch (SerializationException e) {
@@ -333,7 +348,8 @@ public class ConfigParser {
                                 mobType.node("item-in-leggings-id").getString(),
                                 mobType.node("item-in-boots-id").getString(),
                                 mobType.node("has-melee-attack-goal").getBoolean(true),
-                                mobType.node("can-spawn-with-bone-meal").getBoolean(true)
+                                mobType.node("can-spawn-with-bone-meal").getBoolean(true),
+                                mobType.node("is-charged").getBoolean(false)
                         ));
                     } catch (Exception e) {
                         e.printStackTrace();

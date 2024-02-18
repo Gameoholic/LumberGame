@@ -179,11 +179,16 @@ public class GameManager {
         }
 
         // Send message
-        players.forEach(lumberPlayer ->
-                lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
-                        plugin.getLumberConfig().strings().newWaveStartMessage(),
-                        Placeholder.component("wave", text(waveNumber + 1))
-                )));
+        players.forEach(lumberPlayer -> {
+                    lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
+                            plugin.getLumberConfig().strings().newWaveStartMessage(),
+                            Placeholder.component("wave", text(waveNumber + 1))
+                    ));
+                    @Nullable String waveMessage = plugin.getLumberConfig().strings().newWaveStartMessages().get(waveNumber + 1);
+                    if (waveMessage != null)
+                        lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(waveMessage));
+                }
+        );
 
         // Play sound
         Sound sound = ((waveNumber + 1) % 5 == 0) ?
