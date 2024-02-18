@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -81,10 +82,14 @@ public class PlayerScoreboardManager {
         for (LumberPlayer otherLumberPlayer : plugin.getGameManager().getPlayers().stream().filter(
                 filteredPlayer -> !filteredPlayer.getUuid().equals(player.getUniqueId())).toList()
         ) {
-            Player otherPlayer = Bukkit.getPlayer(otherLumberPlayer.getUuid());
+            @Nullable Player otherPlayer = Bukkit.getPlayer(otherLumberPlayer.getUuid());
+            if (otherPlayer == null) { // Player could be offline
+                lines.add(lines.size() - plugin.getLumberConfig().gameConfig().scoreboardPlayerLineMargin(),
+                        MiniMessage.miniMessage().deserialize(Bukkit.getOfflinePlayer(otherLumberPlayer.getUuid()).getName()  + " - <red>DISCONNECTED")); // todo configurable
+                continue;
+            }
             Component otherPlayerHealth = text("N/A").color(NamedTextColor.RED);
-            if (otherPlayer != null)
-                otherPlayerHealth = text((int) Math.max(otherPlayer.getHealth(), 1));
+            otherPlayerHealth = text((int) Math.max(otherPlayer.getHealth(), 1));
 
             // Get updated inventory item count
             int otherPlayerBoneMeal = 0;
