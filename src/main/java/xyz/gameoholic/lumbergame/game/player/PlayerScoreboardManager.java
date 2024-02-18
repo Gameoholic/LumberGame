@@ -99,7 +99,7 @@ public class PlayerScoreboardManager {
             List<ItemStack> otherPlayerItems = new ArrayList(Arrays.asList(otherPlayer.getInventory().getContents()));
             otherPlayerItems.add(otherPlayer.getItemOnCursor()); // Fix item on cursor not being counted
             for (ItemStack itemStack : otherPlayerItems) {
-                if (itemStack != null)
+                if (itemStack != null) // todo dont compare type. item id
                     switch (itemStack.getType()) {
                         case BONE_MEAL -> otherPlayerBoneMeal += itemStack.getAmount();
                         case OAK_WOOD -> otherPlayerWood += itemStack.getAmount();

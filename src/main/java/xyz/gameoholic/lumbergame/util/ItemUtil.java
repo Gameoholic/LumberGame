@@ -74,17 +74,29 @@ public class ItemUtil {
     }
 
     /**
-     * @return Whether two items are the same Lumber item.
+     * @return Whether two items are the same Lumber item (matching ID's).
      */
     public static boolean compareItems(LumberGamePlugin plugin, @Nullable ItemStack item1, @Nullable ItemStack item2) {
+        return getLumberItemId(plugin, item1).equals(getLumberItemId(plugin, item2));
+    }
+    /**
+     * Checks if an item is a Lumber item.
+     *
+     * @return The lumber item ID if it is one, or null otherwise.
+     */
+    public static @Nullable String getLumberItemId(LumberGamePlugin plugin, @Nullable ItemStack item) {
         // In case of item.AIR or other faulty itemstack the meta will be null
-        if (item1 == null || item2 == null || item1.getItemMeta() == null || item2.getItemMeta() == null)
-            return false;
-        @Nullable String item1Id = item1.getItemMeta().getPersistentDataContainer()
+        if (item == null || item.getItemMeta() == null)
+            return null;
+        return item.getItemMeta().getPersistentDataContainer()
                 .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING);
-        @Nullable String item2Id = item2.getItemMeta().getPersistentDataContainer()
-                .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING);
-        return Objects.equals(item1Id, item2Id);
+    }
+
+    /**
+     * @return Whether the item provided matches the ID of a lumber item
+     */
+    public static boolean isLumberItem(LumberGamePlugin plugin, @Nullable ItemStack item, String lumberItemId) {
+        return ItemUtil.getLumberItemId(plugin, item).equals(lumberItemId);
     }
 
     /**

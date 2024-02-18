@@ -42,7 +42,8 @@ public record StringsConfig(
     String teamPerkBuyMessage,
     String statsMessage,
     String statsCommandMessage,
-    Map<Integer, String> newWaveStartMessages
+    Map<Integer, String> newWaveStartMessages,
+    String goldVaultText
 
 ) {
 

@@ -96,3 +96,6 @@ team-perk-buy-message: "<gold><red><player></red> purchased <perk> <level>!"
 
 stats-message: "<gold>Stats from this round:</gold><br>You've killed <yellow><kills></yellow> mobs!<br>You've died <yellow><deaths></yellow> times.<br>You've collected <yellow><iron></yellow>뀀.<br>You've collected <yellow><gold_collected></yellow>뀁.<br>You've collected <yellow><wood></yellow>뀄.<br><gray>View your lifetime stats with /stats."
 stats-command-message: "<gray>Lifetime stats:</gray><br>You've killed <yellow><kills></yellow> mobs.<br>You've died <yellow><deaths></yellow> times.<br>You've survived <yellow><waves_completed></yellow> waves.<br>The highest wave you've beaten is wave <yellow><max_waves_completed></yellow>.<br>You've collected <yellow><iron></yellow>뀀.<br>You've collected <yellow><gold_collected></yellow>뀁.<br>You've collected <yellow><wood></yellow>뀄.<br>You've won <yellow><wins></yellow> times.<br>You've lost <yellow><losses></yellow> times."
+
+
+gold-vault-text: "<gradient:#ff8d00:#ffe98e:<color_transition>>Gold Vault</gradient><br><gold>Deposit with <#fa7d00><key:key.drop></#fa7d00><br> Withdraw with <#fa7d00><key:key.sneak></#fa7d00><br>Gold Deposited:<br><white>뀁</white><gradient:#ff8d00:#ffe98e:<color_transition>><gold_deposited></gradient>"

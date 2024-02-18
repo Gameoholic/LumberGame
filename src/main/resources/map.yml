@@ -71,6 +71,12 @@ spawn-display-locations:
     x: -59.1
     y: 25.4
     z: -363.7
+gold-vault-location:
+  world: "world"
+  x: -51.5
+  y: 24.0
+  z: -335.01
+  yaw: 180f
 
 tree-level-schematics-provided:
   - 1

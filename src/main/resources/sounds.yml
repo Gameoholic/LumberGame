@@ -22,3 +22,11 @@ tree-level-up-sound:
   sound: "minecraft:item.totem.use"
   volume: 1.0
   pitch: 2.0
+gold-vault-deposit-sound:
+  sound: "minecraft:entity.item.pickup"
+  volume: 1.0
+  pitch: 0.5
+gold-vault-collect-sound:
+  sound: "minecraft:entity.item.pickup"
+  volume: 1.0
+  pitch: 1.0

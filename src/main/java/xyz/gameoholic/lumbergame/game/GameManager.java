@@ -61,14 +61,23 @@ public class GameManager {
      * The wave number, uses zeroth index numbering.
      */
     int waveNumber = 0;
+    /**
+     * Displays used for showing active/inactive displays.
+     */
     private List<TextDisplay> spawnDisplays = new ArrayList<>();
+    private GoldVaultManager goldVaultManager;
 
     public GameManager(LumberGamePlugin plugin, Set<UUID> players, double waveCRMultiplier, double waveSpawnRateMultiplier) {
         this.plugin = plugin;
         this.waveCRMultiplier = waveCRMultiplier;
         this.waveSpawnRateMultiplier = waveSpawnRateMultiplier;
-        this.particleManager = new ParticleManager(plugin);
+
+        clearOldEntities();
+
+        particleManager = new ParticleManager(plugin);
         treeManager = new TreeManager(plugin);
+        goldVaultManager = new GoldVaultManager(plugin);
+
         players.forEach(
                 uuid -> {
                     LumberPlayer lumberPlayer = new LumberPlayer(plugin, uuid);
@@ -78,17 +87,14 @@ public class GameManager {
         plugin.getLogger().info("Starting game with wave CR multiplier of " + waveCRMultiplier +
                 " and wave spawn rate multiplier of " + waveSpawnRateMultiplier);
 
-        startGame();
-    }
-
-    private void startGame() {
         plugin.getPlayerNPCManager().reset();
-        clearOldEntities();
         spawnDisplays();
         startCurrentWave();
         setUpTeams();
         plugin.getLogger().info("Game has started with " + players.size() + " players.");
     }
+
+
 
     private void setUpTeams() {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
@@ -232,6 +238,7 @@ public class GameManager {
             players.forEach(lumberPlayer -> lumberPlayer.sendMessage(
                     text("There was an error uploading this game's data! Please contact an administrator for more info.")
                             .color(NamedTextColor.RED)));  //todo: put in config
+        goldVaultManager.cleanup();
         plugin.onGameEnd();
     }
 

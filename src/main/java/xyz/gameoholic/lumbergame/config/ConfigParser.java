@@ -101,7 +101,8 @@ public class ConfigParser {
                     Objects.requireNonNull(root.node("team-perk-buy-message").getString()),
                     Objects.requireNonNull(root.node("stats-message").getString()),
                     Objects.requireNonNull(root.node("stats-command-message").getString()),
-                    newWaveStartMessages
+                    newWaveStartMessages,
+                    Objects.requireNonNull(root.node("gold-vault-text").getString())
             );
 
         } catch (SerializationException e) {
@@ -157,6 +158,21 @@ public class ConfigParser {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Tree location argument for map is invalid.");
+        }
+
+        Location goldVaultLocation;
+        try {
+            goldVaultLocation = new Location(
+                    Bukkit.getWorld(root.node("gold-vault-location", "world").require(String.class)),
+                    root.node("gold-vault-location", "x").require(Double.class),
+                    root.node("gold-vault-location", "y").require(Double.class),
+                    root.node("gold-vault-location", "z").require(Double.class),
+                    root.node("gold-vault-location", "yaw").getFloat(0f),
+                    root.node("gold-vault-location", "pitch").getFloat(0f)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Gold vault location argument for map is invalid.");
         }
 
         Location playerSpawnLocation;
@@ -243,7 +259,8 @@ public class ConfigParser {
                     shopNPCLocation,
                     root.node("tree-radius").require(Integer.class),
                     treeBlockTypes,
-                    Objects.requireNonNull(root.node("tree-level-schematics-provided").getList(Integer.class))
+                    Objects.requireNonNull(root.node("tree-level-schematics-provided").getList(Integer.class)),
+                    goldVaultLocation
             );
         } catch (SerializationException e) {
             throw new RuntimeException(e);
@@ -339,7 +356,9 @@ public class ConfigParser {
                     getSound(root, "wave-start-sound"),
                     getSound(root, "boss-wave-start-sound"),
                     getSound(root, "tree-heal-sound"),
-                    getSound(root, "tree-level-up-sound")
+                    getSound(root, "tree-level-up-sound"),
+                    getSound(root, "gold-vault-deposit-sound"),
+                    getSound(root, "gold-vault-collect-sound")
             );
         } catch (Exception e) {
             e.printStackTrace();
