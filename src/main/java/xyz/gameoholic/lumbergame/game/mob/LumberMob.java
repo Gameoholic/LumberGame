@@ -246,14 +246,15 @@ public class LumberMob implements Listener {
 
 
     /**
-     * Should be called when the mob takes damage.
+     * Called when the mob takes damage.
      */
     public void onTakeDamage(double damageDealt) {
         updateMobCustomName(mob.getHealth() - damageDealt);
     }
 
     /**
-     * Should be called when the mob dies.
+     * Called when the mob dies.
+     * NOT called when it's removed by the plugin on switching rounds or on game start.
      *
      * @param player The player that killed the mob, or null if it died otherwise.
      */
@@ -346,6 +347,7 @@ public class LumberMob implements Listener {
 
     /**
      * Removes this mob and unregisters its events.
+     * Does NOT result in the mob's death.
      */
     public void remove() {
         unregisterEvents();

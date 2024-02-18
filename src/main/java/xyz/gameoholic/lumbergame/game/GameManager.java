@@ -119,7 +119,7 @@ public class GameManager {
     }
 
     private void clearOldEntities() {
-        // If entity contains lumber_mob key, it's an old mob from previous waves.
+        // If entity contains lumber_mob key, it's an old mob from previous games.
         plugin.getLumberConfig().mapConfig().treeLocation().getWorld().getEntities().forEach(entity ->
                 {
                     if (entity.getPersistentDataContainer().get(

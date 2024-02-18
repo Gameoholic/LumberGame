@@ -10,8 +10,10 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -274,8 +276,9 @@ public abstract class Menu implements InventoryHolder, Listener {
             return;
 
         @Nullable Inventory clickedInv = e.getClickedInventory();
-        // In case player clicked outside of window or not on our inventory, cancel the click
-        if (clickedInv == null || !(clickedInv.getHolder() instanceof Menu)) {
+
+        // In case player clicked outside of window or not on our inventory or number-dragged, cancel the click
+        if (clickedInv == null || !(clickedInv.getHolder() instanceof Menu) || e.getClick() == ClickType.NUMBER_KEY) {
             e.setCancelled(true);
             return;
         }

@@ -287,12 +287,9 @@ public class WaveManager {
     }
 
     public void onGameEnd() {
-        // Disable all mobs & unregister events for them
+        // Remove all mobs
         aliveMobs.values().forEach(
-                mob -> {
-                    mob.getMob().setAI(false);
-                    mob.unregisterEvents();
-                }
+                LumberMob::remove
         );
         // Task will have cancelled if it'd finished spawning the mobs
         if (mobSpawnerTask != null) {
@@ -316,4 +313,6 @@ public class WaveManager {
     public Set<Integer> getActiveSpawns() {
         return activeSpawns;
     }
+
+
 }

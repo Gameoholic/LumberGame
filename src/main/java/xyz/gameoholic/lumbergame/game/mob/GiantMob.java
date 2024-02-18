@@ -56,7 +56,7 @@ public class GiantMob extends LumberMob {
         GiantFootstepsParticle.INSTANCE.getParticle(mob).start();
         // Custom mob behavior - Giant deals damage on move
         if (mob.getType() == EntityType.GIANT) {
-            for (Entity nearbyEntity : mob.getNearbyEntities(3.0, 3.0, 3.0)) {
+            for (Entity nearbyEntity : mob.getNearbyEntities(2.5, 2.5, 2.5)) {
                 if (!(nearbyEntity instanceof LivingEntity target) || nearbyEntity.getType() == EntityType.GIANT) // Ignore giants
                     continue;
                 target.damage(mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() / 4.0);
@@ -69,15 +69,27 @@ public class GiantMob extends LumberMob {
 
     /**
      * Called when the mob dies.
+     * NOT called when it's removed by the plugin on switching rounds or on game start.
      *
      * @param player The player that killed the mob, or null if it died otherwise.
      */
     @Override
     public void onDeath(@Nullable Player player) {
         super.onDeath(player);
-
         if (giantTask != null)
             giantTask.cancel();
     }
+
+    /**
+     * Removes this mob and unregisters its events.
+     * Does NOT result in the mob's death.
+     */
+    @Override
+    public void remove() {
+        super.remove();
+        if (giantTask != null)
+            giantTask.cancel();
+    }
+
 
 }
