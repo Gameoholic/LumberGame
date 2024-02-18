@@ -216,7 +216,12 @@ public class LumberPlayer implements Listener {
             return;
         scoreboardManager.delete();
         scoreboardManager = null;
-        plugin.getGameManager().updatePlayerScoreboards(); // Update the fact that the player is offline
+        new BukkitRunnable() { // Delay by 1 tick so player fully quits by the time the scoreboard's updated
+            @Override
+            public void run() {
+                plugin.getGameManager().updatePlayerScoreboards(); // Update the fact that the player is offline
+            }
+        }.runTask(plugin);
     }
 
     @EventHandler
