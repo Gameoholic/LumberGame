@@ -391,7 +391,7 @@ public class LumberPlayer implements Listener {
     }
 
     /**
-     * Called when the inventory items themselves have changed (new items/changed count, etc.)
+     * Called when the inventory items themselves have changed (eg. new items/changed count, etc.)
      */
     private void onInventoryChanged(Player player) {
         onAnyInventoryChanged(player);
