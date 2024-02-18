@@ -41,11 +41,11 @@ public class GiantMob extends LumberMob {
     public void spawnMob(Location location) {
         super.spawnMob(location);
 
-        lastLocation = mob.getLocation();
+        lastLocation = mob.getLocation().clone();
         giantTask = new BukkitRunnable() {
             @Override
             public void run() {
-                if (lastLocation != mob.getLocation()) {
+                if (lastLocation.equals(mob.getLocation())) {
                     onMove();
                 }
             }
@@ -56,10 +56,11 @@ public class GiantMob extends LumberMob {
         GiantFootstepsParticle.INSTANCE.getParticle(mob).start();
         // Custom mob behavior - Giant deals damage on move
         if (mob.getType() == EntityType.GIANT) {
-            for (Entity nearbyEntity : mob.getNearbyEntities(2.5, 2.5, 2.5)) {
+            for (Entity nearbyEntity : mob.getLocation().getNearbyEntities(2.5, 3.0, 2.5)) { // Relative to feet
                 if (!(nearbyEntity instanceof LivingEntity target) || nearbyEntity.getType() == EntityType.GIANT) // Ignore giants
                     continue;
-                target.damage(mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() / 4.0);
+                double damageMultiplier = (target instanceof Player) ? 0.25 : 1.0; // Deal full damage to mobs, 1/4 to players
+                target.damage(mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * damageMultiplier);
                 Vector velocity = new Vector(rnd.nextDouble(-1.0, 1.0), rnd.nextDouble(-1.0, 1.0), rnd.nextDouble(-1.0, 1.0)).multiply(0.5).setY(0.3);
                 target.setVelocity(velocity);
             }
