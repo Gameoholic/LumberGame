@@ -60,13 +60,10 @@ public class ItemUtil {
      * @return Whether the items were removed or not.
      */
     public static boolean removeItemsFromInventory(LumberGamePlugin plugin, Player player, Map<String, Integer> items) {
-        Bukkit.broadcastMessage("TEST this fials");
         for (Map.Entry<String, Integer> item : items.entrySet()) {
-            Bukkit.broadcastMessage("Checking item " + item.getKey() + ", " + item.getValue());
             if (countItemsInInventory(plugin, player, item.getKey()) < item.getValue())
                 return false;
         }
-        Bukkit.broadcastMessage("True!");
         for (Map.Entry<String, Integer> item : items.entrySet()) {
             int amountRemaining = item.getValue();
             for (ItemStack invItem : player.getInventory()) {
@@ -75,7 +72,6 @@ public class ItemUtil {
                     int amountRemoved = Math.min(invItem.getAmount(), amountRemaining);
                     invItem.setAmount(invItem.getAmount() - amountRemoved);
                     amountRemaining -= amountRemoved;
-                    Bukkit.broadcastMessage("Removed " + amountRemoved);
                 }
             }
         }
