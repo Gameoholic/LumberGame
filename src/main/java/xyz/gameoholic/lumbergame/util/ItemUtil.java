@@ -28,9 +28,7 @@ import static net.kyori.adventure.text.Component.text;
 public class ItemUtil {
 
     /**
-     * Utility method.
-     *
-     * @return
+     * @return The first item stack that matches the given item ID in a player's inventory
      */
     public static @Nullable ItemStack getItemInInventory(LumberGamePlugin plugin, Player player, String itemId) {
         for (ItemStack item : player.getInventory()) {
@@ -76,11 +74,7 @@ public class ItemUtil {
     }
 
     /**
-     * Utility method.
-     *
-     * @param item1
-     * @param item2
-     * @return
+     * @return Whether two items are the same Lumber item.
      */
     public static boolean compareItems(LumberGamePlugin plugin, @Nullable ItemStack item1, @Nullable ItemStack item2) {
         // In case of item.AIR or other faulty itemstack the meta will be null
@@ -90,14 +84,11 @@ public class ItemUtil {
                 .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING);
         @Nullable String item2Id = item2.getItemMeta().getPersistentDataContainer()
                 .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING);
-        return item1Id == item2Id;
+        return Objects.equals(item1Id, item2Id);
     }
 
     /**
-     * Utility method.
-     *
-     * @param itemId
-     * @return
+     * @return The Lumber item for a given ID.
      */
     public static @Nullable ItemStack getItem(LumberGamePlugin plugin, String itemId) {
         return switch (itemId) {
@@ -145,8 +136,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "GOLD",
                 Material.GOLD_INGOT,
-                plugin.getLumberConfig().strings().goldDisplayname(),
-                plugin.getLumberConfig().strings().goldLore()
+                "<gold>Gold",
+                "<i><gray>Rare drop from mobs.<br><i><gray>Use to buy <red>perks</red> from the shop."
         ));
     }
 
@@ -154,8 +145,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "IRON",
                 Material.IRON_INGOT,
-                plugin.getLumberConfig().strings().ironDisplayname(),
-                plugin.getLumberConfig().strings().ironLore()
+                "<white>Iron",
+                "<i><gray>Common drop from mobs."
         ));
     }
 
@@ -163,8 +154,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "WOOD",
                 Material.OAK_WOOD,
-                plugin.getLumberConfig().strings().woodDisplayname(),
-                plugin.getLumberConfig().strings().woodLore()
+                "<color:#ff8d03>Lumber",
+                "<i><gray>Valuable item used for powerful crafts.<br><i><gray>Can be converted to <gold>gold</gold> in the shop."
         ));
     }
 
@@ -172,8 +163,8 @@ public class ItemUtil {
         return applyItemInformationLore(applyPlaceableKeys(getItem(plugin,
                 "BONE_MEAL",
                 Material.BONE_MEAL,
-                plugin.getLumberConfig().strings().boneMealDisplayname(),
-                plugin.getLumberConfig().strings().boneMealLore()
+                "<white>Bone Meal",
+                "<i><gray>Place near the tree to regenerate its health.<br><i><gray>Regenerates <white>10%</white> of its health."
         ), Arrays.asList(Material.GRASS_BLOCK)));
     }
 
@@ -181,8 +172,8 @@ public class ItemUtil {
         return applyItemInformationLore(applyPlaceableKeys(getItem(plugin,
                 "BONE_BLOCK",
                 Material.BONE_BLOCK,
-                plugin.getLumberConfig().strings().boneBlockDisplayname(),
-                plugin.getLumberConfig().strings().boneBlockLore()
+                "<white><bold>Bone Block",
+                "<i><gray>Place near the tree to level it up.<br><i><gray>Levelling it up increases its Max HP."
         ), Arrays.asList(Material.GRASS_BLOCK)));
     }
 
@@ -190,8 +181,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "BOW",
                 Material.BOW,
-                plugin.getLumberConfig().strings().bowDisplayname(),
-                plugin.getLumberConfig().strings().bowLore()
+                "Bow",
+                "<i><gray>Surprisingly ineffective (don't use this item)!"
         ));
     }
 
@@ -199,8 +190,8 @@ public class ItemUtil {
         return applyItemInformationLore(applyAttackDamage(applyDestroyableKeys(applyAttackSpeed(applyAttackDamage(getItem(plugin,
                 "STONE_AXE",
                 Material.STONE_AXE,
-                plugin.getLumberConfig().strings().stoneAxeDisplayname(),
-                plugin.getLumberConfig().strings().stoneAxeLore()
+                "Stone Axe",
+                "<i><gray>Use to chop the tree for lumber."
         ), 6), -3.2), plugin.getLumberConfig().mapConfig().treeBlockTypes()), 6));
     }
 
@@ -208,8 +199,8 @@ public class ItemUtil {
         return applyItemInformationLore(applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(plugin,
                 "WOODEN_SWORD",
                 Material.WOODEN_SWORD,
-                plugin.getLumberConfig().strings().woodenSwordDisplayname(),
-                plugin.getLumberConfig().strings().woodenSwordLore()
+                "Wooden Sword",
+                "<i><gray>A pretty rusty sword."
         ), 4), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
@@ -217,8 +208,8 @@ public class ItemUtil {
         return applyItemInformationLore(applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(plugin,
                 "STONE_SWORD",
                 Material.STONE_SWORD,
-                plugin.getLumberConfig().strings().stoneSwordDisplayname(),
-                plugin.getLumberConfig().strings().stoneSwordLore()
+                "Stone Sword",
+                "<i><gray>A slightly better starter sword."
         ), 8), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
@@ -226,8 +217,8 @@ public class ItemUtil {
         return applyItemInformationLore(applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(plugin,
                 "IRON_SWORD",
                 Material.IRON_SWORD,
-                plugin.getLumberConfig().strings().ironSwordDisplayname(),
-                plugin.getLumberConfig().strings().ironSwordLore()
+                "Iron Sword",
+                "<i><gray>A decent weapon fit to cut enemies into pieces."
         ), 10), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
@@ -235,8 +226,8 @@ public class ItemUtil {
         return applyItemInformationLore(applyEnchants(applyAttackSpeed(applyAttackDamage(getItem(plugin,
                 "DIAMOND_SWORD",
                 Material.DIAMOND_SWORD,
-                plugin.getLumberConfig().strings().diamondSwordDisplayname(),
-                plugin.getLumberConfig().strings().diamondSwordLore()
+                "Diamond Sword",
+                "<i><gray>The best you can buy for your buck."
         ), 15), -2.4), Map.of(Enchantment.SWEEPING_EDGE, 1)));
     }
 
@@ -244,8 +235,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "ARROW",
                 Material.ARROW,
-                plugin.getLumberConfig().strings().arrowDisplayname(),
-                plugin.getLumberConfig().strings().arrowLore()
+                "Arrow",
+                "<i><gray>Normal arrows."
         ));
     }
 
@@ -253,8 +244,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "LEATHER_BOOTS",
                 Material.LEATHER_BOOTS,
-                plugin.getLumberConfig().strings().leatherBootsDisplayname(),
-                plugin.getLumberConfig().strings().leatherBootsLore()
+                "Leather Boots",
+                "<blue>+1 Armor"
         ));
     }
 
@@ -262,8 +253,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "LEATHER_LEGGINGS",
                 Material.LEATHER_LEGGINGS,
-                plugin.getLumberConfig().strings().leatherLeggingsDisplayname(),
-                plugin.getLumberConfig().strings().leatherLeggingsLore()
+                "Leather Pants",
+                "<blue>+2 Armor"
         ));
     }
 
@@ -271,8 +262,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "LEATHER_CHESTPLATE",
                 Material.LEATHER_CHESTPLATE,
-                plugin.getLumberConfig().strings().leatherChestplateDisplayname(),
-                plugin.getLumberConfig().strings().leatherChestplateLore()
+                "Leather Tunic",
+                "<blue>+3 Armor"
         ));
     }
 
@@ -280,8 +271,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "LEATHER_HELMET",
                 Material.LEATHER_HELMET,
-                plugin.getLumberConfig().strings().leatherHelmetDisplayname(),
-                plugin.getLumberConfig().strings().leatherHelmetLore()
+                "Leather Cap",
+                "<blue>+1 Armor"
         ));
     }
 
@@ -289,8 +280,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "IRON_BOOTS",
                 Material.IRON_BOOTS,
-                plugin.getLumberConfig().strings().ironBootsDisplayname(),
-                plugin.getLumberConfig().strings().ironBootsLore()
+                "Iron Boots",
+                "<blue>+2 Armor"
         ));
     }
 
@@ -298,8 +289,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "IRON_LEGGINGS",
                 Material.IRON_LEGGINGS,
-                plugin.getLumberConfig().strings().ironLeggingsDisplayname(),
-                plugin.getLumberConfig().strings().ironLeggingsLore()
+                "Iron Leggings",
+                "<blue>+5 Armor"
         ));
     }
 
@@ -307,8 +298,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "IRON_CHESTPLATE",
                 Material.IRON_CHESTPLATE,
-                plugin.getLumberConfig().strings().ironChestplateDisplayname(),
-                plugin.getLumberConfig().strings().ironChestplateLore()
+                "Iron Chestplate",
+                "<blue>+6 Armor"
         ));
     }
 
@@ -316,8 +307,8 @@ public class ItemUtil {
         return applyItemInformationLore(getItem(plugin,
                 "IRON_HELMET",
                 Material.IRON_HELMET,
-                plugin.getLumberConfig().strings().ironHelmetDisplayname(),
-                plugin.getLumberConfig().strings().ironHelmetLore()
+                "Iron Helmet",
+                "<blue>+2 Armor"
         ));
     }
 
@@ -361,8 +352,8 @@ public class ItemUtil {
         ItemStack item = getItem(plugin,
                 "HEALTH_POTION",
                 Material.SPLASH_POTION,
-                plugin.getLumberConfig().strings().healthPotionDisplayname(),
-                plugin.getLumberConfig().strings().healthPotionLore()
+                "Health Potion",
+                "<i><gray>Heals back some health."
         );
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         meta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 0, 1), false);

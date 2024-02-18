@@ -61,72 +61,9 @@ tree-health-threshold-message: "<red>Tree is at <transition:#ff0000:#00ff00:<tre
 # Parameters: <name>, <health>
 mob-displayname: "<name> <#f0291a><health>❤"
 
-iron-displayname: "<white>Iron"
-gold-displayname: "<gold>Gold"
-iron-lore: "<i><gray>Common drop from mobs."
-gold-lore: "<i><gray>Rare drop from mobs.<br><i><gray>Use to buy <red>perks</red> from the shop."
-
-bone-meal-displayname: "<white>Bone Meal"
-bone-meal-lore: "<i><gray>Place near the tree to regenerate its health.<br><i><gray>Regenerates <white>10%</white> of its health."
-bone-block-displayname: "<white><bold>Bone Block"
-bone-block-lore: "<i><gray>Place near the tree to level it up.<br><i><gray>Levelling it up increases its Max HP."
-
-wood-displayname: "<color:#ff8d03>Lumber"
-wood-lore: "<i><gray>Valuable item used for powerful crafts.<br><i><gray>Can be converted to <gold>gold</gold> in the shop."
-
 shop-npc-displayname: "Shop"
 bone-meal-use-message: "<gold><player> has healed the tree by 10%! <transition:#ff0000:#00ff00:<old_tree_health_fraction>><old_tree_health></transition> -> <transition:#ff0000:#00ff00:<new_tree_health_fraction>><new_tree_health></transition>"
 bone-block-use-message: "<gold><bold><player> has levelled up the tree! Max health: <gray><old_tree_max_health></gray> -> <green><new_tree_max_health></green>"
-
-
-bow-displayname: "Bow"
-bow-lore: "<i><gray>Surprisingly effective!"
-
-stone-axe-displayname: "Stone Axe"
-stone-axe-lore: "<i><gray>Use to chop the tree for lumber."
-
-wooden-sword-displayname: "Wooden Sword"
-wooden-sword-lore: "<i><gray>A pretty rusty sword."
-
-stone-sword-displayname: "Stone Sword"
-stone-sword-lore: "<i><gray>A slightly better starter sword."
-
-iron-sword-displayname: "Iron Sword"
-iron-sword-lore: "<i><gray>A decent weapon fit to cut enemies into pieces."
-
-diamond-sword-displayname: "Diamond Sword"
-diamond-sword-lore: "<i><gray>The best you can buy for your buck."
-
-arrow-displayname: "Arrow"
-arrow-lore: "<i><gray>Normal arrows."
-
-leather-helmet-displayname: "Leather Cap"
-leather-helmet-lore: "<blue>+1 Armor"
-
-leather-chestplate-displayname: "Leather Tunic"
-leather-chestplate-lore: "<blue>+3 Armor"
-
-leather-leggings-displayname: "Leather Pants"
-leather-leggings-lore: "<blue>+2 Armor"
-
-leather-boots-displayname: "Leather Boots"
-leather-boots-lore: "<blue>+1 Armor"
-
-iron-helmet-displayname: "Iron Helmet"
-iron-helmet-lore: "<blue>+2 Armor"
-
-iron-chestplate-displayname: "Iron Chestplate"
-iron-chestplate-lore: "<blue>+6 Armor"
-
-iron-leggings-displayname: "Iron Leggings"
-iron-leggings-lore: "<blue>+5 Armor"
-
-iron-boots-displayname: "Iron Boots"
-iron-boots-lore: "<blue>+2 Armor"
-
-health-potion-displayname: "Health Potion"
-health-potion-lore: "<i><gray>Heals back some health."
-
 
 tree-death-message: "<gold>Tree has died! You lose! <red><bold>L."
 # Parameters: <player>, <iron>, <gold_amount>, <wood>, <bone_meal>
