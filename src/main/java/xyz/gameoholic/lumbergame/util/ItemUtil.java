@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -44,7 +45,7 @@ public class ItemUtil {
         int count = 0;
         for (ItemStack item : player.getInventory()) {
             if (item != null && item.getItemMeta().getPersistentDataContainer()
-                    .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING) == itemId) {
+                    .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING).equals(itemId)) {
                 count += item.getAmount();
             }
         }
@@ -55,19 +56,27 @@ public class ItemUtil {
      * Removes a certain amount of items from the player's inventory, but only if the player has enough items of that type.
      *
      * @param player The player.
-     * @param itemId The ID of the Lumber item.
-     * @param amount The amount of items to remove.
+     * @param items Item amounts mapped to Lumber Item ID's.
      * @return Whether the items were removed or not.
      */
-    public static boolean removeItemsFromInventory(LumberGamePlugin plugin, Player player, String itemId, int amount) {
-        if (countItemsInInventory(plugin, player, itemId) < amount)
-            return false;
-        for (ItemStack item : player.getInventory()) {
-            if (item != null && item.getItemMeta().getPersistentDataContainer()
-                    .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING) == itemId) {
-                int amountRemoved = Math.min(item.getAmount(), amount);
-                item.setAmount(item.getAmount() - amountRemoved);
-                amount -= amountRemoved;
+    public static boolean removeItemsFromInventory(LumberGamePlugin plugin, Player player, Map<String, Integer> items) {
+        Bukkit.broadcastMessage("TEST this fials");
+        for (Map.Entry<String, Integer> item : items.entrySet()) {
+            Bukkit.broadcastMessage("Checking item " + item.getKey() + ", " + item.getValue());
+            if (countItemsInInventory(plugin, player, item.getKey()) < item.getValue())
+                return false;
+        }
+        Bukkit.broadcastMessage("True!");
+        for (Map.Entry<String, Integer> item : items.entrySet()) {
+            int amountRemaining = item.getValue();
+            for (ItemStack invItem : player.getInventory()) {
+                if (invItem != null && invItem.getItemMeta().getPersistentDataContainer()
+                        .get(new NamespacedKey(plugin, "lumber_item_id"), PersistentDataType.STRING).equals(item.getKey())) {
+                    int amountRemoved = Math.min(invItem.getAmount(), amountRemaining);
+                    invItem.setAmount(invItem.getAmount() - amountRemoved);
+                    amountRemaining -= amountRemoved;
+                    Bukkit.broadcastMessage("Removed " + amountRemoved);
+                }
             }
         }
         return true;

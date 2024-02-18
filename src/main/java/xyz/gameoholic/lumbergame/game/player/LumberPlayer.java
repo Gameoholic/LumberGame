@@ -44,6 +44,7 @@ import javax.annotation.Nullable;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static net.kyori.adventure.text.Component.text;
@@ -141,10 +142,10 @@ public class LumberPlayer implements Listener {
      */
     private void onDeath(Player player) {
         // Remove half of all player's resources
-        ItemUtil.removeItemsFromInventory(plugin, player, "IRON", ItemUtil.countItemsInInventory(plugin, player, "IRON") / 2);
-        ItemUtil.removeItemsFromInventory(plugin, player, "GOLD", ItemUtil.countItemsInInventory(plugin, player, "GOLD") / 2);
-        ItemUtil.removeItemsFromInventory(plugin, player, "WOOD", ItemUtil.countItemsInInventory(plugin, player, "WOOD") / 2);
-        ItemUtil.removeItemsFromInventory(plugin, player, "BONE_MEAL", ItemUtil.countItemsInInventory(plugin, player, "BONE_MEAL") / 2);
+        ItemUtil.removeItemsFromInventory(plugin, player, Map.of("IRON", ItemUtil.countItemsInInventory(plugin, player, "IRON") / 2));
+        ItemUtil.removeItemsFromInventory(plugin, player, Map.of("GOLD", ItemUtil.countItemsInInventory(plugin, player, "GOLD") / 2));
+        ItemUtil.removeItemsFromInventory(plugin, player, Map.of("WOOD", ItemUtil.countItemsInInventory(plugin, player, "WOOD") / 2));
+        ItemUtil.removeItemsFromInventory(plugin, player, Map.of("BONE_MEAL", ItemUtil.countItemsInInventory(plugin, player, "BONE_MEAL") / 2));
 
         plugin.getGameManager().getPlayers().forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage()
             .deserialize(
@@ -406,7 +407,7 @@ public class LumberPlayer implements Listener {
         }
 
         // Check whether the bone meal that was used is the Lumber bone meal
-        boolean hasItem = ItemUtil.removeItemsFromInventory(plugin, e.getPlayer(), "BONE_MEAL", 1);
+        boolean hasItem = ItemUtil.removeItemsFromInventory(plugin, e.getPlayer(), Map.of("BONE_MEAL", 1));
         if (!hasItem)
             return;
 
@@ -423,7 +424,7 @@ public class LumberPlayer implements Listener {
             > plugin.getLumberConfig().mapConfig().treeRadius())
             return;
         // Check whether the bone meal that was used is the Lumber bone meal
-        boolean hasItem = ItemUtil.removeItemsFromInventory(plugin, e.getPlayer(), "BONE_BLOCK", 1);
+        boolean hasItem = ItemUtil.removeItemsFromInventory(plugin, e.getPlayer(), Map.of("BONE_BLOCK", 1));
         if (!hasItem)
             return;
 

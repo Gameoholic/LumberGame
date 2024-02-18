@@ -1,8 +1,6 @@
 package xyz.gameoholic.lumbergame.game.menu;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
@@ -13,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -27,6 +24,7 @@ import xyz.gameoholic.lumbergame.game.player.perk.TeamPerk;
 import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -72,9 +70,9 @@ public abstract class Menu implements InventoryHolder, Listener {
         this.playerUUID = player.getUniqueId();
 
         inventory = Bukkit.createInventory(
-            menu,
-            size,
-            title
+                menu,
+                size,
+                title
         );
         registerEvents();
         setInventoryItems();
@@ -106,39 +104,39 @@ public abstract class Menu implements InventoryHolder, Listener {
         ItemStack itemStack = menuItem.getItem();
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.getPersistentDataContainer()
-            .set(new NamespacedKey(plugin, "menu_item_id"), PersistentDataType.STRING, menuItem.getId());
+                .set(new NamespacedKey(plugin, "menu_item_id"), PersistentDataType.STRING, menuItem.getId());
         // If item is purchasable menu item, store the currency id and amount in the PDC and add additional lore
         if (menuItem instanceof PurchasableMenuItem purchasableMenuItem) {
             itemMeta.getPersistentDataContainer()
-                .set(new NamespacedKey(plugin, "purchasable_item_currency_id"),
-                    PersistentDataType.STRING, purchasableMenuItem.getCurrencyItemId());
-            itemMeta.getPersistentDataContainer()
-                .set(new NamespacedKey(plugin, "purchasable_item_currency_amount"),
-                    PersistentDataType.INTEGER, purchasableMenuItem.getCurrencyAmount());
+                    .set(new NamespacedKey(plugin, "purchasable_item_cost"),
+                            PersistentDataType.STRING, serializeCostMap(purchasableMenuItem.getCost()));
 
-            // Convert currency_icon to equivalent icon of currency
-            Character currencyIcon = switch (purchasableMenuItem.getCurrencyItemId()) {
-                case "IRON" -> plugin.getLumberConfig().strings().ironIcon();
-                case "GOLD" -> plugin.getLumberConfig().strings().goldIcon();
-                case "WOOD" -> plugin.getLumberConfig().strings().woodIcon();
-                default -> '-';
-            };
             List<Component> lores = itemMeta.lore();
-            addLore(lores, "<currency_icon><cost>",
-                Placeholder.component("cost", text(purchasableMenuItem.getCurrencyAmount())),
-                Placeholder.component("currency_icon", text(currencyIcon))
-            );
+            for (Map.Entry<String, Integer> costEntry : purchasableMenuItem.getCost().entrySet()) {
+                // Convert currency_icon to equivalent icon of currency
+                Character currencyIcon = switch (costEntry.getKey()) {
+                    case "IRON" -> plugin.getLumberConfig().strings().ironIcon();
+                    case "GOLD" -> plugin.getLumberConfig().strings().goldIcon();
+                    case "WOOD" -> plugin.getLumberConfig().strings().woodIcon();
+                    default -> '-';
+                };
+                addLore(lores, "<currency_icon><cost>",
+                        Placeholder.component("cost", text(costEntry.getValue())),
+                        Placeholder.component("currency_icon", text(currencyIcon))
+                );
+            }
+
             itemMeta.lore(lores);
         }
 
         // If item is purchasable perk menu item, store the currency id and amount in the PDC and add additional lore
         if (menuItem instanceof PurchasablePerkMenuItem purchasablePerkMenuItem) {
             itemMeta.getPersistentDataContainer()
-                .set(new NamespacedKey(plugin, "purchasable_perk"),
-                    PersistentDataType.STRING, purchasablePerkMenuItem.getType().toString());
+                    .set(new NamespacedKey(plugin, "purchasable_perk"),
+                            PersistentDataType.STRING, purchasablePerkMenuItem.getType().toString());
 
             LumberPlayer player = plugin.getGameManager().getPlayers().stream()
-                .filter(lumberPlayer -> lumberPlayer.getUuid() == playerUUID).findFirst().get();
+                    .filter(lumberPlayer -> lumberPlayer.getUuid() == playerUUID).findFirst().get();
             Perk perk = Perk.getPerk(player, purchasablePerkMenuItem.getType(), plugin);
 
             // Convert currency_icon to equivalent icon of currency
@@ -156,8 +154,8 @@ public abstract class Menu implements InventoryHolder, Listener {
             int perkCostMultiplier = (perk instanceof TeamPerk) ? plugin.getGameManager().getPlayers().size() : 1; // If perk is team perk, multiply cost by player count
             if (perk.getLevel() < perk.getMaxLevel()) {
                 addLore(lores, "<currency_icon><cost>",
-                    Placeholder.component("cost", text(perk.getCost() * perkCostMultiplier)),
-                    Placeholder.component("currency_icon", text(currencyIcon))
+                        Placeholder.component("cost", text(perk.getCost() * perkCostMultiplier)),
+                        Placeholder.component("currency_icon", text(currencyIcon))
                 );
             }
             // Team/solo perk lore
@@ -167,14 +165,14 @@ public abstract class Menu implements InventoryHolder, Listener {
             // Level lore
             if (perk.getLevel() == 0) { // If perk isn't purchased yet
                 addLore(lores, "<red>Max Level: <max_level><br><green><bold>CLICK TO PURCHASE",
-                    Placeholder.component("max_level", text(perk.getMaxLevel()))
+                        Placeholder.component("max_level", text(perk.getMaxLevel()))
                 );
             } else if (perk.getLevel() == perk.getMaxLevel()) {
                 addLore(lores, "<red><bold>MAX LEVEL");
             } else {
                 addLore(lores, "<gold>Level <red><level><gold>/</gold><max_level><br><green><bold>CLICK TO UPGRADE",
-                    Placeholder.component("level", text(perk.getLevel())),
-                    Placeholder.component("max_level", text(perk.getMaxLevel()))
+                        Placeholder.component("level", text(perk.getLevel())),
+                        Placeholder.component("max_level", text(perk.getMaxLevel()))
                 );
             }
 
@@ -183,6 +181,32 @@ public abstract class Menu implements InventoryHolder, Listener {
 
         itemStack.setItemMeta(itemMeta);
         inventory.setItem(index, itemStack);
+    }
+
+    /**
+     * Serializes a map consisting of currency amounts mapped to currency item ID's into a string
+     */
+    private String serializeCostMap(Map<String, Integer> map) {
+        String str = "";
+        for (Map.Entry<String, Integer> mapEntry : map.entrySet()) {
+            str += mapEntry.getKey() + ":" + mapEntry.getValue() + ",";
+        }
+        str = str.substring(0, str.length() - 1);
+        return str;
+    }
+
+    /**
+     * Deserializes a String back into a map consisting of currency amounts mapped to currency item ID's
+     */
+    private Map<String, Integer> deserializeCostString(String str) {
+        Map<String, Integer> map = new HashMap<>();
+        String[] costs = str.split(",");
+        for (String cost : costs) {
+            String costCurrencyId = cost.split(":")[0];
+            int costCurrencyAmount = Integer.parseInt(cost.split(":")[1]);
+            map.put(costCurrencyId, costCurrencyAmount);
+        }
+        return map;
     }
 
     protected void setItems(Map<Integer, MenuItem> items) {
@@ -196,7 +220,7 @@ public abstract class Menu implements InventoryHolder, Listener {
      * @return The ItemStack if the purchase was successful, null otherwise.
      */
     protected @Nullable ItemStack purchaseItem(PurchasableMenuItem menuItem) {
-        if (processPurchase(menuItem.getCurrencyItemId(), menuItem.getCurrencyAmount()))
+        if (processPurchase(menuItem.getCost()))
             return menuItem.item;
         return null;
     }
@@ -209,10 +233,10 @@ public abstract class Menu implements InventoryHolder, Listener {
      */
     protected boolean purchasePerk(PurchasablePerkMenuItem purchasablePerkMenuItem) {
         LumberPlayer lumberPlayer = plugin.getGameManager().getPlayers().stream()
-            .filter(filteredLumberPlayer -> filteredLumberPlayer.getUuid() == playerUUID).findFirst().get();
+                .filter(filteredLumberPlayer -> filteredLumberPlayer.getUuid() == playerUUID).findFirst().get();
 
         boolean playerHasPerk = lumberPlayer.getPerks().stream()
-            .filter(filteredPerk -> filteredPerk.getType() == purchasablePerkMenuItem.getType()).findFirst().isPresent();
+                .filter(filteredPerk -> filteredPerk.getType() == purchasablePerkMenuItem.getType()).findFirst().isPresent();
 
         Perk perk = Perk.getPerk(lumberPlayer, purchasablePerkMenuItem.getType(), plugin);
 
@@ -220,7 +244,7 @@ public abstract class Menu implements InventoryHolder, Listener {
             return false;
 
         int perkCostMultiplier = (perk instanceof TeamPerk) ? (int) plugin.getGameManager().getWaveCRMultiplier() : 1; // If perk is team perk, multiply cost by CR multiplier
-        if (!processPurchase(perk.getCurrencyId(), perk.getCost() * perkCostMultiplier))
+        if (!processPurchase(Map.of(perk.getCurrencyId(), perk.getCost() * perkCostMultiplier)))
             return false;
 
         // If purchase was successful:
@@ -232,16 +256,16 @@ public abstract class Menu implements InventoryHolder, Listener {
 
                 @Nullable Player teamPlayer = Bukkit.getPlayer(teamLumberPlayer.getUuid());
                 TeamPerk teamPerk = (TeamPerk) teamLumberPlayer.getPerks().stream()
-                    .filter(filteredPerk -> filteredPerk.getType() == purchasablePerkMenuItem.getType()).findFirst().get();
+                        .filter(filteredPerk -> filteredPerk.getType() == purchasablePerkMenuItem.getType()).findFirst().get();
                 teamPerk.incrementLevel();
 
                 if (teamPlayer != null) {
                     teamPerk.activate(teamPlayer);
                     teamPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
-                        plugin.getLumberConfig().strings().teamPerkBuyMessage(),
-                        Placeholder.component("player", Bukkit.getPlayer(playerUUID).name()),
-                        Placeholder.component("perk", teamPerk.getName()),
-                        Placeholder.component("level", text(intToRoman(teamPerk.getLevel())))
+                            plugin.getLumberConfig().strings().teamPerkBuyMessage(),
+                            Placeholder.component("player", Bukkit.getPlayer(playerUUID).name()),
+                            Placeholder.component("perk", teamPerk.getName()),
+                            Placeholder.component("level", text(intToRoman(teamPerk.getLevel())))
                     ));
                 }
                 // todo: refresh inventory items for every player not just the one who purchased it. with setInventoryItems()
@@ -261,12 +285,11 @@ public abstract class Menu implements InventoryHolder, Listener {
     /**
      * Attempts to remove the items from the player's inventory.
      *
-     * @param itemId The Lumber item ID used for this purchase (currency).
-     * @param amount The amount (cost) of this item.
+     * @param cost Currency amounts mapped to currency item ID's.
      * @return Whether the purchase was processed successfully (if the player had enough items).
      */
-    private boolean processPurchase(String itemId, int amount) {
-        return ItemUtil.removeItemsFromInventory(plugin, Bukkit.getPlayer(playerUUID), itemId, amount);
+    private boolean processPurchase(Map<String, Integer> cost) {
+        return ItemUtil.removeItemsFromInventory(plugin, Bukkit.getPlayer(playerUUID), cost);
     }
 
     @EventHandler
@@ -292,24 +315,22 @@ public abstract class Menu implements InventoryHolder, Listener {
         e.setCancelled(true);
 
         @Nullable String itemId = itemStack.getItemMeta().getPersistentDataContainer()
-            .get(new NamespacedKey(plugin, "menu_item_id"), PersistentDataType.STRING);
+                .get(new NamespacedKey(plugin, "menu_item_id"), PersistentDataType.STRING);
         if (itemId == null)
             return;
 
         // Check if item is purchasable item
-        @Nullable String currencyId = itemStack.getItemMeta().getPersistentDataContainer()
-            .get(new NamespacedKey(plugin, "purchasable_item_currency_id"), PersistentDataType.STRING);
-        @Nullable Integer currencyAmount = itemStack.getItemMeta().getPersistentDataContainer()
-            .get(new NamespacedKey(plugin, "purchasable_item_currency_amount"), PersistentDataType.INTEGER);
+        @Nullable String cost = itemStack.getItemMeta().getPersistentDataContainer()
+                .get(new NamespacedKey(plugin, "purchasable_item_cost"), PersistentDataType.STRING);
 
         // Check if item is purchasable perk
         @Nullable String perkTypeString = itemStack.getItemMeta().getPersistentDataContainer()
-            .get(new NamespacedKey(plugin, "purchasable_perk"), PersistentDataType.STRING);
+                .get(new NamespacedKey(plugin, "purchasable_perk"), PersistentDataType.STRING);
         @Nullable PerkType perkType = perkTypeString != null ? PerkType.valueOf(perkTypeString) : null;
 
         // Return MenuItem/PurchasableMenuItem
-        if (currencyId != null && currencyAmount != null)
-            handleClick(new PurchasableMenuItem(plugin, itemId, currencyId, currencyAmount), player);
+        if (cost != null)
+            handleClick(new PurchasableMenuItem(plugin, itemId, deserializeCostString(cost)), player);
         else if (perkType != null)
             handleClick(new PurchasablePerkMenuItem(plugin, itemId, perkType), player);
         else

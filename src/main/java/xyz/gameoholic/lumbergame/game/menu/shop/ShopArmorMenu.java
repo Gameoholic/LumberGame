@@ -6,6 +6,9 @@ import xyz.gameoholic.lumbergame.game.menu.Menu;
 import xyz.gameoholic.lumbergame.game.menu.MenuItem;
 import xyz.gameoholic.lumbergame.game.menu.PurchasableMenuItem;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static net.kyori.adventure.text.Component.text;
 
 public class ShopArmorMenu extends Menu {
@@ -17,20 +20,20 @@ public class ShopArmorMenu extends Menu {
 
     @Override
     protected void setInventoryItems() {
-        setItem(3, new PurchasableMenuItem(plugin, "LEATHER_BOOTS", "IRON", 16));
-        setItem(12, new PurchasableMenuItem(plugin, "LEATHER_LEGGINGS", "IRON", 32));
-        setItem(21, new PurchasableMenuItem(plugin, "LEATHER_CHESTPLATE", "IRON", 48));
-        setItem(30, new PurchasableMenuItem(plugin, "LEATHER_HELMET", "IRON", 32));
+        setItem(3, new PurchasableMenuItem(plugin, "LEATHER_BOOTS", Map.of("IRON", 16)));
+        setItem(12, new PurchasableMenuItem(plugin, "LEATHER_LEGGINGS", Map.of("IRON", 32)));
+        setItem(21, new PurchasableMenuItem(plugin, "LEATHER_CHESTPLATE",Map.of("IRON", 48)));
+        setItem(30, new PurchasableMenuItem(plugin, "LEATHER_HELMET",Map.of("IRON", 32)));
 
-        setItem(4, new PurchasableMenuItem(plugin, "IRON_BOOTS", "IRON", 64));
-        setItem(13, new PurchasableMenuItem(plugin, "IRON_LEGGINGS", "IRON", 128));
-        setItem(22, new PurchasableMenuItem(plugin, "IRON_CHESTPLATE", "IRON", 192));
-        setItem(31, new PurchasableMenuItem(plugin, "IRON_HELMET", "IRON", 128));
+        setItem(4, new PurchasableMenuItem(plugin, "IRON_BOOTS", Map.of("IRON", 64, "WOOD", 5)));
+        setItem(13, new PurchasableMenuItem(plugin, "IRON_LEGGINGS", Map.of("IRON", 128, "WOOD", 10)));
+        setItem(22, new PurchasableMenuItem(plugin, "IRON_CHESTPLATE", Map.of("IRON", 192, "WOOD", 15)));
+        setItem(31, new PurchasableMenuItem(plugin, "IRON_HELMET", Map.of("IRON", 128, "WOOD", 8)));
 
-        setItem(5, new PurchasableMenuItem(plugin, "DIAMOND_BOOTS", "WOOD", 32));
-        setItem(14, new PurchasableMenuItem(plugin, "DIAMOND_LEGGINGS", "WOOD", 64));
-        setItem(23, new PurchasableMenuItem(plugin, "DIAMOND_CHESTPLATE", "WOOD", 96));
-        setItem(32, new PurchasableMenuItem(plugin, "DIAMOND_HELMET", "WOOD", 64));
+        setItem(5, new PurchasableMenuItem(plugin, "DIAMOND_BOOTS", Map.of("WOOD", 32)));
+        setItem(14, new PurchasableMenuItem(plugin, "DIAMOND_LEGGINGS", Map.of("WOOD", 64)));
+        setItem(23, new PurchasableMenuItem(plugin, "DIAMOND_CHESTPLATE", Map.of("WOOD", 96)));
+        setItem(32, new PurchasableMenuItem(plugin, "DIAMOND_HELMET", Map.of("WOOD", 64)));
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }

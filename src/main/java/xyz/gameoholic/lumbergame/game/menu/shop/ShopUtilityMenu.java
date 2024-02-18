@@ -6,6 +6,8 @@ import xyz.gameoholic.lumbergame.game.menu.Menu;
 import xyz.gameoholic.lumbergame.game.menu.MenuItem;
 import xyz.gameoholic.lumbergame.game.menu.PurchasableMenuItem;
 
+import java.util.Map;
+
 import static net.kyori.adventure.text.Component.text;
 
 public class ShopUtilityMenu extends Menu {
@@ -17,9 +19,9 @@ public class ShopUtilityMenu extends Menu {
 
     @Override
     protected void setInventoryItems() {
-        setItem(22, new PurchasableMenuItem(plugin, "HEALTH_POTION", "WOOD", 2));
-        setItem(4, new PurchasableMenuItem(plugin, "GOLD", "WOOD", 5));
-        setItem(13, new PurchasableMenuItem(plugin, "GOLD", "IRON", 64));
+        setItem(22, new PurchasableMenuItem(plugin, "HEALTH_POTION", Map.of("WOOD", 2)));
+        setItem(4, new PurchasableMenuItem(plugin, "GOLD", Map.of("WOOD", 5)));
+        setItem(13, new PurchasableMenuItem(plugin, "GOLD", Map.of("IRON", 64)));
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }
