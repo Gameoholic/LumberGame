@@ -19,21 +19,9 @@ fix Id, Uuid, CR and NPC to all be id, uuid, npc, cr, getCr, getNpc, getUuid, ge
 
 
 FEATURES:
-Bomber drops TNT on death
-Ranged Bomber (chucks TNT)
-Partigon tree particles
 Map Selection, CR selection, Menu
 
 Big todo:
- - Classes & Class Shop (1d)
- - More customizable Mobs + More mobs (1d)
-
  - Mob attacks & spells
  - Buildings & Towers?
 
-
-Super backlog (QOL stuff):
-- add healthbars to mobs
-- player glow according to color
-- different pitch for damage sounds?
-- item magnetism

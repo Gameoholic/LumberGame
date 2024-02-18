@@ -24,6 +24,7 @@ import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.game.player.perk.Perk;
 import xyz.gameoholic.lumbergame.game.player.perk.PerkType;
 import xyz.gameoholic.lumbergame.game.player.perk.TeamPerk;
+import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -265,7 +266,7 @@ public abstract class Menu implements InventoryHolder, Listener {
      * @return Whether the purchase was processed successfully (if the player had enough items).
      */
     private boolean processPurchase(String itemId, int amount) {
-        return plugin.getItemManager().removeItemsFromInventory(Bukkit.getPlayer(playerUUID), itemId, amount);
+        return ItemUtil.removeItemsFromInventory(plugin, Bukkit.getPlayer(playerUUID), itemId, amount);
     }
 
     @EventHandler

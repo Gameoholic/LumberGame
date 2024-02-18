@@ -7,7 +7,6 @@ import xyz.gameoholic.lumbergame.config.LumberConfig;
 import xyz.gameoholic.lumbergame.config.ConfigParser;
 import xyz.gameoholic.lumbergame.game.data.PlayerDataManager;
 import xyz.gameoholic.lumbergame.game.GameManager;
-import xyz.gameoholic.lumbergame.game.item.ItemManager;
 import xyz.gameoholic.lumbergame.game.player.npc.PlayerNPCManager;
 import xyz.gameoholic.lumbergame.listeners.EntityExplodeListener;
 import xyz.gameoholic.lumbergame.queue.LumberQueueManager;
@@ -19,7 +18,6 @@ public final class LumberGamePlugin extends JavaPlugin {
     private LumberQueueManager queueManager;
     private LumberConfig config;
     private @Nullable GameManager gameManager = null;
-    private @Nullable ItemManager itemManager = null; //todo: move this to gamemanager
     private PlayerNPCManager playerNPCManager;
     private PlayerDataManager playerDataManager;
     @Override
@@ -66,7 +64,6 @@ public final class LumberGamePlugin extends JavaPlugin {
         playerDataManager = new PlayerDataManager(this, queueManager.getPlayers());
         gameManager = new GameManager(this, queueManager.getPlayers(), waveCRMultiplier, waveSpawnRateMultiplier);
         queueManager.resetQueue();
-        itemManager = new ItemManager(this);
         gameManager.onGameLoad();
     }
 
@@ -75,7 +72,6 @@ public final class LumberGamePlugin extends JavaPlugin {
      */
     public void onGameEnd() {
         gameManager = null;
-        itemManager = null;
     }
 
     public LumberQueueManager getQueueManager() {
@@ -84,9 +80,6 @@ public final class LumberGamePlugin extends JavaPlugin {
 
     public GameManager getGameManager() {
         return gameManager;
-    }
-    public ItemManager getItemManager() {
-        return itemManager;
     }
 
     public PlayerNPCManager getPlayerNPCManager() {

@@ -29,6 +29,7 @@ import xyz.gameoholic.lumbergame.game.goal.hostile.LumberNearestAttackablePlayer
 import xyz.gameoholic.lumbergame.game.goal.hostile.SkeletonTNTAttackGoal;
 import xyz.gameoholic.lumbergame.game.player.LumberPlayer;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
+import xyz.gameoholic.lumbergame.util.ItemUtil;
 import xyz.gameoholic.lumbergame.util.NMSUtil;
 
 
@@ -53,9 +54,9 @@ public class LumberMob implements Listener {
     /**
      * Use WaveManager to instantiate, don't use this constructor directly.
      *
-     * @param mobType   The Lumber MobType of the mob.
-     * @param CR        The challenge rating to spawn the mob with.
-     * @param boneBlock Whether the mob should spawn with a bone block.
+     * @param mobType               The Lumber MobType of the mob.
+     * @param CR                    The challenge rating to spawn the mob with.
+     * @param boneBlock             Whether the mob should spawn with a bone block.
      * @param guaranteedSingleSpawn Whether the mob was spawned on its own.
      */
     public LumberMob(LumberGamePlugin plugin, MobType mobType, int CR, boolean boneBlock, boolean guaranteedSingleSpawn) {
@@ -69,6 +70,7 @@ public class LumberMob implements Listener {
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
+
     public void unregisterEvents() {
         EntityDamageEvent.getHandlerList().unregister(this);
         EntityDeathEvent.getHandlerList().unregister(this);
@@ -86,9 +88,9 @@ public class LumberMob implements Listener {
         // General attributes for all mobs
         mob.setCanPickupItems(false);
         int health = (int) Math.min(2000, new ExpressionBuilder(mobType.healthExpression())
-            .variables("CR")
-            .build()
-            .setVariable("CR", CR).evaluate() * (mobType.isBoss() && guaranteedSingleSpawn ? plugin.getGameManager().getWaveCRMultiplier() : 1)); // Health cannot be above 2,048 in MC, multiply health by CR multiplier if mob is boss and was spawned as a single mob
+                .variables("CR")
+                .build()
+                .setVariable("CR", CR).evaluate() * (mobType.isBoss() && guaranteedSingleSpawn ? plugin.getGameManager().getWaveCRMultiplier() : 1)); // Health cannot be above 2,048 in MC, multiply health by CR multiplier if mob is boss and was spawned as a single mob
         mob.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(Double.MAX_VALUE);
         mob.getPersistentDataContainer().set(new NamespacedKey(plugin, "lumber_mob"), PersistentDataType.BOOLEAN, true);
         mob.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, -1, 1, false, false));
@@ -99,22 +101,22 @@ public class LumberMob implements Listener {
 
         // Required parameter - damage-expression
         mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(
-            ExpressionUtil.evaluateExpression(mobType.damageExpression(), Map.of("CR", (double) CR))
+                ExpressionUtil.evaluateExpression(mobType.damageExpression(), Map.of("CR", (double) CR))
         );
 
         // Optional parameter - speed-expression
         mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(
-            ExpressionUtil.evaluateExpression(mobType.speedExpression(), Map.of("CR", (double) CR))
+                ExpressionUtil.evaluateExpression(mobType.speedExpression(), Map.of("CR", (double) CR))
         );
 
         // Optional parameter - knockback-expression
         mob.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK).setBaseValue(
-            ExpressionUtil.evaluateExpression(mobType.knockbackExpression(), Map.of("CR", (double) CR))
+                ExpressionUtil.evaluateExpression(mobType.knockbackExpression(), Map.of("CR", (double) CR))
         );
 
         // Optional parameter - knockback-resistance-expression
         mob.getAttribute(Attribute.GENERIC_KNOCKBACK_RESISTANCE).setBaseValue(
-            ExpressionUtil.evaluateExpression(mobType.knockbackResistanceExpression(), Map.of("CR", (double) CR))
+                ExpressionUtil.evaluateExpression(mobType.knockbackResistanceExpression(), Map.of("CR", (double) CR))
         );
 
         // Optional parameter - is-baby
@@ -134,17 +136,17 @@ public class LumberMob implements Listener {
 
         // Optional parameters - equipment
         if (mobType.itemInMainHandID() != null)
-            mob.getEquipment().setItemInMainHand(plugin.getItemManager().getItem(mobType.itemInMainHandID()));
+            mob.getEquipment().setItemInMainHand(ItemUtil.getItem(plugin, mobType.itemInMainHandID()));
         if (mobType.itemInOffHandID() != null)
-            mob.getEquipment().setItemInOffHand(plugin.getItemManager().getItem(mobType.itemInOffHandID()));
+            mob.getEquipment().setItemInOffHand(ItemUtil.getItem(plugin, mobType.itemInOffHandID()));
         if (mobType.itemInHelmetID() != null)
-            mob.getEquipment().setItem(EquipmentSlot.HEAD, plugin.getItemManager().getItem(mobType.itemInHelmetID()), true);
+            mob.getEquipment().setItem(EquipmentSlot.HEAD, ItemUtil.getItem(plugin, mobType.itemInHelmetID()), true);
         if (mobType.itemInChestplateID() != null)
-            mob.getEquipment().setItem(EquipmentSlot.CHEST, plugin.getItemManager().getItem(mobType.itemInChestplateID()), true);
+            mob.getEquipment().setItem(EquipmentSlot.CHEST, ItemUtil.getItem(plugin, mobType.itemInChestplateID()), true);
         if (mobType.itemInLeggingsID() != null)
-            mob.getEquipment().setItem(EquipmentSlot.LEGS, plugin.getItemManager().getItem(mobType.itemInLeggingsID()), true);
+            mob.getEquipment().setItem(EquipmentSlot.LEGS, ItemUtil.getItem(plugin, mobType.itemInLeggingsID()), true);
         if (mobType.itemInBootsID() != null)
-            mob.getEquipment().setItem(EquipmentSlot.FEET, plugin.getItemManager().getItem(mobType.itemInBootsID()), true);
+            mob.getEquipment().setItem(EquipmentSlot.FEET, ItemUtil.getItem(plugin, mobType.itemInBootsID()), true);
 
         // Mob's custom name to be applied after parameters
         mob.setCustomNameVisible(true);
@@ -152,9 +154,9 @@ public class LumberMob implements Listener {
 
         // Post-spawn parameters/attributes (bone block / bone meal)
         if (fillBoneMealMeter())
-            mob.getEquipment().setItemInMainHand(plugin.getItemManager().getBoneMealItem());
+            mob.getEquipment().setItemInMainHand(ItemUtil.getBoneMealItem(plugin));
         if (boneBlock) {
-            mob.getEquipment().setHelmet(plugin.getItemManager().getBoneBlockItem());
+            mob.getEquipment().setHelmet(ItemUtil.getBoneBlockItem(plugin));
         }
 
         // Boss mob red glow & spawn lightning
@@ -186,15 +188,15 @@ public class LumberMob implements Listener {
 
         // Find Vanilla goals needed to be replaced by our custom ones.
         @Nullable WrappedGoal wrappedMeleeAttackGoal = NMSMob.goalSelector.getAvailableGoals().stream()
-            .filter(goal -> goal.getGoal() instanceof MeleeAttackGoal).findFirst().orElse(null);
+                .filter(goal -> goal.getGoal() instanceof MeleeAttackGoal).findFirst().orElse(null);
         @Nullable WrappedGoal wrappedNearestAttackableTargetGoal = NMSMob.targetSelector.getAvailableGoals().stream()
-            .filter(goal -> goal.getGoal() instanceof NearestAttackableTargetGoal).findFirst().orElse(null);
+                .filter(goal -> goal.getGoal() instanceof NearestAttackableTargetGoal).findFirst().orElse(null);
 
         // If goals exist, get their priority. Otherwise, provide default value 2.
         int nearestAttackableTargetGoalPriority = wrappedNearestAttackableTargetGoal != null ?
-            wrappedNearestAttackableTargetGoal.getPriority() : 2;
+                wrappedNearestAttackableTargetGoal.getPriority() : 2;
         int meleeAttackGoalPriority = wrappedMeleeAttackGoal != null ?
-            wrappedNearestAttackableTargetGoal.getPriority() : 2;
+                wrappedNearestAttackableTargetGoal.getPriority() : 2;
 
         // Remove unneeded Vanilla goals, if the mob has them
         if (wrappedMeleeAttackGoal != null) {
@@ -207,30 +209,30 @@ public class LumberMob implements Listener {
 
         // Attack speed is needed for goal, can't be added via mob attribute.
         int attackCooldown = (int) ExpressionUtil.evaluateExpression(
-            mobType.attackCooldownExpression(), Map.of("CR", (double) CR));
+                mobType.attackCooldownExpression(), Map.of("CR", (double) CR));
 
 
         // Replace them with our goals, with the same exact priorities.
         // The lower the priority of the goal, the more it will be prioritized.
         NMSMob.targetSelector.addGoal(nearestAttackableTargetGoalPriority,
-            new LumberNearestAttackablePlayerGoal(NMSMob)); // Target and lock onto player
+                new LumberNearestAttackablePlayerGoal(NMSMob)); // Target and lock onto player
 
         // Specific mob goals - Ranged Bomber (TNT launching)
         if (NMSMob instanceof net.minecraft.world.entity.monster.AbstractSkeleton &&
-            mob.getEquipment().getItemInMainHand().getType() == Material.TNT) {
+                mob.getEquipment().getItemInMainHand().getType() == Material.TNT) {
             NMSMob.goalSelector.addGoal(4, new SkeletonTNTAttackGoal(
-                plugin, (net.minecraft.world.entity.monster.AbstractSkeleton) NMSMob, attackCooldown,
-                mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()));
+                    plugin, (net.minecraft.world.entity.monster.AbstractSkeleton) NMSMob, attackCooldown,
+                    mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()));
             return;
         }
         // Specific mob goals - Bomber (Hostile creeper)
         if (NMSMob instanceof net.minecraft.world.entity.monster.Creeper) {
             NMSMob.goalSelector.addGoal(meleeAttackGoalPriority,
-                new LumberCreeperAttackGoal((PathfinderMob) NMSMob, attackCooldown) // Attack and follow player
+                    new LumberCreeperAttackGoal((PathfinderMob) NMSMob, attackCooldown) // Attack and follow player
             );
             // Remove vanilla Swell goal, as we have our own logic in LumberCreeperAttackGoal
             @Nullable WrappedGoal wrappedSwellGoal = NMSMob.targetSelector.getAvailableGoals().stream()
-                .filter(goal -> goal.getGoal() instanceof SwellGoal).findFirst().orElse(null);
+                    .filter(goal -> goal.getGoal() instanceof SwellGoal).findFirst().orElse(null);
             if (wrappedSwellGoal != null)
                 NMSMob.targetSelector.removeGoal(wrappedSwellGoal.getGoal());
             return;
@@ -238,12 +240,13 @@ public class LumberMob implements Listener {
 
         if (mobType.hasMeleeAttackGoal()) // If mob has (should have) melee attack goal (not in cases like bowed skeletons)
             NMSMob.goalSelector.addGoal(meleeAttackGoalPriority,
-                new LumberMeleeAttackGoal((PathfinderMob) NMSMob, attackCooldown) // Attack and follow player
+                    new LumberMeleeAttackGoal((PathfinderMob) NMSMob, attackCooldown) // Attack and follow player
             );
     }
 
     /**
      * Fills up the bone meal meter. If reaches 100, the mob should spawn holding bone meal.
+     *
      * @return Whether the mob should hold bone meal or not.
      */
     private boolean fillBoneMealMeter() {
@@ -283,8 +286,10 @@ public class LumberMob implements Listener {
                 pullItemToPlayer(plugin, item, player); // Item magnetism: Give velocity towards player for easier pickup
                 // Increase item pickup stats
                 switch (itemStack.getType()) {
-                    case IRON_INGOT -> plugin.getPlayerDataManager().getCachedPlayerData(player.getUniqueId()).incIronCollected(itemStack.getAmount());
-                    case GOLD_INGOT -> plugin.getPlayerDataManager().getCachedPlayerData(player.getUniqueId()).incGoldCollected(itemStack.getAmount());
+                    case IRON_INGOT ->
+                            plugin.getPlayerDataManager().getCachedPlayerData(player.getUniqueId()).incIronCollected(itemStack.getAmount());
+                    case GOLD_INGOT ->
+                            plugin.getPlayerDataManager().getCachedPlayerData(player.getUniqueId()).incGoldCollected(itemStack.getAmount());
                 }
             }
             plugin.getPlayerDataManager().getCachedPlayerData(player.getUniqueId()).incKills(1);
@@ -295,34 +300,36 @@ public class LumberMob implements Listener {
         if (mob instanceof AbstractSkeleton && mob.getEquipment().getItemInMainHand().getType() == Material.TNT) {
             TNTPrimed tnt = (TNTPrimed) mob.getLocation().getWorld().spawnEntity(mob.getLocation(), EntityType.PRIMED_TNT);
             tnt.getPersistentDataContainer().set(new NamespacedKey(plugin, "tnt_damage"),
-                PersistentDataType.DOUBLE, mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()); // Set custom tnt damage
+                    PersistentDataType.DOUBLE, mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()); // Set custom tnt damage
         }
 
         // If mob was holding bone meal
-        if (plugin.getItemManager().compareItems(
-            mob.getEquipment().getItemInMainHand(),
-            plugin.getItemManager().getBoneMealItem()
+        if (ItemUtil.compareItems(
+                plugin,
+                mob.getEquipment().getItemInMainHand(),
+                ItemUtil.getBoneMealItem(plugin)
         )) {
             Item item = mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), mob.getEquipment().getItemInMainHand());
             if (player != null) {  // Only pull item towards player, if mob was killed by a player and not on its own
                 pullItemToPlayer(
-                    plugin,
-                    item,
-                    player
+                        plugin,
+                        item,
+                        player
                 );
             }
         }
         // If mob had bone block on head
-        if (plugin.getItemManager().compareItems(
-            mob.getEquipment().getHelmet(),
-            plugin.getItemManager().getBoneBlockItem()
+        if (ItemUtil.compareItems(
+                plugin,
+                mob.getEquipment().getHelmet(),
+                ItemUtil.getBoneBlockItem(plugin)
         )) {
-            Item item = mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), plugin.getItemManager().getBoneBlockItem());
+            Item item = mob.getLocation().getWorld().dropItemNaturally(mob.getLocation(), ItemUtil.getBoneBlockItem(plugin));
             if (player != null) // Only pull item towards player, if mob was killed by a player and not on its own
                 pullItemToPlayer(
-                    plugin,
-                    item,
-                    player
+                        plugin,
+                        item,
+                        player
                 );
         }
     }
@@ -333,20 +340,21 @@ public class LumberMob implements Listener {
     private List<ItemStack> getDrops() {
         List<ItemStack> items = new ArrayList<>();
         double ironChance = ExpressionUtil.evaluateExpression(
-            plugin.getLumberConfig().gameConfig().ironDropExpression(),
-            Map.of("CR", (double) CR)
+                plugin.getLumberConfig().gameConfig().ironDropExpression(),
+                Map.of("CR", (double) CR)
         );
         for (int i = 0; i < getSpecificDropAmount(ironChance); i++) {
-            items.add(plugin.getItemManager().getIronItem());
+            items.add(ItemUtil.getIronItem(plugin));
         }
         if (fillGoldMeter())
-            items.add(plugin.getItemManager().getGoldItem());
+            items.add(ItemUtil.getGoldItem(plugin));
 
         return items;
     }
 
     /**
      * Fills up the gold meter. If reaches 100, the mob should drop 1 gold.
+     *
      * @return Whether the mob should drop gold or not.
      */
     private boolean fillGoldMeter() {
@@ -389,11 +397,12 @@ public class LumberMob implements Listener {
         if (newHealth <= 0)
             newHealthAdjusted = 0;
         mob.customName(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().mobDisplayname(),
-            Placeholder.component("cr", text(CR)),
-            Placeholder.component("health", text(newHealthAdjusted)),
-            Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
+                Placeholder.component("cr", text(CR)),
+                Placeholder.component("health", text(newHealthAdjusted)),
+                Placeholder.component("name", MiniMessage.miniMessage().deserialize(mobType.displayName()))
         ).colorIfAbsent(NamedTextColor.WHITE));
     }
+
     @EventHandler
     public void onEntityDamageEvent(EntityDamageEvent e) {
         if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)
@@ -407,7 +416,7 @@ public class LumberMob implements Listener {
             // TNT explosion damage should match the mob's damage attribute, otherwise vanilla explosion damage is applied
             if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION && byEntityEvent.getDamager() instanceof TNTPrimed tnt) {
                 @Nullable Double tntDamage = tnt.getPersistentDataContainer().get(
-                    new NamespacedKey(plugin, "tnt_damage"), PersistentDataType.DOUBLE);
+                        new NamespacedKey(plugin, "tnt_damage"), PersistentDataType.DOUBLE);
                 if (tntDamage == null) // If wasn't launched by LumberMob
                     return;
                 e.setDamage((e.getDamage() / 56.0) * tntDamage); // After testing, 56.0 is max damage of default TNT. We let it do all the calculating for us, and get the % of the maxdamage done, then multiply it by the damage we want.
@@ -415,7 +424,7 @@ public class LumberMob implements Listener {
             // Arrow damage should match the skeleton's damage attribute, otherwise vanilla arrow damage is applied
             if (byEntityEvent.getDamager() instanceof Arrow) {
                 @Nullable Double arrowDamage = byEntityEvent.getDamager().getPersistentDataContainer().get(
-                    new NamespacedKey(plugin, "arrow_damage"), PersistentDataType.DOUBLE);
+                        new NamespacedKey(plugin, "arrow_damage"), PersistentDataType.DOUBLE);
                 if (arrowDamage == null) // If wasn't shot by LumberMob
                     return;
                 e.setDamage(arrowDamage);
@@ -433,7 +442,7 @@ public class LumberMob implements Listener {
         @Nullable Player killerPlayer = null;
         // Mobs should only drop loot in case a player killed it
         if (e.getEntity().getLastDamageCause() != null &&
-            e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent damageEvent) {
+                e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent damageEvent) {
             if (damageEvent.getDamager() instanceof Player player)
                 killerPlayer = player;
         }
@@ -465,9 +474,9 @@ public class LumberMob implements Listener {
             return;
 
         e.getProjectile().getPersistentDataContainer().set(
-            new NamespacedKey(plugin, "arrow_damage"),
-            PersistentDataType.DOUBLE,
-            mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()
+                new NamespacedKey(plugin, "arrow_damage"),
+                PersistentDataType.DOUBLE,
+                mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()
         );
     }
 

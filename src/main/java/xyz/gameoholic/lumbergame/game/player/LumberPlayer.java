@@ -36,6 +36,7 @@ import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.player.npc.ShopNPC;
 import xyz.gameoholic.lumbergame.game.player.perk.Perk;
+import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
@@ -106,8 +107,8 @@ public class LumberPlayer implements Listener {
         scoreboardManager = new PlayerScoreboardManager(plugin, player, this);
         player.getInventory().clear();
         player.clearActivePotionEffects();
-        player.getInventory().addItem(plugin.getItemManager().getWoodenSwordItem());
-        player.getInventory().addItem(plugin.getItemManager().getStoneAxeItem());
+        player.getInventory().addItem(ItemUtil.getWoodenSwordItem(plugin));
+        player.getInventory().addItem(ItemUtil.getStoneAxeItem(plugin));
         player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         player.setFoodLevel(20);
         player.setExp(0);
@@ -138,19 +139,19 @@ public class LumberPlayer implements Listener {
      */
     private void onDeath(Player player) {
         // Remove half of all player's resources
-        plugin.getItemManager().removeItemsFromInventory(player, "IRON", plugin.getItemManager().countItemsInInventory(player, "IRON") / 2);
-        plugin.getItemManager().removeItemsFromInventory(player, "GOLD", plugin.getItemManager().countItemsInInventory(player, "GOLD") / 2);
-        plugin.getItemManager().removeItemsFromInventory(player, "WOOD", plugin.getItemManager().countItemsInInventory(player, "WOOD") / 2);
-        plugin.getItemManager().removeItemsFromInventory(player, "BONE_MEAL", plugin.getItemManager().countItemsInInventory(player, "BONE_MEAL") / 2);
+        ItemUtil.removeItemsFromInventory(plugin, player, "IRON", ItemUtil.countItemsInInventory(plugin, player, "IRON") / 2);
+        ItemUtil.removeItemsFromInventory(plugin, player, "GOLD", ItemUtil.countItemsInInventory(plugin, player, "GOLD") / 2);
+        ItemUtil.removeItemsFromInventory(plugin, player, "WOOD", ItemUtil.countItemsInInventory(plugin, player, "WOOD") / 2);
+        ItemUtil.removeItemsFromInventory(plugin, player, "BONE_MEAL", ItemUtil.countItemsInInventory(plugin, player, "BONE_MEAL") / 2);
 
         plugin.getGameManager().getPlayers().forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage()
             .deserialize(
                 plugin.getLumberConfig().strings().playerDeathMessage(),
                 Placeholder.component("player", player.name()),
-                Placeholder.component("iron", text(plugin.getItemManager().countItemsInInventory(player, "IRON") / 2)),
-                Placeholder.component("gold_amount", text(plugin.getItemManager().countItemsInInventory(player, "GOLD") / 2)),
-                Placeholder.component("wood", text(plugin.getItemManager().countItemsInInventory(player, "WOOD") / 2)),
-                Placeholder.component("bone_meal", text(plugin.getItemManager().countItemsInInventory(player, "BONE_MEAL") / 2))
+                Placeholder.component("iron", text(ItemUtil.countItemsInInventory(plugin, player, "IRON") / 2)),
+                Placeholder.component("gold_amount", text(ItemUtil.countItemsInInventory(plugin, player, "GOLD") / 2)),
+                Placeholder.component("wood", text(ItemUtil.countItemsInInventory(plugin, player, "WOOD") / 2)),
+                Placeholder.component("bone_meal", text(ItemUtil.countItemsInInventory(plugin, player, "BONE_MEAL") / 2))
             )
         ));
         plugin.getGameManager().updatePlayerScoreboards(); // Update items
@@ -403,7 +404,7 @@ public class LumberPlayer implements Listener {
         }
 
         // Check whether the bone meal that was used is the Lumber bone meal
-        boolean hasItem = plugin.getItemManager().removeItemsFromInventory(e.getPlayer(), "BONE_MEAL", 1);
+        boolean hasItem = ItemUtil.removeItemsFromInventory(plugin, e.getPlayer(), "BONE_MEAL", 1);
         if (!hasItem)
             return;
 
@@ -420,7 +421,7 @@ public class LumberPlayer implements Listener {
             > plugin.getLumberConfig().mapConfig().treeRadius())
             return;
         // Check whether the bone meal that was used is the Lumber bone meal
-        boolean hasItem = plugin.getItemManager().removeItemsFromInventory(e.getPlayer(), "BONE_BLOCK", 1);
+        boolean hasItem = ItemUtil.removeItemsFromInventory(plugin, e.getPlayer(), "BONE_BLOCK", 1);
         if (!hasItem)
             return;
 

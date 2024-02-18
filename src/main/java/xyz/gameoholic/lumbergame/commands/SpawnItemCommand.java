@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 public class SpawnItemCommand implements CommandExecutor {
     private LumberGamePlugin plugin;
@@ -24,7 +25,7 @@ public class SpawnItemCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        ItemStack itemStack = plugin.getItemManager().getItem(args[0]);
+        ItemStack itemStack = ItemUtil.getItem(plugin, args[0]);
         itemStack.setAmount(Integer.parseInt(args[1]));
 
         player.getInventory().addItem(itemStack);

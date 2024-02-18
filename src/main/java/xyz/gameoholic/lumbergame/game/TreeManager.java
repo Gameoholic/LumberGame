@@ -130,7 +130,7 @@ public class TreeManager {
         for (int i = 0; i < healthChopped; i++) {
             pullItemToPlayer(
                 plugin,
-                location.getWorld().dropItemNaturally(location, plugin.getItemManager().getWoodItem()),
+                location.getWorld().dropItemNaturally(location, ItemUtil.getWoodItem(plugin)),
                 player
             );
         }
