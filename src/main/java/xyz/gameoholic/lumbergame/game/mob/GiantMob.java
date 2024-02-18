@@ -45,7 +45,7 @@ public class GiantMob extends LumberMob {
         giantTask = new BukkitRunnable() {
             @Override
             public void run() {
-                if (lastLocation.equals(mob.getLocation())) {
+                if (!lastLocation.equals(mob.getLocation())) {
                     onMove();
                 }
             }
