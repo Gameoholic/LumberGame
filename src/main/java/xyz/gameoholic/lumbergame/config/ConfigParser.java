@@ -360,7 +360,9 @@ public class ConfigParser {
                     getSound(root, "tree-heal-sound"),
                     getSound(root, "tree-level-up-sound"),
                     getSound(root, "gold-vault-deposit-sound"),
-                    getSound(root, "gold-vault-collect-sound")
+                    getSound(root, "gold-vault-collect-sound"),
+                    getSound(root, "fire-wand-sound"),
+                    getSound(root, "fire-wand-hurt-sound")
             );
         } catch (Exception e) {
             e.printStackTrace();

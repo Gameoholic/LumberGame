@@ -29,7 +29,7 @@ public class FireStaffItem extends SpecialItem {
 
         double dps = ExpressionUtil.evaluateExpression(plugin.getLumberConfig().gameConfig().fireStaffDPSExpression(),
                 Map.of("WAVE", (double) plugin.getGameManager().getWaveNumber() + 1));
-        new FireRing(plugin, player.getLocation().clone(), player.getLocation().getDirection(), dps);
+        new FireRing(plugin, player.getLocation().clone(), player.getLocation().getDirection(), dps, ownerUUID);
 
     }
 

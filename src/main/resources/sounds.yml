@@ -30,3 +30,11 @@ gold-vault-collect-sound:
   sound: "minecraft:entity.item.pickup"
   volume: 1.0
   pitch: 1.0
+fire-wand-sound:
+  sound: "minecraft:entity.blaze.shoot"
+  volume: 1.0
+  pitch: 0.0
+fire-wand-hurt-sound:
+  sound: "minecraft:entity.blaze.hurt"
+  volume: 1.0
+  pitch: 0.0
