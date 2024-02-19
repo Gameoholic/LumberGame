@@ -11,12 +11,12 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public abstract class SpecialItem {
-    private final LumberGamePlugin plugin;
+    protected final LumberGamePlugin plugin;
+    private final BukkitTask task;
+    protected final UUID ownerUUID;
+    private final ItemStack itemStack;
     protected int cooldown;
     private int currentCooldownRemaining;
-    private BukkitTask task;
-    private UUID ownerUUID;
-    private ItemStack itemStack;
     public SpecialItem(LumberGamePlugin plugin, Player player) {
         this.plugin = plugin;
         this.ownerUUID = player.getUniqueId();
@@ -27,10 +27,11 @@ public abstract class SpecialItem {
                 onTick();
             }
         }.runTaskTimer(plugin, 0L, 1L);
-
-        Bukkit.broadcastMessage("Constructed!");
     }
 
+    /**
+     * Called when the player attempts to use this item, regardless of whether they can.
+     */
     public void onAttemptUse() {
         if (currentCooldownRemaining > 0) {
             return;
@@ -38,11 +39,10 @@ public abstract class SpecialItem {
         currentCooldownRemaining = cooldown;
         activateItem();
     }
-    //todo when itme instance destroyed
-    public void onDestroy() {
-        task.cancel();
-    }
 
+    /**
+     * Called when item is activated successfully.
+     */
     protected abstract void activateItem();
     protected void onTick() {
         currentCooldownRemaining = Math.max(0, currentCooldownRemaining - 1);
@@ -55,10 +55,13 @@ public abstract class SpecialItem {
     public boolean isStillUsed() {
         @Nullable Player owner = Bukkit.getPlayer(ownerUUID);
         if (owner == null || !owner.getInventory().getItemInMainHand().equals(itemStack)) {
-            task.cancel();
-            Bukkit.broadcastMessage("Item Removed!");
+            destroy();
             return false;
         }
         return true;
+    }
+
+    private void destroy() {
+        task.cancel();
     }
 }

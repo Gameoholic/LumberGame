@@ -128,7 +128,9 @@ public class ConfigParser {
                     root.node("gold-meter-fill-expression").require(String.class),
                     root.node("bone-meal-meter-fill-expression").require(String.class),
                     root.node("scoreboard-player-line-margin").require(Integer.class),
-                    root.node("respawn-cooldown").require(Integer.class)
+                    root.node("respawn-cooldown").require(Integer.class),
+                    root.node("fire-staff-dps-expression").require(String.class),
+                    root.node("fire-staff-cooldown").require(Integer.class)
             );
         } catch (SerializationException e) {
             e.printStackTrace();

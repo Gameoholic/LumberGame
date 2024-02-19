@@ -23,14 +23,13 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
-import xyz.gameoholic.lumbergame.game.item.FireStaffItem;
+import xyz.gameoholic.lumbergame.game.item.firestaff.FireStaffItem;
 import xyz.gameoholic.lumbergame.game.item.SpecialItem;
 import xyz.gameoholic.lumbergame.game.player.npc.ShopNPC;
 import xyz.gameoholic.lumbergame.game.player.perk.Perk;
@@ -96,6 +95,9 @@ public class LumberPlayer implements Listener {
         FoodLevelChangeEvent.getHandlerList().unregister(this);
         PlayerDeathEvent.getHandlerList().unregister(this);
         PlayerRespawnEvent.getHandlerList().unregister(this);
+        InventoryClickEvent.getHandlerList().unregister(this);
+        PlayerItemHeldEvent.getHandlerList().unregister(this);
+        PlayerInteractEvent.getHandlerList().unregister(this);
 
         perks.forEach(perk -> perk.onGameEnd());
         treeDestructionTask.cancel();
@@ -232,11 +234,11 @@ public class LumberPlayer implements Listener {
     }
 
     @EventHandler
-    private void onInventoryDragEvent(PlayerItemHeldEvent e) {
+    private void onPlayerItemHeldEventEvent(PlayerItemHeldEvent e) {
         onAnyInventoryChanged(e.getPlayer());
     }
     @EventHandler
-    private void onInventoryDragEvent(InventoryClickEvent e) {
+    private void onInventoryClickEvent(InventoryClickEvent e) {
         onAnyInventoryChanged((Player) e.getWhoClicked());
     }
 
@@ -421,6 +423,12 @@ public class LumberPlayer implements Listener {
             }
         }.runTask(plugin);
     }
+    @EventHandler
+    public void onPlayerInteractEvent(PlayerInteractEvent e) {
+        if (specialItem != null)
+            specialItem.onAttemptUse();
+    }
+
 
     @EventHandler
     public void onBlockFertilizeEvent(BlockFertilizeEvent e) {
@@ -448,6 +456,7 @@ public class LumberPlayer implements Listener {
         e.setCancelled(true);
         plugin.getGameManager().getTreeManager().onTreeHealByPlayer(e.getPlayer());
     }
+
 
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent e) {
@@ -497,6 +506,8 @@ public class LumberPlayer implements Listener {
             return;
         e.setCancelled(true);
     }
+
+
 
 
     public UUID getUuid() {

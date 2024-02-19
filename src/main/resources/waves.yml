@@ -360,23 +360,12 @@
       index-from-last: 6
 # Wave 15
 # Explosive mobs & shovers only. Long round.
-- wave-cr: 50
+- wave-cr: 5
   active-spawns: 1
   spawn-timer-min: 20
   spawn-timer-max: 40
   mob-min-cr: 5
   mob-max-cr: 5
   mob-types:
-    - id: GIANT
+    - id: ZOMBIE
       chance: 1.0
-  guaranteed-mob-types:
-    - id: RANGED_BOMBER
-      amount: 2
-  guaranteed-mob-types-with-index:
-    - id: HEAVY_CREEPER
-      index-from-last: 3 #3 - 3 mobs after it
-    - id: SNEAKY_CREEPER
-      index-from-last: 0
-#  guaranteed-mob-types-with-index:
-#    - id: HEAVY_CREEPER
-#      index-from-last: 3
