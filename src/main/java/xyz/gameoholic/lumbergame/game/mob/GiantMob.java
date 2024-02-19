@@ -56,11 +56,12 @@ public class GiantMob extends LumberMob {
         GiantFootstepsParticle.INSTANCE.getParticle(mob).start();
         // Custom mob behavior - Giant deals damage on move
         if (mob.getType() == EntityType.GIANT) {
-            for (Entity nearbyEntity : mob.getLocation().getNearbyEntities(3.0, 5.0, 3.0)) { // Relative to feet
+            for (Entity nearbyEntity : mob.getLocation().getNearbyEntities(3.5, 5.0, 3.5)) { // Relative to feet
                 if (!(nearbyEntity instanceof LivingEntity target) || nearbyEntity.getType() == EntityType.GIANT) // Ignore giants
                     continue;
                 double damageMultiplier = (target instanceof Player) ? 0.25 : 1.0; // Deal full damage to mobs, 1/4 to players
                 target.damage(mob.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * damageMultiplier);
+                target.setNoDamageTicks(5); // Giant passive attacks are very frequent
                 Vector velocity = new Vector(rnd.nextDouble(-1.0, 1.0), rnd.nextDouble(-1.0, 1.0), rnd.nextDouble(-1.0, 1.0)).multiply(0.5).setY(0.3);
                 target.setVelocity(velocity);
             }
