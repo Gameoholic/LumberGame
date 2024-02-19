@@ -208,12 +208,12 @@ public class ItemUtil {
     }
 
     public static ItemStack getStoneAxeItem(LumberGamePlugin plugin) {
-        return applyItemInformationLore(applyAttackDamage(applyDestroyableKeys(applyAttackSpeed(applyAttackDamage(getItem(plugin,
+        return applyItemInformationLore(applyDestroyableKeys(applyAttackSpeed(applyAttackDamage(getItem(plugin,
                 "STONE_AXE",
                 Material.STONE_AXE,
                 "Stone Axe",
                 "<i><gray>Use to chop the tree for lumber."
-        ), 6), -3.2), plugin.getLumberConfig().mapConfig().treeBlockTypes()), 6));
+        ), 6), -3.2), plugin.getLumberConfig().mapConfig().treeBlockTypes()));
     }
 
     public static ItemStack getWoodenSwordItem(LumberGamePlugin plugin) {
