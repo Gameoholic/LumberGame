@@ -8,5 +8,5 @@ scoreboard-player-line-margin: 2 # How many lines before the last line to put pl
 
 respawn-cooldown: 3
 
-fire-staff-dps-expression: "WAVE * 1.5"
+fire-staff-dps-expression: "WAVE * 1.0"
 fire-staff-cooldown: 40

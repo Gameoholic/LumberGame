@@ -382,12 +382,12 @@ public class ItemUtil {
         return applyItemInformationLore(item);
     }
     public static ItemStack getFireStaffItem(LumberGamePlugin plugin) {
-        return applyItemInformationLore(applyAttackDamage(applyDestroyableKeys(applyAttackSpeed(applyAttackDamage(getItem(plugin,
+        return applyItemInformationLore(getItem(plugin,
                 "FIRE_STAFF",
                 Material.BLAZE_ROD,
                 "Fire Staff",
-                "<i><gray>Use to chop the tree for lumber."
-        ), 6), -3.2), plugin.getLumberConfig().mapConfig().treeBlockTypes()), 6));
+                "Click to launch a fire ring that damages enemies.<br><gray>Uses Fire Charges as ammo.<br>40 second cooldown.</gray><br><red><bold>DYNAMIC WEAPON</red></bold><br><gray>This weapon deals more damage with each wave.<br><red>Damage is 1.5 DPS per wave."
+        ));
     }
 
     // ------------------------------------

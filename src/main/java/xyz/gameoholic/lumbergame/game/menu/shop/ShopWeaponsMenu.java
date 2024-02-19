@@ -23,6 +23,8 @@ public class ShopWeaponsMenu extends Menu {
         setItem(12, new PurchasableMenuItem(plugin, "STONE_SWORD", Map.of("IRON", 32)));
         setItem(13, new PurchasableMenuItem(plugin, "IRON_SWORD", Map.of("IRON", 128, "WOOD", 5)));
         setItem(14, new PurchasableMenuItem(plugin, "DIAMOND_SWORD", Map.of("WOOD", 80)));
+        setItem(21, new PurchasableMenuItem(plugin, "FIRE_STAFF", Map.of("IRON", 96)));
+
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }
