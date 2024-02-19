@@ -149,6 +149,7 @@ public class ItemUtil {
             case "HEALTH_BOOST_PERK" -> getHealthBoostPerkItem(plugin);
             case "DOUBLE_JUMP_PERK" -> getDoubleJumpPerkItem(plugin);
             case "FIRE_STAFF" -> getFireStaffItem(plugin);
+            case "FIRE_CHARGE" -> getFireChargeItem(plugin);
             default -> null;
         };
     }
@@ -387,6 +388,14 @@ public class ItemUtil {
                 Material.BLAZE_ROD,
                 "Fire Staff",
                 "Click to launch a fire ring that damages enemies.<br><gray>Uses Fire Charges as ammo.<br>40 second cooldown.</gray><br><red><bold>DYNAMIC WEAPON</red></bold><br><gray>This weapon deals more damage with each wave.<br><red>Damage is 1.5 DPS per wave."
+        ));
+    }
+    public static ItemStack getFireChargeItem(LumberGamePlugin plugin) {
+        return applyItemInformationLore(getItem(plugin,
+                "FIRE_CHARGE",
+                Material.FIRE_CHARGE,
+                "Fire Charge",
+                "<i><gray>Used as ammo for the Fire Staff."
         ));
     }
 

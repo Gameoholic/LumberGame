@@ -110,6 +110,10 @@ public abstract class Menu implements InventoryHolder, Listener {
             itemMeta.getPersistentDataContainer()
                     .set(new NamespacedKey(plugin, "purchasable_item_cost"),
                             PersistentDataType.STRING, serializeCostMap(purchasableMenuItem.getCost()));
+            itemMeta.getPersistentDataContainer()
+                    .set(new NamespacedKey(plugin, "purchasable_item_amount"),
+                            PersistentDataType.INTEGER, purchasableMenuItem.getAmount());
+            itemStack.setAmount(purchasableMenuItem.getAmount());
 
             List<Component> lores = itemMeta.lore();
             for (Map.Entry<String, Integer> costEntry : purchasableMenuItem.getCost().entrySet()) {
@@ -220,8 +224,11 @@ public abstract class Menu implements InventoryHolder, Listener {
      * @return The ItemStack if the purchase was successful, null otherwise.
      */
     protected @Nullable ItemStack purchaseItem(PurchasableMenuItem menuItem) {
-        if (processPurchase(menuItem.getCost()))
-            return menuItem.item;
+        if (processPurchase(menuItem.getCost())) {
+            ItemStack item = menuItem.item;
+            item.setAmount(menuItem.getAmount());
+            return item;
+        }
         return null;
     }
 
@@ -322,6 +329,8 @@ public abstract class Menu implements InventoryHolder, Listener {
         // Check if item is purchasable item
         @Nullable String cost = itemStack.getItemMeta().getPersistentDataContainer()
                 .get(new NamespacedKey(plugin, "purchasable_item_cost"), PersistentDataType.STRING);
+        @Nullable Integer amount = itemStack.getItemMeta().getPersistentDataContainer()
+                .get(new NamespacedKey(plugin, "purchasable_item_amount"), PersistentDataType.INTEGER);
 
         // Check if item is purchasable perk
         @Nullable String perkTypeString = itemStack.getItemMeta().getPersistentDataContainer()
@@ -329,8 +338,8 @@ public abstract class Menu implements InventoryHolder, Listener {
         @Nullable PerkType perkType = perkTypeString != null ? PerkType.valueOf(perkTypeString) : null;
 
         // Return MenuItem/PurchasableMenuItem
-        if (cost != null)
-            handleClick(new PurchasableMenuItem(plugin, itemId, deserializeCostString(cost)), player);
+        if (cost != null && amount != null)
+            handleClick(new PurchasableMenuItem(plugin, itemId, deserializeCostString(cost), amount), player);
         else if (perkType != null)
             handleClick(new PurchasablePerkMenuItem(plugin, itemId, perkType), player);
         else

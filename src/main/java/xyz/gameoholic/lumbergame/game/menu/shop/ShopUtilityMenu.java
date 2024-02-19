@@ -19,9 +19,9 @@ public class ShopUtilityMenu extends Menu {
 
     @Override
     protected void setInventoryItems() {
-        setItem(22, new PurchasableMenuItem(plugin, "HEALTH_POTION", Map.of("WOOD", 2)));
-        setItem(4, new PurchasableMenuItem(plugin, "GOLD", Map.of("WOOD", 5)));
-        setItem(13, new PurchasableMenuItem(plugin, "GOLD", Map.of("IRON", 64)));
+        setItem(22, new PurchasableMenuItem(plugin, "HEALTH_POTION", Map.of("WOOD", 2), 1));
+        setItem(4, new PurchasableMenuItem(plugin, "GOLD", Map.of("WOOD", 5), 1));
+        setItem(13, new PurchasableMenuItem(plugin, "GOLD", Map.of("IRON", 64), 1));
 
         setItem(40, new MenuItem(plugin, "MENU_BACK"));
     }
