@@ -13,12 +13,12 @@ import xyz.gameoholic.lumbergame.util.ExpressionUtil;
 
 import javax.annotation.Nullable;
 import java.util.Map;
-import java.util.UUID;
 
 public class FireStaffItem extends SpecialItem {
     public FireStaffItem(LumberGamePlugin plugin, Player player) {
         super(plugin, player);
         cooldown = plugin.getLumberConfig().gameConfig().fireStaffCooldown();
+        ammoItemId = "FIRE_CHARGE";
     }
 
     @Override

@@ -6,8 +6,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.UUID;
 
 public abstract class SpecialItem {
@@ -17,6 +19,7 @@ public abstract class SpecialItem {
     private final ItemStack itemStack;
     protected int cooldown;
     private int currentCooldownRemaining;
+    protected String ammoItemId;
     public SpecialItem(LumberGamePlugin plugin, Player player) {
         this.plugin = plugin;
         this.ownerUUID = player.getUniqueId();
@@ -33,9 +36,13 @@ public abstract class SpecialItem {
      * Called when the player attempts to use this item, regardless of whether they can.
      */
     public void onAttemptUse() {
+        @Nullable Player owner = Bukkit.getPlayer(ownerUUID);
+
         if (currentCooldownRemaining > 0) {
             return;
         }
+        if (owner == null || !ItemUtil.removeItemsFromInventory(plugin, owner, Map.of("FIRE_CHARGE", 1))) // Use up ammo
+            return;
         currentCooldownRemaining = cooldown;
         activateItem();
     }
