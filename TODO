@@ -15,7 +15,7 @@ Remove all places where we check itemstack's material. Instead, compare directly
 fix Id, Uuid, CR and NPC to all be id, uuid, npc, cr, getCr, getNpc, getUuid, getId
 
 
-
+hugo suggestions
 
 
 FEATURES:
