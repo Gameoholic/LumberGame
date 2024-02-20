@@ -30,6 +30,7 @@ public abstract class SpecialItem {
                 onTick();
             }
         }.runTaskTimer(plugin, 0L, 1L);
+
     }
 
     /**
@@ -68,7 +69,10 @@ public abstract class SpecialItem {
         return true;
     }
 
-    private void destroy() {
+    /**
+     * Cancels task.
+     */
+    public void destroy() {
         task.cancel();
     }
 }

@@ -80,7 +80,7 @@ public class LumberPlayer implements Listener {
     /**
      * Unregisters all events and cancels tasks.
      */
-    public void unregisterEvents() {
+    public void destroy() {
         PlayerJoinEvent.getHandlerList().unregister(this);
         PlayerQuitEvent.getHandlerList().unregister(this);
         InventoryDragEvent.getHandlerList().unregister(this);
@@ -99,6 +99,8 @@ public class LumberPlayer implements Listener {
         PlayerItemHeldEvent.getHandlerList().unregister(this);
         PlayerInteractEvent.getHandlerList().unregister(this);
 
+        specialItem.destroy(); // Disable special item
+        specialItem = null;
         perks.forEach(perk -> perk.onGameEnd());
         treeDestructionTask.cancel();
     }
@@ -229,16 +231,20 @@ public class LumberPlayer implements Listener {
                 plugin.getGameManager().updatePlayerScoreboards(); // Update the fact that the player is offline
             }
         }.runTask(plugin);
-        specialItem.isStillUsed(); // Disable special item
+        specialItem.destroy();
         specialItem = null;
     }
 
     @EventHandler
     private void onPlayerItemHeldEventEvent(PlayerItemHeldEvent e) {
+        if (!e.getPlayer().getUniqueId().equals(uuid))
+            return;
         onAnyInventoryChanged(e.getPlayer());
     }
     @EventHandler
     private void onInventoryClickEvent(InventoryClickEvent e) {
+        if (!e.getWhoClicked().getUniqueId().equals(uuid))
+            return;
         onAnyInventoryChanged((Player) e.getWhoClicked());
     }
 
@@ -427,8 +433,9 @@ public class LumberPlayer implements Listener {
     public void onPlayerInteractEvent(PlayerInteractEvent e) {
         if (!e.getPlayer().getUniqueId().equals(uuid))
             return;
-        if (specialItem != null)
+        if (specialItem != null) {
             specialItem.onAttemptUse();
+        }
     }
 
 

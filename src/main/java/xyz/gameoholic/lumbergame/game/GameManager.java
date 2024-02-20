@@ -232,7 +232,7 @@ public class GameManager {
 
 
         waveManager.onGameEnd();
-        players.forEach(LumberPlayer::unregisterEvents);
+        players.forEach(LumberPlayer::destroy);
         particleManager.stopParticles();
         if (!plugin.getPlayerDataManager().uploadAllData())
             players.forEach(lumberPlayer -> lumberPlayer.sendMessage(
