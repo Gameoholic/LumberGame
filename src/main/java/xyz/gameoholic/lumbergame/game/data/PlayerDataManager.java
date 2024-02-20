@@ -4,10 +4,7 @@ import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.util.MongoDBUtil;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Manages player data.
@@ -18,10 +15,10 @@ public class PlayerDataManager {
     /**
      * Contains player data of this game only. Will later be merged with database data.
      */
-    private final List<PlayerData> cachedPlayerData = new ArrayList<>();
+    private final Map<UUID, PlayerData> cachedPlayerData = new HashMap<>();
     public PlayerDataManager(LumberGamePlugin plugin, Set<UUID> players) {
         this.plugin = plugin;
-        players.forEach(playerUUID -> cachedPlayerData.add(PlayerData.getDefault(playerUUID)));
+        players.forEach(playerUUID -> cachedPlayerData.put(playerUUID, PlayerData.getDefault(playerUUID)));
     }
 
     /**
@@ -29,19 +26,18 @@ public class PlayerDataManager {
      * @return Whether the operation was successful.
      */
     public boolean uploadAllData() {
-        for (PlayerData playerData : cachedPlayerData) {
-            if (!MongoDBUtil.uploadPlayerData(playerData))
+        for (Map.Entry<UUID, PlayerData> playerData : cachedPlayerData.entrySet()) {
+            if (!MongoDBUtil.uploadPlayerData(playerData.getValue()))
                 return false;
         }
         return true;
     }
 
     /**
-     * @return Returns the cached player data matching this uuid.
-     * @throws java.util.NoSuchElementException If no cached player data exists for the provided uuid.
+     * @return Returns the cached player data matching this uuid, or null if none found.
      */
     public @Nullable PlayerData getCachedPlayerData(UUID uuid) {
-        return cachedPlayerData.stream().filter( playerData -> playerData.getUuid().equals(uuid)).findFirst().orElseThrow(null); //TODO repalce all == in uuids to equals()
+        return cachedPlayerData.get(uuid);
     }
 
 }
