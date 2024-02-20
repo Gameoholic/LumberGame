@@ -1,7 +1,9 @@
 Lumber Defense is a PVE Minigame plugin.
 Your objective is to survive attacks from mobs, and to defend your tree.
 The game features unique weapons, bosses and a shop system.
-View the trailer here: https://youtu.be/dMFNwqaTdcs
+
+
+Watch the trailer here: https://youtu.be/dMFNwqaTdcs
 
 
 
