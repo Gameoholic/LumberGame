@@ -99,8 +99,9 @@ public class LumberPlayer implements Listener {
         PlayerItemHeldEvent.getHandlerList().unregister(this);
         PlayerInteractEvent.getHandlerList().unregister(this);
 
-        specialItem.destroy(); // Disable special item
-        specialItem = null;
+        if (specialItem != null)
+            specialItem.destroy(); // Disable special item
+        specialItem = null; // Doesn't hurt to set to null, even though technically we don't have to as everything else is unregistered at this point
         perks.forEach(perk -> perk.onGameEnd());
         treeDestructionTask.cancel();
     }
