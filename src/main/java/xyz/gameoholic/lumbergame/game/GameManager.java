@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game;
 
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
@@ -66,6 +67,7 @@ public class GameManager {
      */
     private List<TextDisplay> spawnDisplays = new ArrayList<>();
     private GoldVaultManager goldVaultManager;
+    private final BossBar bossBar;
 
     public GameManager(LumberGamePlugin plugin, Set<UUID> players, double waveCRMultiplier, double waveSpawnRateMultiplier) {
         this.plugin = plugin;
@@ -77,6 +79,9 @@ public class GameManager {
         particleManager = new ParticleManager(plugin);
         treeManager = new TreeManager(plugin);
         goldVaultManager = new GoldVaultManager(plugin);
+
+        bossBar = BossBar.bossBar(text(), 1.0f, BossBar.Color.PURPLE, BossBar.Overlay.PROGRESS);
+        updateBossBar();
 
         players.forEach(
                 uuid -> {
@@ -275,6 +280,17 @@ public class GameManager {
                 Map.of("CR", (double) CR));
     }
 
+    public void updateBossBar() {
+        bossBar.name(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().bossBarText(),
+                Placeholder.component("tree_health_percentage", text(getTreeManager()
+                        .getHealthToMaxHealthRatio())),
+                Placeholder.parsed("tree_health_fraction", String.valueOf(getTreeManager()
+                        .getHealthToMaxHealthRatio() / 100.0)),
+                Placeholder.component("tree_health", text(getTreeManager().getHealth())),
+                Placeholder.component("tree_max_health", text(getTreeManager().getMaxHealth())))
+        );
+    }
+
     public void resetGoldMeter() {
         goldMeter = 0.0;
     }
@@ -319,4 +335,7 @@ public class GameManager {
         return waveCRMultiplier;
     }
 
+    public BossBar getBossBar() {
+        return bossBar;
+    }
 }

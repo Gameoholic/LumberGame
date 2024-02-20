@@ -1,5 +1,6 @@
 package xyz.gameoholic.lumbergame.game;
 
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Location;
@@ -189,9 +190,9 @@ public class TreeManager {
     }
 
     /**
-     * Should be called whenever the health, or the maxHealth of the tree changes (or updates but remains the same).
+     * Called whenever the health, or the maxHealth of the tree changes (or updates but remains the same).
      * Displays clientside cracks on tree and updates scoreboard.
-     * Should NOT be called when the health is first set.
+     * NOT called when the health is first set.
      */
     private void onAnyHealthChanged() {
         int healthRatio = getHealthToMaxHealthRatio(); // in %
@@ -223,6 +224,7 @@ public class TreeManager {
         displayTreeDestruction();
 
         plugin.getGameManager().updatePlayerScoreboards(); // Update tree health
+        plugin.getGameManager().updateBossBar();
     }
 
 

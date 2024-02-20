@@ -128,6 +128,7 @@ public class LumberPlayer implements Listener {
         plugin.getPlayerNPCManager().addNPC(player, // Spawn shop NPC
             new ShopNPC(plugin, player.getUniqueId(), plugin.getLumberConfig().mapConfig().shopNPCLocation(),
                 MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().shopNPCDisplayname())));
+        player.showBossBar(plugin.getGameManager().getBossBar());
 
         registerEvents();
 
@@ -218,6 +219,7 @@ public class LumberPlayer implements Listener {
         plugin.getGameManager().getTreeManager().displayTreeDestruction(e.getPlayer());
 
         plugin.getGameManager().updatePlayerScoreboards(); // Update the fact that the player is online
+        e.getPlayer().showBossBar(plugin.getGameManager().getBossBar());
     }
 
     @EventHandler
