@@ -104,6 +104,11 @@ public class LumberPlayer implements Listener {
         specialItem = null; // Doesn't hurt to set to null, even though technically we don't have to as everything else is unregistered at this point
         perks.forEach(perk -> perk.onGameEnd());
         treeDestructionTask.cancel();
+
+        @Nullable Player player = Bukkit.getPlayer(uuid);
+        if (player == null)
+            return;
+        player.hideBossBar(plugin.getGameManager().getBossBar());
     }
 
     /**
