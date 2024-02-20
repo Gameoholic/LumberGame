@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -117,18 +118,21 @@ public class PlayerNPCManager implements Listener {
             public void channelRead(ChannelHandlerContext channelHandlerContext, Object packet) throws Exception {
                 super.channelRead(channelHandlerContext, packet);
 
-                if (packet instanceof ServerboundInteractPacket interactPacket)
-                    players.get(player.getUniqueId()).stream() // todo: this NPE hehe
-                        .filter(NPC -> NPC.getServerPlayer().getId() == interactPacket.getEntityId()).findFirst()
-                        .ifPresent(NPC ->
-                            // Must run on main thread
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    NPC.onInteract(interactPacket.isAttack());
-                                }
-                            }.runTask(plugin)
-                        );
+                if (packet instanceof ServerboundInteractPacket interactPacket) {
+                    @Nullable List<LumberNPC> npcs = players.get(player.getUniqueId());
+                    if (npcs == null) // Game could have not started, therefore the player could not have npcs assigned to them
+                        return;
+                    npcs.stream().filter(NPC -> NPC.getServerPlayer().getId() == interactPacket.getEntityId()).findFirst()
+                            .ifPresent(NPC ->
+                                    // Must run on main thread
+                                    new BukkitRunnable() {
+                                        @Override
+                                        public void run() {
+                                            NPC.onInteract(interactPacket.isAttack());
+                                        }
+                                    }.runTask(plugin)
+                            );
+                }
             }
         };
         ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().connection.connection.channel.pipeline();
