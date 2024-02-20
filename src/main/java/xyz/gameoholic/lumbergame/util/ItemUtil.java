@@ -389,7 +389,7 @@ public class ItemUtil {
                 "FIRE_STAFF",
                 Material.BLAZE_ROD,
                 "Fire Staff",
-                "Click to launch a fire ring that damages enemies.<br><gray>Uses Fire Charges as ammo.<br>40 second cooldown.</gray><br><red><bold>DYNAMIC WEAPON</red></bold><br><gray>This weapon deals more damage with each wave.<br><red>Damage is 1.5 DPS per wave."
+                "<i><gray>Click to launch a fire ring that damages enemies.<br><i><gray>Uses Fire Charges as ammo.<br><gold>40 second cooldown.<br><red><bold>DYNAMIC WEAPON</red><br><gray><i>This weapon deals more damage with each wave.<br><gold>Current DPS: N/A"
         ));
     }
     public static ItemStack getFireChargeItem(LumberGamePlugin plugin) {
