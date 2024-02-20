@@ -25,6 +25,8 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 import static net.kyori.adventure.text.Component.text;
+import static xyz.gameoholic.lumbergame.util.OtherUtil.addLore;
+import static xyz.gameoholic.lumbergame.util.OtherUtil.createLore;
 
 public class ItemUtil {
 
@@ -526,13 +528,7 @@ public class ItemUtil {
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).colorIfAbsent(NamedTextColor.WHITE));
 
         // Lore
-        List<String> lores = lore.equals("") ? new ArrayList() : // If lore is empty "", don't add lore
-                Arrays.stream(lore.split("<br>|<linebreak>")).toList();
-        List<Component> componentLores = new ArrayList<>();
-        lores.forEach(tempLore -> componentLores.add(
-                getPlainLore(MiniMessage.miniMessage().deserialize(tempLore))
-        ));
-        meta.lore(componentLores);
+        meta.lore(createLore(lore));
 
         // Item flags
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -546,9 +542,6 @@ public class ItemUtil {
         return item;
     }
 
-    private static Component getPlainLore(Component component) {
-        return component.decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE).colorIfAbsent(NamedTextColor.WHITE);
-    }
 
     /**
      * Applies the item's attribute information to the lore (attack damage, enchants, etc.)
@@ -568,10 +561,7 @@ public class ItemUtil {
                 String damageAmount = (damageAttribute.getAmount() + 1) + ""; // Damage attribute always 1 lower than the actual damage
                 if (damageAttribute.getAmount() == (int) damageAttribute.getAmount())
                     damageAmount = "" + (int) (damageAttribute.getAmount() + 1); // Display "4" instead of "4.0"
-                lores.add(getPlainLore(
-                        text(damageAmount + " Attack Damage")
-                                .color(NamedTextColor.GOLD)
-                ));
+                addLore(lores, "<gold> " + damageAmount + " Attack Damage");
             }
         }
         meta.lore(lores);

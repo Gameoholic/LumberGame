@@ -12,12 +12,34 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OtherUtil {
+
+    /**
+     * Creates lore for items.
+     * @param lore The lore of the item, separated by <br>, <linebreak> or \n
+     * @param tagResolvers Any tag resolvers
+     * @return A list of Components for the generated lore.
+     */
+    public static List<Component> createLore(String lore, TagResolver... tagResolvers) {
+        List<Component> components = new ArrayList<>();
+        addLore(components, lore, tagResolvers);
+        return components;
+    }
+
+    /**
+     * Adds item lore to a list of Components.
+     * @param dest The destination list of Components.
+     * @param lore The lore of the item, separated by <br>, <linebreak> or \n
+     * @param tagResolvers Any tag resolvers
+     */
     public static void addLore(List<Component> dest, String lore, TagResolver... tagResolvers) {
         String[] lores = lore.split("<br>|<linebreak>|\n");
         for (String s : lores) {
+            if (s.isEmpty())
+                continue;
             dest.add(MiniMessage.miniMessage().deserialize(s, tagResolvers)
                 .decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE)
                 .colorIfAbsent(NamedTextColor.WHITE)
