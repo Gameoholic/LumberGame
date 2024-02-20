@@ -1,8 +1,6 @@
 
 
 
-https://github.com/Gameoholic/LumberGame/assets/30177004/92e8874f-3ad5-4827-9d7d-d96d1d10cf45
-
 
 
 Lumber Defense is a PVE Minigame plugin.
