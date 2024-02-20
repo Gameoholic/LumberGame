@@ -41,8 +41,8 @@
 # Last "Super Easy" Wave. Player should start purchasing items after this.
 - wave-cr: 40
   active-spawns: 2
-  spawn-timer-min: 10
-  spawn-timer-max: 60
+  spawn-timer-min: 15
+  spawn-timer-max: 80
   mob-min-cr: 3
   mob-max-cr: 4
   mob-types:
@@ -220,11 +220,11 @@
       amount: 2
   guaranteed-mob-types-with-index:
     - id: GIANT
-      index-from-last: 8
+      index-from-last: 14
     - id: GIANT
-      index-from-last: 3
+      index-from-last: 10
     - id: GIANT
-      index-from-last: 1
+      index-from-last: 2
   bone-block-mob-type-id: SHOVER
 
 # Wave 11

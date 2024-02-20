@@ -35,7 +35,7 @@
   health-expression: "CR * 2.2 + 3.5"
   damage-expression: "CR * 0.175 + 1"
   speed-expression: "0.35"
-  knockback-expression: "3.5"
+  knockback-expression: "3.0"
 
 # Baby zombie, lower health than normal zombie.
 - id: "BABY_ZOMBIE"
@@ -87,6 +87,6 @@
   entity-type: "GIANT"
   health-expression: "CR * 5.0"
   damage-expression: "CR * 0.5 + 1"
-  speed-expression: "0.3"
+  speed-expression: "0.35"
   can-spawn-with-bone-meal: false
   is-boss: true
