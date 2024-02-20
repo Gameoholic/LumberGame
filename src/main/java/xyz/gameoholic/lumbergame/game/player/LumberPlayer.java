@@ -425,6 +425,8 @@ public class LumberPlayer implements Listener {
     }
     @EventHandler
     public void onPlayerInteractEvent(PlayerInteractEvent e) {
+        if (!e.getPlayer().getUniqueId().equals(uuid))
+            return;
         if (specialItem != null)
             specialItem.onAttemptUse();
     }

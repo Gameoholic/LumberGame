@@ -1,12 +1,7 @@
 package xyz.gameoholic.lumbergame.game.item.firestaff;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Marker;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import xyz.gameoholic.lumbergame.DoubleJumpLandParticle;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.item.SpecialItem;
 import xyz.gameoholic.lumbergame.util.ExpressionUtil;
