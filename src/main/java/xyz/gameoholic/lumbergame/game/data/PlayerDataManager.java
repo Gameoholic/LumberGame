@@ -27,7 +27,7 @@ public class PlayerDataManager {
      */
     public boolean uploadAllData() {
         for (Map.Entry<UUID, PlayerData> playerData : cachedPlayerData.entrySet()) {
-            if (!MongoDBUtil.uploadPlayerData(playerData.getValue()))
+            if (!MongoDBUtil.uploadPlayerData(plugin, playerData.getValue()))
                 return false;
         }
         return true;

@@ -15,6 +15,7 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
 import org.bukkit.Bukkit;
+import xyz.gameoholic.lumbergame.LumberGamePlugin;
 import xyz.gameoholic.lumbergame.game.data.PlayerData;
 
 import javax.annotation.Nullable;
@@ -44,7 +45,7 @@ public class MongoDBUtil {
      * @param uuid The player's UUID.
      * @return The player data, or null if the operation failed.
      */
-    public static @Nullable PlayerData getPlayerData(UUID uuid) {
+    public static @Nullable PlayerData getPlayerData(LumberGamePlugin plugin, UUID uuid) {
         try (MongoClient client = getClient()) { // try-with-resources calls .close() at the end regardless of outcome
             MongoDatabase db = client.getDatabase(databaseName);
             MongoCollection<PlayerData> players = db.getCollection("players", PlayerData.class);
@@ -57,8 +58,7 @@ public class MongoDBUtil {
             }
             return playerDocument;
         } catch (Exception e) {
-            Bukkit.broadcastMessage("ERROR " + e.getMessage());
-            //todo error message in plugin's info e.getMessage()
+            plugin.getLogger().info("Error getting player data for " + uuid + ", error message: " + e.getMessage());
             return null;
         }
     }
@@ -69,12 +69,12 @@ public class MongoDBUtil {
      * @param playerData The new player data.
      * @return Whether the operation was successful.
      */
-    public static boolean uploadPlayerData(PlayerData playerData) {
+    public static boolean uploadPlayerData(LumberGamePlugin plugin, PlayerData playerData) {
         try (MongoClient client = getClient()) { // try-with-resources calls .close() at the end regardless of outcome
             MongoDatabase db = client.getDatabase(databaseName);
             MongoCollection<PlayerData> players = db.getCollection("players", PlayerData.class);
 
-            if (getPlayerData(playerData.getUuid()) == null) // Ensure document for player data exists, create one if doesn't
+            if (getPlayerData(plugin, playerData.getUuid()) == null) // Ensure document for player data exists, create one if doesn't
                 throw new MongoException("Couldn't get player data document");
 
             Bson filter = Filters.eq("uuid", playerData.getUuid());
@@ -92,6 +92,7 @@ public class MongoDBUtil {
 
             players.updateOne(filter, update);
         } catch (Exception e) {
+            plugin.getLogger().info("Error uploading player data for " + playerData.getUuid() + ", error message: " + e.getMessage());
             return false;
         }
         return true;

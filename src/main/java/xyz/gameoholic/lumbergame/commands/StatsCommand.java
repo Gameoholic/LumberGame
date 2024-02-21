@@ -30,7 +30,7 @@ public class StatsCommand implements CommandExecutor {
         if (!(sender instanceof Player player))
             return false;
 
-        @Nullable PlayerData playerData = MongoDBUtil.getPlayerData(player.getUniqueId());
+        @Nullable PlayerData playerData = MongoDBUtil.getPlayerData(plugin, player.getUniqueId());
         if (playerData == null) {
             // todo: configurable error message
             return true;
