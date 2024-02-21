@@ -455,7 +455,7 @@ public class LumberMob implements Listener {
 
     @EventHandler
     public void onExplosionPrimeEvent(ExplosionPrimeEvent e) {
-        if (plugin.getGameManager() == null) // In certain edge cases this event might be fired after the game has ended and before the event was cancelled. //todo: shitty fix. if this fixes it then just keep it
+        if (plugin.getGameManager() == null) // In certain edge cases this event might be fired after the game has ended and before the event was cancelled.
             return;
         // Creeper does not go through normal death logic cycle when it explodes, and neither does tnt, so we handle in this event
         if (plugin.getGameManager().getWaveManager().getMob(e.getEntity().getUniqueId()) != this)

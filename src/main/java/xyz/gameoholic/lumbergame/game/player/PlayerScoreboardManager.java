@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.gameoholic.lumbergame.LumberGamePlugin;
+import xyz.gameoholic.lumbergame.util.ItemUtil;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -48,12 +49,13 @@ public class PlayerScoreboardManager {
         List<ItemStack> playerItems = new ArrayList(Arrays.asList(player.getInventory().getContents()));
         playerItems.add(player.getItemOnCursor()); // Fix item on cursor not being counted
         for (ItemStack itemStack : playerItems) {
-            if (itemStack != null)
-                switch (itemStack.getType()) {
-                    case BONE_MEAL -> boneMeal += itemStack.getAmount();
-                    case OAK_WOOD -> wood += itemStack.getAmount();
-                    case GOLD_INGOT -> gold += itemStack.getAmount();
-                    case IRON_INGOT -> iron += itemStack.getAmount();
+            @Nullable String lumberItemId = ItemUtil.getLumberItemId(plugin, itemStack);
+            if (lumberItemId != null)
+                switch (lumberItemId) {
+                    case "BONE_MEAL" -> boneMeal += itemStack.getAmount();
+                    case "WOOD" -> wood += itemStack.getAmount();
+                    case "GOLD" -> gold += itemStack.getAmount();
+                    case "IRON" -> iron += itemStack.getAmount();
                 }
         }
 
@@ -85,7 +87,7 @@ public class PlayerScoreboardManager {
             @Nullable Player otherPlayer = Bukkit.getPlayer(otherLumberPlayer.getUuid());
             if (otherPlayer == null) { // Player could be offline
                 lines.add(lines.size() - plugin.getLumberConfig().gameConfig().scoreboardPlayerLineMargin(),
-                        MiniMessage.miniMessage().deserialize(Bukkit.getOfflinePlayer(otherLumberPlayer.getUuid()).getName()  + " - <red>DISCONNECTED")); // todo configurable
+                        MiniMessage.miniMessage().deserialize(Bukkit.getOfflinePlayer(otherLumberPlayer.getUuid()).getName() + " - <red>DISCONNECTED"));
                 continue;
             }
             Component otherPlayerHealth = text("N/A").color(NamedTextColor.RED);
@@ -99,12 +101,13 @@ public class PlayerScoreboardManager {
             List<ItemStack> otherPlayerItems = new ArrayList(Arrays.asList(otherPlayer.getInventory().getContents()));
             otherPlayerItems.add(otherPlayer.getItemOnCursor()); // Fix item on cursor not being counted
             for (ItemStack itemStack : otherPlayerItems) {
-                if (itemStack != null) // todo dont compare type. item id
-                    switch (itemStack.getType()) {
-                        case BONE_MEAL -> otherPlayerBoneMeal += itemStack.getAmount();
-                        case OAK_WOOD -> otherPlayerWood += itemStack.getAmount();
-                        case GOLD_INGOT -> otherPlayerGold += itemStack.getAmount();
-                        case IRON_INGOT -> otherPlayerIron += itemStack.getAmount();
+                @Nullable String lumberItemId = ItemUtil.getLumberItemId(plugin, itemStack);
+                if (lumberItemId != null)
+                    switch (lumberItemId) {
+                        case "BONE_MEAL" -> otherPlayerBoneMeal += itemStack.getAmount();
+                        case "WOOD" -> otherPlayerWood += itemStack.getAmount();
+                        case "GOLD" -> otherPlayerGold += itemStack.getAmount();
+                        case "IRON" -> otherPlayerIron += itemStack.getAmount();
                     }
             }
 
