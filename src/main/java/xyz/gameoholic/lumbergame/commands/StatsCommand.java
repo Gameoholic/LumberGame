@@ -32,7 +32,7 @@ public class StatsCommand implements CommandExecutor {
 
         @Nullable PlayerData playerData = MongoDBUtil.getPlayerData(plugin, player.getUniqueId());
         if (playerData == null) {
-            // todo: configurable error message
+            player.sendMessage(MiniMessage.miniMessage().deserialize(plugin.getLumberConfig().strings().statsCommandErrorMessage()));
             return true;
         }
 
