@@ -102,3 +102,4 @@ gold-vault-text: "<gradient:#ff8d00:#ffe98e:<color_transition>>Gold Vault</gradi
 boss-bar-text: "뀃 <transition:#ff0000:#00ff00:<tree_health_fraction>><tree_health_percentage></transition>% <color:#8a8a8a>(<tree_health>/<tree_max_health>)</color>"
 
 stats-command-error-message: "<red>An internal error has occurred while loading your stats. Please contact an administrator for more information."
+stats-upload-error-message: "<red>There was an error uploading this game's data! Please contact an administrator for more info."

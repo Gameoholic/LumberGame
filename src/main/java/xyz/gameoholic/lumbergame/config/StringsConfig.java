@@ -45,7 +45,8 @@ public record StringsConfig(
     Map<Integer, String> newWaveStartMessages,
     String goldVaultText,
     String bossBarText,
-    String statsCommandErrorMessage
+    String statsCommandErrorMessage,
+    String statsUploadErrorMessage
 
 ) {
 

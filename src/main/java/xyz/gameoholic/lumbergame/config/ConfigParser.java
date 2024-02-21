@@ -104,7 +104,8 @@ public class ConfigParser {
                     newWaveStartMessages,
                     Objects.requireNonNull(root.node("gold-vault-text").getString()),
                     Objects.requireNonNull(root.node("boss-bar-text").getString()),
-                    Objects.requireNonNull(root.node("stats-command-error-message").getString())
+                    Objects.requireNonNull(root.node("stats-command-error-message").getString()),
+                    Objects.requireNonNull(root.node("stats-upload-error-message").getString())
             );
 
         } catch (SerializationException e) {

@@ -100,7 +100,6 @@ public class GameManager {
     }
 
 
-
     private void setUpTeams() {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         greenTeam = (scoreboard.getTeam("ld_green") == null) ? scoreboard.registerNewTeam("ld_green") : scoreboard.getTeam("ld_green");
@@ -240,9 +239,9 @@ public class GameManager {
         players.forEach(LumberPlayer::destroy);
         particleManager.stopParticles();
         if (!plugin.getPlayerDataManager().uploadAllData())
-            players.forEach(lumberPlayer -> lumberPlayer.sendMessage(
-                    text("There was an error uploading this game's data! Please contact an administrator for more info.")
-                            .color(NamedTextColor.RED)));  //todo: put in config
+            players.forEach(lumberPlayer -> lumberPlayer.sendMessage(MiniMessage.miniMessage().deserialize(
+                    plugin.getLumberConfig().strings().statsUploadErrorMessage())
+            ));
         goldVaultManager.cleanup();
         plugin.onGameEnd();
     }
