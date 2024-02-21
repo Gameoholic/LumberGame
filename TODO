@@ -5,23 +5,25 @@ resource-pack-sha1=4b49ace982db080787758f18ce163bdc8ec5b04f
 
 self join/leave commands for queue.
 
-CODE REFACTORING:
-Better spongepowered config.
-Input validation on wave mob chances (must add up to 1.0).
-Make ConfigParser prettier. method try/cathc ijnstead of many of them?
-Cloud framework
 
+
+CODE IMPROVEMENTS:
+Make ConfigParser prettier. method try/cathc ijnstead of many of them?
+Input validation on wave mob chances (must add up to 1.0).
+make mongo async
+Revisit mob UI
 Remove all places where we check itemstack's material. Instead, compare directly with ItemUtil.item
 fix Id, Uuid, CR and NPC to all be id, uuid, npc, cr, getCr, getNpc, getUuid, getId
+Cloud framework
 
-
-hugo suggestions
-
+Fire trail mob
 
 FEATURES:
-Map Selection, CR selection, Menu
-
-Big todo:
- - Mob attacks & spells
- - Buildings & Towers?
-
+Grace period
+Double jump / special tiem damage not doing items
+Make special item info better
+Victory
+Make airbender like mob pulls up then suddenly fast velocity down
+Map Selection, CR selection in MENU
+Dracula perk
+Mobs use special weapons
