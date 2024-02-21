@@ -46,9 +46,6 @@ public class MongoDBUtil {
      */
     public static @Nullable PlayerData getPlayerData(UUID uuid) {
         try (MongoClient client = getClient()) { // try-with-resources calls .close() at the end regardless of outcome
-            if (1 == 1)
-                throw new RuntimeException("DISABLED TEMPORARILY");
-
             MongoDatabase db = client.getDatabase(databaseName);
             MongoCollection<PlayerData> players = db.getCollection("players", PlayerData.class);
             @Nullable PlayerData playerDocument = players.find(Filters.eq("uuid", uuid)).first();
@@ -74,8 +71,6 @@ public class MongoDBUtil {
      */
     public static boolean uploadPlayerData(PlayerData playerData) {
         try (MongoClient client = getClient()) { // try-with-resources calls .close() at the end regardless of outcome
-            if (1 == 1)
-                throw new RuntimeException("DISABLED TEMPORARILY");
             MongoDatabase db = client.getDatabase(databaseName);
             MongoCollection<PlayerData> players = db.getCollection("players", PlayerData.class);
 
